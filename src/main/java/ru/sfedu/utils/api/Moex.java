@@ -1,82 +1,134 @@
 package ru.sfedu.utils.api;
 
-public class Moex implements StockParser {
-    private String fragment;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
-    public Moex()  {
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Moex implements StockParser {
+    private List<String> path;
+    private List<NameValuePair> params;
+    private URIBuilder uri;
+    public Moex() {
+        path = new ArrayList<>();
+        params = new ArrayList<>();
     }
-    public Moex(String fragment) {
-        this.fragment = fragment;
+    public Moex(List<String> path) {
+        this();
+
+        this.path = path;
     }
-    public String getFragment() {
-        return fragment;
-    }
-    public void setFragment(String fragment) {
-        this.fragment = fragment;
+
+    public Moex addPath(String str){
+        ArrayList<String> list = new ArrayList<>(path);
+        list.add(str);
+        return new Moex(list);
     }
 
     public Moex history(){
-        return new Moex(fragment + "/history");
+        return addPath("history");
     }
 
     public Moex securities(){
-        return new Moex(fragment + "/securities");
+        return addPath("securities");
     }
 
     public Moex securities(String security){
-        return new Moex(fragment + "/securities/" + security);
+        return securities().addPath(security);
+    }
+
+    public Moex engines(){
+        return addPath("engines");
     }
 
     public Moex engines(String engine){
-        return new Moex(fragment + "/engine/" + engine);
+        return engines().addPath(engine);
     }
 
     public Moex markets(){
-        return new Moex(fragment + "/markets");
+        return addPath("markets");
     }
 
     public Moex markets(String market){
-        return new Moex(fragment + "/markets/" + market);
+        return markets().addPath(market);
     }
 
     public Moex turnovers(){
-        return new Moex(fragment + "/turnovers");
+        return addPath("turnovers");
     }
 
     public Moex turnovers(String param){
-        return new Moex(fragment + "/turnovers/" + param);
+        return turnovers().addPath(param);
     }
 
     public Moex boards(){
-        return new Moex(fragment + "/boards");
+        return addPath("boards");
     }
 
     public Moex boards(String board){
-        return new Moex(fragment + "/boards/" + board);
+        return boards().addPath(board);
     }
 
     public Moex boardgroups(){
-        return new Moex(fragment + "/boardgroups");
+        return addPath("boardgroups");
     }
 
     public Moex boardgroups(String boardgroup){
-        return new Moex(fragment + "/boardgroups/" + boardgroup);
+        return boardgroups().addPath(boardgroup);
     }
 
     public Moex sessions(){
-        return new Moex(fragment + "/sessions");
+        return addPath("sessions");
     }
 
     public Moex sessions(String session){
-        return new Moex(fragment + "/sessions/" + session);
+        return sessions().addPath(session);
     }
 
     public Moex trades(){
-        return new Moex(fragment + "/trades");
+        return addPath("trades");
+    }
+
+    public void addParameter(String name, String value){
+        params.add(new BasicNameValuePair(name, value));
     }
 
     @Override
-    public String fetch() {
-        return null;
+    public String fetch() throws Exception {
+        URIBuilder uri = new URIBuilder("https://iss.moex.com/iss");
+        uri.setScheme("https");
+        uri.setHost("iss.moex.com/iss");
+        uri.setPathSegments(path);
+        uri.setParameters(params);
+
+        CloseableHttpClient client = HttpClients.createDefault();
+
+        HttpGet request = new HttpGet(uri.build());
+        CloseableHttpResponse response = client.execute(request);
+
+        HttpEntity entity = response.getEntity();
+
+        System.out.println("Sending 'get' request to URL:  " + uri);
+
+        System.out.println("Response code: " + response.getStatusLine().getStatusCode());
+
+        String result = "";
+        if (entity != null) {
+            // return it as a String
+            result = EntityUtils.toString(entity);
+            System.out.println(result);
+        }
+        
+        return result;
     }
 }
