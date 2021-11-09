@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN">
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <RollingFile name="MoexFile" fileName="./src/main/resources/log/moex.log"
+                     filePattern="${log-path}/commons-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+            <LevelRangeFilter minLevel="INFO" maxLevel="ALL" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+
+
+
+    </appenders>
+
+    <loggers>
+
+        <logger name = "ru.sfedu.api.Moex" level = "debug">
+            <appender-ref ref="Console" level="all"/>
+            <appender-ref ref="MoexFile" level="all"/>
+        </logger>
+
+
+
+        <root level="trace">
+            <appender-ref ref="Console" level="off"/>
+        </root>
+
+
+    </loggers>
+
+
+</configuration>

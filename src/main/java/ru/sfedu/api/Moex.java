@@ -1,4 +1,4 @@
-package ru.sfedu.utils.api;
+package ru.sfedu.api;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -9,21 +9,24 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Moex implements StockParser {
     private List<String> path;
     private List<NameValuePair> params;
     private URIBuilder uri;
+    private final Logger log = (Logger) LogManager.getLogger(Moex.class.getName());
     public Moex() {
         path = new ArrayList<>();
         params = new ArrayList<>();
     }
-    public Moex(List<String> path) {
+    protected Moex(List<String> path) {
         this();
 
         this.path = path;
@@ -99,16 +102,28 @@ public class Moex implements StockParser {
         return addPath("trades");
     }
 
-    public void addParameter(String name, String value){
+    public Moex addParameter(String name, String value){
         params.add(new BasicNameValuePair(name, value));
+        return this;
+    }
+
+    private List<String> pathWithFormat(){
+        int len = path.size();
+        if (len == 0)
+            return new ArrayList<>(List.of(".json"));
+        List<String> listWithFormat = new ArrayList<>(path);
+        listWithFormat.set(len - 1, listWithFormat.get(len - 1) + ".json");
+        return listWithFormat;
     }
 
     @Override
     public String fetch() throws Exception {
-        URIBuilder uri = new URIBuilder("https://iss.moex.com/iss");
+        log.info("Fetch json");
+        URIBuilder uri = new URIBuilder();
         uri.setScheme("https");
         uri.setHost("iss.moex.com/iss");
-        uri.setPathSegments(path);
+        uri.setPathSegments(pathWithFormat());
+
         uri.setParameters(params);
 
         CloseableHttpClient client = HttpClients.createDefault();
@@ -118,15 +133,14 @@ public class Moex implements StockParser {
 
         HttpEntity entity = response.getEntity();
 
-        System.out.println("Sending 'get' request to URL:  " + uri);
+        log.debug("Sending 'get' request to URL:  " + uri);
 
-        System.out.println("Response code: " + response.getStatusLine().getStatusCode());
+        log.debug("Response code: " + response.getStatusLine().getStatusCode());
 
         String result = "";
         if (entity != null) {
             // return it as a String
             result = EntityUtils.toString(entity);
-            System.out.println(result);
         }
         
         return result;
