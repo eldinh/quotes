@@ -1,4 +1,4 @@
-package ru.sfedu.api;
+package ru.sfedu.utils;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -12,12 +12,10 @@ import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class Moex implements StockParser {
+public class Moex {
     private List<String> path;
     private List<NameValuePair> params;
     private URIBuilder uri;
@@ -107,6 +105,11 @@ public class Moex implements StockParser {
         return this;
     }
 
+    public Moex addParameter(String name, int value){
+        params.add(new BasicNameValuePair(name, Integer.toString(value)));
+        return this;
+    }
+
     private List<String> pathWithFormat(){
         int len = path.size();
         if (len == 0)
@@ -116,7 +119,6 @@ public class Moex implements StockParser {
         return listWithFormat;
     }
 
-    @Override
     public String fetch() throws Exception {
         log.info("Fetch json");
         URIBuilder uri = new URIBuilder();
