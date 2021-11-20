@@ -1,4 +1,4 @@
-package ru.sfedu.model.dao;
+package ru.sfedu.model.entity;
 
 import com.opencsv.bean.CsvBindByPosition;
 

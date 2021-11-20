@@ -1,7 +1,7 @@
 package ru.sfedu.api;
 
 import ru.sfedu.model.Result;
-import ru.sfedu.model.dao.User;
+import ru.sfedu.model.entity.User;
 
 import java.util.List;
 

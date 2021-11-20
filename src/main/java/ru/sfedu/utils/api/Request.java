@@ -1,14 +1,15 @@
-package ru.sfedu.utils;
+package ru.sfedu.utils.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ru.sfedu.model.SecurityType;
-import ru.sfedu.model.dto.SecurityDto;
+
+import ru.sfedu.utils.api.model.type.SecurityType;
+import ru.sfedu.utils.api.model.dto.SecurityDto;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.sfedu.model.SecurityType.*;
+import static ru.sfedu.utils.api.model.type.SecurityType.stock_shares;
 
 public class Request {
     private Moex moex;
@@ -22,6 +23,7 @@ public class Request {
         try {
             String rawJson = moex.securities().addParameter("group_by", "group")
                     .addParameter("group_by_filter", type.toString())
+                    .addParameter("is_trading", 0)
                     .addParameter("start", start).fetch();
             JsonNode jsonNode = objectMapper.readTree(rawJson);
             return jsonNode.get("securities").get("data");
@@ -48,6 +50,8 @@ public class Request {
             throw new Exception(e);
         }
     }
+
+
 
 
 }

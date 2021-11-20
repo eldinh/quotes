@@ -23,7 +23,7 @@
 
     <loggers>
 
-        <logger name = "ru.sfedu.utils.Moex" level = "debug">
+        <logger name = "ru.sfedu.utils.api.Moex" level = "debug">
             <appender-ref ref="Console" level="all"/>
             <appender-ref ref="MoexFile" level="all"/>
         </logger>

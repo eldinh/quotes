@@ -7,7 +7,7 @@ import com.opencsv.bean.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import ru.sfedu.model.Result;
-import ru.sfedu.model.dao.User;
+import ru.sfedu.model.entity.User;
 import ru.sfedu.utils.ConfigurationUtil;
 
 import java.io.FileReader;

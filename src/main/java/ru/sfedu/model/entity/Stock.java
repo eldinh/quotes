@@ -1,4 +1,4 @@
-package ru.sfedu.model;
+package ru.sfedu.model.entity;
 
 import java.util.Objects;
 

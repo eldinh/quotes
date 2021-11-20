@@ -1,4 +1,4 @@
-package ru.sfedu.utils;
+package ru.sfedu.utils.api;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;

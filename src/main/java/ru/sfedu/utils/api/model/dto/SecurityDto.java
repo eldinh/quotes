@@ -1,8 +1,8 @@
-package ru.sfedu.model.dto;
+package ru.sfedu.utils.api.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import ru.sfedu.model.StockType;
+import ru.sfedu.utils.api.model.type.StockType;
+
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
 public class SecurityDto {
     private int id;
