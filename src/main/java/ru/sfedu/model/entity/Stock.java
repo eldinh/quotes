@@ -2,52 +2,24 @@ package ru.sfedu.model.entity;
 
 import java.util.Objects;
 
-public class Stock {
-    private String secID;
-    private String shortName;
-    private String name;
-    private boolean isTraded;
-    private boolean type;
+public class Stock extends Security {
+    protected double dividendSum;
+    protected double capitalization;
+    Stock(){};
 
-    Stock(){}
-
-    public String getSecID() {
-        return secID;
+    public double getDividendSum() {
+        return dividendSum;
     }
 
-    public void setSecID(String secID) {
-        this.secID = secID;
+    public void setDividendSum(double dividendSum) {
+        this.dividendSum = dividendSum;
     }
 
-    public String getShortName() {
-        return shortName;
+    public double getCapitalization() {
+        return capitalization;
     }
 
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isTraded() {
-        return isTraded;
-    }
-
-    public void setTraded(boolean traded) {
-        isTraded = traded;
-    }
-
-    public boolean isType() {
-        return type;
-    }
-
-    public void setType(boolean type) {
-        this.type = type;
+    public void setCapitalization(double capitalization) {
+        this.capitalization = capitalization;
     }
 }

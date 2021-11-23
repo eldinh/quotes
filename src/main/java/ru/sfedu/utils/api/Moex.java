@@ -11,6 +11,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.sfedu.utils.api.model.type.SecurityType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class Moex {
     private List<NameValuePair> params;
     private URIBuilder uri;
     private final Logger log = (Logger) LogManager.getLogger(Moex.class.getName());
+    private final Moex moex = new Moex();
     public Moex() {
         path = new ArrayList<>();
         params = new ArrayList<>();
@@ -117,6 +119,19 @@ public class Moex {
         List<String> listWithFormat = new ArrayList<>(path);
         listWithFormat.set(len - 1, listWithFormat.get(len - 1) + ".json");
         return listWithFormat;
+    }
+
+    public String getSecurities(int start, SecurityType type) throws Exception {
+        return moex.securities().addParameter("group_by", "group")
+                .addParameter("group_by_filter", type.toString())
+                .addParameter("q", "RU000")
+                .addParameter("is_trading", 1)
+                .addParameter("start", start).fetch();
+    }
+
+    public String getStockStory(int start, SecurityType type){
+
+        return null;
     }
 
     public String fetch() throws Exception {

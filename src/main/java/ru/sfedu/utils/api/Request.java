@@ -21,10 +21,7 @@ public class Request {
 
     public JsonNode getSecurities(int start, SecurityType type) throws Exception {
         try {
-            String rawJson = moex.securities().addParameter("group_by", "group")
-                    .addParameter("group_by_filter", type.toString())
-                    .addParameter("is_trading", 0)
-                    .addParameter("start", start).fetch();
+            String rawJson = moex.getSecurities(start, type);
             JsonNode jsonNode = objectMapper.readTree(rawJson);
             return jsonNode.get("securities").get("data");
         }catch (Exception e){
