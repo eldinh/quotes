@@ -1,18 +1,16 @@
 package ru.sfedu.api;
 
 import ru.sfedu.model.Result;
-import ru.sfedu.model.entity.User;
+import ru.sfedu.model.entity.Stock;
+import ru.sfedu.model.entity.Stock;
 
 import java.util.List;
 
 public interface IDateProvider {
-    public Result<User> getUsers() throws Exception;
-    public Result<User> appendUsers(List<User> list) throws Exception;
-    public Result<User> updateUsers(List<User> ob) throws Exception;
-    public Result<User> deleteUserById(long id) throws Exception;
-    public Result<User> deleteAllUsers() throws Exception;
-    public User getUserById(long id) throws Exception;
-
-
-
+    public Result<Stock> getStocks() throws Exception;
+    public Result<Stock> appendStocks(List<Stock> list) throws Exception;
+    public Result<Stock> updateStocks(List<Stock> ob) throws Exception;
+    public Result<Stock> deleteStockByTicker(String ticker) throws Exception;
+    public Result<Stock> deleteAllStocks() throws Exception;
+    public Stock getStockByTicker(String ticker) throws Exception;
 }

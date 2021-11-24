@@ -1,6 +1,5 @@
 package ru.sfedu.api;
 
-
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
@@ -10,9 +9,8 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import ru.sfedu.model.Result;
-import ru.sfedu.model.entity.User;
+import ru.sfedu.model.entity.Stock;
 import ru.sfedu.Constants;
-
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.*;
@@ -25,12 +23,13 @@ import static ru.sfedu.Constants.CSV_PATH;
 public class DataProviderCSV implements IDateProvider {
     private final Logger log = (Logger) LogManager.getLogger(DataProviderCSV.class.getName());
 
-
     private <T> CSVWriter getCSVWriter(Class bean, boolean append) throws Exception {
-        log.info("Starting DataCSVProvider getCSVWriter[6]");
+        log.info("Starting DataProviderCSV getCSVWriter[6]");
         try {
             log.debug("getCSVWriter[7]: {}", bean);
+            log.info(getConfigurationEntry(CSV_PATH));
             log.debug("Creating FileWriter[8]");
+
             FileWriter writer = new FileWriter(getConfigurationEntry(CSV_PATH)
                     + bean.getSimpleName().toLowerCase()
                     + getConfigurationEntry(CSV_FILE_EXTENTION), append);
@@ -39,13 +38,13 @@ public class DataProviderCSV implements IDateProvider {
             CSVWriter csvWriter = new CSVWriter(writer);
             return csvWriter;
         }catch (Exception e){
-            log.error("Function DataCSVProvider getCSVWriter had failed[10]");
+            log.error("Function DataProviderCSV getCSVWriter had failed[10]");
             throw new Exception(e);
         }
     }
 
     private <T> StatefulBeanToCsvBuilder getBeanToCSVBuilder(CSVWriter writer) throws Exception {
-        log.info("Starting DataCSVProvider getBeanToCSVBuilder[11]");
+        log.info("Starting DataProviderCSV getBeanToCSVBuilder[11]");
         try{
             log.info("getBeanToCSVBuilder[12]: {}", writer);
             StatefulBeanToCsvBuilder<T> beanToCsvBuilder = new StatefulBeanToCsvBuilder<T>(writer)
@@ -54,26 +53,25 @@ public class DataProviderCSV implements IDateProvider {
                     .withLineEnd(writer.DEFAULT_LINE_END);
             return beanToCsvBuilder;
 
-
         }catch (Exception e){
-            log.error("Function DataCSVProvider getBeanToCSVBuilder had failed[13]");
+            log.error("Function DataProviderCSV getBeanToCSVBuilder had failed[13]");
             throw new Exception(e);
 
         }
     }
-
-    public Result<User> appendUsers(List<User> list) throws Exception {
-        log.info("Starting DataCSVProvider appendUsers[0]");
+    @Override
+    public Result<Stock> appendStocks(List<Stock> list) throws Exception {
+        log.info("Starting DataProviderCSV appendStocks[0]");
         String status = Constants.SUCCESS;
 
         String message = "";
-        Result<User> result = getUsers();
-        // creating hashmap, key: userId value: User
-        Map<Long, User> userNote = new HashMap<>();
-        result.getBody().forEach(x -> userNote.put(x.getId(), x));
+        Result<Stock> result = getStocks();
+        // creating hashmap, key: StockTicker value: Stock
+        Map<String, Stock> stockNote = new HashMap<>();
+        result.getBody().forEach(x -> stockNote.put(x.getTicker(), x));
         try
         {
-            log.info("appendUsers[1]: {}, type: {}", Arrays.toString(list.toArray()), list.getClass().getName());
+            log.info("appendStocks[1]: {}, type: {}", Arrays.toString(list.toArray()), list.getClass().getName());
             if (list.isEmpty()){
                 log.error("Empty size[2]");
                 throw new Exception("Empty size");
@@ -85,45 +83,44 @@ public class DataProviderCSV implements IDateProvider {
 
             log.debug("Status of getting file[4]: " + result.getStatus());
 
-            for (User user : list.stream().filter(x -> x.getId() != null).toList()){
-                if (!userNote.containsKey(user.getId()))
-                    userNote.put(user.getId(), user);
+            for (Stock Stock : list.stream().filter(x -> x.getTicker() != null).toList()){
+                if (!stockNote.containsKey(Stock.getTicker()))
+                    stockNote.put(Stock.getTicker(), Stock);
                 else{
-                    log.error("User with this ID already exists[5]: {}", user);
-                    message = "User with this ID already exists";
-                    return new Result<User>(Constants.FAIL, message, new ArrayList<User>(List.of(user)));
+                    log.error("Stock with this ID already exists[5]: {}", Stock);
+                    message = "Stock with this ID already exists";
+                    return new Result<Stock>(Constants.FAIL, message, new ArrayList<Stock>(List.of(Stock)));
                 }
 
             }
-            ArrayList<User> userWithoutId = new ArrayList<>(list.stream().filter(x -> x.getId() == null).toList());
-            for (long i = 0; ; i++){
-                if (userWithoutId.isEmpty())
+            ArrayList<Stock> StockWithoutId = new ArrayList<>(list.stream().filter(x -> x.getTicker() == null).toList());
+            for (int i = 0; ; i++){
+                if (StockWithoutId.isEmpty())
                     break;
-                if (!userNote.containsKey(i)){
-                    User user = userWithoutId.remove(0);
-                    user.setId(i);
-                    userNote.put(i, user);
+                if (!stockNote.containsKey(i)){
+                    Stock stock = StockWithoutId.remove(0);
+                    stock.setTicker(Integer.toString(i));
+                    stockNote.put(Integer.toString(i), stock);
                 }
             }
             log.debug("Creating csvWriter[7]");
-            CSVWriter csvWriter = getCSVWriter(User.class, false);
+            CSVWriter csvWriter = getCSVWriter(Stock.class, false);
             log.debug("Creating StatefulBean[8]");
-            StatefulBeanToCsv<User> beanToCsv = getBeanToCSVBuilder(csvWriter).build();
+            StatefulBeanToCsv<Stock> beanToCsv = getBeanToCSVBuilder(csvWriter).build();
             log.debug("Writing to csv file[9]");
-            beanToCsv.write(userNote.values().stream().toList());
+            beanToCsv.write(stockNote.values().stream().toList());
             log.debug("Closing CSVWriter[10]");
             csvWriter.close();
         } catch (Exception e) {
-            log.error("Function DataCSVProvider appendUsers had crashed[11]");
+            log.error("Function DataProviderCSV appendStocks had crashed[11]");
             status = Constants.FAIL;
             message = e.getMessage();
         }
-        return new Result<User>(status, message,new ArrayList<>());
+        return new Result<Stock>(status, message,new ArrayList<>());
     }
 
-
     private <T> CSVReader getCSWReader(Class ob) throws Exception {
-        log.info("Starting DataCSVProvider getCSVReader[12]");
+        log.info("Starting DataProviderCSV getCSVReader[12]");
         try {
             log.info("getCSVWriter[13]: {}, type: {}", ob, ob.getClass());
             log.debug("Creating FileReader[14]");
@@ -136,14 +133,14 @@ public class DataProviderCSV implements IDateProvider {
             return csvReader;
         }catch (Exception e){
 
-            log.error("Function DataCSVProvider getCSWReader had failed[16]");
+            log.error("Function DataProviderCSV getCSWReader had failed[16]");
             throw new Exception(e);
         }
     }
 
 
-    private <T extends User> CsvToBeanBuilder getCsvToBeanBuilder(Class bean) throws Exception {
-        log.info("Starting DataCSVProvider getCsvToBeanBuilder[17]");
+    private <T extends Stock> CsvToBeanBuilder getCsvToBeanBuilder(Class bean) throws Exception {
+        log.info("Starting DataProviderCSV getCsvToBeanBuilder[17]");
 
         try
         {
@@ -155,79 +152,79 @@ public class DataProviderCSV implements IDateProvider {
 
             return csvToBean;
         }catch (Exception e){
-            log.error("Function DataCSVProvider CsvToBeanBuilder had failed[21]");
+            log.error("Function DataProviderCSV CsvToBeanBuilder had failed[21]");
             throw new Exception(e);
         }
     }
 
     @Override
-    public Result<User> getUsers() throws Exception {
-        log.info("Starting DataProviderCSV getUsers[22]");
-        log.info("getUsers[23]");
+    public Result<Stock> getStocks() throws Exception {
+        log.info("Starting DataProviderCSV getStocks[22]");
+        log.info("getStocks[23]");
         String status = Constants.SUCCESS;
         String message = "";
-        List<User> body = new ArrayList<>();
+        List<Stock> body = new ArrayList<>();
         try
         {
             log.debug("Creating CsvToBean[24]");
-            CsvToBean<User> csvToBean = getCsvToBeanBuilder(User.class)
-                    .withType(User.class)
+            CsvToBean<Stock> csvToBean = getCsvToBeanBuilder(Stock.class)
+                    .withType(Stock.class)
                     .build();
 
             log.debug("Parse CSVToBean[25]");
             body = csvToBean.parse();
         } catch (Exception e) {
-            log.error("Function DataProviderCSV getUsers had crashed[26]");
+            log.error("Function DataProviderCSV getStocks had crashed[26]");
             status = Constants.FAIL;
             message = e.getMessage();
         }
-        return new Result<User>(status,message,body);
+        return new Result<Stock>(status,message,body);
 
     }
 
 
 
     @Override
-    public Result<User> deleteUserById(long id) throws Exception {
-        log.info("Starting DataCSVProvider deleteUserById[27]");
+    public Result<Stock> deleteStockByTicker(String ticker) throws Exception {
+        log.info("Starting DataProviderCSV deleteUserById[27]");
         String status = Constants.SUCCESS;
         String message = "";
         try {
-            log.info("deleteUserById[28]: {}, type: {}",id, "long");
-            log.debug("GetUsers from csv[29]");
-            Result<User> result = getUsers();
+            log.info("deleteUserById[28]: {}, type: {}",ticker, "long");
+            log.debug("GetStock from csv[29]");
+            Result<Stock> result = getStocks();
             if (result.getStatus().equals(Constants.FAIL)){
                 return result;
             }
-            List<User> users = result.getBody();
+            List<Stock> stocks = result.getBody();
             log.debug("Search a user by id[30]");
-            Optional<User> user = users.stream().filter(x -> x.getId().equals(id)).findFirst();
+            Optional<Stock> user = stocks.stream().filter(x -> x.getTicker().equals(ticker)).findFirst();
             if(user.isPresent()){
                 log.debug("Delete user by id[31]");
-                users.remove(user.get());
+                stocks.remove(user.get());
             }
             else{
                 log.error("User wasn't found by id[32]");
-                return new Result<>(Constants.FAIL, "User wasn't found by id: " + id, new ArrayList<>());
+                return new Result<>(Constants.FAIL, "User wasn't found by ticker: " + ticker, new ArrayList<>());
             }
             log.debug("Update CSV File[33]");
-            deleteAllUsers();
-            return appendUsers(users);
+            deleteAllStocks();
+            return appendStocks(stocks);
         }catch (Exception e){
-            log.error("Function DataCSVProvider deleteUserById has crashed[34]");
+            log.error("Function DataProviderCSV deleteUserById has crashed[34]");
             return new Result<>(Constants.FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
     @Override
-    public Result<User> deleteAllUsers() throws Exception {
-        log.info("Starting DataProviderCSV deleteAllUsers[35]");
+    public Result<Stock> deleteAllStocks() throws Exception {
+        log.info("Starting DataProviderCSV deleteAllStock[35]");
         String status = Constants.SUCCESS;
         String message = "";
-        Result<User> result = getUsers();
+        Result<Stock> result = getStocks();
 
         try (
-                CSVWriter csvWriter = getCSVWriter(User.class, false);
+                CSVWriter csvWriter = getCSVWriter(Stock.class, false);
                 ){
         if (result.getStatus().equals(Constants.FAIL)){
             return result;
@@ -238,41 +235,41 @@ public class DataProviderCSV implements IDateProvider {
             status = Constants.FAIL;
             message = e.getMessage();
         }
-        return new Result<User>(status, message, new ArrayList<>());
+        return new Result<Stock>(status, message, new ArrayList<>());
     }
 
     @Override
-    public User getUserById(long id) throws Exception {
-        log.info("Starting DataCSVProvider getUserById[36]");
-        log.info("getUserById[37]: {}, type: {}", id, "long");
+    public Stock getStockByTicker(String ticker) throws Exception {
+        log.info("Starting DataProviderCSV getUserById[36]");
+        log.info("getUserById[37]: {}, type: {}", ticker, ticker.getClass());
         try {
-            log.debug("Get Users from CSV[38]");
-            Result<User> result = getUsers();
+            log.debug("Get Stock from CSV[38]");
+            Result<Stock> result = getStocks();
             if (result.getStatus().equals(Constants.FAIL))
                 throw  new Exception(result.getMessage());
-            List<User> users = result.getBody();
+            List<Stock> Stock = result.getBody();
             log.debug("Search for a user by id[39]");
-            Optional<User> user = users.stream().filter(x -> x.getId().equals(id)).findFirst();
-            return user.orElseGet(User::new);
+            Optional<Stock> stock = Stock.stream().filter(x -> x.getTicker().equals(ticker)).findFirst();
+            return stock.orElseGet(Stock::new);
         }catch (Exception e){
-            log.error("Function DataCSVProvider getUserById had failed[40]");
+            log.error("Function DataProviderCSV getUserById had failed[40]");
             throw new Exception(e);
         }
     }
 
     @Override
-    public Result<User> updateUsers(List<User> users) throws Exception {
-        log.info("Starting DataCSVProvider updateUsers[41]");
-        Result<User> result = getUsers();
+    public Result<Stock> updateStocks(List<Stock> Stock) throws Exception {
+        log.info("Starting DataProviderCSV updateStock[41]");
+        Result<Stock> result = getStocks();
         String status = Constants.SUCCESS;
         String message = "";
         try {
-            log.info("updateUsers: {}, type: {}[42]", Arrays.toString(users.toArray()), users.getClass());
-            if (users.isEmpty()) {
+            log.info("updateStock: {}, type: {}[42]", Arrays.toString(Stock.toArray()), Stock.getClass());
+            if (Stock.isEmpty()) {
                 log.error("Empty size[43]");
                 throw new Exception("Empty size");
             }
-            if (users.contains(null)) {
+            if (Stock.contains(null)) {
                 log.error("List contains null[44]");
                 throw new Exception("List contains null");
             }
@@ -283,30 +280,30 @@ public class DataProviderCSV implements IDateProvider {
 
 
             log.debug("Status of getting file[46]: " + result.getStatus());
-            Map<Long, User> usersFromCSV = new TreeMap<>();
-            result.getBody().forEach(x -> usersFromCSV.put(x.getId(), x));
+            Map<String, Stock> StockFromCSV = new TreeMap<>();
+            result.getBody().forEach(x -> StockFromCSV.put(x.getTicker(), x));
 
-            for (User user : users){
-                if (user.getId() == null){
-                    log.error("ID contain null: {}[47]", user);
-                    return new Result<User>(Constants.FAIL, "ID contain null", new ArrayList<>(List.of(user)));
+            for (Stock stock : Stock){
+                if (stock.getTicker() == null){
+                    log.error("ID contain null: {}[47]", stock);
+                    return new Result<Stock>(Constants.FAIL, "ID contain null", new ArrayList<>(List.of(stock)));
                 }
 
-                if (!usersFromCSV.containsKey(user.getId())){
-                    log.error("ID wasn't found: {}[48]", user);
-                    return new Result<User>(Constants.FAIL, "ID wasn't found", new ArrayList<>(List.of(user)));
+                if (!StockFromCSV.containsKey(stock.getTicker())){
+                    log.error("ID wasn't found: {}[48]", stock);
+                    return new Result<Stock>(Constants.FAIL, "ID wasn't found", new ArrayList<>(List.of(stock)));
                 }
 
-                usersFromCSV.put(user.getId(), user);
+                StockFromCSV.put(stock.getTicker(), stock);
             }
-            log.debug("appendUsers[49]");
-            deleteAllUsers();
-            return appendUsers(usersFromCSV.values().stream().toList());
+            log.debug("appendStock[49]");
+            deleteAllStocks();
+            return appendStocks(StockFromCSV.values().stream().toList());
         } catch (Exception e) {
-            log.error("Function DataProviderCSV updateUsers had crashed[50]");
+            log.error("Function DataProviderCSV updateStock had crashed[50]");
             status = Constants.FAIL;
             message = e.getMessage();
         }
-        return new Result<User>(status, message, new ArrayList<>());
+        return new Result<Stock>(status, message, new ArrayList<>());
     }
 }

@@ -13,10 +13,9 @@ import java.util.Properties;
  * @author Boris Jmailov
  */
 public class ConfigurationUtil {
-    //public static String DEFAULT_CONFIG_PATH = System.getProperty("config"); // java -Dconfig=/home/eldinhlinux/IdeaProjects/mavenproject/enviroment.properties -jar mavenproject.jar
+    //public static String DEFAULT_CONFIG_PATH = System.getProperty("config"); // java -Dconfig=/home/eldinhlinux/IdeaProjects/mavenproject/environment.properties -jar mavenproject.jar
 
-    public static String DEFAULT_CONFIG_PATH = System.getProperty("config") == null
-            ? "/home/eldinhlinux/IdeaProjects/TestProject/src/main/resources/enviroment.properties" : System.getProperty("config");
+    public static String DEFAULT_CONFIG_PATH = "C:\\Users\\eldin\\Desktop\\Quotes\\src\\main\\resources\\environment.properties";
     private static final Properties configuration = new Properties();
     /**
      * Hides default constructor

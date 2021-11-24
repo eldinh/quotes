@@ -17,12 +17,111 @@ public class SecurityDto {
     private String emitentInn;
     private String emitentOkpo;
     private String gosReg;
-    private StockType type;
+    private String type;
     private String group;
     private String primaryBoardid;
     private String marketpriceBoardid;
 
+    private Double nominal;  // Номинал
+    private String nominalValue;  // Валюта номинала
+    private Long issueSize;  // Объем выпуска
+    private String latName;  // Название на агл.
+    private String issueDate; // Дата начали торгов
+    //stock
+
+    //bond
+    private String matDate;  // Дата погащения
+    private Double couponValue;  // Сумма купона
+
+
+    public Double getNominal() {
+        return nominal;
+    }
+
+    public void setNominal(Double nominal) {
+        this.nominal = nominal;
+    }
+
+    public String getNominalValue() {
+        return nominalValue;
+    }
+
+    public void setNominalValue(String nominalValue) {
+        this.nominalValue = nominalValue;
+    }
+
+    public String getIssueDate() {
+        return issueDate;
+    }
+
+    public void setIssueDate(String issueDate) {
+        this.issueDate = issueDate;
+    }
+
+    public Long getIssueSize() {
+        return issueSize;
+    }
+
+    public void setIssueSize(Long issueSize) {
+        this.issueSize = issueSize;
+    }
+
+    public String getLatName() {
+        return latName;
+    }
+
+    public void setLatName(String latName) {
+        this.latName = latName;
+    }
+
+    public String getMatDate() {
+        return matDate;
+    }
+
+    public void setMatDate(String matDate) {
+        this.matDate = matDate;
+    }
+
+
     SecurityDto(){}
+
+
+    @Override
+    public String toString() {
+        return "SecurityDto{" +
+                "id=" + id +
+                ", secID='" + secID + '\'' +
+                ", shortName='" + shortName + '\'' +
+                ", regNumber='" + regNumber + '\'' +
+                ", name='" + name + '\'' +
+                ", isin='" + isin + '\'' +
+                ", isTraded=" + isTraded +
+                ", eminentID=" + eminentID +
+                ", emitentTitle='" + emitentTitle + '\'' +
+                ", emitentInn='" + emitentInn + '\'' +
+                ", emitentOkpo='" + emitentOkpo + '\'' +
+                ", gosReg='" + gosReg + '\'' +
+                ", type=" + type +
+                ", group='" + group + '\'' +
+                ", primaryBoardid='" + primaryBoardid + '\'' +
+                ", marketpriceBoardid='" + marketpriceBoardid + '\'' +
+                ", matDate='" + matDate + '\'' +
+                ", couponValue=" + couponValue +
+                ", nominal=" + nominal +
+                ", nominalValue='" + nominalValue + '\'' +
+                ", issueDate='" + issueDate + '\'' +
+                ", issueSize=" + issueSize +
+                ", latName='" + latName + '\'' +
+                '}';
+    }
+
+    public Double getCouponValue() {
+        return couponValue;
+    }
+
+    public void setCouponValue(Double couponValue) {
+        this.couponValue = couponValue;
+    }
 
     public int getId() {
         return id;
@@ -113,11 +212,11 @@ public class SecurityDto {
         this.emitentOkpo = emitentOkpo;
     }
 
-    public StockType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(StockType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -155,25 +254,4 @@ public class SecurityDto {
         this.marketpriceBoardid = marketpriceBoardid;
     }
 
-    @Override
-    public String toString() {
-        return "StockDto{" +
-                "id=" + id +
-                ", secID='" + secID + '\'' +
-                ", shortName='" + shortName + '\'' +
-                ", regNumber='" + regNumber + '\'' +
-                ", name='" + name + '\'' +
-                ", isin='" + isin + '\'' +
-                ", isTraded=" + isTraded +
-                ", eminentID=" + eminentID +
-                ", emitentTitle='" + emitentTitle + '\'' +
-                ", emitentInn=" + emitentInn +
-                ", emitentOkpo=" + emitentOkpo +
-                ", gosReg='" + gosReg + '\'' +
-                ", type=" + type +
-                ", group='" + group + '\'' +
-                ", primaryBoardid='" + primaryBoardid + '\'' +
-                ", marketpriceBoardid='" + marketpriceBoardid + '\'' +
-                '}';
-    }
 }

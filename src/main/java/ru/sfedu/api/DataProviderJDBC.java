@@ -15,7 +15,7 @@ import java.util.List;
 import static ru.sfedu.utils.ConfigurationUtil.getConfigurationEntry;
 import static ru.sfedu.Constants.*;
 
-public class DataProviderJDBC implements IDateProvider{
+public class DataProviderJDBC{
     private final Logger log = (Logger) LogManager.getLogger(DataProviderJDBC.class.getName());
     Connection dbConnection;
     public Connection getDbConnection()
@@ -64,7 +64,7 @@ public class DataProviderJDBC implements IDateProvider{
 
     }
 
-    @Override
+
     public Result<User> appendUsers(List<User> users) throws Exception {
         String status = SUCCESS;
         String message = "";
@@ -103,7 +103,7 @@ public class DataProviderJDBC implements IDateProvider{
         return new Result<User>(status, message, new ArrayList<>());
     }
 
-    @Override
+
     public Result<User> getUsers() throws Exception {
         String status = SUCCESS;
         String message = "";
@@ -125,7 +125,7 @@ public class DataProviderJDBC implements IDateProvider{
         return new Result<>(status, message, users);
     }
 
-    @Override
+
     public Result<User> updateUsers(List<User> users) throws Exception {
         String status = SUCCESS;
         String message = "";
@@ -177,7 +177,7 @@ public class DataProviderJDBC implements IDateProvider{
         return new Result<>(status, message, new ArrayList<>());
     }
 
-    @Override
+
     public Result<User> deleteUserById(long id) throws Exception {
         String status = SUCCESS;
         String message = "";
@@ -198,7 +198,7 @@ public class DataProviderJDBC implements IDateProvider{
         return new Result<>(status, message, new ArrayList<>());
     }
 
-    @Override
+
     public Result<User> deleteAllUsers() throws Exception {
         String status = SUCCESS;
         String message = "";
@@ -215,7 +215,7 @@ public class DataProviderJDBC implements IDateProvider{
         return new Result<>(status, message, new ArrayList<>());
     }
 
-    @Override
+
     public User getUserById(long id) throws Exception {
         log.info("getUSerById");
         try {

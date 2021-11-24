@@ -1,5 +1,6 @@
 /index.html
 /iss-api-rus-v14.pdf
 *.log
-/src/main/resources/enviroment.properties
+/src/main/resources/environment.properties
+
 

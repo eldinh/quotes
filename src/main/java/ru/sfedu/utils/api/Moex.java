@@ -16,12 +16,14 @@ import ru.sfedu.utils.api.model.type.SecurityType;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ru.sfedu.utils.api.model.type.SecurityType.stock_shares;
+
 public class Moex {
     private List<String> path;
     private List<NameValuePair> params;
     private URIBuilder uri;
     private final Logger log = (Logger) LogManager.getLogger(Moex.class.getName());
-    private final Moex moex = new Moex();
+    private Moex moex;
     public Moex() {
         path = new ArrayList<>();
         params = new ArrayList<>();
@@ -102,6 +104,8 @@ public class Moex {
         return addPath("trades");
     }
 
+    public Moex ticker(String ticker){return addPath(ticker);}
+
     public Moex addParameter(String name, String value){
         params.add(new BasicNameValuePair(name, value));
         return this;
@@ -120,20 +124,6 @@ public class Moex {
         listWithFormat.set(len - 1, listWithFormat.get(len - 1) + ".json");
         return listWithFormat;
     }
-
-    public String getSecurities(int start, SecurityType type) throws Exception {
-        return moex.securities().addParameter("group_by", "group")
-                .addParameter("group_by_filter", type.toString())
-                .addParameter("q", "RU000")
-                .addParameter("is_trading", 1)
-                .addParameter("start", start).fetch();
-    }
-
-    public String getStockStory(int start, SecurityType type){
-
-        return null;
-    }
-
     public String fetch() throws Exception {
         log.info("Fetch json");
         URIBuilder uri = new URIBuilder();
@@ -159,7 +149,25 @@ public class Moex {
             // return it as a String
             result = EntityUtils.toString(entity);
         }
-        
+
         return result;
     }
+
+    public String getSecurities(int start, SecurityType type) throws Exception {
+        log.info("MOEX: Fetching securities");
+        moex = new Moex();
+        return moex.securities().addParameter("group_by", "group")
+                .addParameter("group_by_filter", type.toString())
+                .addParameter("is_trading", 1)
+                .addParameter("start", start).fetch();
+    }
+
+    public String getSecurityInfo(String ticker) throws Exception {
+        log.info("MOEX: Fetching extra securities info");
+        moex = new Moex();
+        return moex.securities().ticker(ticker).fetch();
+    }
+
+
+
 }
