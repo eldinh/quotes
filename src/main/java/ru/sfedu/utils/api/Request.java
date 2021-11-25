@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
-import ru.sfedu.api.DataProviderJDBC;
 import ru.sfedu.utils.api.model.dto.SecurityExtraInfoDto;
 import ru.sfedu.utils.api.model.type.SecurityType;
 import ru.sfedu.utils.api.model.dto.SecurityDto;

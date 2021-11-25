@@ -19,7 +19,6 @@ import static ru.sfedu.utils.ConfigurationUtil.getConfigurationEntry;
 import static ru.sfedu.Constants.CSV_FILE_EXTENTION;
 import static ru.sfedu.Constants.CSV_PATH;
 
-
 public class DataProviderCSV implements IDateProvider {
     private final Logger log = (Logger) LogManager.getLogger(DataProviderCSV.class.getName());
 
@@ -35,8 +34,7 @@ public class DataProviderCSV implements IDateProvider {
                     + getConfigurationEntry(CSV_FILE_EXTENTION), append);
 
             log.debug("Creating CSVWriter[9]");
-            CSVWriter csvWriter = new CSVWriter(writer);
-            return csvWriter;
+            return new CSVWriter(writer);
         }catch (Exception e){
             log.error("Function DataProviderCSV getCSVWriter had failed[10]");
             throw new Exception(e);
@@ -47,11 +45,10 @@ public class DataProviderCSV implements IDateProvider {
         log.info("Starting DataProviderCSV getBeanToCSVBuilder[11]");
         try{
             log.info("getBeanToCSVBuilder[12]: {}", writer);
-            StatefulBeanToCsvBuilder<T> beanToCsvBuilder = new StatefulBeanToCsvBuilder<T>(writer)
+            return new StatefulBeanToCsvBuilder<T>(writer)
                     .withApplyQuotesToAll(false)
                     .withOrderedResults(true)   //
                     .withLineEnd(writer.DEFAULT_LINE_END);
-            return beanToCsvBuilder;
 
         }catch (Exception e){
             log.error("Function DataProviderCSV getBeanToCSVBuilder had failed[13]");
@@ -239,7 +236,7 @@ public class DataProviderCSV implements IDateProvider {
     }
 
     @Override
-    public Stock getStockByTicker(String ticker) throws Exception {
+    public Optional<Stock> getStockByTicker(String ticker) throws Exception {
         log.info("Starting DataProviderCSV getUserById[36]");
         log.info("getUserById[37]: {}, type: {}", ticker, ticker.getClass());
         try {
@@ -250,7 +247,7 @@ public class DataProviderCSV implements IDateProvider {
             List<Stock> Stock = result.getBody();
             log.debug("Search for a user by id[39]");
             Optional<Stock> stock = Stock.stream().filter(x -> x.getTicker().equals(ticker)).findFirst();
-            return stock.orElseGet(Stock::new);
+            return stock;
         }catch (Exception e){
             log.error("Function DataProviderCSV getUserById had failed[40]");
             throw new Exception(e);
@@ -286,12 +283,12 @@ public class DataProviderCSV implements IDateProvider {
             for (Stock stock : Stock){
                 if (stock.getTicker() == null){
                     log.error("ID contain null: {}[47]", stock);
-                    return new Result<Stock>(Constants.FAIL, "ID contain null", new ArrayList<>(List.of(stock)));
+                    return new Result<>(Constants.FAIL, "ID contain null", new ArrayList<>(List.of(stock)));
                 }
 
                 if (!StockFromCSV.containsKey(stock.getTicker())){
                     log.error("ID wasn't found: {}[48]", stock);
-                    return new Result<Stock>(Constants.FAIL, "ID wasn't found", new ArrayList<>(List.of(stock)));
+                    return new Result<>(Constants.FAIL, "ID wasn't found", new ArrayList<>(List.of(stock)));
                 }
 
                 StockFromCSV.put(stock.getTicker(), stock);
