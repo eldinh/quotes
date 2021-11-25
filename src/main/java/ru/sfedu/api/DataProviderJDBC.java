@@ -2,20 +2,18 @@ package ru.sfedu.api;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.sfedu.model.Result;
-import ru.sfedu.model.entity.User;
 import ru.sfedu.Constants;
+import ru.sfedu.model.Result;
+import ru.sfedu.model.entity.Stock;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-import static ru.sfedu.utils.ConfigurationUtil.getConfigurationEntry;
 import static ru.sfedu.Constants.*;
+import static ru.sfedu.utils.ConfigurationUtil.getConfigurationEntry;
 
-public class DataProviderJDBC{
+public class DataProviderJDBC implements IDateProvider{
     private final Logger log = (Logger) LogManager.getLogger(DataProviderJDBC.class.getName());
     Connection dbConnection;
     public Connection getDbConnection()
@@ -31,24 +29,19 @@ public class DataProviderJDBC{
 
 
 
-    public void creatringTable() throws Exception {
+    private void creatingTable() throws Exception {
         Connection conn = null;
         Statement stmt = null;
+        log.info("Starting DataProviderJDBC creatingTable[0]");
         try {
             conn = getDbConnection();
-            log.info("Creating table in given database...");
+            log.info("Connect to db[1]");
             stmt = conn.createStatement();
-            String sql =  "CREATE TABLE IF NOT EXISTS USERS " +
-                    "(id INT NOT NULL AUTO_INCREMENT, " +
-                    " name VARCHAR(255), " +
-                    " age INTEGER," +
-                    "PRIMARY KEY (id))";
-            stmt.executeUpdate(sql);
+            log.debug("Create table if it doesn't exist[2]");
+            stmt.executeUpdate(SQL_CREATE_USERS_TABLE);
 
-            log.info("Created table in given database...");
-            stmt.close();
-            conn.close();
         } catch (Exception e) {
+            log.error("Function DataProviderJDBC creatingTable had failed[3]");
             throw new Exception(e);
         } finally {
             try {
@@ -57,6 +50,7 @@ public class DataProviderJDBC{
                 if (conn != null)
                     conn.close();
             } catch (Exception e){
+                log.error("Failed to close db, creatingTable[4]");
                 throw new Exception(e);
             }
 
@@ -64,175 +58,232 @@ public class DataProviderJDBC{
 
     }
 
-
-    public Result<User> appendUsers(List<User> users) throws Exception {
+    @Override
+    public Result<Stock> appendStocks(List<Stock> stocks) throws Exception {
         String status = SUCCESS;
         String message = "";
         PreparedStatement preparedStatement;
+        List<String> idColumn = new ArrayList<>();
+        log.info("Starting DataProviderJDBC appendStocks[5]");
         try {
-            log.info("appendUsers[]: {}, type: {}", Arrays.toString(users.toArray()), users.getClass().getName());
-            if (users.isEmpty()){
-                log.error("Empty size[]");
+            log.info("appendStocks[]: {}, type: {}[6]", Arrays.toString(stocks.toArray()), stocks.getClass().getName());
+            if (stocks.isEmpty()){
+                log.error("Empty size[7]");
                 throw new Exception("Empty size");
             }
-            if (users.contains(null)){
-                log.error("List contains null[]");
+            if (stocks.contains(null)){
+                log.error("List contains null[8]");
                 throw new Exception("List contains null");
             }
-
-            creatringTable();
+            log.debug("Create table[9]");
+            creatingTable();
+            log.debug("Connect to db[10]");
             Connection connection = getDbConnection();
-            preparedStatement = connection.prepareStatement(INSERT_USERS_SQL);
-            for (User user : users.stream().filter(x -> x.getId() != null).toList()){
-                preparedStatement.setLong(1, user.getId());
-                preparedStatement.setString(2, user.getName());
-                preparedStatement.setInt(3, user.getAge());
-                preparedStatement.executeUpdate();
+            log.debug("Get all ID[]");
+            preparedStatement = connection.prepareStatement(SQL_SELECT_FROM_USERS);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next())
+            {
+                idColumn.add( rs.getString("ticker") );
+            }
+
+            for (Stock stock : stocks){
+                if (stock.getTicker() != null && Collections.binarySearch(idColumn, stock.getTicker()) >= 0){
+                    log.error("ID is already contained in db[]: {}", stock);
+                    return new Result<Stock>(Constants.FAIL, "ID is already contained in db: " + stock , new ArrayList<>(List.of(stock)));
+                }
+            }
+
+
+            log.debug("Insert users with id[11]");
+            preparedStatement = connection.prepareStatement(SQL_INSERT_USERS);
+            int num = 0;
+            for (Stock user : stocks.stream().filter(x -> x.getTicker() != null).toList()){
+//
+//                preparedStatement.setLong(1, user.getId());
+//                preparedStatement.setString(2, user.getName());
+//                preparedStatement.setInt(3, user.getAge());
+//                num += preparedStatement.executeUpdate();
+
 
             }
-            preparedStatement = connection.prepareStatement(INSERT_USERS_SQL_WITHOUT_ID);
-            for (User user : users.stream().filter(x -> x.getId() == null).toList()){
-                preparedStatement.setString(1, user.getName());
-                preparedStatement.setInt(2, user.getAge());
-                preparedStatement.executeUpdate();
+            log.info("Num of append users with id: {}",num);
+
+            log.debug("Insert users without id[12]");
+            preparedStatement = connection.prepareStatement(SQL_INSERT_USERS_WITHOUT_ID);
+
+            num = 0;
+            for (Stock stock : stocks.stream().filter(x -> x.getTicker() == null).toList()){
+//                preparedStatement.setString(1, user.getName());
+//                preparedStatement.setInt(2, user.getAge());
+//
+//                num += preparedStatement.executeUpdate();
             }
+            log.info("Num of append users without id: {}", num);
         } catch (Exception e){
+                log.error("Function DataProviderJDBC appendUsers had failed[13]");
                 status = FAIL;
                 message = e.getMessage();
         }
-        return new Result<User>(status, message, new ArrayList<>());
+        return new Result<Stock>(status, message, new ArrayList<>());
     }
 
-
-    public Result<User> getUsers() throws Exception {
+    @Override
+    public Result<Stock> getStocks() throws Exception {
         String status = SUCCESS;
         String message = "";
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<Stock> users = new ArrayList<>();
+        log.info("Starting DataProviderJDBC getUsers[14]");
         try {
+            log.debug("Connect to db[15]");
             Connection connection = getDbConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FROM_USERS);
+            log.debug("Get users from db[16]");
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_FROM_USERS);
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
-                users.add(new User( rs.getInt("id"),
-                                    rs.getString("name"),
-                                    rs.getInt("age")
-                ));
+//                users.add(new User( rs.getInt("id"),
+//                                    rs.getString("name"),
+//                                    rs.getInt("age")
+//                ));
             }
         } catch (Exception e){
+            log.error("Function DataProviderJDBC getUsers had failed[17]");
             status = FAIL;
             message = e.getMessage();
         }
         return new Result<>(status, message, users);
     }
 
-
-    public Result<User> updateUsers(List<User> users) throws Exception {
+    @Override
+    public Result<Stock> updateStocks(List<Stock> stocks) throws Exception {
         String status = SUCCESS;
         String message = "";
         PreparedStatement preparedStatement;
-        List<Long> idColumn = new ArrayList<>();
+        log.info("Starting DataProviderJDBC updateUsers[18]");
+        List<String> idColumn = new ArrayList<>();
         try {
-            log.info("appendUsers[]: {}, type: {}", Arrays.toString(users.toArray()), users.getClass().getName());
-            if (users.isEmpty()){
-                log.error("Empty size[]");
+            log.info("updateUsers[19]: {}, type: {}", Arrays.toString(stocks.toArray()), stocks.getClass().getName());
+            if (stocks.isEmpty()){
+                log.error("Empty size[20]");
                 throw new Exception("Empty size");
             }
-            if (users.contains(null)){
-                log.error("List contains null[]");
+            if (stocks.contains(null)){
+                log.error("List contains null[21]");
                 throw new Exception("List contains null");
             }
+            log.debug("Connect to db[22]");
             Connection connection = getDbConnection();
-            preparedStatement = connection.prepareStatement(SELECT_FROM_USERS);
+            log.debug("Update users[23]");
+            preparedStatement = connection.prepareStatement(SQL_SELECT_FROM_USERS);
             ResultSet rs = preparedStatement.executeQuery();
+
+            log.debug("Get all ID[24]");
             while (rs.next())
             {
-                idColumn.add( rs.getLong("id") );
+                idColumn.add( rs.getString("ticker") );
+            }
+            for (Stock stock : stocks){
+                if (stock.getTicker() == null){
+                    log.error("ID is null[25]");
+                    return new Result<Stock>(FAIL, "ID is null", new ArrayList<>(List.of(stock)));
+                }
+                if (Collections.binarySearch(idColumn, stock.getTicker()) < 0){
+                    log.error("ID wasn't found[26]: {}", stock);
+                    return new Result<Stock>(Constants.FAIL, "ID wasn't found: " + stock, new ArrayList<>(List.of(stock)));
+                }
             }
 
-            for (User user : users){
-                if (user.getId() == null){
-                    log.error("id is null");
-                    return new Result<User>(FAIL, "ID is null", new ArrayList<>(List.of(user)));
-                }
-                if (!idColumn.contains(user.getId())){
-                    log.error("ID wasn't found: {}", user);
-                    return new Result<User>(Constants.FAIL, "ID wasn't found", new ArrayList<>(List.of(user)));
-                }
-            }
-
-
-            for (User user : users){
-                preparedStatement = connection.prepareStatement(UPDATE_USERS);
-                preparedStatement.setString(1, user.getName());
-                preparedStatement.setInt(2, user.getAge());
-                preparedStatement.setLong(3, user.getId());
-                preparedStatement.executeUpdate();
+            log.debug("Update users[27]");
+            for (Stock stock : stocks){
+                preparedStatement = connection.prepareStatement(SQL_UPDATE_USERS);
+//                preparedStatement.setString(1, user.getName());
+//                preparedStatement.setInt(2, user.getAge());
+//                preparedStatement.setLong(3, user.getId());
+//                preparedStatement.executeUpdate();
             }
 
 
         } catch (Exception e){
+            log.error("Function DataProviderJDBC updateUsers had failed[28]");
             status  = FAIL;
             message = e.getMessage();
         }
         return new Result<>(status, message, new ArrayList<>());
     }
 
-
-    public Result<User> deleteUserById(long id) throws Exception {
+    @Override
+    public Result<Stock> deleteStockByTicker(String ticker) throws Exception {
         String status = SUCCESS;
         String message = "";
         PreparedStatement preparedStatement;
+        log.info("Starting DataProviderJDBC deleteUserById[29]");
         try {
-            Connection connection = getDbConnection();
+            log.info("deleteUserById[30]: {}",ticker);
 
-            preparedStatement = connection.prepareStatement(DELETE_BY_ID_USERS);
-            preparedStatement.setLong(1, id);
+            log.debug("Connect to db[31]");
+            Connection connection = getDbConnection();
+            log.debug("Delete user by ID[32]");
+            preparedStatement = connection.prepareStatement(SQL_DELETE_BY_ID_USERS);
+            preparedStatement.setString(1, ticker);
             if (preparedStatement.executeUpdate() == 0){
+                log.error("Id wasn't found[32]");
                 throw new Exception("Id wasn't found");
             }
 
         }catch (Exception e){
+            log.error("Function DataProviderJDBC deleteUserById had failed[33]");
             status  = FAIL;
             message = e.getMessage();
         }
         return new Result<>(status, message, new ArrayList<>());
     }
 
-
-    public Result<User> deleteAllUsers() throws Exception {
+    @Override
+    public Result<Stock> deleteAllStocks() throws Exception {
+        log.info("Starting DataProviderJDBC deleteAllUsers [34]");
         String status = SUCCESS;
         String message = "";
         PreparedStatement preparedStatement;
         try {
+            log.debug("Connect to db[35]");
             Connection connection = getDbConnection();
-            preparedStatement = connection.prepareStatement(DELETE_ALL_USERS);
-            preparedStatement.executeUpdate();
+            log.debug("Delete all users[36]");
+            preparedStatement = connection.prepareStatement(SQL_DELETE_ALL_USERS);
+            log.info("Number of delete users: {}" , preparedStatement.executeUpdate());
 
         }catch (Exception e){
+            log.error("Function DataProviderJDBC deleteAllUsers had failed[37]");
             status  = FAIL;
             message = e.getMessage();
         }
         return new Result<>(status, message, new ArrayList<>());
     }
 
-
-    public User getUserById(long id) throws Exception {
-        log.info("getUSerById");
+    @Override
+    public Optional<Stock> getStockByTicker(String ticker) throws Exception {
+        log.info("Starting DataProviderJDBC getUSerById[38]");
         try {
-            log.debug("Connect to ds");
+            log.debug("Connect to db[39]");
             Connection connection = getDbConnection();
-            log.debug("Prepared Statement");
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FROM_USERS_BY_ID);
-            preparedStatement.setLong(1,id);
-            log.debug("Get result");
+            log.debug("Prepared Statement[40]");
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_FROM_USERS_BY_ID);
+            preparedStatement.setString(1,ticker);
+            log.debug("Get result[41]");
             ResultSet rs = preparedStatement.executeQuery();
-            rs.next();
-            log.debug("Return User");
-            return new User( id,
-                    rs.getString("name"),
-                    rs.getInt("age"));
-        } catch (Exception e){
+            if (rs.next()){
+                log.debug("Return User[42]");
+//                Stock stock = new Stock( id,
+//                    rs.getString("name"),
+//                    rs.getInt("age"));
+//                return Optional.of(stock);
+                return Optional.empty();
+            } else {
+                log.warn("User wasn't found[43]");
+                return Optional.empty();
+            }
 
+        } catch (Exception e){
+            log.error("Function DataProvider JDBC getUserById had failed[44]");
             throw new Exception(e);
         }
     }

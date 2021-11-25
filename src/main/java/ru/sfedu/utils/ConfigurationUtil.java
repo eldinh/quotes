@@ -14,7 +14,7 @@ import java.util.Properties;
  */
 public class ConfigurationUtil {
     //public static String DEFAULT_CONFIG_PATH = System.getProperty("config"); // java -Dconfig=/home/eldinhlinux/IdeaProjects/mavenproject/environment.properties -jar mavenproject.jar
-
+    // ./src/main/resources/environment.properties
     public static String DEFAULT_CONFIG_PATH = "C:\\Users\\eldin\\Desktop\\Quotes\\src\\main\\resources\\environment.properties";
     private static final Properties configuration = new Properties();
     /**
