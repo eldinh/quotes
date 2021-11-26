@@ -1,4 +1,4 @@
-package ru.sfedu.utils.api;
+package ru.sfedu.utils.parser;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -11,12 +11,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.sfedu.utils.api.model.type.SecurityType;
+import ru.sfedu.utils.parser.model.type.SecurityType;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static ru.sfedu.utils.api.model.type.SecurityType.stock_shares;
 
 public class Moex {
     private List<String> path;

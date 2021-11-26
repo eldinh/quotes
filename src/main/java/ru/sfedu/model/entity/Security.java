@@ -27,15 +27,15 @@ public class Security {
     @CsvBindByPosition(position = 2)
     protected String shortName;
     @CsvBindByPosition(position = 3)
-    protected String isin;
+    protected String latName;
     @CsvBindByPosition(position = 4)
     protected Double nominal;
     @CsvBindByPosition(position = 5)
     protected String nominalValue;
     @CsvBindByPosition(position = 6)
-    protected LocalDate issueDate;
+    protected String issueDate;
     @CsvBindByPosition(position = 7)
-    protected String latName;
+    protected String isin;
     @CsvBindByPosition(position = 8)
     protected Long issueSize;
     @CsvBindByPosition(position = 9)
@@ -91,11 +91,11 @@ public class Security {
         this.nominalValue = nominalValue;
     }
 
-    public LocalDate getIssueDate() {
+    public String getIssueDate() {
         return issueDate;
     }
 
-    public void setIssueDate(LocalDate issueDate) {
+    public void setIssueDate(String issueDate) {
         this.issueDate = issueDate;
     }
 

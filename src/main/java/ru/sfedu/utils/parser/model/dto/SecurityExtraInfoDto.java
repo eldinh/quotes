@@ -1,4 +1,4 @@
-package ru.sfedu.utils.api.model.dto;
+package ru.sfedu.utils.parser.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

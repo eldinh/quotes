@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.sfedu.Constants;
 import ru.sfedu.model.Result;
+import ru.sfedu.model.entity.Bond;
 import ru.sfedu.model.entity.Stock;
 
 import java.io.IOException;
@@ -286,5 +287,35 @@ public class DataProviderJDBC implements IDateProvider{
             log.error("Function DataProvider JDBC getUserById had failed[44]");
             throw new Exception(e);
         }
+    }
+
+    @Override
+    public Result<Bond> getBonds() throws Exception {
+        return null;
+    }
+
+    @Override
+    public Result<Bond> appendBonds(List<Bond> bonds) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Result<Bond> updateBonds(List<Bond> bonds) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Result<Bond> deleteBondByTicker(String ticker) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Result<Bond> deleteAllBonds() throws Exception {
+        return null;
+    }
+
+    @Override
+    public Optional<Bond> getBondByTicker(String ticker) throws Exception {
+        return Optional.empty();
     }
 }

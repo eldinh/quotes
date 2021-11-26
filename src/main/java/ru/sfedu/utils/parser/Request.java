@@ -1,19 +1,19 @@
-package ru.sfedu.utils.api;
+package ru.sfedu.utils.parser;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
-import ru.sfedu.utils.api.model.dto.SecurityExtraInfoDto;
-import ru.sfedu.utils.api.model.type.SecurityType;
-import ru.sfedu.utils.api.model.dto.SecurityDto;
+import ru.sfedu.utils.parser.model.dto.SecurityExtraInfoDto;
+import ru.sfedu.utils.parser.model.type.SecurityType;
+import ru.sfedu.utils.parser.model.dto.SecurityDto;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.sfedu.utils.api.model.type.SecurityType.stock_bonds;
-import static ru.sfedu.utils.api.model.type.SecurityType.stock_shares;
+import static ru.sfedu.utils.parser.model.type.SecurityType.stock_bonds;
+import static ru.sfedu.utils.parser.model.type.SecurityType.stock_shares;
 
 public class Request {
     private final Logger log =(Logger) LogManager.getLogger(Request.class.getName());
@@ -43,7 +43,7 @@ public class Request {
         log.info("Starting Request getSecurities[4]");
         try{
             log.info("getSecurities[5]: {}", type);
-            int i = 0;
+            int i = 2700;
             log.debug("Get JSON[6]");
             JsonNode json = getSecuritiesJSON(i, type);
             log.debug("Get securities list[7]");

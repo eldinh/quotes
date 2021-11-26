@@ -1,4 +1,4 @@
-package ru.sfedu.utils.api.model.type;
+package ru.sfedu.utils.parser.model.type;
 
 public enum BondType {
     subfederal_bond, municipal_bond, corporate_bond,

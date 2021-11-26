@@ -1,10 +1,7 @@
 package ru.sfedu.model.entity;
 
 import com.opencsv.bean.CsvBindByPosition;
-import ru.sfedu.utils.api.model.type.StockType;
-
-import java.time.LocalDate;
-import java.util.Objects;
+import ru.sfedu.utils.parser.model.type.StockType;
 
 public class Stock extends Security {
     @CsvBindByPosition(position = 10)
@@ -54,7 +51,7 @@ public class Stock extends Security {
 
     @Override
     public String toString() {
-        return "Security [" +
+        return "Stock [" +
                 "ticker='" + ticker + '\'' +
                 ", name='" + name + '\'' +
                 ", shortName='" + shortName + '\'' +
@@ -70,4 +67,5 @@ public class Stock extends Security {
                 ", capitalization=" + capitalization + '\'' +
                 ']';
     }
+
 }

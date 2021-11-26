@@ -1,7 +1,6 @@
-package ru.sfedu.utils.api.model.dto;
+package ru.sfedu.utils.parser.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import ru.sfedu.utils.api.model.type.StockType;
 
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
 public class SecurityDto {
