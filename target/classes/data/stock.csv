@@ -1,0 +1,818 @@
+IBM-RM,Intl. Business Machines Corp.,IBM,Intl. Business Machines Corp.,0.2,USD,2020-12-01,US4592001014,896320073,stock_shares,common_share,0.0,0.0
+KROTP,КрасныйОктябрь-1п,КрасОкт-1п,KrasnyiOctabr-1(pr),1.0,SUR,2005-01-11,RU0008913868,1474549,stock_shares,preferred_share,0.0,0.0
+VTRS-RM,Viatris Inc.,Viatris,Viatris Inc.,0.01,USD,2020-12-01,US92556V1061,1209290460,stock_shares,common_share,0.0,0.0
+NKNC,"""Нижнекамскнефтехим"" ПАО ао",НКНХ ао,Niznekamskneftekhim ao,1.0,SUR,2008-04-04,RU0009100507,1611256000,stock_shares,common_share,0.0,0.0
+IGSTP,Ижсталь ПАО ап,Ижсталь ап,Izhstal ap,1000.0,SUR,2011-12-08,RU0002155300,266910,stock_shares,preferred_share,0.0,0.0
+legs,"Акционерное общество ""Ленгазспецстрой""","АО ""ЛГСС""","Joint Stock Company ""Lengazspetsstroy""",1.0,RUB,,RU000A0JNN56,50448,stock_shares,common_share,0.0,0.0
+C-RM,Citigroup Inc,Citigroup,Citigroup Inc,0.01,USD,2021-07-01,US1729674242,2026785183,stock_shares,common_share,0.0,0.0
+PINS-RM,Pinterest Ord Shs Class A,PinterestA,Pinterest Ord Shs Class A,1.0E-5,USD,2021-09-01,US72352L1061,555177057,stock_shares,common_share,0.0,0.0
+VMC-RM,Vulcan Materials Ord Shs,VulcanMats,Vulcan Materials Ord Shs,1.0,USD,2021-09-01,US9291601097,132678269,stock_shares,common_share,0.0,0.0
+TGT-RM,Target Corporation,Target,Target Corporation,0.0833,USD,2020-12-01,US87612E1064,488039053,stock_shares,common_share,0.0,0.0
+SBERP,Сбербанк России ПАО ап,Сбербанк-п,Sberbank (pref),3.0,SUR,2007-07-20,RU0009029557,1000000000,stock_shares,preferred_share,0.0,0.0
+KR-RM,The Kroger Co.,The Kroger,The Kroger Co.,1.0,USD,2021-04-01,US5010441013,743638489,stock_shares,common_share,0.0,0.0
+ISKJ,"ПАО ""ИСКЧ""",iИСКЧ ао,HSCI ao,0.1,SUR,2006-05-23,RU000A0JNAB6,85000000,stock_shares,common_share,0.0,0.0
+LVHK,Левенгук ОАО ао,Левенгук,Levenguk ao,10.0,SUR,2012-11-28,RU000A0JT7Y2,52940000,stock_shares,common_share,0.0,0.0
+tuog,"Открытое акционерное общество ""Газпром газораспределение Тула""","ОАО ""Газпром газораспределение Тула""","Public Joint-Stock Company ""Gazprom gazoraspredelenie Tula""",1.0,RUB,,RU0002636986,158591,stock_shares,common_share,0.0,0.0
+WTCM,"""Центр междун. торговли""ПАО ао",ЦМТ ао,CMT,1.0,SUR,2007-09-27,RU0008137070,1083000000,stock_shares,common_share,0.0,0.0
+tobm,"Публичное акционерное общество Производственно – конструкторское объединение ""Теплообменник""","ПАО ПКО ""Теплообменник""","The Public Joint Stock Company Production Design Corporation ""Teploobmennik""",0.2,RUB,,RU0006944154,115465569,stock_shares,common_share,0.0,0.0
+CF-RM,"CF Industries Holdings, Inc.",CF Industr,"CF Industries Holdings, Inc.",0.01,USD,2021-06-01,US1252691001,215099967,stock_shares,common_share,0.0,0.0
+CPRT-RM,"Copart, Inc.",Copart,"Copart, Inc.",1.0E-4,USD,2021-08-02,US2172041061,237100519,stock_shares,common_share,0.0,0.0
+AMZN-RM,Amazon.com Inc.,Amazon,Amazon.com Inc.,0.01,USD,2018-05-21,US0231351067,506440520,stock_shares,common_share,0.0,0.0
+DHR-RM,Danaher Corporation ORD SHS,DanaherCor,Danaher Corporation ORD SHS,0.01,USD,2021-10-01,US2358511028,713899565,stock_shares,common_share,0.0,0.0
+ETR-RM,Entergy CorporationORD SHS,EntergyCo,Entergy CorporationORD SHS,0.01,USD,2021-11-01,US29364G1031,200954557,stock_shares,common_share,0.0,0.0
+srog,"Акционерное общество ""Газпром газораспределение Саратовская область""","АО ""Газпром газораспределение Саратовская область""","Joint-Stock Company ""Gazprom Gazoraspredelenie Saratovskaya Oblast'""",0.02,RUB,,RU0007664918,3678100,stock_shares,common_share,0.0,0.0
+ES-RM,Eversource Energy ORD SHS,Eversource,Eversource Energy ORD SHS,5.0,USD,2021-11-01,US30040W1080,343643255,stock_shares,common_share,0.0,0.0
+ROST-RM,"Ross Stores, Inc. ORD SHS",RossStores,"Ross Stores, Inc. ORD SHS",0.01,USD,2021-10-01,US7782961038,355365961,stock_shares,common_share,0.0,0.0
+sngf,"Публичное акционерное Общество ""Сибнефтегеофизика""","ПАО ""СибНГФ""","Public Joint-Stock Company ""Sibneftegeofizika""",0.1,RUB,,RU000A0JP4M8,786700,stock_shares,common_share,0.0,0.0
+RSTI,"""Российские сети"" ПАО ао",Россети ао,Rosseti ao,1.0,SUR,2014-01-06,RU000A0JPVJ0,198827865141,stock_shares,common_share,0.0,0.0
+KMX-RM,"CarMax, Inc. ORD SHS",CarMax,"CarMax, Inc. ORD SHS",0.5,USD,2021-11-01,US1431301027,162113218,stock_shares,common_share,0.0,0.0
+ulenp,"Открытое акционерное общество энергетики и электрификации Ульяновской области ""Ульяновскэнерго""","ОАО ""Ульяновскэнерго""","Public Joint-Stock Company energetiki i elektrifikatsii Ul'yanovskoj oblasti ""Ul'yanovskenergo""",1.0,RUB,,RU0007661278,6917190,stock_shares,preferred_share,0.0,0.0
+STSB,Ставрополэнергосбыт ПАО ао,СтаврЭнСб,StavropolEnergoSbyt,0.0048,SUR,2008-03-28,RU000A0ET1W4,859074636,stock_shares,common_share,0.0,0.0
+gzav,"Публичное акционерное общество ""Газпром автоматизация""","ПАО ""Газпром автоматизация""","Public Joint Stock Company ""Gazprom avtomatizatsiya""",1.0,RUB,,RU000A0JPMM3,1179757,stock_shares,common_share,0.0,0.0
+UNAC,Об.авиастр.корп. ПАО ао,iАвиастКао,Ob.aviastroitelnaya korp.,0.86,SUR,2013-09-17,RU000A0JPLZ7,520795137209,stock_shares,common_share,0.0,0.0
+KMB-RM,Kimberly Clark Ord Shs,KimberlyCl,Kimberly Clark Ord Shs,1.25,USD,2021-09-01,US4943681035,336762087,stock_shares,common_share,0.0,0.0
+NMTP,НМТП (ПАО) ао,НМТП ао,NMTP,0.01,SUR,2007-11-08,RU0009084446,19259815400,stock_shares,common_share,0.0,0.0
+ZBH-RM,Zimmer Biomet Hold ORD SHS,ZimmerBio,Zimmer Biomet Hold ORD SHS,0.01,USD,2021-11-01,US98956P1021,208840496,stock_shares,common_share,0.0,0.0
+MFGS,"ао ""Славнефть-Мегионнефтегаз""",Мегион-ао,Megion,25.0,SUR,2005-01-11,RU0009011126,99474705,stock_shares,common_share,0.0,0.0
+SNAP-RM,Snap Inc.,Snap,Snap Inc.,1.0E-5,USD,2021-08-02,US83304A1060,1325838278,stock_shares,common_share,0.0,0.0
+TDOC-RM,Teladoc Health Ord Shs,Teladoc,Teladoc Health Ord Shs,0.001,USD,2021-09-01,US87918A1051,159248228,stock_shares,common_share,0.0,0.0
+urhc,"Открытое акционерное общество ""Уралхимпласт""","ОАО ""УХП""","Public Joint-Stock Company ""Uralchimplast""",100.0,RUB,,RU000A0JPEU3,3479051,stock_shares,common_share,0.0,0.0
+KSGR,Кокс ПАО ао,Кокс ао,Koks ao,0.1,SUR,2011-02-04,RU000A0ERNT3,330046400,stock_shares,common_share,0.0,0.0
+OTIS-RM,Otis Worldwide Corp ORD SHS,OtisWorldw,Otis Worldwide Corp ORD SHS,0.01,USD,2021-10-01,US68902V1070,426778666,stock_shares,common_share,0.0,0.0
+PM-RM,Philip Morris International,PhMorris,Philip Morris International,,USD,2021-07-01,US7181721090,1558540992,stock_shares,common_share,0.0,0.0
+ATO-RM,Atmos Energy Ord Shs,AtmosEnerg,Atmos Energy Ord Shs,,SUR,2021-09-01,US0495601058,130790813,stock_shares,common_share,0.0,0.0
+GIS-RM,"General Mills, Inc. ORD SHS",GenerMills,"General Mills, Inc. ORD SHS",0.1,USD,2021-10-01,US3703341046,605692452,stock_shares,common_share,0.0,0.0
+IP-RM,International Paper Co ORD SHS,IntPaperCo,International Paper Co ORD SHS,1.0,USD,2021-10-01,US4601461035,390834614,stock_shares,common_share,0.0,0.0
+ADM-RM,Archer Daniels Midland Ord Shs,ADM,Archer Daniels Midland Ord Shs,,SUR,2021-09-01,US0394831020,559366478,stock_shares,common_share,0.0,0.0
+CMCSA-RM,Comcast Corporation Cl A,Comcast,Comcast Corporation Cl A,0.01,USD,2021-03-01,US20030N1019,4580292854,stock_shares,common_share,0.0,0.0
+BWA-RM,BorgWarner Inc. ORD SHS,BorgWarner,BorgWarner Inc. ORD SHS,0.01,USD,2021-10-01,US0997241064,239790175,stock_shares,common_share,0.0,0.0
+URKA,Уралкалий ПАО ао,Уркалий-ао,Uralkaliy,0.5,SUR,2007-11-07,RU0007661302,1268585999,stock_shares,common_share,0.0,0.0
+HBI-RM,Hanesbrands Inc. ORD SHS,Hanesbrand,Hanesbrands Inc. ORD SHS,0.01,USD,2021-10-01,US4103451021,349151707,stock_shares,common_share,0.0,0.0
+CARR-RM,Carrier Global Corp ORD SHS,Carrier,Carrier Global Corp ORD SHS,0.01,USD,2021-10-01,US14448C1045,867701396,stock_shares,common_share,0.0,0.0
+LYV-RM,Live Nation Entertainm ORD SHS,LiveNation,Live Nation Entertainm ORD SHS,0.01,USD,2021-10-01,US5380341090,218990083,stock_shares,common_share,0.0,0.0
+SNGS,Сургутнефтегаз ПАО акции об.,Сургнфгз,Surgut,1.0,SUR,2005-01-11,RU0008926258,35725994705,stock_shares,common_share,0.0,0.0
+SGZH,Сегежа ао,Сегежа,Segezha,0.1,SUR,2021-04-28,RU000A102XG9,15690000000,stock_shares,common_share,0.0,0.0
+ROLO,"""Русолово"" ПАО ао",Русолово,Rusolovo PAO ao,1.0,SUR,2013-08-12,RU000A0JU1B0,3000100000,stock_shares,common_share,0.0,0.0
+GLW-RM,Corning Incorporated,Corning,Corning Incorporated,0.5,USD,2021-07-01,US2193501051,854032129,stock_shares,common_share,0.0,0.0
+KSU-RM,KANSAS CITY SOUTHERN ORDSHS,KansasCity,KANSAS CITY SOUTHERN ORDSHS,0.01,USD,2021-11-01,US4851703029,90980440,stock_shares,common_share,0.0,0.0
+LEN-RM,Lennar Corporation ORDSHS CL A,LennarCo A,Lennar Corporation ORDSHS CL A,0.1,USD,2021-10-01,US5260571048,274694829,stock_shares,common_share,0.0,0.0
+MET-RM,"MetLife, Inc.",MetLife,"MetLife, Inc.",0.01,USD,2021-07-01,US59156R1086,856897461,stock_shares,common_share,0.0,0.0
+CTAS-RM,Cintas Ord Shs,CintasCorp,Cintas Ord Shs,,SUR,2021-09-01,US1729081059,103407624,stock_shares,common_share,0.0,0.0
+SQ-RM,"Square, Inc.",Square,"Square, Inc.",,USD,2021-06-01,US8522341036,397396181,stock_shares,common_share,0.0,0.0
+ADSK-RM,AUTODESK INC ORDSHS,Autodesk,AUTODESK INC ORDSHS,0.01,USD,2021-11-01,US0527691069,219850441,stock_shares,common_share,0.0,0.0
+HIMCP,Химпром ПАО ап,Химпром ап,Himprom ap,1.0,SUR,2011-12-14,RU0009099006,229631402,stock_shares,preferred_share,0.0,0.0
+KRKNP,Саратовский НПЗ ПАО ап,СаратНПЗ-п,Saratovskiy NPZ ap,1.0,SUR,2011-12-08,RU0009100416,249337,stock_shares,preferred_share,0.0,0.0
+SYK-RM,Stryker Corporation,Stryker,Stryker Corporation,0.1,USD,2021-08-02,US8636671013,377096272,stock_shares,common_share,0.0,0.0
+TER-RM,"Teradyne, Inc. ORD SHS",Teradyne,"Teradyne, Inc. ORD SHS",0.125,USD,2021-11-01,US8807701029,164973199,stock_shares,common_share,0.0,0.0
+JPM-RM,JPMorgan Chase Ord Shs,JPMorgan,JPMorgan Chase Ord Shs,1.0,USD,2021-09-01,US46625H1005,2988155355,stock_shares,common_share,0.0,0.0
+RF-RM,Regions Financial Ord Shs,Regions,Regions Financial Ord Shs,0.01,USD,2021-09-01,US7591EP1005,954539307,stock_shares,common_share,0.0,0.0
+ORCL-RM,Oracle Corporation,Oracle,Oracle Corporation,0.01,USD,2021-03-01,US68389X1054,2738179000,stock_shares,common_share,0.0,0.0
+LRCX-RM,Lam Research Corporation,LamRsrch,Lam Research Corporation,0.001,USD,2021-04-01,US5128071082,141953681,stock_shares,common_share,0.0,0.0
+BAX-RM,Baxter International ORD SHS,BaxterInt,Baxter International ORD SHS,1.0,USD,2021-10-01,US0718131099,499910255,stock_shares,common_share,0.0,0.0
+NOC-RM,Northrop Grumman Corporation,Northrop,Northrop Grumman Corporation,1.0,USD,2021-08-02,US6668071029,160109103,stock_shares,common_share,0.0,0.0
+TJX-RM,"The TJX Companies, Inc.",TJX Comp,"The TJX Companies, Inc.",1.0,USD,2021-05-04,US8725401090,1202539197,stock_shares,common_share,0.0,0.0
+FTV-RM,Fortive Corporation ORD SHS,FortiveCor,Fortive Corporation ORD SHS,0.01,USD,2021-10-01,US34959J1088,358390903,stock_shares,common_share,0.0,0.0
+EHTH-RM,"eHealth, Inc.",eHealth,"eHealth, Inc.",0.001,USD,2021-06-01,US28238P1093,26185716,stock_shares,common_share,0.0,0.0
+DHI-RM,"D.R. Horton, Inc.",DRHorton,"D.R. Horton, Inc.",0.01,USD,2021-07-01,US23331A1097,358183972,stock_shares,common_share,0.0,0.0
+KRKOP,ТКЗ Красный котельщик ПАО ап,ТКЗКК ап,TKZ Krasny Kotelshchik ap,1.0,SUR,2011-12-09,RU0009098131,71086000,stock_shares,preferred_share,0.0,0.0
+SLEN,"ПАО ""Сахалинэнерго"" ао",Сахэнер ао,Sakhalinenergo ao,10.0,SUR,2017-02-06,RU0009280465,530244299,stock_shares,common_share,0.0,0.0
+GMKN,"ГМК ""Нор.Никель"" ПАО ао",ГМКНорНик,NorNickel GMK,1.0,SUR,2006-12-26,RU0007288411,153654624,stock_shares,common_share,0.0,0.0
+URKZ,"ПАО ""Уральская кузница"" ао",УрКузница,Uralskaya kuznica ao,1.0,SUR,2012-05-11,RU000A0JPFY2,547761,stock_shares,common_share,0.0,0.0
+gzavp,"Публичное акционерное общество ""Газпром автоматизация""","ПАО ""Газпром автоматизация""","Public Joint Stock Company ""Gazprom avtomatizatsiya""",1.0,RUB,,RU000A0JPMN1,379213,stock_shares,preferred_share,0.0,0.0
+SEDG-RM,Solaredge Technologies Ord Shs,Solaredge,Solaredge Technologies Ord Shs,1.0E-4,USD,2021-09-01,US83417M1045,52270276,stock_shares,common_share,0.0,0.0
+CTRA-RM,Coterra,Coterra,Coterra,0.1,USD,2021-10-06,US1270971039,399664181,stock_shares,common_share,0.0,0.0
+pbgzp,"Открытое акционерное общество ""Подзембургаз"" Буровой компании открытого акционерного общества ""Газпром""","ОАО ""Подзембургаз""","Public Joint-Stock Company ""Podzemburgaz"" Burovoj kompanii otkrytogo aktsionernogo obschestva ""Gazprom""",1.0,RUB,,RU000A0JPA91,705967,stock_shares,preferred_share,0.0,0.0
+NKSH,Нижнекамскшина ПАО ао,Нижкамшина,Nizhnekamskshina ao,1.0,SUR,2011-12-14,RU0009100515,63731171,stock_shares,common_share,0.0,0.0
+NEM-RM,Newmont Corporation,Newmont,Newmont Corporation,1.6,USD,2020-11-02,US6516391066,799126123,stock_shares,common_share,0.0,0.0
+NRG-RM,"Nrg Energy, Inc. ORD SHS",NrgEnergy,"Nrg Energy, Inc. ORD SHS",0.01,USD,2021-10-01,US6293775085,244776881,stock_shares,common_share,0.0,0.0
+AMAT-RM,"Applied Materials, Inc.",AppliedMtr,"Applied Materials, Inc.",0.01,USD,2021-04-01,US0382221051,902928500,stock_shares,common_share,0.0,0.0
+ANSS-RM,Ansys Ord Shs,Ansys,Ansys Ord Shs,0.01,USD,2021-09-01,US03662Q1058,87252523,stock_shares,common_share,0.0,0.0
+TTWO-RM,Take-Two Interactive Software,Take-Two,Take-Two Interactive Software,0.01,USD,2021-03-01,US8740541094,116518331,stock_shares,common_share,0.0,0.0
+REGN-RM,"Regeneron Pharmaceuticals,Inc.",Regeneron,"Regeneron Pharmaceuticals,Inc.",0.001,USD,2021-03-01,US75886F1075,105106409,stock_shares,common_share,0.0,0.0
+pgho,"Публичное акционерное общество ""Приаргунское производственное горно-химическое объединение""","ПАО ""ППГХО""","Public Joint-Stock Company ""Priargunsky Industrial Mining and Chemical Union""",1.0,RUB,,RU0006935889,4023451,stock_shares,common_share,0.0,0.0
+FLOT,Совкомфлот ао,Совкомфлот,Sovcomflot,1.0,SUR,2020-10-07,RU000A0JXNU8,2374993901,stock_shares,common_share,0.0,0.0
+TORSP,"ап ""Томская распределит.комп.""",ТРК ап,Tomsk raspredelit. komp ap,0.4916,SUR,2005-12-28,RU000A0ETZM8,576693000,stock_shares,preferred_share,0.0,0.0
+CLX-RM,Clorox Ord Shs,Clorox,Clorox Ord Shs,1.0,USD,2021-09-01,US1890541097,122813075,stock_shares,common_share,0.0,0.0
+IQV-RM,IQVIA HOLDINGS INC ORDSHS,IQVIAHold,IQVIA HOLDINGS INC ORDSHS,0.01,USD,2021-11-01,US46266C1053,191039501,stock_shares,common_share,0.0,0.0
+ACKO,АСКО-СТРАХОВАНИЕ ПАО ао,АСКО ао,ASKO-STRAKHOVANIE ao,1.0,SUR,2017-07-11,RU000A0JXS91,536000000,stock_shares,common_share,0.0,0.0
+ZION-RM,Zions Bancorp NA ORD SHS,Zions Banc,Zions Bancorp NA ORD SHS,0.001,USD,2021-11-01,US9897011071,162070463,stock_shares,common_share,0.0,0.0
+MFON,МегаФон ПАО ао,МегаФон ао,MegaFon ao,0.1,SUR,2012-11-28,RU000A0JS942,620000000,stock_shares,common_share,0.0,0.0
+sempp,"Открытое акционерное общество ""Северное морское пароходство""","ОАО ""СМП""","Joint Stock Company ""Northern Shipping Company""",1.0,RUB,,RU0007665022,239464,stock_shares,preferred_share,0.0,0.0
+FSLY-RM,Fastly Ord Shs Class A,Fastly A,Fastly Ord Shs Class A,2.0E-5,USD,2021-09-01,US31188V1008,116600000,stock_shares,common_share,0.0,0.0
+CTLT-RM,"Catalent, Inc. ORD SHS",Catalent,"Catalent, Inc. ORD SHS",0.01,USD,2021-11-01,US1488061029,170787238,stock_shares,common_share,0.0,0.0
+DISH-RM,DISH Network Corp ORD SHS CL A,DISH Net A,DISH Network Corp ORD SHS CL A,0.01,USD,2021-10-01,US25470M1099,289454037,stock_shares,common_share,0.0,0.0
+leog,"Акционерное общество ""Газпром газораспределение Ленинградская область""","АО ""Газпром газораспределение Ленинградская область""","Joint-Stock Company ""Gazprom gazoraspredelenie Leningradskaya oblast""",3500.0,RUB,,RU000A0JNKB5,79096,stock_shares,common_share,0.0,0.0
+SARE,Саратовэнерго(ПАО)-ао,СаратЭн-ао,SaratovEnergo ao,0.02,SUR,2011-11-24,RU0009100754,4865127996,stock_shares,common_share,0.0,0.0
+FTNT-RM,"Fortinet, Inc. ORD SHS",Fortinet,"Fortinet, Inc. ORD SHS",0.001,USD,2021-11-01,US34959E1091,163320200,stock_shares,common_share,0.0,0.0
+NOW-RM,"ServiceNow, Inc.",ServiceNow,"ServiceNow, Inc.",0.001,USD,2021-04-01,US81762P1021,198100000,stock_shares,common_share,0.0,0.0
+PMSB,"""Пермэнергосбыт"" ПАО ао",ПермьЭнСб,Perm' EnergoSbyt,3.25,SUR,2006-02-09,RU000A0ET123,36210960,stock_shares,common_share,0.0,0.0
+GPN-RM,Global Payments Inc. ORD SHS,Global Pay,Global Payments Inc. ORD SHS,,SUR,2021-11-01,US37940X1028,293748093,stock_shares,common_share,0.0,0.0
+CAH-RM,Cardinal Health Ord Shs,CardinalHl,Cardinal Health Ord Shs,,SUR,2021-09-01,US14149Y1082,290441408,stock_shares,common_share,0.0,0.0
+NWS-RM,News Corp Ord Shs Class B,NewsCorp B,News Corp Ord Shs Class B,0.01,USD,2021-09-01,US65249B2088,199630240,stock_shares,common_share,0.0,0.0
+IDVP,"ПАО ""ИНВЕСТ-ДЕВЕЛОПМЕНТ"" - ао",Инв-Девел,"PAO ""INVEST-DEVELOPMENT""",1000.0,SUR,2015-03-06,RU000A0JV7V4,2110524,stock_shares,common_share,0.0,0.0
+VSMO,Корп. ВСМПО-АВИСМА (ПАО) ао,ВСМПО-АВСМ,Corp. VSMPO-AVISMA ao,1.0,SUR,2004-11-11,RU0009100291,11529538,stock_shares,common_share,0.0,0.0
+KMAZ,КАМАЗ ПАО,КАМАЗ,KAMAZ,50.0,SUR,2004-02-26,RU0008959580,707229559,stock_shares,common_share,0.0,0.0
+DERZP,Держава ап,Держава ап,DERZHAVA pref,4915.0,SUR,2020-10-09,RU000A1021R0,2000,stock_shares,preferred_share,0.0,0.0
+ALL-RM,ALLSTATE CORP/THE ORDSHS,Allstate,ALLSTATE CORP/THE ORDSHS,0.01,USD,2021-11-01,US0200021014,295681408,stock_shares,common_share,0.0,0.0
+PIKK,ПИК СЗ (ПАО) ао,ПИК ао,PIK SZ,62.5,SUR,2007-06-13,RU000A0JP7J7,660497344,stock_shares,common_share,0.0,0.0
+vdok,"Открытое акционерное общество Вышневолоцкий ордена ""Знак Почета""мебельно-деревообрабатывающий комбинат","ОАО ""Вышневолоцкий МДОК""","Public Joint-Stock Company Vyshnevolockij ordena ""Znak Pocheta""mebelno-derevoobrabatyvayushhij kombinat",0.6,RUB,,RU000A0JPCJ0,230335,stock_shares,common_share,0.0,0.0
+COF-RM,Capital One Financial ORD SHS,CapitOneF,Capital One Financial ORD SHS,0.01,USD,2021-10-01,US14040H1059,446113769,stock_shares,common_share,0.0,0.0
+CHTR-RM,"Charter Communications, Inc.",Charter,"Charter Communications, Inc.",0.001,USD,2021-08-02,US16119P1084,176703987,stock_shares,common_share,0.0,0.0
+WRK-RM,Westrock Co Ord Shs,WestrockCo,Westrock Co Ord Shs,0.01,USD,2021-11-01,US96145D1054,267006103,stock_shares,common_share,0.0,0.0
+LOW-RM,"Lowe's Companies, Inc.",Lowe's,"Lowe's Companies, Inc.",0.5,USD,2021-04-01,US5486611073,706890137,stock_shares,common_share,0.0,0.0
+PCAR-RM,PACCAR Inc,PACCAR,PACCAR Inc,1.0,USD,2021-08-02,US6937181088,347173392,stock_shares,common_share,0.0,0.0
+UCSS,ПАО ОКС ао,ОКС ао,PAO OKS ao,1000.0,SUR,2013-05-14,RU000A0JTQK0,23718856,stock_shares,common_share,0.0,0.0
+DXCM-RM,"DexCom, Inc.",DexCom,"DexCom, Inc.",0.001,USD,2021-05-04,US2521311074,96748901,stock_shares,common_share,0.0,0.0
+TUZA,Туймаз. завод автобетоновозов,ТЗА ао,Tuimaz. Zavod Avtobetonovozov,10.0,SUR,2008-08-28,RU000A0HL7A2,8220000,stock_shares,common_share,0.0,0.0
+szucp,"Публичное акционерное общество ""Северо-Западная энергетическая управляющая компания""","ПАО ""СЗЭУК""","PUBLIC JOINT STOCK COMPANY ""NORTH-WEST ENERGY MANAGING COMPANY""",0.17,RUB,,RU000A0H1LJ7,131328000,stock_shares,preferred_share,0.0,0.0
+WAB-RM,WABTEC CORP ORD SHS,WABTECCorp,WABTEC CORP ORD SHS,0.01,USD,2021-11-01,US9297401088,189034202,stock_shares,common_share,0.0,0.0
+STSBP,Ставрополэнергосбыт ПАО ап,СтаврЭнСбп,StavropolEnergoSbyt (pref),0.0048,SUR,2008-03-28,RU000A0ET1Z7,262100364,stock_shares,preferred_share,0.0,0.0
+vogz,"Открытое акционерное общество ""Воронежоблгаз""","ОАО ""Воронежоблгаз""","Public Joint-Stock Company ""Voronezhoblgaz""",0.01,RUB,,RU0007964912,22173400,stock_shares,common_share,0.0,0.0
+ROSB,РОСБАНК ПАО ао,Росбанк ао,ROSBANK,10.0,SUR,2006-01-30,RU000A0HHK26,1551401853,stock_shares,common_share,0.0,0.0
+ECL-RM,Ecolab Inc.,Ecolab Inc,Ecolab Inc.,1.0,USD,2021-05-04,US2788651006,286087223,stock_shares,common_share,0.0,0.0
+KOGK,Коршуновский ГОК ПАО ао,КоршГОК ао,Korshunovskii GOK,1.0,SUR,2008-08-28,RU0002155359,250126,stock_shares,common_share,0.0,0.0
+PSX-RM,Phillips 66,Phillips66,Phillips 66,0.01,USD,2021-08-02,US7185461040,437989408,stock_shares,common_share,0.0,0.0
+VRSK-RM,"Verisk Analytics, Inc. ORD SHS",VeriskAncs,"Verisk Analytics, Inc. ORD SHS",0.001,USD,2021-11-01,US92345Y1064,161350469,stock_shares,common_share,0.0,0.0
+VIAC-RM,ViacomCBS Inc.,ViacomCBS,ViacomCBS Inc.,0.001,USD,2021-06-01,US92556H2067,605813492,stock_shares,common_share,0.0,0.0
+RHI-RM,Robert Half Internation ORDSHS,RobertHalf,Robert Half Internation ORDSHS,0.001,USD,2021-11-01,US7703231032,111970041,stock_shares,common_share,0.0,0.0
+MOS-RM,The Mosaic Company,Mosaic,The Mosaic Company,0.01,USD,2021-06-01,US61945C1036,379896944,stock_shares,common_share,0.0,0.0
+ungs,"Открытое Акционерное Общество ""Трест Уралнефтегазстрой""","ОАО ""Трест Уралнефтегазстрой""","JSC ""Trest Uralneftegasstroy"".",0.1,RUB,,,472500,stock_shares,common_share,0.0,0.0
+CSCO-RM,"Cisco Systems, Inc.",Cisco,"Cisco Systems, Inc.",0.001,USD,2020-11-02,US17275R1023,4217735917,stock_shares,common_share,0.0,0.0
+DD-RM,"DuPont de Nemours, Inc.",DuPont,"DuPont de Nemours, Inc.",0.01,USD,2021-03-01,US26614N1028,523056692,stock_shares,common_share,0.0,0.0
+IR-RM,Ingersoll Rand Inc. ORD SHS,IngersollR,Ingersoll Rand Inc. ORD SHS,0.01,USD,2021-10-01,US45687V1061,420154805,stock_shares,common_share,0.0,0.0
+RKKE,РКК Энергия им.С.П.Королева ао,ЭнергияРКК,RKK Energia,1000.0,SUR,2008-05-29,RU0009095939,1843546,stock_shares,common_share,0.0,0.0
+AMC-RM,AMC Entertainment Holdings,AMC,AMC Entertainment Holdings,0.01,USD,2021-08-02,US00165C1045,513330240,stock_shares,common_share,0.0,0.0
+ROST,РОСИНТЕР РЕСТОРАНТС (ПАО),РОСИНТЕРао,ROSINTER RESTAURANTS ao,169.7,SUR,2008-08-11,RU000A0JP922,16305334,stock_shares,common_share,0.0,0.0
+HYDR,"ПАО ""РусГидро""",РусГидро,RusGidro,1.0,SUR,2008-05-22,RU000A0JPKH7,439288905849,stock_shares,common_share,0.0,0.0
+ROSN,ПАО НК Роснефть,Роснефть,Rosneft,0.01,SUR,2006-07-19,RU000A0J2Q06,10598177817,stock_shares,common_share,0.0,0.0
+GE-RM,General Electric Company,GE Co,General Electric Company,0.01,USD,2020-11-02,US3696043013,1097662889,stock_shares,common_share,0.0,0.0
+OSUR-RM,OraSure Technologies Ord Shs,OraSure,OraSure Technologies Ord Shs,,USD,2021-09-01,US68554V1089,72008941,stock_shares,common_share,0.0,0.0
+PVH-RM,PVH Corp.ORD SHS,PVH,PVH Corp.ORD SHS,1.0,USD,2021-11-01,US6936561009,71051546,stock_shares,common_share,0.0,0.0
+MGTSP,"ПАО ""МГТС"" ап (4 в)",МГТС-4ап,MGTS-4,40.0,SUR,2005-01-11,RU0009036479,15514042,stock_shares,preferred_share,0.0,0.0
+XOM-RM,Exxon Mobil Corporation,ExxonMobil,Exxon Mobil Corporation,,USD,2018-09-17,US30231G1022,4233562917,stock_shares,common_share,0.0,0.0
+kuvz,"Открытое акционерное общество ""Костромской ювелирный завод""","ОАО ""КоЮЗ""","Public Joint-Stock Company ""Kostromskoj yuvelirnyj zavod""",0.05,RUB,,RU000A0JPY02,1271200,stock_shares,common_share,0.0,0.0
+UNKL,Южно-Уральский никел. комб. ао,ЮУНК ао,Uzhno-Uralskiy nikel. komb. ao,1.0,SUR,2012-04-20,RU0004887991,599737,stock_shares,common_share,0.0,0.0
+TDY-RM,Teledyne Technologies Ord Shs,Teledyne,Teledyne Technologies Ord Shs,0.01,USD,2021-09-01,US8793601050,46606641,stock_shares,common_share,0.0,0.0
+AME-RM,"AMETEK, INC. ORDSHS",AMETEK,"AMETEK, INC. ORDSHS",0.01,USD,2021-11-01,US0311001004,231205619,stock_shares,common_share,0.0,0.0
+nbamp,"Публичное акционерное общество ""Находкинская база активного морского рыболовства""","ПАО ""НБАМР""","Public Joint Stock Company ""NAKHODKA ACTIVE MARINE FISHERY BASE""",45.0,RUB,,RU0008055892,665661,stock_shares,preferred_share,0.0,0.0
+urrm,"Открытое акционерное общество ""Уралредмет""","ОАО ""Уралредмет""","Joint Stock Company ""Uralredmet""",0.13,RUB,,RU000A0JQ3C0,950344,stock_shares,common_share,0.0,0.0
+KMEZ,Ковровский механический завод,КМЗ,Kovrov Mech. Zavod,250.0,SUR,2009-09-07,RU0006753613,3764600,stock_shares,common_share,0.0,0.0
+vspt,"Акционерное общество ""Восточно-Сибирского промышленного железнодорожного транспорта""","АО ""В-Сибпромтранс""","Joint Stock Company ""Of East - Siberian industrial railway transport""",100.0,RUB,,,1125550,stock_shares,common_share,0.0,0.0
+BKR-RM,Baker Hughes A Ge CO Cl A,Baker Hugh,Baker Hughes A Ge CO Cl A,1.0E-4,USD,2021-03-01,US05722G1004,828487126,stock_shares,common_share,0.0,0.0
+GPC-RM,Genuine Parts Ord Shs,GenuinePar,Genuine Parts Ord Shs,1.0,USD,2021-09-01,US3724601055,143212499,stock_shares,common_share,0.0,0.0
+ABMD-RM,ABIOMED Ord Shs,ABIOMED,ABIOMED Ord Shs,0.01,USD,2021-09-01,US0036541003,45380233,stock_shares,common_share,0.0,0.0
+ED-RM,Consolidated Edison Ord Shs,ConEdison,Consolidated Edison Ord Shs,0.1,USD,2021-09-01,US2091151041,353381808,stock_shares,common_share,0.0,0.0
+KBSB,ТНС энерго Кубань ПАО ао,ТНСэКубань,TNS energo Kuban Company,0.56,SUR,2008-02-08,RU000A0JNJ11,17869440,stock_shares,common_share,0.0,0.0
+acru,"Открытое акционерное общество ""Авиационная корпорация ""Рубин""","ОАО АК ""Рубин""","Joint Stock Company  ""Rubin Aviation Corporation""",1500.0,RUB,,RU000A0JRM20,65280,stock_shares,common_share,0.0,0.0
+OMC-RM,Omnicom Group Inc. Ordshs,OmnicomGrp,Omnicom Group Inc. Ordshs,0.15,USD,2021-11-01,US6819191064,212558522,stock_shares,common_share,0.0,0.0
+TMO-RM,Thermo Fisher Scientific Inc.,ThermoFish,Thermo Fisher Scientific Inc.,1.0,USD,2021-04-01,US8835561023,393418899,stock_shares,common_share,0.0,0.0
+mush,"Открытое акционерное общество ""Мурманское морское пароходство""","ОАО ""ММП""","Joint Stock Company ""Murmansk Shipping Company""",1.0,RUB,,RU0009100481,943454,stock_shares,common_share,0.0,0.0
+UA-RM,"Under Armour, Inc.",UndArmour,"Under Armour, Inc.",3.3E-4,USD,2021-07-01,US9043112062,245183088,stock_shares,common_share,0.0,0.0
+rzmk,"Акционерное общество ""Рязанский мясокомбинат""","АО ""Рязанский мясокомбинат""","Joint-Stock Company ""Ryazanskij myasokombinat""",1.0,RUB,,RU000A0JQG52,116000,stock_shares,common_share,0.0,0.0
+XEL-RM,Xcel Energy Inc. ORD SHS,XcelEnergy,Xcel Energy Inc. ORD SHS,2.5,USD,2021-10-01,US98389B1008,538436651,stock_shares,common_share,0.0,0.0
+TORS,"ао ""Томская распределит.комп.""",ТРК ао,Tomsk raspredelit. komp ao,0.4916,SUR,2005-12-28,RU000A0ETZF2,3819315580,stock_shares,common_share,0.0,0.0
+CZR-RM,Caesars Entertainment ORD SHS,CaesarsEnt,Caesars Entertainment ORD SHS,1.0E-5,USD,2021-10-01,US12769G1004,213429619,stock_shares,common_share,0.0,0.0
+HUM-RM,Humana Inc.,Humana,Humana Inc.,0.16667,USD,2021-08-02,US4448591028,128504664,stock_shares,common_share,0.0,0.0
+SRE-RM,SEMPRA ORD SHS,Sempra,SEMPRA ORD SHS,,SUR,2021-11-01,US8168511090,319328331,stock_shares,common_share,0.0,0.0
+QRVO-RM,"Qorvo, Inc.",Qorvo,"Qorvo, Inc.",1.0E-4,USD,2021-08-02,US74736K1016,111141526,stock_shares,common_share,0.0,0.0
+UBER-RM,"Uber Technologies, Inc.",Uber,"Uber Technologies, Inc.",1.0E-5,USD,2020-12-01,US90353T1007,1884346863,stock_shares,common_share,0.0,0.0
+MTB-RM,M&T Bank Co ORD SHS,M&T Bank,M&T Bank Co ORD SHS,0.5,USD,2021-11-01,US55261F1049,128677826,stock_shares,common_share,0.0,0.0
+SWK-RM,Stanley Black & Decker ORD SHS,StanleyBl,Stanley Black & Decker ORD SHS,2.5,USD,2021-11-01,US8545021011,162962070,stock_shares,common_share,0.0,0.0
+MOEX,ПАО Московская Биржа,МосБиржа,MoscowExchange,1.0,SUR,2013-02-04,RU000A0JR4A1,2276401458,stock_shares,common_share,0.0,0.0
+gmst,"Акционерное общество Холдинговая компания ""Главмосстрой""","АО ""Компания ""Главмосстрой""","Stock Holding Company ""Glavmosstroy""",0.05,RUB,,RU000A0HNHD1,1931060,stock_shares,common_share,0.0,0.0
+BK-RM,The Bank of NY Mellon Corp,BNYMellon,The Bank of NY Mellon Corp,0.01,USD,2021-07-01,US0640581007,863173678,stock_shares,common_share,0.0,0.0
+MSNG,МосЭнерго акции обыкн.,+МосЭнерго,MosEnrg,1.0,SUR,2005-01-11,RU0008958863,39749359700,stock_shares,common_share,0.0,0.0
+MDLZ-RM,"Mondelez International, Inc.",Mondelez,"Mondelez International, Inc.",,USD,2021-07-01,US6092071058,1397817443,stock_shares,common_share,0.0,0.0
+ZM-RM,"Zoom Video Communications,Inc",Zoom,"Zoom Video Communications,Inc",0.001,USD,2021-06-01,US98980L1017,240744533,stock_shares,common_share,0.0,0.0
+ljaz,"Открытое акционерное общество ""Лужский абразивный завод""","ОАО ""ЛАЗ""","Public Joint-Stock Company ""Luzhskij abrazivnyj zavod""",100.0,RUB,,RU000A0JJ792,23552,stock_shares,common_share,0.0,0.0
+TGKDP,Квадра ПАО ап,Квадра-п,Kvadra (pref),0.01,SUR,2007-03-27,RU000A0JNNB9,75272938838,stock_shares,preferred_share,0.0,0.0
+EELT,"""ЕвропЭлектротехника"" ПАО ао",ЕвроЭлтех,European Eltech,1.0,SUR,2017-09-07,RU000A0JWW54,610000000,stock_shares,common_share,0.0,0.0
+moib,"Публичное акционерное общество ""Московский Индустриальный банк""","ПАО ""МИнБанк""","JSCB ""Moscow Industrial bank"" PC",5.0,RUB,,RU000A0B90D9,439016901,stock_shares,common_share,0.0,0.0
+RL-RM,Ralph Lauren Corporation,Lauren,Ralph Lauren Corporation,0.01,USD,2021-08-02,US7512121010,48628076,stock_shares,common_share,0.0,0.0
+JNOS,Славнефть-ЯНОС (ПАО) ао,Славн-ЯНОС,Slavneft-JANOS,1.0,SUR,2008-10-14,RU0009100895,932654723,stock_shares,common_share,0.0,0.0
+GLEN-ME,Glencore Xstrata plc FR SHS,GLEN-ао,Glencore Xstrata plc FR SHS,0.01,USD,2014-04-21,JE00B4T3BW64,,stock_shares,common_share,0.0,0.0
+PBCT-RM,Peoples United Financial Ord S,Peoples,Peoples United Financial Ord S,0.01,USD,2021-09-01,US7127041058,427954775,stock_shares,common_share,0.0,0.0
+OMZZP,"ап""Объединён.  маш. заводы""",ОМЗ-ап,OMZ (pref),0.1,SUR,2004-09-28,RU0009090559,2750000,stock_shares,preferred_share,0.0,0.0
+sntz,"Открытое акционерное общество ""Синарский трубный завод""","ОАО ""СинТЗ""","Public Joint Stock Company ""Sinarsky Pipe Plant""",65.0,RUB,2008-10-14,RU0009152144,6295555,stock_shares,common_share,0.0,0.0
+rzog,"Открытое акционерное общество ""Газпром газораспределение Рязанская область""","ОАО ""Газпром газораспределение Рязанская область""","Public Joint-Stock Company ""Gazprom gazoraspredelenie Ryazanskaya oblast""",0.01,RUB,,RU0008010863,4802110,stock_shares,common_share,0.0,0.0
+NVTK,"ПАО ""НОВАТЭК"" ао",Новатэк ао,NOVATEK,0.1,SUR,2006-08-18,RU000A0DKVS5,3036306000,stock_shares,common_share,0.0,0.0
+BSPB,"ПАО ""Банк ""Санкт-Петербург"" ао",БСП ао,BSP,1.0,SUR,2008-03-19,RU0009100945,475554232,stock_shares,common_share,0.0,0.0
+tmpa,"Публичное акционерное общество ""Арзамасское научно-производственное предприятие ""ТЕМП-АВИА""","ПАО АНПП ""ТЕМП-АВИА""","Public Joint Stock Company ""Arzamas research and production enterprise ""TEMP-AVIA""",0.1,RUB,,RU000A0JQCP5,288983,stock_shares,common_share,0.0,0.0
+DSKY,ПАО Детский мир,ДетскийМир,Detsky mir,4.0E-4,SUR,2017-02-10,RU000A0JSQ90,739000000,stock_shares,common_share,0.0,0.0
+ARSA,УК Арсагера ПАО-ао,Арсагера,UK Arsagera,1.0,SUR,2008-04-07,RU000A0JP0Q7,123817165,stock_shares,common_share,0.0,0.0
+MO-RM,Altria Group Ord Shs,Altria,Altria Group Ord Shs,0.33333,USD,2021-09-01,US02209S1033,1844077897,stock_shares,common_share,0.0,0.0
+TFC-RM,Truist Financial Corp ORD SHS,Truist Fin,Truist Financial Corp ORD SHS,5.0,USD,2021-10-01,US89832Q1094,1334830560,stock_shares,common_share,0.0,0.0
+ADI-RM,"Analog Devices, Inc. ORD SHS",AnalogDev,"Analog Devices, Inc. ORD SHS",0.16667,USD,2021-10-01,US0326541051,368214341,stock_shares,common_share,0.0,0.0
+MRK-RM,"Merck & Co., Inc.",Merck & Co,"Merck & Co., Inc.",0.5,USD,2021-03-01,US58933Y1055,2531374696,stock_shares,common_share,0.0,0.0
+VSYDP,Выборгский Суд.Завод ПАО ап,ВыбСудЗ ап,Viborgskii sudostr. Zavod ap,0.5,SUR,2012-09-25,RU0006334380,51839,stock_shares,preferred_share,0.0,0.0
+bogz,"Открытое акционерное общество ""Газпром газораспределение Белгород""","ОАО ""Газпром газораспределение Белгород""","Public Joint-Stock Company ""Gazprom gazoraspredelenie Belgorod""",1.0,RUB,,RU000A0JRF86,80310,stock_shares,common_share,0.0,0.0
+NKNCP,"""Нижнекамскнефтехим"" ПАО ап",НКНХ ап,Niznekamskneftekhim (pref),1.0,SUR,2008-04-04,RU0006765096,218983750,stock_shares,preferred_share,0.0,0.0
+RSTIP,"""Российские сети"" ПАО ап",Россети ап,Rosseti ap,1.0,SUR,2014-01-06,RU000A0JPVK8,2075149384,stock_shares,preferred_share,0.0,0.0
+KUZB,"Банк ""Кузнецкий"" ПАО ао",КузнецкийБ,"Bank ""Kuzneckiy""",0.01,SUR,2012-09-05,RU000A0JSQ66,22503490875,stock_shares,common_share,0.0,0.0
+msot,"Открытое акционерное общество ""Мостостроительный отряд №19""","ОАО ""Мостоотряд №19""","Public Joint-Stock Company ""Mostostroitel'nyj otryad №19""",0.25,RUB,,RU000A0JP1T9,75776,stock_shares,common_share,0.0,0.0
+QDEL-RM,Quidel Ord Shs,Quidel,Quidel Ord Shs,0.001,USD,2021-09-01,US74838J1016,41632759,stock_shares,common_share,0.0,0.0
+UPRO,Юнипро ПАО ао,Юнипро ао,Unipro PAO ao,0.4,SUR,2007-05-24,RU000A0JNGA5,63048706145,stock_shares,common_share,0.0,0.0
+YNDX,PLLC Yandex N.V. class A shs,Yandex clA,PLLC Yandex N.V.,0.01,EUR,2014-06-04,NL0009805522,323800479,stock_shares,common_share,0.0,0.0
+MSRS,ПАО Россети Моск.рег. ао,РСетиМР ао,Rosseti Moscow Region,0.5,SUR,2006-02-09,RU000A0ET7Y7,48707091574,stock_shares,common_share,0.0,0.0
+ITW-RM,Illinois Tool Ord Shs,ITW,Illinois Tool Ord Shs,0.01,USD,2021-09-01,US4523081093,314967814,stock_shares,common_share,0.0,0.0
+TGKBP,"ап ПАО ""ТГК-2""",ТГК-2 ап,TGK-2 pref,0.01,SUR,2007-01-30,RU000A0JNGT5,16500533681,stock_shares,preferred_share,0.0,0.0
+BEN-RM,Franklin Resources Ord Shs,FranklinR,Franklin Resources Ord Shs,0.1,USD,2021-09-01,US3546131018,502854184,stock_shares,common_share,0.0,0.0
+YAKG,Якутская топл.-энерг. комп. ао,ЯТЭК ао,YaTEK ao,1.0,SUR,2011-12-09,RU0007796819,826919375,stock_shares,common_share,0.0,0.0
+COTY-RM,Coty Inc.,Coty,Coty Inc.,0.01,USD,2021-07-01,US2220702037,766065761,stock_shares,common_share,0.0,0.0
+NNSBP,ТНС энерго Нижний Новг.ПАО ап,ТНСэнНН ап,TNS energo Nizhniy Novg. pref,11.88,SUR,2005-11-08,RU000A0ET5B9,1063512,stock_shares,preferred_share,0.0,0.0
+CRM-RM,"salesforce.com, inc.",salesforce,"salesforce.com, inc.",0.001,USD,2020-12-01,US79466L3024,979000000,stock_shares,common_share,0.0,0.0
+PBF-RM,PBF Energy Ord Shs Class A,PBFEnergyA,PBF Energy Ord Shs Class A,0.001,USD,2021-09-01,US69318G1067,120247995,stock_shares,common_share,0.0,0.0
+VJGZP,ННК-Варьеганнефтегаз ПАО ап,Варьеган-п,Var'eganneftegaz ap,0.1,SUR,2011-12-14,RU0007964789,5883050,stock_shares,preferred_share,0.0,0.0
+TRMB-RM,Trimble Inc. ORD SHS,Trimble,Trimble Inc. ORD SHS,0.001,SUR,2021-11-01,US8962391004,251619889,stock_shares,common_share,0.0,0.0
+AAPL-RM,Apple Inc.,Apple,Apple Inc.,1.0E-5,USD,2018-05-21,US0378331005,16530166000,stock_shares,common_share,0.0,0.0
+lpog,"Акционерное общество ""Газпром газораспределение Липецк""","АО ""Газпром газораспределение Липецк""","Joint-Stock Company ""Gazprom gazoraspredelenie Lipeck""",1500.0,RUB,,RU0006753845,118988,stock_shares,common_share,0.0,0.0
+PRFN,ЧЗПСН-Профнастил (ПАО) ао,ЧЗПСН ао,CZPSN-Profnasteel,0.1,SUR,2012-08-28,RU000A0JNXF9,838287450,stock_shares,common_share,0.0,0.0
+T-RM,AT&T Inc.,ATT,AT&T Inc.,1.0,USD,2018-09-17,US00206R1023,7140000000,stock_shares,common_share,0.0,0.0
+ZTS-RM,Zoetis Inc. ORD SHS,Zoetis,Zoetis Inc. ORD SHS,0.01,USD,2021-11-01,US98978V1035,473944193,stock_shares,common_share,0.0,0.0
+INCY-RM,Incyte Corporation,Incyte,Incyte Corporation,0.001,USD,2021-06-01,US45337C1027,220835269,stock_shares,common_share,0.0,0.0
+PKI-RM,"PerkinElmer, Inc. ORD SHS",PerkinElme,"PerkinElmer, Inc. ORD SHS",1.0,USD,2021-11-01,US7140461093,112114149,stock_shares,common_share,0.0,0.0
+HWM-RM,Howmet Aerospace Inc. ORD SHS,HowmetAero,Howmet Aerospace Inc. ORD SHS,1.0,USD,2021-10-01,US4432011082,428912175,stock_shares,common_share,0.0,0.0
+MSTT,"ПАО ""МОСТОТРЕСТ"" ао",Мостотрест,Mostotrest,0.14,SUR,2010-11-03,RU0009177331,282215500,stock_shares,common_share,0.0,0.0
+LHX-RM,"L3Harris Techn, Inc. ORD SHS",L3HarrisTe,"L3Harris Techn, Inc. ORD SHS",1.0,USD,2021-11-01,US5024311095,200943675,stock_shares,common_share,0.0,0.0
+KEYS-RM,Keysight Techno Inc ORD SHS,KeysightTe,Keysight Techno Inc ORD SHS,0.01,USD,2021-11-01,US49338L1035,184195849,stock_shares,common_share,0.0,0.0
+ggok,"Публичное акционерное общество ""Гайский горно-обогатительный комбинат""","ПАО ""Гайский ГОК""","Public joint-stock company ""Gai Mining and processing plant""",0.5,RUB,,RU000A0B6071,617698,stock_shares,common_share,0.0,0.0
+HOLX-RM,"Hologic, Inc. ORD SHS",Hologic,"Hologic, Inc. ORD SHS",0.01,USD,2021-10-01,US4364401012,253487389,stock_shares,common_share,0.0,0.0
+TRV-RM,TRAVELERS COMPANIES INC ORDSHS,Travelers,TRAVELERS COMPANIES INC ORDSHS,,SUR,2021-11-01,US89417E1091,246008687,stock_shares,common_share,0.0,0.0
+RTGZ,Газпром газорасп Р-н-Д ПАО ао,ГазпРнД ао,Gazprom gazorasp. Rostov ao,2000.0,SUR,2012-11-07,RU000A0JPG04,120246,stock_shares,common_share,0.0,0.0
+MAS-RM,MASCO CORPORATION ORDSHS,Masco,MASCO CORPORATION ORDSHS,1.0,USD,2021-11-01,US5745991068,247162958,stock_shares,common_share,0.0,0.0
+msts,"Акционерное общество ""Мостострой-11""","АО ""Мостострой-11""","Joint-stock company ""Mostostroy-11""",1000.0,RUB,,RU000A0JNW22,86670,stock_shares,common_share,0.0,0.0
+tmsz,"Открытое акционерное общество ""Тихорецкий машиностроительный завод им. В.В. Воровского""","ОАО ""ТМЗ им. В.В. ВОРОВСКОГО""","Public Joint-Stock Company ""Tikhoretskij mashinostroitel'nyj zavod im. V.V. Vorovskogo""",0.2,RUB,,RU000A0JNRS4,184670,stock_shares,common_share,0.0,0.0
+ccsg,"Публичное акционерное общество ""Группа компаний коммунальной сферы""","ПАО ""ККС-Групп""","Public Joint-Stock Company ""Gruppa kompanij kommunal'noj sfery""",0.01,RUB,,RU000A0JQGV4,5519683320,stock_shares,common_share,0.0,0.0
+kzhb,"Открытое акционерное общество ""Красноярский завод холодильников ""Бирюса""","ОАО ""КЗХ ""Бирюса""","Joint-stock company ""Krasnoyarsk Pefrigerator Plant ""Biryusa""",1.0,RUB,,RU0006572104,201399724,stock_shares,common_share,0.0,0.0
+PRU-RM,Prudential Financial Inc ORDSH,PrudentFin,Prudential Financial Inc ORDSH,0.01,USD,2021-10-01,US7443201022,386000000,stock_shares,common_share,0.0,0.0
+CME-RM,CME Group Inc.,CME,CME Group Inc.,0.01,USD,2021-08-02,US12572Q1058,359135132,stock_shares,common_share,0.0,0.0
+MMM-RM,3M Company,3M Company,3M Company,0.01,USD,2021-03-01,US88579Y1010,578638253,stock_shares,common_share,0.0,0.0
+SFIN,ЭсЭфАй ПАО ао,ЭсЭфАй ао,SFI ao,0.67,SUR,2015-12-04,RU000A0JVW89,111637791,stock_shares,common_share,0.0,0.0
+VSYD,Выборгский Суд.Завод ПАО ао,ВыбСудЗ ао,Viborgskii sudostr. Zavod ao,0.5,SUR,2012-09-25,RU0006334372,1553984,stock_shares,common_share,0.0,0.0
+PTON-RM,Peloton Interact ORD SHS CL A,Peloton A,Peloton Interact ORD SHS CL A,3.0E-5,USD,2021-11-01,US70614W1009,271506610,stock_shares,common_share,0.0,0.0
+MSST,Мультисистема ОАО ао,МультиСис,Mul'tisistema ao,0.001,SUR,2012-12-19,RU000A0JTFH9,100000000,stock_shares,common_share,0.0,0.0
+HPE-RM,Hewlett Packard Enterprise,HPE,Hewlett Packard Enterprise,0.01,USD,2021-05-04,US42824C1099,1308050014,stock_shares,common_share,0.0,0.0
+RZSB,"""Рязанская энергосб.комп"" ПАО",РязЭнСб,"JSC ""Ryazanenergosbyt""",0.05,SUR,2005-09-16,RU000A0D9AF5,206940220,stock_shares,common_share,0.0,0.0
+PENN-RM,Penn National Gaming ORD SHS,Penn NG,Penn National Gaming ORD SHS,0.01,USD,2021-10-01,US7075691094,156789295,stock_shares,common_share,0.0,0.0
+CHRW-RM,"C.H. Robinson Worldwide, Inc.",CHRobinson,"C.H. Robinson Worldwide, Inc.",0.1,USD,2021-08-02,US12541W2098,131711746,stock_shares,common_share,0.0,0.0
+BLK-RM,BlackRock Inc.,BlackRock,BlackRock Inc.,0.01,USD,2021-06-01,US09247X1019,152195794,stock_shares,common_share,0.0,0.0
+PH-RM,Parker-Hannifin Corp ORD SHS,Parker-Han,Parker-Hannifin Corp ORD SHS,0.5,USD,2021-11-01,US7010941042,129101437,stock_shares,common_share,0.0,0.0
+LKQ-RM,LKQ CORPORATION ORDSHS,LKQ Corp,LKQ CORPORATION ORDSHS,0.01,USD,2021-11-01,US5018892084,293875364,stock_shares,common_share,0.0,0.0
+bmkk,"Акционерное общество ""Белорецкий металлургический комбинат""","АО ""БМК""",Beloretsk Metallurgical Plant AO,1.0,RUB,,RU0005419117,7466842,stock_shares,common_share,0.0,0.0
+DGX-RM,QUEST DIAGNOSTICS INCOR ORDSHS,QuestDiagn,QUEST DIAGNOSTICS INCOR ORDSHS,0.01,USD,2021-11-01,US74834L1008,122674771,stock_shares,common_share,0.0,0.0
+CI-RM,Cigna Corporation,Cigna Corp,Cigna Corporation,0.01,USD,2021-05-04,US1255231003,340107539,stock_shares,common_share,0.0,0.0
+kziz,"публичное акционерное общество ""Красногорский завод им. С.А.Зверева""",ПАО КМЗ,"Public Joint Stock Company ""Krasnogorsky Zavod""",0.1,RUB,,RU0009124010,5974305,stock_shares,common_share,0.0,0.0
+zladp,"Публичное акционерное общество ""Завод ""Ладога""","ПАО ""Завод ""Ладога""","Public Joint-Stock Company ""Zavod ""Ladoga""",1.0,RUB,,RU000A0JQ3B2,121772,stock_shares,preferred_share,0.0,0.0
+GEMA,ПАО ММЦБ ао,iММЦБ ао,IMCB PJSC,0.1,SUR,2019-07-25,RU000A100GC7,1492992,stock_shares,common_share,0.0,0.0
+KCHEP,Камчатскэнерго ПАО ап,КамчатЭ ап,Kamchatskenergo (pref),0.1,SUR,2008-07-09,RU0006753480,183062052,stock_shares,preferred_share,0.0,0.0
+K-RM,Kellogg Company,Kellogg,Kellogg Company,0.25,USD,2021-07-01,US4878361082,340878954,stock_shares,common_share,0.0,0.0
+VRTX-RM,Vertex Pharmaceuticals Inc,Vertex,Vertex Pharmaceuticals Inc,0.01,USD,2021-04-01,US92532F1003,259428394,stock_shares,common_share,0.0,0.0
+SWN-RM,Southwestern Energy Company,SWN,Southwestern Energy Company,0.01,USD,2021-04-01,US8454671095,677020351,stock_shares,common_share,0.0,0.0
+LPSB,Липецкая энергосбыт.ком.ОАО ао,ЛЭСК ао,LESK ao,0.22,SUR,2005-08-16,RU000A0D8MR7,155521950,stock_shares,common_share,0.0,0.0
+RLMNP,Группа Компаний Роллман ПАО ап,Роллман-п,Rollman GK ap,100.0,SUR,2014-05-05,RU000A0JU229,1560000,stock_shares,preferred_share,0.0,0.0
+metpp,"Открытое акционерное общество по стоительству метрополитена в городе Санкт-Петербурге ""Метрострой""","ОАО ""Метрострой""","Public Joint-Stock Company po stoitelstvu metropolitena v gorode Sankt-Peterburge ""Metrostroj""",0.5,RUB,,RU000A0JP6A8,73772,stock_shares,preferred_share,0.0,0.0
+WMT-RM,Walmart Inc.,Walmart,Walmart Inc.,0.1,USD,2020-11-02,US9311421039,2788497816,stock_shares,common_share,0.0,0.0
+RTSBP,ТНС энерго Ростов. ПАО ап,ТНСэнРст-п,TNS energo Rostov-na-Dony(prf),0.02,SUR,2005-12-26,RU000A0D8PC2,925737256,stock_shares,preferred_share,0.0,0.0
+DOW-RM,Dow Inc.,Dow,Dow Inc.,0.01,USD,2021-07-01,US2605571031,745771788,stock_shares,common_share,0.0,0.0
+APTK,"ПАО ""Аптечная сеть 36,6"" ао",Аптеки36и6,"Apteki 36,6",0.64,SUR,2005-12-21,RU0008081765,7630433826,stock_shares,common_share,0.0,0.0
+GCHE,Группа Черкизово ПАО-ао,ЧеркизГ-ао,Cherkizovo Group ao,0.01,SUR,2008-04-08,RU000A0JL4R1,41047014,stock_shares,common_share,0.0,0.0
+USB-RM,U.S. Bancorp,USBancorp,U.S. Bancorp,0.01,USD,2021-07-01,US9029733048,1482622714,stock_shares,common_share,0.0,0.0
+HON-RM,Honeywell International Inc.,Honeywell,Honeywell International Inc.,1.0,USD,2021-03-01,US4385161066,690399265,stock_shares,common_share,0.0,0.0
+KO-RM,The Coca-Cola Company,Coca-Cola,The Coca-Cola Company,0.25,USD,2020-12-01,US1912161007,4316618703,stock_shares,common_share,0.0,0.0
+TYL-RM,Tyler Technologies Ord Shs,TylerTech,Tyler Technologies Ord Shs,0.01,USD,2021-09-01,US9022521051,40843408,stock_shares,common_share,0.0,0.0
+YRSB,ТНС энерго Ярославль ПАО ао,ТНСэнЯр,TNS energo Yaroslavl' ao,1.0,SUR,2005-08-29,RU000A0D8760,17143584,stock_shares,common_share,0.0,0.0
+RTKM,Ростелеком (ПАО) ао.,Ростел -ао,Rostelecom,0.0025,SUR,2005-01-11,RU0008943394,3282997929,stock_shares,common_share,0.0,0.0
+GTLC,"ПАО ""ДжиТиЭл"" ао",ПАОДжиТиЭл,"PAO ""GTL"" ao",0.2,SUR,2013-02-22,RU000A0JTN19,2596000000,stock_shares,common_share,0.0,0.0
+RENI,Ренессанс Страхование ао,Ренессанс,Renaissance Insurance,9.88,SUR,2021-10-20,RU000A0ZZM04,556952780,stock_shares,common_share,0.0,0.0
+ZYNE-RM,"Zynerba Pharmaceuticals, Inc.",Zynerba,"Zynerba Pharmaceuticals, Inc.",0.001,USD,2021-06-01,US98986X1090,41251537,stock_shares,common_share,0.0,0.0
+TSLA-RM,"Tesla, Inc.",Tesla,"Tesla, Inc.",0.001,USD,2020-11-02,US88160R1014,990015158,stock_shares,common_share,0.0,0.0
+GT-RM,Goodyear Tire & Rubber Company,Goodyear,Goodyear Tire & Rubber Company,,USD,2021-05-04,US3825501014,281192923,stock_shares,common_share,0.0,0.0
+FB-RM,Meta Platforms Inc.,Meta Platf,Meta Platforms Inc.,1.0E-5,USD,2018-05-21,US30303M1027,2383812263,stock_shares,common_share,0.0,0.0
+BANEP,Башнефть АНК ап,Башнефт ап,Bashneft ANK ap,1.0,SUR,2011-11-18,RU0007976965,29788012,stock_shares,preferred_share,0.0,0.0
+CMI-RM,Cummins Inc. ORD SHS,Cummins,Cummins Inc. ORD SHS,2.5,USD,2021-11-01,US2310211063,143607162,stock_shares,common_share,0.0,0.0
+SBER,Сбербанк России ПАО ао,Сбербанк,Sberbank,3.0,SUR,2007-07-20,RU0009029540,21586948000,stock_shares,common_share,0.0,0.0
+tgkj,"Открытое акционерное общество ""Фортум""","ОАО ""Фортум""",Open Joint Stock Company Fortum,1.66,RUB,2007-09-20,RU000A0F61T7,880387078,stock_shares,common_share,0.0,0.0
+HSIC-RM,"Henry Schein, Inc. ORD SHS",HenrySchei,"Henry Schein, Inc. ORD SHS",0.01,USD,2021-11-01,US8064071025,139693210,stock_shares,common_share,0.0,0.0
+CNK-RM,"Cinemark Holdings, Inc.",Cinemark,"Cinemark Holdings, Inc.",0.001,USD,2021-07-01,US17243V1026,119627128,stock_shares,common_share,0.0,0.0
+INTC-RM,Intel Corporation,Intel,Intel Corporation,0.001,USD,2018-09-17,US4581401001,4057000000,stock_shares,common_share,0.0,0.0
+TGKD,Квадра ПАО ао,Квадра,Kvadra,0.01,SUR,2007-03-02,RU000A0JNMZ0,1912495577759,stock_shares,common_share,0.0,0.0
+ALNU,АЛРОСА-Нюрба ПАО ао,АЛРОСА-Нюр,ALROSA-Nurba ao,25.0,SUR,2011-12-08,RU000A0JP468,800000,stock_shares,common_share,0.0,0.0
+TGKB,"ао ПАО ""ТГК-2""",ТГК-2,TGK-2,0.01,SUR,2006-10-20,RU000A0JNGS7,1458404850747,stock_shares,common_share,0.0,0.0
+TGKA,"ао ПАО ""ТГК-1""",ТГК-1,TGK-1,0.01,SUR,2007-03-26,RU000A0JNUD0,3854341416571,stock_shares,common_share,0.0,0.0
+UWGN,ПАО НПК ОВК ао,ОВК ао,OVK ao,1.0,SUR,2015-04-29,RU000A0JVBT9,115996689,stock_shares,common_share,0.0,0.0
+FNKO-RM,Funko Ord Shs Class A,Funko A,Funko Ord Shs Class A,1.0E-4,USD,2021-09-01,US3610081057,39388866,stock_shares,common_share,0.0,0.0
+TGKN,"ао ПАО ""ТГК-14""",ТГК-14,TGK-14,0.001,SUR,2007-01-25,RU000A0H1ES3,1357945609114,stock_shares,common_share,0.0,0.0
+PRMB,"АКБ ""Приморье"" ао",Приморье,AKB Primorye,1000.0,SUR,2011-05-03,RU000A0DPNQ5,250000,stock_shares,common_share,0.0,0.0
+IRAO,"""Интер РАО"" ПАО ао",ИнтерРАОао,Inter RAO ao,2.80977,SUR,2009-12-01,RU000A0JPNM1,104400000000,stock_shares,common_share,0.0,0.0
+V-RM,Visa Inc.,VISA,Visa Inc.,1.0E-4,USD,2018-09-17,US92826C8394,1687643027,stock_shares,common_share,0.0,0.0
+TATNP,"ПАО ""Татнефть"" ап 3 вып.",Татнфт 3ап,Tatneft (pref),1.0,SUR,2005-01-11,RU0006944147,147508500,stock_shares,preferred_share,0.0,0.0
+kges,"Публичное акционерное общество ""Камгэсэнергострой""","ПАО ""Камгэсэнергострой""",Kamgesenergostroy Incorporated,100.0,RUB,,RU000A0JQG03,1516768,stock_shares,common_share,0.0,0.0
+VLO-RM,Valero Energy Corp ORD SHS,ValeroEner,Valero Energy Corp ORD SHS,0.01,USD,2021-10-01,US91913Y1001,408823430,stock_shares,common_share,0.0,0.0
+WFC-RM,Wells Fargo and Company,WellsFargo,Wells Fargo and Company,1.66667,USD,2021-07-01,US9497461015,4106410513,stock_shares,common_share,0.0,0.0
+FISV-RM,"Fiserv, Inc.",Fiserv,"Fiserv, Inc.",0.01,USD,2021-04-01,US3377381088,662204715,stock_shares,common_share,0.0,0.0
+NPOF,"ОАО ""НПО Физика"" ао",Физика ао,NPO Fizika ao,120.0,SUR,2011-12-05,RU000A0JQ5X1,90262,stock_shares,common_share,0.0,0.0
+CDNS-RM,Cadence Design Systems ORD SHS,Cadence,Cadence Design Systems ORD SHS,0.01,USD,2021-11-01,US1273871087,276780000,stock_shares,common_share,0.0,0.0
+ABT-RM,Abbott Laboratories,Abbott,Abbott Laboratories,,USD,2020-12-01,US0028241000,1772817349,stock_shares,common_share,0.0,0.0
+GNRC-RM,Generac Holdings Inc. ORD SHS,GeneracHol,Generac Holdings Inc. ORD SHS,0.01,USD,2021-11-01,US3687361044,63120689,stock_shares,common_share,0.0,0.0
+CPB-RM,Campbell Soup Company,Campbell,Campbell Soup Company,0.0375,USD,2021-08-02,US1344291091,301517743,stock_shares,common_share,0.0,0.0
+SJM-RM,J. M. Smucker Co ORD SHS,JM Smucker,J. M. Smucker Co ORD SHS,,SUR,2021-11-01,US8326964058,108358521,stock_shares,common_share,0.0,0.0
+KMTZ,Косогорский метал. завод ПАО,КосогМЗ ао,KGIW ao,1.0,SUR,2011-12-09,RU000A0HF1L0,28416095,stock_shares,common_share,0.0,0.0
+USBN,БАНК УРАЛСИБ ПАО ао,УралСиб ао,BANK URALSIB ao,0.1,SUR,2011-12-14,RU0006929536,360134697357,stock_shares,common_share,0.0,0.0
+sbgs,"Акционерное общество ""Сибирьгазсервис""","АО ""Сибирьгазсервис""","Joint-Stock Company ""Sibir'gazservis""",15.0,RUB,,RU0006936168,4614800,stock_shares,common_share,0.0,0.0
+TRCN,ТрансКонтейнер ПАО ао,ТрансК ао,TransKonteiner ao,1000.0,SUR,2010-11-12,RU000A0JPRX9,13894778,stock_shares,common_share,0.0,0.0
+CSX-RM,CSX Corporation ORD SHS,CSX Corp,CSX Corporation ORD SHS,1.0,USD,2021-10-01,US1264081035,2254495910,stock_shares,common_share,0.0,0.0
+FITB-RM,Fifth Third Bancorp ORD SHS,FifthThird,Fifth Third Bancorp ORD SHS,,SUR,2021-10-01,US3167731005,690718273,stock_shares,common_share,0.0,0.0
+KZOSP,"ПАО ""Органический синтез"" ап",ОргСинт ап,PAO Organicheskiy Sintez ap,1.0,SUR,2011-12-05,RU0006753456,119596000,stock_shares,preferred_share,0.0,0.0
+CNTLP,"""Центральный Телеграф"" ПАО ап",Телеграф-п,Centrlnyi Telegraf ap,1.0,SUR,2011-10-25,RU0007665139,55389000,stock_shares,preferred_share,0.0,0.0
+kunpp,"Публичное акционерное общество ""НК ""Роснефть"" - Кубаньнефтепродукт""","ПАО ""НК ""Роснефть"" - Кубаньнефтепродукт""","Public Joint Stock Company ""NC ""Rosneft""- Kubannefteproduct""",0.05,RUB,,RU000A0BK441,1001060,stock_shares,preferred_share,0.0,0.0
+BISVP,Башинформсвязь(ПАО) ап,БашИнСв ап,BashInformSvyaz ap,1.0,SUR,2010-04-23,RU0009100176,36165270,stock_shares,preferred_share,0.0,0.0
+DRI-RM,DARDEN RESTAURANTS INCO ORDSHS,DardenRest,DARDEN RESTAURANTS INCO ORDSHS,,SUR,2021-11-01,US2371941053,129785003,stock_shares,common_share,0.0,0.0
+mvzmp,"Акционерное общество ""Московский вертолетный завод им. М.Л. Миля""","АО ""МВЗ им. М.Л. Миля""","Joint Stock Company ""Mil Moscow Helicopter Plant""",25.0,RUB,,RU0006758984,1042720,stock_shares,preferred_share,0.0,0.0
+ODVA,Медиахолдинг (ПАО) ао,Медиахолд,MediaHolding,0.001,SUR,2008-09-02,RU000A0JPWV3,700000000,stock_shares,common_share,0.0,0.0
+vggg,"Акционерное общество ""Волгоградгоргаз""","АО ""Волгоградгоргаз""","Joint-Stock Company ""Volgogradgorgaz""",1.0,RUB,,RU000A0JPFR6,31667,stock_shares,common_share,0.0,0.0
+yarz,"Публичное акционерное общество ""Ярославский радиозавод""","ПАО ""Ярославский радиозавод""","Public Joint Stock Company ""Yaroslavl Radioworks""",200.0,RUB,,RU000A0JQ8J4,359059,stock_shares,common_share,0.0,0.0
+CLOV-RM,Clover Health Investments,Clover,Clover Health Investments,1.0E-4,USD,2021-08-02,US18914F1030,235874471,stock_shares,common_share,0.0,0.0
+borg,"Открытое акционерное общество ""Эй Джи Си Борский стекольный завод""","ОАО "" Эй Джи Си БСЗ""","Open joint-stock company ""AGC Bor Glassworks""",95.0,RUB,,RU0009097265,4410066,stock_shares,common_share,0.0,0.0
+PAYC-RM,Paycom Software Ord Shs,PaycomSoft,Paycom Software Ord Shs,0.01,USD,2021-09-01,US70432V1026,60094394,stock_shares,common_share,0.0,0.0
+chaz,"Открытое акционерное общество ""Чебоксарский агрегатный завод""","ОАО ""ЧАЗ""","Public Joint-Stock Company ""Cheboksarskij agregatnyj zavod""",1.0,RUB,,RU000A0F5V95,618620,stock_shares,common_share,0.0,0.0
+hmdsp,"Открытое акционерное общество ""Ханты-Мансийскдорстрой""","ОАО ""ХМДС""","Public Joint-Stock Company ""Xanty-Mansijskdorstroj""",48.0,RUB,,,665550,stock_shares,preferred_share,0.0,0.0
+ROL-RM,"Rollins, Inc. ORDSHS",Rollins,"Rollins, Inc. ORDSHS",1.0,USD,2021-11-01,US7757111049,492079290,stock_shares,common_share,0.0,0.0
+RGSS,Росгосстрах СК ПАО ао,РГС СК ао,Rosgosstrakh ao,0.04,SUR,2013-11-19,RU0008010855,489503740915,stock_shares,common_share,0.0,0.0
+KZMS,"""КЗМС"" ПАО",КЗМС ао,KZMS 01,10.0,SUR,2006-08-15,RU000A0JNHK2,884760,stock_shares,common_share,0.0,0.0
+MORI,Морион ПАО ао,Морион ао,Morion ao,1.0,SUR,2011-12-14,RU0009092431,164640000,stock_shares,common_share,0.0,0.0
+TWTR-RM,"Twitter, Inc.",Twitter,"Twitter, Inc.",1.0E-5,USD,2018-05-21,US90184L1026,797966577,stock_shares,common_share,0.0,0.0
+ADBE-RM,Adobe Inc.,Adobe,Adobe Inc.,1.0E-4,USD,2020-11-02,US00724F1012,475800000,stock_shares,common_share,0.0,0.0
+UNP-RM,Union Pacific Corporation,UnionPacif,Union Pacific Corporation,2.5,USD,2021-04-01,US9078181081,652122933,stock_shares,common_share,0.0,0.0
+kmzap,"Открытое акционерное общество ""Курганский машиностроительный завод""","ОАО ""Курганмашзавод""","Open Joint Stock Company ""KURGANMASHZAVOD""",1.0,RUB,,RU0009098982,41949390,stock_shares,preferred_share,0.0,0.0
+MRO-RM,Marathon Oil Corporation,MarathnOil,Marathon Oil Corporation,1.0,USD,2021-07-01,US5658491064,788398843,stock_shares,common_share,0.0,0.0
+KGKC,Курганская генер.комп.ПАО ао,КурганГКао,Kurganskaja Gener.Kompanija,7.2,SUR,2012-09-26,RU000A0JP120,122453406,stock_shares,common_share,0.0,0.0
+M-RM,"Macy's, Inc.",Macy's,"Macy's, Inc.",0.01,USD,2021-03-01,US55616P1049,309704845,stock_shares,common_share,0.0,0.0
+smnfp,"Публичное акционерное общество ""НК ""Роснефть"" - Смоленскнефтепродукт""","ПАО ""НК ""Роснефть"" - Смоленскнефтепродукт""","Public Joint Stock Company ""NC ""Rosneft"" - Smolensknefteprodukt""",0.13,RUB,,RU0008012075,153864,stock_shares,preferred_share,0.0,0.0
+SEE-RM,Sealed Air Corporation ORD SHS,Sealed Air,Sealed Air Corporation ORD SHS,0.1,USD,2021-11-01,US81211K1007,149892825,stock_shares,common_share,0.0,0.0
+EIX-RM,Edison International ORD SHS,Edison Int,Edison International ORD SHS,,SUR,2021-11-01,US2810201077,379704799,stock_shares,common_share,0.0,0.0
+MS-RM,Morgan Stanley,MorganStan,Morgan Stanley,0.01,USD,2021-06-01,US6174464486,1824561070,stock_shares,common_share,0.0,0.0
+NTAP-RM,"NetApp, Inc.",NetApp,"NetApp, Inc.",0.001,USD,2021-08-02,US64110D1046,223629424,stock_shares,common_share,0.0,0.0
+VTBR,ао ПАО Банк ВТБ,ВТБ ао,VTB,0.01,SUR,2007-05-28,RU000A0JP5V6,12960541337338,stock_shares,common_share,0.0,0.0
+BRKB-RM,Berkshire Hathaway Cl B,BerkshireB,Berkshire Hathaway Cl B,0.0033,USD,2021-03-01,US0846707026,1325373100,stock_shares,common_share,0.0,0.0
+nnog,"Публичное акционерное общество ""Газпром газораспределение Нижний Новгород""","ПАО ""Газпром газораспределение Нижний Новгород""","Public Joint Stock Company ""Gazprom gazoraspredelenie Nizhnij Novgorod""",0.01,RUB,,RU0009115588,65154347,stock_shares,common_share,0.0,0.0
+NAUK,НПО Наука ао,iНПОНаука,NPO Nauka ao,0.2,SUR,2011-12-15,RU000A0JRPX9,11789500,stock_shares,common_share,0.0,0.0
+WMB-RM,Williams Ord Shs,Williams,Williams Ord Shs,1.0,USD,2021-09-01,US9694571004,1214958829,stock_shares,common_share,0.0,0.0
+AIZ-RM,Assurant Ord Shs,Assurant,Assurant Ord Shs,0.01,USD,2021-09-01,US04621X1081,58813595,stock_shares,common_share,0.0,0.0
+KZOS,"ПАО ""Органический синтез"" ао",ОргСинт ао,PAO Organicheskiy Sintez ao,1.0,SUR,2011-12-05,RU0009089825,1785114000,stock_shares,common_share,0.0,0.0
+ALRS,АЛРОСА ПАО ао,АЛРОСА ао,ALROSA ao,0.5,SUR,2011-11-29,RU0007252813,7364965630,stock_shares,common_share,0.0,0.0
+WEC-RM,WEC ENERGY GROUP INC ORDSHS,WEC Energy,WEC ENERGY GROUP INC ORDSHS,0.01,USD,2021-11-01,US92939U1060,315434531,stock_shares,common_share,0.0,0.0
+SWKS-RM,Skyworks Solutions ORD SHS,SkyworkSol,Skyworks Solutions ORD SHS,0.25,USD,2021-10-01,US83088M1027,165144931,stock_shares,common_share,0.0,0.0
+kzru,"Открытое акционерное общество ""Угольная компания ""Кузбассразрезуголь""","ОАО ""УК ""Кузбассразрезуголь""","Public Joint-Stock Company ""Ugol'naya kompaniya ""Kuzbassrazrezugol'""",1.0,RUB,,RU000A0F6X68,6113833651,stock_shares,common_share,0.0,0.0
+GTRK,"ПАО ""ГТМ"" ао",ГТМ ао,GTM,100.0,SUR,2017-11-03,RU000A0ZYD22,58462120,stock_shares,common_share,0.0,0.0
+PFE-RM,PFIZER INC.,Pfizer,PFIZER INC.,0.05,USD,2018-09-17,US7170811035,5606688356,stock_shares,common_share,0.0,0.0
+DIS-RM,The Walt Disney Company,Disney,The Walt Disney Company,0.01,USD,2018-05-21,US2546871060,1817126595,stock_shares,common_share,0.0,0.0
+CHEP,"""ЧТПЗ"" ПАО ао",ЧТПЗ ао,CHTPZ,1.0,SUR,2008-12-12,RU0009066807,305696336,stock_shares,common_share,0.0,0.0
+GRNT,ГородскиеИнновацТехнологии ао,ГИТ ао,CityInnovativeTechnologies ao,1.0,SUR,2015-10-21,RU000A0JV532,737026000,stock_shares,common_share,0.0,0.0
+DUK-RM,Duke Energy Corp ORD SHS,DukeEnergy,Duke Energy Corp ORD SHS,0.001,USD,2021-10-01,US26441C2044,769337598,stock_shares,common_share,0.0,0.0
+NFAZ,Нефтекамский автозавод ПАО ао,Нефтекамск,Neftekamskiy avtozavod PAO ao,1.0,SUR,2011-09-09,RU0009115604,8038896,stock_shares,common_share,0.0,0.0
+TTLK,"""Таттелеком"" ПАО ао",Таттел. ао,Tattelekom,0.1,SUR,2007-03-21,RU000A0HM5C1,20843976400,stock_shares,common_share,0.0,0.0
+KCEL,"АО ""Кселл"" ao",Kcell-ao,Kcell JSC ao,169.0,KZT,2019-03-28,KZ1C00000876,,stock_shares,common_share,0.0,0.0
+IGST,Ижсталь ПАО ао 2в.,Ижсталь2ао,Izhstal 2ao,1000.0,SUR,2011-12-08,RU0002155292,800729,stock_shares,common_share,0.0,0.0
+RSG-RM,"Republic Services, Inc ORD SHS",RepublicS,"Republic Services, Inc ORD SHS",0.01,USD,2021-11-01,US7607591002,318364854,stock_shares,common_share,0.0,0.0
+FSLR-RM,First Solar Ord Shs,FirstSolar,First Solar Ord Shs,0.001,USD,2021-09-01,US3364331070,106319302,stock_shares,common_share,0.0,0.0
+CVS-RM,CVS Health Corporation,CVS Health,CVS Health Corporation,0.01,USD,2021-05-04,US1266501006,1319574744,stock_shares,common_share,0.0,0.0
+SAREP,Саратовэнерго(ПАО)-ап,СаратЭн-ап,SaratovEnergo (pref),0.02113,SUR,2011-11-24,RU0009100762,1493316000,stock_shares,preferred_share,0.0,0.0
+TRFM,ПАО ТрансФин-М ао,ТрансФ ао,TransFin-M,0.1,SUR,2018-08-15,RU000A0JUGP8,156300000000,stock_shares,common_share,0.0,0.0
+AWK-RM,American Water Works Co ORDSHS,AmeriWater,American Water Works Co ORDSHS,0.01,USD,2021-11-01,US0304201033,181495720,stock_shares,common_share,0.0,0.0
+LEG-RM,Leggett & Platt Ord Shs,Legg&Platt,Leggett & Platt Ord Shs,0.01,USD,2021-09-01,US5246601075,133298914,stock_shares,common_share,0.0,0.0
+SAGOP,Самараэнерго (ПАО) - ап,СамарЭн-ап,SamaraEnergo(pref),0.01,SUR,2003-07-21,RU0009084495,521993080,stock_shares,preferred_share,0.0,0.0
+FOX-RM,Fox Corporation,Fox,Fox Corporation,0.01,USD,2021-08-02,US35137L2043,251381283,stock_shares,common_share,0.0,0.0
+shvz,"Публичное акционерное общество ""Валента Фармацевтика""","ПАО ""Валента Фарм""","Joint Stock Company ""Valenta Pharmaceuticals""",1.0,RUB,,RU000A0JQBH4,1145500,stock_shares,common_share,0.0,0.0
+AYX-RM,"Alteryx, Inc.",Alteryx,"Alteryx, Inc.",1.0E-4,USD,2021-07-01,US02156B1035,59481720,stock_shares,common_share,0.0,0.0
+ivog,"Открытое акционерное общество ""Газпром газораспределение Иваново""","ОАО ""Газпром газораспределение Иваново""","Public Joint-Stock Company ""Gazprom gazoraspredelenie Ivanovo""",0.1,RUB,,RU000A0JQB73,310590,stock_shares,common_share,0.0,0.0
+NLMK,"ПАО ""НЛМК"" ао",НЛМК ао,NLMK ao,1.0,SUR,2006-04-06,RU0009046452,5993227240,stock_shares,common_share,0.0,0.0
+IRGZ,Иркутскэнерго(ПАО)-ао,ИркЭнерго,IrkutskEnrg,1.0,SUR,2003-07-10,RU0008960828,4766807700,stock_shares,common_share,0.0,0.0
+NVDA-RM,NVIDIA Corporation,NVIDIA,NVIDIA Corporation,0.001,USD,2018-05-21,US67066G1040,2500000000,stock_shares,common_share,0.0,0.0
+CMA-RM,Comerica Inc ORD SHS,Comerica,Comerica Inc ORD SHS,5.0,USD,2021-11-01,US2003401070,133923650,stock_shares,common_share,0.0,0.0
+WDC-RM,Western Digital Corporation,WesternDig,Western Digital Corporation,0.01,USD,2021-06-01,US9581021055,308748049,stock_shares,common_share,0.0,0.0
+omog,"Акционерное общество ""Омскоблгаз""","АО ""Омскоблгаз""","Joint-Stock Company ""Omskoblgaz""",1.0,RUB,,RU000A0JQAA1,1375875,stock_shares,common_share,0.0,0.0
+BBY-RM,"Best Buy Co., Inc. ORD SHS",BestBuy,"Best Buy Co., Inc. ORD SHS",0.1,USD,2021-10-01,US0865161014,245964220,stock_shares,common_share,0.0,0.0
+STZ-RM,Constellation BrandsORDSH A,Constell А,Constellation BrandsORDSH A,0.01,USD,2021-11-01,US21036P1084,164264039,stock_shares,common_share,0.0,0.0
+CHGZ,РН-Западная Сибирь ПАО ао,РН-ЗапСиб,RN-Western Siberia ao,0.1,SUR,2011-12-14,RU0009082291,26771420,stock_shares,common_share,0.0,0.0
+PFG-RM,PRINCIPAL FINANCIAL GRO ORDSHS,Principal,PRINCIPAL FINANCIAL GRO ORDSHS,0.01,USD,2021-11-01,US74251V1026,268394112,stock_shares,common_share,0.0,0.0
+ABBV-RM,AbbVie Inc.,AbbVie,AbbVie Inc.,0.01,USD,2020-11-02,US00287Y1091,1767175532,stock_shares,common_share,0.0,0.0
+VFC-RM,VF Ord Shs,VFCorp,VF Ord Shs,,USD,2021-09-01,US9182041080,392638627,stock_shares,common_share,0.0,0.0
+LNZL,"""Лензолото"" ПАО ао",Лензолото,Lenzoloto,1.0,SUR,2008-12-12,RU000A0JP1N2,1140300,stock_shares,common_share,0.0,0.0
+DG-RM,Dollar General Corporation,DollarGnrl,Dollar General Corporation,0.875,USD,2021-05-04,US2566771059,233310218,stock_shares,common_share,0.0,0.0
+GTHX-RM,"G1 Therapeutics, Inc.",G1 Therap,"G1 Therapeutics, Inc.",1.0E-4,USD,2021-06-01,US3621LQ1099,42348337,stock_shares,common_share,0.0,0.0
+BYND-RM,Beyond Meat Ord Shs,BeyondMeat,Beyond Meat Ord Shs,1.0E-4,USD,2021-09-01,US08862E1091,63254448,stock_shares,common_share,0.0,0.0
+EMR-RM,Emerson Electric Co.,Emerson,Emerson Electric Co.,0.5,USD,2021-08-02,US2910111044,597800000,stock_shares,common_share,0.0,0.0
+SNGSP,Сургутнефтегаз ПАО ап,Сургнфгз-п,Surgut-pref,1.0,SUR,2005-01-11,RU0009029524,7701998235,stock_shares,preferred_share,0.0,0.0
+AEP-RM,American Electr. Power ORD SHS,AmericElPw,American Electr. Power ORD SHS,6.5,USD,2021-10-01,US0255371017,500251339,stock_shares,common_share,0.0,0.0
+rpkb,"Акционерное общество ""Раменское приборостроительное конструкторское бюро""","АО ""РПКБ""","Joint Stock Company ""Ramenskoye Design Company""",3000.0,RUB,,RU0008114525,41529,stock_shares,common_share,0.0,0.0
+CHD-RM,CHURCH AND DWIGHT CO.IN ORDSHS,ChurchDwig,CHURCH AND DWIGHT CO.IN ORDSHS,1.0,USD,2021-11-01,US1713401024,245543207,stock_shares,common_share,0.0,0.0
+zsgpp,"Открытое акционерное общество ""Запсибгазпром"" открытого акционерного общества ""Газпром""","ОАО ""Запсибгазпром""","Public Joint-Stock Company ""Zapsibgazprom"" otkrytogo akcionernogo obshhestva ""Gazprom""",1.0,RUB,,RU0006752862,12436704,stock_shares,preferred_share,0.0,0.0
+NNSB,ТНС энерго Нижний Новг.ПАО ао,ТНСэнНН ао,TNS energo Nizhniy-Novgorod ao,11.88,SUR,2005-11-08,RU000A0ET5A1,3919400,stock_shares,common_share,0.0,0.0
+GTSS,ГЕОТЕК Сейсморазведка ПАО ао,ГЕОТЕК ао,GEOTECH Seismic Services ao,0.01,SUR,2015-08-07,RU000A0JQ7U3,1385400296739,stock_shares,common_share,0.0,0.0
+RNFT,РуссНефть НК ПАО ао,РуссНфт ао,RussNeft NK,0.5,SUR,2016-11-18,RU000A0JSE60,294120000,stock_shares,common_share,0.0,0.0
+HSY-RM,The Hershey Company,Hershey,The Hershey Company,1.0,USD,2021-08-02,US4278661081,145425767,stock_shares,common_share,0.0,0.0
+AEE-RM,Ameren Corporation ORD SHS,Ameren,Ameren Corporation ORD SHS,0.01,USD,2021-11-01,US0236081024,257147162,stock_shares,common_share,0.0,0.0
+RTSB,ТНС энерго Ростов. ПАО ао,ТНСэнРст,TNS energo Rostov-na-Dony ao,0.02,SUR,2005-12-26,RU000A0D8PB4,8128764676,stock_shares,common_share,0.0,0.0
+LUMN-RM,"Lumen Technologies, Inc.",Lumen,"Lumen Technologies, Inc.",1.0,USD,2021-05-04,US5502411037,1105232133,stock_shares,common_share,0.0,0.0
+PEP-RM,"PepsiCo, Inc.",PepsiCo,"PepsiCo, Inc.",0.01667,USD,2021-07-01,US7134481081,1382652943,stock_shares,common_share,0.0,0.0
+CNTL,"""Центральный Телеграф"" ПАО ао",Телеграф,Centrlnyi Telegraf,1.0,SUR,2008-12-12,RU0007665147,166167000,stock_shares,common_share,0.0,0.0
+ENPG,МКПАО ЭН+ ГРУП ао,ЭН+ГРУП ао,EN+ GROUP IPJSC ORD SHS,7.0E-5,USD,2020-02-18,RU000A100K72,638848896,stock_shares,common_share,0.0,0.0
+AOS-RM,A O Smith Ord Shs,AOSmith,A O Smith Ord Shs,1.0,USD,2021-09-01,US8318652091,133197582,stock_shares,common_share,0.0,0.0
+rtvl,"Ростовский вертолетный производственный комплекс Публичное акционерное общество ""Роствертол""","ПАО ""Роствертол""","Public Joint Stock Company ""Rostov Helicopter Production Complex Rostvertol""",1.0,RUB,,RU0006935954,2891839831,stock_shares,common_share,0.0,0.0
+CNC-RM,Centene Corporation ORD SHS,Centene,Centene Corporation ORD SHS,0.001,USD,2021-10-01,US15135B1017,583043563,stock_shares,common_share,0.0,0.0
+PMSBP,"""Пермэнергосбыт"" ПАО ап",ПермьЭнС-п,Perm' EnergoSbyt (pref),3.25,SUR,2006-02-09,RU000A0ET156,11353500,stock_shares,preferred_share,0.0,0.0
+PPL-RM,PPL Corporation ORD SHS,PPL Corp,PPL Corporation ORD SHS,0.01,USD,2021-10-01,US69351T1060,769605825,stock_shares,common_share,0.0,0.0
+AFKS,"АФК ""Система"" ПАО ао",Система ао,AFK Sistema,0.09,SUR,2007-12-12,RU000A0DQZE3,9650000000,stock_shares,common_share,0.0,0.0
+afmc,"Акционерное общество ""Агрофирма Мценская""","АО ""Агрофирма Мценская""","Joint-Stock Company ""Agrofirma Mcenskaya""",1000.0,RUB,,RU000A0JRAA9,121401,stock_shares,common_share,0.0,0.0
+kadv,"Открытое акционерное общество ""Калужский двигатель""","ОАО ""КАДВИ""","Public Joint Stock Company ""KALUJSKY DVIGATEL""",0.25,RUB,,RU0005294635,975000,stock_shares,common_share,0.0,0.0
+brad,"Открытое акционерное общество ""Богословское рудоуправление""","ОАО ""Богословское рудоуправление""","Public Joint-Stock Company ""Bogoslovskoe rudoupravlenie""",1.0,RUB,,RU000A0JPEW9,73973,stock_shares,common_share,0.0,0.0
+hmds,"Открытое акционерное общество ""Ханты-Мансийскдорстрой""","ОАО ""ХМДС""","Public Joint-Stock Company ""Xanty-Mansijskdorstroj""",48.0,RUB,,RU000A0JRC22,2000000,stock_shares,common_share,0.0,0.0
+YUM-RM,"Yum Brands, Inc.ORD SHS",Yum!Brands,"Yum Brands, Inc.ORD SHS",,SUR,2021-11-01,US9884981013,295646558,stock_shares,common_share,0.0,0.0
+mkro,"Публичное акционерное общество ""Микрон""","ПАО ""Микрон""","Public Joint Stock Company ""Mikron""",0.03,RUB,,RU0006760154,41069231,stock_shares,common_share,0.0,0.0
+HCA-RM,HCA HOLDINGS INC ORDSHS,HCAHealth,HCA HOLDINGS INC ORDSHS,0.01,USD,2021-11-01,US40412C1018,320141900,stock_shares,common_share,0.0,0.0
+IRKT,"Корпорация""ИРКУТ"" ПАО ак.об.-3",ИРКУТ-3,IRKUT-3,3.0,SUR,2005-01-11,RU0006752979,2085163865,stock_shares,common_share,0.0,0.0
+AFLT,Аэрофлот-росс.авиалин(ПАО)ао,Аэрофлот,Aeroflot,1.0,SUR,2004-02-13,RU0009062285,2444535448,stock_shares,common_share,0.0,0.0
+ktyrp,"Открытое акционерное общество ""Калужский турбинный завод""","ОАО ""Калужский турбинный завод"", ОАО ""КТЗ""","Open Joint Stock Company ""Kaluga turbine works""",1.0,RUB,,RU0009107726,158004,stock_shares,preferred_share,0.0,0.0
+KCHE,Камчатскэнерго ПАО ао,КамчатЭ ао,Kamchatskenergo,0.1,SUR,2008-03-14,RU0006753498,48746657782,stock_shares,common_share,0.0,0.0
+D-RM,"Dominion Energy, Inc. ORD SHS",DominionEn,"Dominion Energy, Inc. ORD SHS",,USD,2021-10-01,US25746U1097,808487324,stock_shares,common_share,0.0,0.0
+ufosp,"Публичное акционерное общество ""Уфаоргсинтез""","ПАО ""Уфаоргсинтез""","Public Joint Stock Company ""Ufaorgsintez""",1.0,RUB,2011-12-14,RU0009102396,15164750,stock_shares,preferred_share,0.0,0.0
+WM-RM,"Waste Management, Inc ORD SHS",WasteManag,"Waste Management, Inc ORD SHS",0.01,USD,2021-11-01,US94106L1098,421098975,stock_shares,common_share,0.0,0.0
+HOOD-RM,Robinhood Markets Ord Shs A,RobinhoodА,Robinhood Markets Ord Shs A,1.0E-4,USD,2021-09-01,US7707001027,725288102,stock_shares,common_share,0.0,0.0
+INTU-RM,Intuit Inc.,Intuit,Intuit Inc.,0.01,USD,2021-05-04,US4612021034,273091929,stock_shares,common_share,0.0,0.0
+SRPT-RM,Sarepta Therapeutics Ord Shs,Sarepta,Sarepta Therapeutics Ord Shs,1.0E-4,USD,2021-09-01,US8036071004,79844654,stock_shares,common_share,0.0,0.0
+APA-RM,APA Corporation,APA Corp,APA Corporation,0.625,USD,2021-05-04,US03743Q1085,378021539,stock_shares,common_share,0.0,0.0
+SNPS-RM,"Synopsys, Inc. ORD SHS",Synopsys,"Synopsys, Inc. ORD SHS",0.01,USD,2021-11-01,US8716071076,152502754,stock_shares,common_share,0.0,0.0
+PEG-RM,Public Serv Enterp Grp ORDSH,PublicServ,Public Serv Enterp Grp ORDSH,,SUR,2021-10-01,US7445731067,505577072,stock_shares,common_share,0.0,0.0
+FFIV-RM,"F5, Inc.","F5, Inc.","F5, Inc.",,SUR,2021-09-01,US3156161024,60312253,stock_shares,common_share,0.0,0.0
+CHKZ,"""ЧКПЗ"" ПАО ао",ЧКПЗ ао,CKPZ,200.0,SUR,2008-12-12,RU000A0JNST0,600216,stock_shares,common_share,0.0,0.0
+ENRU,"""Энел Россия"" ПАО",ЭнелРос ао,Enel Russia,1.0,SUR,2014-12-01,RU000A0F5UN3,35371898370,stock_shares,common_share,0.0,0.0
+GM-RM,General Motors Company,GM Co,General Motors Company,0.01,USD,2020-11-02,US37045V1008,1451723812,stock_shares,common_share,0.0,0.0
+DVEC,"""ДЭК"" ПАО ао",ДЭК ао,DEC,1.0,SUR,2007-12-13,RU000A0JP2W1,17223107804,stock_shares,common_share,0.0,0.0
+BAC-RM,Bank of America Corporation,BOfAmerica,Bank of America Corporation,0.01,USD,2021-06-01,US0605051046,8569317603,stock_shares,common_share,0.0,0.0
+ENPH-RM,Enphase Energy Ord Shs,Enphase,Enphase Energy Ord Shs,1.0E-5,USD,2021-09-01,US29355A1079,134621196,stock_shares,common_share,0.0,0.0
+MISBP,ТНС энерго Марий Эл ПАО ап,ТНСэМаЭл-п,TNS energo Mariy El (pref),0.1,SUR,2005-08-26,RU000A0D8K41,10652220,stock_shares,preferred_share,0.0,0.0
+NLOK-RM,NortonLifeLock Inc.,Norton,NortonLifeLock Inc.,0.01,USD,2021-05-04,US6687711084,581268447,stock_shares,common_share,0.0,0.0
+trmz,"Открытое акционерное общество ""Томусинский ремонтно-механический завод""","ОАО ""ТРМЗ""","Public Joint-Stock Company ""Tomusinskij remontno-mexanicheskij zavod""",870.0,RUB,,RU000A0JQD30,22976,stock_shares,common_share,0.0,0.0
+PGR-RM,The Progressive Corp ORD SHS,ProgressCo,The Progressive Corp ORD SHS,1.0,USD,2021-10-01,US7433151039,585164326,stock_shares,common_share,0.0,0.0
+MVID,"""М.видео"" ПАО ао",М.видео,M.video,10.0,SUR,2007-11-01,RU000A0JPGA0,179768227,stock_shares,common_share,0.0,0.0
+CHMF,Северсталь (ПАО)ао,СевСт-ао,Severstal - ao,0.01,SUR,2005-06-02,RU0009046510,837718660,stock_shares,common_share,0.0,0.0
+gyaa,"Открытое акционерное общество ""Гаврилов-Ямский машиностроительный завод ""Агат""","ОАО ГМЗ ""Агат""","Joint Stock Company ""Gavriloy-Yamskiy mashin-bulding plant ""Agat""",1200.0,RUB,,RU000A0JRAD3,154110,stock_shares,common_share,0.0,0.0
+WBA-RM,Walgreen Boots Alliance Ord Sh,WalgrBoots,Walgreen Boots Alliance Ord Sh,0.01,USD,2021-09-01,US9314271084,865612358,stock_shares,common_share,0.0,0.0
+krgz,"Открытое акционерное общество ""Курскгаз""","ОАО ""Курскгаз""","Public Joint-Stock Company ""Kurskgaz""",1.0,RUB,,RU0001206518,88420,stock_shares,common_share,0.0,0.0
+PLUG-RM,Plug Power Ord Shs,PlugPower,Plug Power Ord Shs,0.01,USD,2021-09-01,US72919P2020,574355448,stock_shares,common_share,0.0,0.0
+SBUX-RM,Starbucks Corporation,Starbucks,Starbucks Corporation,0.001,USD,2020-12-01,US8552441094,1179100000,stock_shares,common_share,0.0,0.0
+LDOS-RM,"Leidos Holdings, Inc ORD SHS",LeidosHold,"Leidos Holdings, Inc ORD SHS",1.0E-4,USD,2021-11-01,US5253271028,141565183,stock_shares,common_share,0.0,0.0
+UNM-RM,Unum Group ORD SHS,UnumGroup,Unum Group ORD SHS,0.1,USD,2021-10-01,US91529Y1064,204393640,stock_shares,common_share,0.0,0.0
+LTHM-RM,Livent Ord Shs,Livent,Livent Ord Shs,0.001,USD,2021-09-01,US53814L1089,161541708,stock_shares,common_share,0.0,0.0
+kems,"Открытое акционерное общество ""Карпинский электромашиностроительный завод""","ОАО ""КЭМЗ""","Public Joint-Stock Company ""Karpinskij elektromashinostroitel'nyj zavod""",95.0,RUB,,,247890,stock_shares,common_share,0.0,0.0
+takb,"Публичное акционерное общество ""Таганрогский авиационный научно-технический комплекс им. Г.М. Бериева""","ПАО ""ТАНТК им. Г.М. Бериева""","Public Joint Stock Company ""Beriev Aircraft""",500.0,RUB,,RU0009831358,970062,stock_shares,common_share,0.0,0.0
+brzlp,"Публичное акционерное общество ""Бурятзолото""","ПАО ""Бурятзолото""","Public Joint Stock Company ""Buryatzoloto""",0.03,RUB,,RU0007964763,413010,stock_shares,preferred_share,0.0,0.0
+AA-RM,Alcoa Corporation,Alcoa,Alcoa Corporation,0.01,USD,2021-08-02,US0138721065,186866156,stock_shares,common_share,0.0,0.0
+HD-RM,"The Home Depot, Inc.",Home Depot,"The Home Depot, Inc.",0.05,USD,2021-03-01,US4370761029,1063258434,stock_shares,common_share,0.0,0.0
+DISCA-RM,"Discovery, Inc.",Discovery,"Discovery, Inc.",0.01,USD,2021-07-01,US25470F1049,169086967,stock_shares,common_share,0.0,0.0
+TRMK,ПАО ТМК,ТМК ао,TMK ao,10.0,SUR,2007-04-10,RU000A0B6NK6,1033135366,stock_shares,common_share,0.0,0.0
+ICE-RM,Intercontinental Exchan ORDSHS,InteExchan,Intercontinental Exchan ORDSHS,0.01,USD,2021-10-01,US45866F1049,563155196,stock_shares,common_share,0.0,0.0
+FANG-RM,Diamondback Energy ORD SHS,DiamondbEn,Diamondback Energy ORD SHS,0.01,USD,2021-10-01,US25278X1090,181053648,stock_shares,common_share,0.0,0.0
+MGNZ,Соликамский магн.завод(ОАО)ао,СМЗ-ао,SMZ,0.25,SUR,2008-10-14,RU0009100911,398272,stock_shares,common_share,0.0,0.0
+MGNT,"""Магнит"" ПАО ао",Магнит ао,Magnit,0.01,SUR,2006-04-24,RU000A0JKQU8,101911355,stock_shares,common_share,0.0,0.0
+ZILL,Завод им. И.А.Лихачева ПАО ао,ЗИЛ ао,ZIL ao,1000.0,SUR,2011-12-09,RU0009086193,2659962,stock_shares,common_share,0.0,0.0
+TXN-RM,Texas Instruments Incorporated,Texas Inst,Texas Instruments Incorporated,1.0,USD,2021-03-01,US8825081040,923209971,stock_shares,common_share,0.0,0.0
+MISB,ТНС энерго Марий Эл ПАО ао,ТНСэнМарЭл,TNS energo Mariy El ao,0.1,SUR,2005-08-26,RU000A0D8K33,121847780,stock_shares,common_share,0.0,0.0
+nbam,"Публичное акционерное общество ""Находкинская база активного морского рыболовства""","ПАО ""НБАМР""","Public Joint Stock Company ""NAKHODKA ACTIVE MARINE FISHERY BASE""",45.0,RUB,,RU0008055884,1996985,stock_shares,common_share,0.0,0.0
+CAG-RM,"Conagra Brands, Inc. ORD SHS",ConagraBr,"Conagra Brands, Inc. ORD SHS",5.0,USD,2021-10-01,US2058871029,479689781,stock_shares,common_share,0.0,0.0
+DE-RM,Deere & CompanyORD SHS,Deere&Comp,Deere & CompanyORD SHS,1.0,USD,2021-11-01,US2441991054,310061478,stock_shares,common_share,0.0,0.0
+ZVEZ,ЗВЕЗДА ПАО ао,ЗВЕЗДА ао,Zvezda ao,0.1,SUR,2011-12-16,RU0009091300,562020480,stock_shares,common_share,0.0,0.0
+CHMK,"""ЧМК"" ПАО ао",ЧМК ао,CMK,1.0,SUR,2008-12-12,RU0007665170,3161965,stock_shares,common_share,0.0,0.0
+MU-RM,"Micron Technology, Inc.",Micron,"Micron Technology, Inc.",0.1,USD,2018-05-21,US5951121038,1118623738,stock_shares,common_share,0.0,0.0
+HRL-RM,Hormel Foods Ord Shs,HormelFood,Hormel Foods Ord Shs,0.01465,USD,2021-09-01,US4404521001,542556859,stock_shares,common_share,0.0,0.0
+MTLRP,Мечел ПАО ап,Мечел ап,Mechel pref.,10.0,SUR,2011-04-21,RU000A0JPV70,138756915,stock_shares,preferred_share,0.0,0.0
+VGSB,"""Волгоград.энергосбыткомп"" ПАО",ВолгЭнСб,Volgograd Energo Sbyt,0.12,SUR,2005-09-16,RU000A0D8L73,319595965,stock_shares,common_share,0.0,0.0
+RASP,ПАО Распадская ао,Распадская,Raspadskaya,0.004,SUR,2006-11-14,RU000A0B90N8,682858899,stock_shares,common_share,0.0,0.0
+CTXS-RM,"Citrix Systems, Inc.ORD SHS",Citrix,"Citrix Systems, Inc.ORD SHS",0.001,USD,2021-11-01,US1773761002,124232082,stock_shares,common_share,0.0,0.0
+LVS-RM,Las Vegas Sands Corp.,LVSands,Las Vegas Sands Corp.,0.001,USD,2021-07-01,US5178341070,763989752,stock_shares,common_share,0.0,0.0
+ensk,"Открытое акционерное общество ""Энергостальконструкция""","ОАО ""ЭСК""","Public Joint-Stock Company ""Energostalkonstrukciya""",1.0,RUB,,RU000A0JRGH1,93040410,stock_shares,common_share,0.0,0.0
+INGR,ИНГРАД ПАО ао,ИНГРАД ао,INGRAD,1000.0,SUR,2020-03-30,RU000A0DJ9B4,41220793,stock_shares,common_share,0.0,0.0
+CINF-RM,Cincinnati Financial Ord Shs,CincinnatF,Cincinnati Financial Ord Shs,2.0,USD,2021-09-01,US1720621010,161182879,stock_shares,common_share,0.0,0.0
+LNT-RM,Alliant Energy Corp ORD SHS,Alliant,Alliant Energy Corp ORD SHS,0.01,USD,2021-11-01,US0188021085,250257856,stock_shares,common_share,0.0,0.0
+BISV,Башинформсвязь(ПАО) ао,БашИнСв ао,BashInformSvyaz ao,1.0,SUR,2010-04-23,RU0009059216,949023840,stock_shares,common_share,0.0,0.0
+MFGSP,ап Мегионнефтегаз,Мегион-ап,Megion (pref),25.0,SUR,2005-01-11,RU0009011134,33056875,stock_shares,preferred_share,0.0,0.0
+PAZA,Павловский автобус ПАО ао,ПавлАвт ао,Pavlovo Bus ao,415.0,SUR,2011-12-08,RU0009083240,1567904,stock_shares,common_share,0.0,0.0
+ROP-RM,Roper Technologies Ord Shs,RoperTech,Roper Technologies Ord Shs,0.01,USD,2021-09-01,US7766961061,105423844,stock_shares,common_share,0.0,0.0
+EXPE-RM,"Expedia Group, Inc ORD SHS",ExpediaGrp,"Expedia Group, Inc ORD SHS",1.0E-4,USD,2021-10-01,US30212P3038,145296350,stock_shares,common_share,0.0,0.0
+HIG-RM,The Hartford ORD SHS,Hartford,The Hartford ORD SHS,0.01,USD,2021-10-01,US4165151048,347185658,stock_shares,common_share,0.0,0.0
+RAVN,Raven Property Group Limited,Raven,Raven Property Group Limited,0.01,GBP,2018-10-03,GB00B0D5V538,566493370,stock_shares,common_share,0.0,0.0
+VZ-RM,Verizon Communications Inc.,Verizon,Verizon Communications Inc.,0.1,USD,2021-03-01,US92343V1044,4140116007,stock_shares,common_share,0.0,0.0
+F-RM,Ford Motor Company,Ford Motor,Ford Motor Company,0.01,USD,2020-11-02,US3453708600,3923912316,stock_shares,common_share,0.0,0.0
+brszp,"Акционерное общество ""Березниковский содовый завод""","АО ""БСЗ""","Joint-Stock Company ""Bereznikovskij sodovyj zavod""",200.0,RUB,,RU000A0JQTL8,124142,stock_shares,preferred_share,0.0,0.0
+SIBN,Газпром нефть ПАО ао,Газпрнефть,Gazprom neft,0.0016,SUR,2003-07-10,RU0009062467,4741299639,stock_shares,common_share,0.0,0.0
+btstp,"Открытое акционерное общество ""Бамтоннельстрой""","ОАО ""Бамтоннельстрой""",Bamtonnelstroy Open Joint Stock Company,0.5,RUB,,RU000A0JNM32,32896,stock_shares,preferred_share,0.0,0.0
+MKC-RM,McCormick & Co Non-Voting Ord,McCormick,McCormick & Co Non-Voting Ord,,SUR,2021-09-01,US5797802064,249352103,stock_shares,common_share,0.0,0.0
+PLTR-RM,Palantir Technologies Inc.,Palantir,Palantir Technologies Inc.,0.001,USD,2021-06-01,US69608A1088,1866000060,stock_shares,common_share,0.0,0.0
+RTKMP,Ростелеком (ПАО) ап.,Ростел -ап,Rostelecom- (pref),0.0025,SUR,2005-01-11,RU0009046700,209565147,stock_shares,preferred_share,0.0,0.0
+CNP-RM,CenterPoint Energy ORD SHS,CentPointE,CenterPoint Energy ORD SHS,0.01,USD,2021-10-01,US15189T1079,592890377,stock_shares,common_share,0.0,0.0
+ABC-RM,AmerisourceBergen CorpORD SHS,AmerisouBn,AmerisourceBergen CorpORD SHS,0.01,USD,2021-11-01,US03073E1055,207787116,stock_shares,common_share,0.0,0.0
+OGKB,ОГК-2 ПАО ао,ОГК-2 ао,OGK-2,0.3627,SUR,2007-06-22,RU000A0JNG55,110441160870,stock_shares,common_share,0.0,0.0
+rpsz,"Акционерное общество ""Раменский приборостроительный завод""","АО ""РПЗ""",Joint stock company Ramensky Instrument Plant,10.0,RUB,,RU0008113535,179571,stock_shares,common_share,0.0,0.0
+BELU,Белуга Групп ПАО ао,Белуга ао,Beluga Group ao,100.0,SUR,2007-11-20,RU000A0HL5M1,15800000,stock_shares,common_share,0.0,0.0
+nfks,"Акционерное общество ""Инвестиционная компания ""НФК-Сбережения""","АО ""НФК-Сбережения""","Joint-Stock Company ""NFK-Savings Investment""",1.0,,,RU000A0ZYJA2,,stock_shares,common_share,0.0,0.0
+tmpap,"Публичное акционерное общество ""Арзамасское научно-производственное предприятие ""ТЕМП-АВИА""","ПАО АНПП ""ТЕМП-АВИА""","Public Joint Stock Company ""Arzamas research and production enterprise ""TEMP-AVIA""",0.1,RUB,,RU000A0JQBV5,42088,stock_shares,preferred_share,0.0,0.0
+ILMN-RM,"Illumina, Inc.",Illumina,"Illumina, Inc.",0.01,USD,2021-04-01,US4523271090,146700000,stock_shares,common_share,0.0,0.0
+TSCO-RM,TRACTOR SUPPLY CO. ORDSHS,TractorSup,TRACTOR SUPPLY CO. ORDSHS,0.008,USD,2021-11-01,US8923561067,114338347,stock_shares,common_share,0.0,0.0
+sibc,"Акционерное общество ""Сибирская энергетическая компания""","АО ""СИБЭКО""","""Siberian energy company"" Joint-Stock Company",0.25,RUB,,RU000A0JRML1,33395824000,stock_shares,common_share,0.0,0.0
+GD-RM,General Dynamics Ord Shs,GenDynamic,General Dynamics Ord Shs,1.0,USD,2021-09-01,US3695501086,279541414,stock_shares,common_share,0.0,0.0
+SYY-RM,Sysco Ord Shs,Sysco,Sysco Ord Shs,1.0,USD,2021-09-01,US8718291078,511581899,stock_shares,common_share,0.0,0.0
+KRKO,ТКЗ Красный котельщик ПАО ао,ТКЗКК ао,TKZ Krasny Kotelshchik ao,1.0,SUR,2011-12-09,RU0009098123,863258000,stock_shares,common_share,0.0,0.0
+KRKN,Саратовский НПЗ ПАО ао,СаратНПЗ,Saratovskiy NPZ ao,1.0,SUR,2011-12-08,RU0009100408,748012,stock_shares,common_share,0.0,0.0
+PHM-RM,"Pultegroup, Inc. Ordshs",Pultegroup,"Pultegroup, Inc. Ordshs",0.01,USD,2021-10-01,US7458671010,259524310,stock_shares,common_share,0.0,0.0
+DIOD,Завод ДИОД ПАО ао,ЗаводДИОД,Zavod DIOD ao,0.01,SUR,2010-06-09,RU000A0JQWC1,91500000,stock_shares,common_share,0.0,0.0
+SIBG,Айс стим Рус ПАО ао,АйсCтим ао,PAO Ice stim Rus ao,0.01,SUR,2015-08-05,RU000A0JVA36,600000000,stock_shares,common_share,0.0,0.0
+ACAD-RM,Acadia Pharmaceuticals Ord Shs,Acadia,Acadia Pharmaceuticals Ord Shs,1.0E-4,USD,2021-09-01,US0042251084,160643284,stock_shares,common_share,0.0,0.0
+FCX-RM,Freeport-McMoRan Inc.,Freeport,Freeport-McMoRan Inc.,0.1,USD,2021-03-01,US35671D8570,1468064383,stock_shares,common_share,0.0,0.0
+HAL-RM,Halliburton Company,Halliburt,Halliburton Company,2.5,USD,2021-03-01,US4062161017,890499362,stock_shares,common_share,0.0,0.0
+LMT-RM,Lockheed Martin Corporation,Lockheed,Lockheed Martin Corporation,1.0,USD,2021-03-01,US5398301094,276916491,stock_shares,common_share,0.0,0.0
+SMLT,ГК Самолет ао,Самолет ао,Samolet,25.0,SUR,2020-10-29,RU000A0ZZG02,61579358,stock_shares,common_share,0.0,0.0
+MAGEP,"""Магаданэнерго"" ПАО ап",МагадЭн ап,Magadanenergo ap,1.0,SUR,2010-11-12,RU0006758893,145673254,stock_shares,preferred_share,0.0,0.0
+BA-RM,The Boeing Company,Boeing,The Boeing Company,5.0,USD,2018-09-17,US0970231058,586151904,stock_shares,common_share,0.0,0.0
+MTLR,Мечел ПАО ао,Мечел ао,Mechel,10.0,SUR,2008-12-26,RU000A0DKXV5,416270745,stock_shares,common_share,0.0,0.0
+WYNN-RM,"Wynn Resorts, Limited ORD SHS",WynnResort,"Wynn Resorts, Limited ORD SHS",0.01,USD,2021-10-01,US9831341071,115671633,stock_shares,common_share,0.0,0.0
+GOOG-RM,Alphabet Inc.CL C,Google C,Alphabet Inc.CL C,0.001,USD,2018-09-17,US02079K1079,320168491,stock_shares,common_share,0.0,0.0
+PTC-RM,PTC Inc. ORD SHS,PTC,PTC Inc. ORD SHS,0.01,USD,2021-11-01,US69370C1009,117381783,stock_shares,common_share,0.0,0.0
+ELTZ,Электроцинк ПАО ао,Электрцинк,Elektrotsink ao,1.0,SUR,2008-10-14,RU000A0B66V1,1404308,stock_shares,common_share,0.0,0.0
+krog,"Акционерное общество ""Газпром газораспределение Киров""","АО ""Газпром газораспределение Киров""","Joint-Stock Company ""Kirovoblgaz""",1.0,RUB,,RU000A0B9SG7,99591,stock_shares,common_share,0.0,0.0
+MA-RM,Mastercard Inc. class A,Master  A,Mastercard Inc. class A,1.0E-4,USD,2018-05-21,US57636Q1040,978828818,stock_shares,common_share,0.0,0.0
+MAGE,"""Магаданэнерго"" ПАО ао",МагадЭн ао,Magadanenergo ao,1.0,SUR,2010-11-12,RU0006758919,463838268,stock_shares,common_share,0.0,0.0
+HPQ-RM,HP Inc.,HP,HP Inc.,0.01,USD,2020-11-02,US40434L1052,1152518738,stock_shares,common_share,0.0,0.0
+BLUE-RM,"Bluebird bio, Inc.",Bluebird,"Bluebird bio, Inc.",0.01,USD,2021-07-01,US09609G1004,67578549,stock_shares,common_share,0.0,0.0
+MAGN,"""Магнитогорск.мет.комб"" ПАО ао",ММК,MMK,1.0,SUR,2005-12-26,RU0009084396,11174330000,stock_shares,common_share,0.0,0.0
+PG-RM,The Procter & Gamble Company,P&G,The Procter & Gamble Company,,USD,2020-12-01,US7427181091,2427424874,stock_shares,common_share,0.0,0.0
+NKE-RM,"NIKE, Inc.",NIKE,"NIKE, Inc.",,USD,2020-12-01,US6541061031,1277806465,stock_shares,common_share,0.0,0.0
+KTSB,"""Костромск.сбыт.комп"" ПАО",КСБ ао,KSB,0.04,SUR,2005-08-18,RU000A0D8LW9,868998400,stock_shares,common_share,0.0,0.0
+TASB,"ао""Тамбов.энергсбыт.комп.""ПАО",ТамбЭнСб,Tambov EnergoSbyt Company,0.02,SUR,2005-08-08,RU000A0D8NG8,1525986880,stock_shares,common_share,0.0,0.0
+KRSBP,Красноярскэнергосбыт ап,Красэсб ап,Krashojarskenergosbyt pref.,0.02,SUR,2008-10-23,RU000A0HMLZ8,168993328,stock_shares,preferred_share,0.0,0.0
+BSPBP,Банк Санкт-Петербург ап,БСП ап,BSP ap,1.0,SUR,2021-01-26,RU000A0JP0U9,20100000,stock_shares,preferred_share,0.0,0.0
+NTRS-RM,Northern Trust Corp ORD SHS,NorthernTr,Northern Trust Corp ORD SHS,1.66667,USD,2021-11-01,US6658591044,208394779,stock_shares,common_share,0.0,0.0
+DZRD,Донской завод радиодеталей ао,ДонскЗР,DZRD ao,1.0,SUR,2010-12-30,RU000A0JQW11,343407,stock_shares,common_share,0.0,0.0
+ALB-RM,Albemarle Ord Shs,Albemarle,Albemarle Ord Shs,0.01,USD,2021-09-01,US0126531013,116949867,stock_shares,common_share,0.0,0.0
+krnf,"Акционерное общество ""Красноярскнефтепродукт""","АО ""КНП""","Joint-stock company ""Krasnoyarskoilproduction""",1.0,RUB,,RU000A0BK417,317739,stock_shares,common_share,0.0,0.0
+PWR-RM,"Quanta Services, Inc. ORD SHS",QuantaServ,"Quanta Services, Inc. ORD SHS",1.0E-5,USD,2021-11-01,US74762E1029,139152345,stock_shares,common_share,0.0,0.0
+BFB-RM,Brown Forman Ord Shs Class B,BrownFormB,Brown Forman Ord Shs Class B,0.15,USD,2021-09-01,US1156372096,309715974,stock_shares,common_share,0.0,0.0
+YKENP,"АК ""Якутскэнерго"" (ПАО) ап",Якутскэн-п,YakutskEnergo ap,2.22,SUR,2008-07-17,RU0007796827,1332635125,stock_shares,preferred_share,0.0,0.0
+DFS-RM,Discover Financial Serv Ordshs,DiscoveFin,Discover Financial Serv Ordshs,0.01,USD,2021-10-01,US2547091080,299468440,stock_shares,common_share,0.0,0.0
+RLMN,Группа Компаний Роллман ПАО ао,Роллман,Rollman GK ao,100.0,SUR,2012-12-19,RU000A0JTAP3,4700000,stock_shares,common_share,0.0,0.0
+TATN,"ПАО ""Татнефть"" ао",Татнфт 3ао,Tatneft-3,1.0,SUR,2005-01-11,RU0009033591,2178690700,stock_shares,common_share,0.0,0.0
+smog,"Акционерное общество ""Газпром газораспределение Смоленск""","АО ""Газпром газораспределение Смоленск""","Joint-Stock Company ""Smolenskoblgaz""",1.0,RUB,,RU000A0JP617,401416,stock_shares,common_share,0.0,0.0
+RUAL,РУСАЛ ОК МКПАО ао,РУСАЛ ао,RUSAL ao,0.65652,SUR,2015-03-30,RU000A1025V3,15193014862,stock_shares,common_share,0.0,0.0
+EXC-RM,Exelon Corporation ORD SHS,Exelon,Exelon Corporation ORD SHS,,SUR,2021-10-01,US30161N1019,977832660,stock_shares,common_share,0.0,0.0
+FEES,"""ФСК ЕЭС"" ПАО ао",ФСК ЕЭС ао,FSK EES,0.5,SUR,2008-07-16,RU000A0JPNN9,1274665323063,stock_shares,common_share,0.0,0.0
+KTSBP,"""Костромск.сбыт.комп"" ПАО",КСБ ап,KSB ap,0.04,SUR,2005-08-18,RU000A0D8PA6,136333440,stock_shares,preferred_share,0.0,0.0
+COP-RM,ConocoPhillips,ConocoPhil,ConocoPhillips,0.01,USD,2021-04-01,US20825C1045,1339082083,stock_shares,common_share,0.0,0.0
+MRKC,"ПАО ""Россети Центр"" ао",РоссЦентр,Rosseti Centr,0.1,SUR,2008-05-21,RU000A0JPPL8,42217941468,stock_shares,common_share,0.0,0.0
+GAZA,ГАЗ ПАО ао,ГАЗ ао,Gaz ao,1.0,SUR,2011-12-16,RU0009034268,18520260,stock_shares,common_share,0.0,0.0
+GAZC,ГАЗКОН (ПАО) ао,ГАЗКОН-ао,Gazkon ao,10.0,SUR,2011-09-28,RU000A0JQG86,225381601,stock_shares,common_share,0.0,0.0
+LSNG,Россети Ленэнерго ПАО-ао,РСетиЛЭ,Rosseti LenEnrg,1.0,SUR,2003-07-16,RU0009034490,8523785320,stock_shares,common_share,0.0,0.0
+MSTR-RM,MicroStrategy Incorporated,MicroStr,MicroStrategy Incorporated,0.001,USD,2021-06-01,US5949724083,7783443,stock_shares,common_share,0.0,0.0
+RTX-RM,Raytheon Technologies Corp,Raytheon,Raytheon Technologies Corp,1.0,USD,2021-04-01,US75513E1010,1507878091,stock_shares,common_share,0.0,0.0
+smnf,"Публичное акционерное общество ""НК ""Роснефть"" - Смоленскнефтепродукт""","ПАО ""НК ""Роснефть"" - Смоленскнефтепродукт""","Public Joint Stock Company ""NC ""Rosneft"" - Smolensknefteprodukt""",0.13,RUB,,RU0008012067,461576,stock_shares,common_share,0.0,0.0
+MSCI-RM,MSCI Ord Shs,MSCI,MSCI Ord Shs,0.01,USD,2021-09-01,US55354G1004,82442291,stock_shares,common_share,0.0,0.0
+tatf,"Публичное акционерное общество ""Татфондбанк""","ПАО ""Татфондбанк""","Public Joint Stock Company ""Tatfondbank""",10.0,RUB,,RU000A0JQ6X9,1681693903,stock_shares,common_share,0.0,0.0
+ETSY-RM,"Etsy, Inc. ORD SHS",Etsy Inc,"Etsy, Inc. ORD SHS",0.001,USD,2021-10-01,US29786A1060,126576797,stock_shares,common_share,0.0,0.0
+KROT,"""КрасныйОктябрь"" ПАО - ао",КрасОкт-ао,KrasnyiOctyabr,1.0,SUR,2003-09-09,RU0008913850,9217583,stock_shares,common_share,0.0,0.0
+SPCE-RM,"Virgin Galactic Holdings, Inc.",VirginGal,"Virgin Galactic Holdings, Inc.",1.0E-4,USD,2021-06-01,US92766K1060,257260827,stock_shares,common_share,0.0,0.0
+GAZP,"""Газпром"" (ПАО) ао",ГАЗПРОМ ао,Gazprom,5.0,SUR,2006-01-23,RU0007661625,23673512900,stock_shares,common_share,0.0,0.0
+GAZS,ГАЗ-сервис (ПАО) ао,ГАЗ-сервис,Gaz-servis ao,10.0,SUR,2011-09-28,RU000A0JQG78,206508967,stock_shares,common_share,0.0,0.0
+sgat,"Публичное акционерное общество ""Газпром спецгазавтотранс""","ПАО ""Газпром спецгазавтотранс""","Public Joint Stock Company ""Gazprom spetsgazavtotrans""",1.0,RUB,,RU000A0B90V1,878860,stock_shares,common_share,0.0,0.0
+ADP-RM,Automatic Data Processing Ord,ADP,Automatic Data Processing Ord,0.1,USD,2021-09-01,US0530151036,423080556,stock_shares,common_share,0.0,0.0
+GAZT,ГАЗ-Тек ПАО ао,ГАЗ-Тек ао,GAZ-Tek PAO ao,100.0,SUR,2012-01-26,RU000A0JS199,471428300,stock_shares,common_share,0.0,0.0
+ilim,"Акционерное общество ""Группа ""Илим""","АО ""Группа ""Илим""",Ilim Group Joint Stock Company,1.0,RUB,,RU000A0JPDH2,6123092946,stock_shares,common_share,0.0,0.0
+CAT-RM,Caterpillar Inc.,CAT,Caterpillar Inc.,1.0,USD,2020-12-01,US1491231015,547471467,stock_shares,common_share,0.0,0.0
+MGTS,"ПАО ""МГТС"" ао (5 в)",МГТС-5ао,MGTS-5,40.0,SUR,2005-01-11,RU0009036461,79708751,stock_shares,common_share,0.0,0.0
+NOV-RM,NOV Inc. ORD SHS,NOV Inc.,NOV Inc. ORD SHS,0.01,USD,2021-10-01,US62955J1034,390704130,stock_shares,common_share,0.0,0.0
+CL-RM,Colgate-Palmolive Company,Colgate,Colgate-Palmolive Company,1.0,USD,2021-03-01,US1941621039,843513490,stock_shares,common_share,0.0,0.0
+COIN-RM,"Coinbase Global, Inc.",Coinbase,"Coinbase Global, Inc.",1.0E-5,USD,2021-08-02,US19260Q1076,150967792,stock_shares,common_share,0.0,0.0
+MCD-RM,McDonald's Corporation,McDonald's,McDonald's Corporation,0.01,USD,2018-05-21,US5801351017,746798875,stock_shares,common_share,0.0,0.0
+ryazp,"Публичное акционерное общество ""Рязаньнефтепродукт""","ПАО ""Рязаньнефтепродукт""","Public Joint Stock Company Rjazan Oil Produkt, Incorporated",0.03,RUB,,RU0005294551,3966000,stock_shares,preferred_share,0.0,0.0
+AMGN-RM,Amgen Inc.,Amgen,Amgen Inc.,1.0E-4,USD,2021-03-01,US0311621009,567852353,stock_shares,common_share,0.0,0.0
+KRSB,Красноярскэнергосбыт ао,Красэсб ао,Krashojarskenergosbyt,0.02,SUR,2008-10-23,RU000A0HMLY1,596039612,stock_shares,common_share,0.0,0.0
+AMD-RM,"Advanced Micro Devices, Inc.",AMD Inc.,"Advanced Micro Devices, Inc.",0.01,USD,2018-05-21,US0079031078,1212965282,stock_shares,common_share,0.0,0.0
+WTCMP,"""Центр междун. торговли""ПАО ап",ЦМТ ап,CMT (pref),1.0,SUR,2007-09-27,RU0008137088,162000000,stock_shares,preferred_share,0.0,0.0
+AAL-RM,American Airlines Group Inc.,AmAirlines,American Airlines Group Inc.,0.01,USD,2020-11-02,US02376R1023,647457831,stock_shares,common_share,0.0,0.0
+LSRG,Группа ЛСР ПАО ао,ЛСР ао,LSR,0.25,SUR,2007-11-09,RU000A0JPFP0,103030215,stock_shares,common_share,0.0,0.0
+MRKK,Россети Сев. Кавказ ао,Россети СК,Rosseti Severnyy Kavkaz ao,1.0,SUR,2008-06-19,RU000A0JPPQ7,889313596,stock_shares,common_share,0.0,0.0
+MERF,МЕРИДИАН ПАО ао,МЕРИДИАН,Meridian ao,0.1,SUR,2008-11-26,RU000A0JQ128,522163526,stock_shares,common_share,0.0,0.0
+vnip,"Публичное акционерное общество ""ВНИПИгаздобыча""","ПАО ""ВНИПИгаздобыча""","PJSC ""VNIPIgazdobycha""",1.0,RUB,,RU000A0JNY46,113977,stock_shares,common_share,0.0,0.0
+MRKS,Россети Сибирь ао,РсетСиб ао,Rosseti Sibir,0.1,SUR,2008-06-05,RU000A0JPPF0,94815163249,stock_shares,common_share,0.0,0.0
+LW-RM,Lamb Weston Holdings ORD SHS,LambWeston,Lamb Weston Holdings ORD SHS,1.0,USD,2021-11-01,US5132721045,146068401,stock_shares,common_share,0.0,0.0
+ATVI-RM,"Activision Blizzard, Inc.",Activision,"Activision Blizzard, Inc.",,USD,2018-05-21,US00507V1098,777708445,stock_shares,common_share,0.0,0.0
+MRKU,МРСК Урала (ОАО) ао,МРСК Ур,MRSK Urala ao,0.1,SUR,2008-06-18,RU000A0JPPT1,87430485711,stock_shares,common_share,0.0,0.0
+MRKP,Россети Центр и Приволжье ао,РСетиЦП ао,Rosseti Centr i Privoljye ao,0.1,SUR,2008-04-07,RU000A0JPN96,112697817043,stock_shares,common_share,0.0,0.0
+smpp,"Акционерное общество ""Ступинское машиностроительное производственное предприятие""","АО ""СМПП""","Joint Stock Company ""Stupino Engineering Productive Enterprise""",1.0,RUB,,RU000A0JRG69,155422,stock_shares,common_share,0.0,0.0
+MRKZ,ПАО Россети Северо-Запад ао,РСетиСЗ ао,Rosseti Severo-Zapad,0.1,SUR,2008-05-29,RU000A0JPPB9,95785923138,stock_shares,common_share,0.0,0.0
+FE-RM,FirstEnergy Corp. ORD SHS,FirstEnerg,FirstEnergy Corp. ORD SHS,0.1,USD,2021-10-01,US3379321074,544193637,stock_shares,common_share,0.0,0.0
+MRKV,Россети Волга ао,РсетВол ао,Rosseti Volga,0.1,SUR,2008-05-23,RU000A0JPPN4,188307958732,stock_shares,common_share,0.0,0.0
+kpmo,"Акционерное общество ""Казанское моторостроительное производственное объединение""","АО ""КМПО""","Joint-Stock Company ""Kazan Motor-Building Production Association""",1.0,RUB,,RU0006753449,6342910,stock_shares,common_share,0.0,0.0
+TPR-RM,"Tapestry, Inc. ORD SHS",Tapestry,"Tapestry, Inc. ORD SHS",0.01,USD,2021-10-01,US8760301072,279575180,stock_shares,common_share,0.0,0.0
+MRKY,Россети Юг  (ПАО) ао,РоссЮг ао,Rosseti South ao,0.1,SUR,2008-08-22,RU000A0JPPG8,151641426354,stock_shares,common_share,0.0,0.0
+CVX-RM,Chevron Corporation,Chevron,Chevron Corporation,0.75,USD,2020-12-01,US1667641005,1933911944,stock_shares,common_share,0.0,0.0
+SPGI-RM,S&P Global Inc.,S&P,S&P Global Inc.,1.0,USD,2021-08-02,US78409V1044,241000000,stock_shares,common_share,0.0,0.0
+APH-RM,Amphenol Corporation,Amphenol,Amphenol Corporation,0.001,USD,2021-08-02,US0320951017,598185235,stock_shares,common_share,0.0,0.0
+gnyap,"Открытое акционерное общество ""Газпромнефть-Ярославль""","ОАО ""Газпромнефть-Ярославль""","Public Joint-Stock Company ""Gazpromneft'-YAroslavl'""",,RUB,,RU000A0JQ1T8,93230682,stock_shares,preferred_share,0.0,0.0
+PHOR,ФосАгро ПАО ао,ФосАгро ао,PhosAgro ao,2.5,SUR,2011-07-18,RU000A0JRKT8,129500000,stock_shares,common_share,0.0,0.0
+AMEZ, Ашинский метзавод ПАО ао,АшинскийМЗ,Ashinckiy metzavod PAO,1.0,SUR,2008-08-28,RU000A0B88G6,498454822,stock_shares,common_share,0.0,0.0
+SVAV,"ПАО ""СОЛЛЕРС Авто"" ао",СОЛЛЕРС,Sollers Avto,12.5,SUR,2005-04-22,RU0006914488,34270159,stock_shares,common_share,0.0,0.0
+ISRG-RM,"Intuitive Surgical, Inc.",Intuitive,"Intuitive Surgical, Inc.",0.001,USD,2021-05-04,US46120E6023,357236861,stock_shares,common_share,0.0,0.0
+brog,"Акционерное общество ""Газпром газораспределение Брянск""","АО ""Газпром газораспределение Брянск""","Joint-Stock Company ""Gazprom gazoraspredelenie Bryansk""",0.5,RUB,,RU0009121131,109935,stock_shares,common_share,0.0,0.0
+zent,Банк ЗЕНИТ (публичное акционерное общество),ПАО Банк ЗЕНИТ,Bank ZENIT (Public Joint Stock Company),1.0,RUB,,RU000A0JPCR3,19545000000,stock_shares,common_share,0.0,0.0
+PLZL,Полюс ПАО ао,Полюс,Polus,1.0,SUR,2006-05-12,RU000A0JNAA8,136069400,stock_shares,common_share,0.0,0.0
+ABRD,Абрау-Дюрсо ПАО ао,АбрауДюрсо,Abrau-Durso ao,1.0,SUR,2012-10-02,RU000A0JS5T7,98000184,stock_shares,common_share,0.0,0.0
+SELGP,"ПАО ""Селигдар"" ап",Селигдар-п,Seligdar ap,1.0,SUR,2012-05-11,RU000A0JS2J5,150000000,stock_shares,preferred_share,0.0,0.0
+QCOM-RM,QUALCOMM Incorporated,QUALCOMM,QUALCOMM Incorporated,1.0E-4,USD,2020-11-02,US7475251036,1128000000,stock_shares,common_share,0.0,0.0
+mtpvp,"Открытое акционерное общество ""Ванинский морской торговый порт""","ОАО ""Порт Ванино""","Public Joint Stock Company ""Vanino Commercial Sea Port""",1.0,RUB,,RU000A0JQGK7,33725,stock_shares,preferred_share,0.0,0.0
+stkgp,"Акционерное общество ""Газпром газораспределение Ставрополь""","АО ""Газпром газораспределение Ставрополь""","Joint-Stock Company ""Gazprom Gazoraspredelenie Stavropol""",5.0,RUB,,RU000A0JPHG5,18650,stock_shares,preferred_share,0.0,0.0
+btst,"Открытое акционерное общество ""Бамтоннельстрой""","ОАО ""Бамтоннельстрой""",Bamtonnelstroy Open Joint Stock Company,0.5,RUB,,RU000A0JNM24,98688,stock_shares,common_share,0.0,0.0
+WST-RM,West Pharmaceutical Serv OS,WestPharma,West Pharmaceutical Serv OS,0.25,USD,2021-09-01,US9553061055,73979087,stock_shares,common_share,0.0,0.0
+ASSB,"""Астраханская ЭСК"" ПАО",АстрЭнСб,Astrakhan Energo Sbyt,0.007,SUR,2005-09-16,RU000A0D8MM8,773900078,stock_shares,common_share,0.0,0.0
+SYF-RM,Synchrony Financial ORD SHS,Synchrony,Synchrony Financial ORD SHS,0.001,USD,2021-10-01,US87165B1035,569699116,stock_shares,common_share,0.0,0.0
+orgz,"Акционерное общество ""Газпром газораспределение Орел""","АО ""Газпром газораспределение Орел""","Joint-Stock Company ""Gazprom gazoraspredelenie Orel""",1.0,RUB,,RU0002614702,37949,stock_shares,common_share,0.0,0.0
+SCCO-RM,Southern Copper Corporation,SCC,Southern Copper Corporation,0.01,USD,2021-06-01,US84265V1052,773081269,stock_shares,common_share,0.0,0.0
+VRSB,ТНС энерго Воронеж ПАО ао,ТНСэнВорон,TNS energo Voroneg ao,0.4,SUR,2005-10-14,RU000A0DPG67,56151024,stock_shares,common_share,0.0,0.0
+sarnp,"Открытое акционерное общество ""Саратовнефтепродукт""","ОАО ""Саратовнефтепродукт""","Public Joint-Stock Company ""Saratovnefteprodukt""",0.25,RUB,,RU0006941713,673196,stock_shares,preferred_share,0.0,0.0
+metp,"Открытое акционерное общество по стоительству метрополитена в городе Санкт-Петербурге ""Метрострой""","ОАО ""Метрострой""","Public Joint-Stock Company po stoitelstvu metropolitena v gorode Sankt-Peterburge ""Metrostroj""",0.5,RUB,,RU000A0JP690,221316,stock_shares,common_share,0.0,0.0
+BANE,Башнефть АНК ао,Башнефт ао,Bashneft ANK ao,1.0,SUR,2011-11-18,RU0007976957,147846489,stock_shares,common_share,0.0,0.0
+HRTX-RM,Heron Therapeutics Ord Shs,HeronTx,Heron Therapeutics Ord Shs,0.01,USD,2021-09-01,US4277461020,101909490,stock_shares,common_share,0.0,0.0
+BBWI-RM,"Bath & Body Works, Inc ORD SHS",Bath&BodyW,"Bath & Body Works, Inc ORD SHS",0.5,USD,2021-10-01,US0708301041,264372947,stock_shares,common_share,0.0,0.0
+IPG-RM,Interpublic Group ofComp ORDSH,Interpubl,Interpublic Group ofComp ORDSH,0.1,USD,2021-10-01,US4606901001,393620225,stock_shares,common_share,0.0,0.0
+AJG-RM,Arthur J Gallagher ORD SHS,ArthurJGal,Arthur J Gallagher ORD SHS,1.0,USD,2021-11-01,US3635761097,206750000,stock_shares,common_share,0.0,0.0
+CFG-RM,Citizens Financial Group ORDSH,CitizFinGr,Citizens Financial Group ORDSH,0.01,USD,2021-10-01,US1746101054,426083147,stock_shares,common_share,0.0,0.0
+MAR-RM,Marriott Int ORD SHS CLA,Marriott A,Marriott Int ORD SHS CLA,0.01,USD,2021-10-01,US5719032022,325656362,stock_shares,common_share,0.0,0.0
+HBAN-RM,Huntington Bancshares Ord Shs,Huntington,Huntington Bancshares Ord Shs,0.01,USD,2021-09-01,US4461501045,1476557426,stock_shares,common_share,0.0,0.0
+VNT-RM,Vontier Corporation,Vontier,Vontier Corporation,1.0E-4,USD,2021-05-04,US9288811014,168925097,stock_shares,common_share,0.0,0.0
+OXY-RM,Occidental Petroleum Corp,Occidental,Occidental Petroleum Corp,0.2,USD,2021-04-01,US6745991058,933734637,stock_shares,common_share,0.0,0.0
+RUGR,Русгрэйн Холдинг ПАО ао,Русгрэйн,Rusgrain Holding ao,1.0,SUR,2010-08-13,RU000A0JPNP4,42984000,stock_shares,common_share,0.0,0.0
+ANTM-RM,Anthem Inc.,Anthem,Anthem Inc.,0.01,USD,2021-05-04,US0367521038,243815480,stock_shares,common_share,0.0,0.0
+BLL-RM,Ball Corporation ORD SHS,Ball Corp,Ball Corporation ORD SHS,,SUR,2021-11-01,US0584981064,326610304,stock_shares,common_share,0.0,0.0
+svfr,"Открытое акционерное общество ""Совфрахт""","ОАО ""Совфрахт""","Public Joint-Stock Company ""Sovfraxt""",30.0,RUB,,RU000A0JPG79,265320,stock_shares,common_share,0.0,0.0
+STT-RM,State Street Corporation,StatStreet,State Street Corporation,1.0,USD,2021-07-01,US8574771031,343503114,stock_shares,common_share,0.0,0.0
+VLHZ,Владимирский химич.з-д(ПАО) ао,ВХЗ-ао,VHZ,20.0,SUR,2006-07-12,RU0007984761,5005605,stock_shares,common_share,0.0,0.0
+APD-RM,Air Products and Chemicals Ord,AirProduct,Air Products and Chemicals Ord,1.0,USD,2021-09-01,US0091581068,221364660,stock_shares,common_share,0.0,0.0
+CBOM,"""МКБ"" ПАО ао",МКБ ао,MKB ao,1.0,SUR,2015-06-22,RU000A0JUG31,33429709866,stock_shares,common_share,0.0,0.0
+MTSS,Мобильные ТелеСистемы ПАО ао,МТС-ао,MTS,0.1,SUR,2004-02-11,RU0007775219,1998381575,stock_shares,common_share,0.0,0.0
+MMC-RM,Marsh & McLennan ORD SHS,MarshMcLen,Marsh & McLennan ORD SHS,1.0,USD,2021-11-01,US5717481023,504895367,stock_shares,common_share,0.0,0.0
+AXP-RM,American Express Company,AmExpress,American Express Company,0.2,USD,2021-07-01,US0258161092,794433076,stock_shares,common_share,0.0,0.0
+hmtzp,"публичное акционерное общество ""Химико-металлургический завод""","ПАО ""ХМЗ""","Public joint-stock company ""Chemical-metallurgical plant""",1.0,RUB,,RU000A0DJ9Z3,262872,stock_shares,preferred_share,0.0,0.0
+HLT-RM,Hilton Worldwide Hold ORD SHS,HiltonWrld,Hilton Worldwide Hold ORD SHS,0.01,USD,2021-10-01,US43300A2033,278686003,stock_shares,common_share,0.0,0.0
+TNSE,"ПАО ГК ""ТНС энерго"" ао",ТНСэнрг ао,"PAO GK ""TNS energo"" ao",1.0,SUR,2015-06-17,RU000A0JUCQ5,13668239,stock_shares,common_share,0.0,0.0
+SCHW-RM,The Charles Schwab Corporation,ChrlSchwab,The Charles Schwab Corporation,0.01,USD,2021-07-01,US8085131055,1808708881,stock_shares,common_share,0.0,0.0
+SVET,Светофор Групп ао,Светофор,Svetofor Group,1.0,SUR,2021-01-15,RU000A100592,22333500,stock_shares,common_share,0.0,0.0
+HIMC,Химпром ПАО ао,Химпром ао,Himprom ao,1.0,SUR,2011-12-14,RU0009098990,688894206,stock_shares,common_share,0.0,0.0
+SPLK-RM,Splunk Inc.,Splunk,Splunk Inc.,0.001,USD,2021-06-01,US8486371045,161545802,stock_shares,common_share,0.0,0.0
+GWW-RM,WW Grainger Ord Shs,WWGrainger,WW Grainger Ord Shs,0.5,USD,2021-09-01,US3848021040,52074363,stock_shares,common_share,0.0,0.0
+knms,"Открытое акционерное общество ""Кубанские магистральные сети""","ОАО ""Кубанские магистральные сети""","Public Joint-Stock Company ""Kubanskie magistralnye seti""",50.0,RUB,,RU000A0JP252,17869440,stock_shares,common_share,0.0,0.0
+NSC-RM,NORFOLK SOUTHERN CORPOR ORDSHS,NorfolkSth,NORFOLK SOUTHERN CORPOR ORDSHS,1.0,USD,2021-11-01,US6558441084,246972217,stock_shares,common_share,0.0,0.0
+UNH-RM,UnitedHealth Group Inc,UnitedHlth,UnitedHealth Group Inc,0.01,USD,2021-03-01,US91324P1021,942917366,stock_shares,common_share,0.0,0.0
+FMC-RM,FMC Corporation ORD SHS,FMCCorp,FMC Corporation ORD SHS,0.1,USD,2021-11-01,US3024913036,128699387,stock_shares,common_share,0.0,0.0
+LSNGP,Россети Ленэнерго ПАО-ап,РСетиЛЭ-п,Rosseti LenEnrg (pref),1.0,SUR,2003-07-16,RU0009092134,93264311,stock_shares,preferred_share,0.0,0.0
+SHW-RM,Sherwin Williams Ord Shs,SherwinWil,Sherwin Williams Ord Shs,0.33333,USD,2021-09-01,US8243481061,263302451,stock_shares,common_share,0.0,0.0
+UPS-RM,"United Parcel Service, Inc.",UPS,"United Parcel Service, Inc.",0.01,USD,2021-04-01,US9113121068,728289602,stock_shares,common_share,0.0,0.0
+PPG-RM,PPG Industries Ord Shs,PPGIndustr,PPG Industries Ord Shs,1.66667,USD,2021-09-01,US6935061076,237356580,stock_shares,common_share,0.0,0.0
+TXT-RM,Textron Inc.,Textron,Textron Inc.,0.125,USD,2021-08-02,US8832031012,224137963,stock_shares,common_share,0.0,0.0
+TAT-ME,TransAtlantic Petroleum FR SHS,TAT-ао,TransAtlantic Petroleum FR SHS,0.1,USD,2014-04-21,BMG899821133,,stock_shares,common_share,0.0,0.0
+VJGZ,ННК-Варьеганнефтегаз ПАО ао,Варьеган,Var'eganneftegaz ao,0.1,SUR,2011-12-14,RU0009046460,18091110,stock_shares,common_share,0.0,0.0
+MRSB,Мордовск.энергсбыт.комп.ПАО ао,МордЭнСб,Mordovskaya EnergoSbyt Comp.,0.0136,SUR,2005-09-01,RU000A0D9AJ7,1345037710,stock_shares,common_share,0.0,0.0
+ALK-RM,ALASKA AIR GROUP INC ORD SHS,Alaska Air,ALASKA AIR GROUP INC ORD SHS,0.01,USD,2021-11-01,US0116591092,125232721,stock_shares,common_share,0.0,0.0
+NFLX-RM,"Netflix, Inc.",Netflix,"Netflix, Inc.",0.001,USD,2018-05-21,US64110L1061,442595888,stock_shares,common_share,0.0,0.0
+DOV-RM,Dover Ord Shs,DoverCorp,Dover Ord Shs,1.0,USD,2021-09-01,US2600031080,143960933,stock_shares,common_share,0.0,0.0
+brsz,"Акционерное общество ""Березниковский содовый завод""","АО ""БСЗ""","Joint-Stock Company ""Bereznikovskij sodovyj zavod""",200.0,RUB,,RU000A0JQTK0,748441,stock_shares,common_share,0.0,0.0
+DAL-RM,"Delta Air Lines, Inc. ORD SHS",Delta Air,"Delta Air Lines, Inc. ORD SHS",1.0E-4,USD,2021-10-01,US2473617023,640013818,stock_shares,common_share,0.0,0.0
+TRNFP,Транснефть ПАО акц.пр.,Транснф ап,Transneft (pref),1.0,SUR,2008-01-14,RU0009091573,1554875,stock_shares,preferred_share,0.0,0.0
+LNC-RM,Lincoln National Corporation,Lincoln,Lincoln National Corporation,,USD,2021-08-02,US5341871094,187923317,stock_shares,common_share,0.0,0.0
+LUV-RM,Southwest Airlines Co.,Southwest,Southwest Airlines Co.,1.0,USD,2021-05-04,US8447411088,591644557,stock_shares,common_share,0.0,0.0
+AQUA,Русская Аквакультура ПАО ао,РусАква ао,Russkaya Akvakul'tura,100.0,SUR,2010-04-16,RU000A0JQTS3,87876649,stock_shares,common_share,0.0,0.0
+NWL-RM,Newell Brands Inc. ORD SHS,NewellBrnd,Newell Brands Inc. ORD SHS,1.0,USD,2021-10-01,US6512291062,425400000,stock_shares,common_share,0.0,0.0
+WISH-RM,ContextLogic Inc.,ContextLog,ContextLogic Inc.,1.0E-4,USD,2021-08-02,US21077C1071,558000000,stock_shares,common_share,0.0,0.0
+NVR-RM,NVR Ord Shs,NVR,NVR Ord Shs,0.01,USD,2021-09-01,US62944T1051,3563782,stock_shares,common_share,0.0,0.0
+FIS-RM,"Fidelity NI Svcs, Inc. ORD SHS",FidelityNI,"Fidelity NI Svcs, Inc. ORD SHS",0.01,USD,2021-10-01,US31620M1062,617690708,stock_shares,common_share,0.0,0.0
+CTSH-RM,Cognizant Technolog ORDSH CL A,CognizTS A,Cognizant Technolog ORDSH CL A,0.01,USD,2021-10-01,US1924461023,525597200,stock_shares,common_share,0.0,0.0
+MCK-RM,McKesson CorporationORD SHS,McKesson,McKesson CorporationORD SHS,0.01,USD,2021-11-01,US58155Q1031,154674571,stock_shares,common_share,0.0,0.0
+mvzm,"Акционерное общество ""Московский вертолетный завод им. М.Л. Миля""","АО ""МВЗ им. М.Л. Миля""","Joint Stock Company ""Mil Moscow Helicopter Plant""",25.0,RUB,,RU0006758992,3504046,stock_shares,common_share,0.0,0.0
+GS-RM,"The Goldman Sachs Group, Inc.",GoldmanSac,"The Goldman Sachs Group, Inc.",0.01,USD,2021-06-01,US38141G1040,337097488,stock_shares,common_share,0.0,0.0
+AIG-RM,American International ORD SHS,AmericInt,American International ORD SHS,2.5,USD,2021-10-01,US0268747849,855202437,stock_shares,common_share,0.0,0.0
+J-RM,Jacobs Engineering Group OrdSh,JacobsEngG,Jacobs Engineering Group OrdSh,1.0,USD,2021-09-01,US4698141078,130314412,stock_shares,common_share,0.0,0.0
+RBCM,РБК ПАО ао,РБК ао,RBK ao,6.4E-4,SUR,2011-01-19,RU000A0JR6A6,365631010,stock_shares,common_share,0.0,0.0
+HES-RM,Hess Corporation ORD SHS,HessCorp,Hess Corporation ORD SHS,1.0,USD,2021-10-01,US42809H1077,309672952,stock_shares,common_share,0.0,0.0
+CTVA-RM,"Corteva, Inc. ORD SHS",CortevaInc,"Corteva, Inc. ORD SHS",0.01,USD,2021-10-01,US22052L1044,734185000,stock_shares,common_share,0.0,0.0
+EW-RM,Edwards Lifesciences Co Ordshs,EdwardsLif,Edwards Lifesciences Co Ordshs,1.0,USD,2021-10-01,US28176E1082,623327843,stock_shares,common_share,0.0,0.0
+AES-RM,The AES Corporation ORD SHS,AES Corp,The AES Corporation ORD SHS,0.01,USD,2021-10-01,US00130H1059,666359739,stock_shares,common_share,0.0,0.0
+klog,"Акционерное общество ""Газпром газораспределение Калуга""","АО ""Газпром газораспределение Калуга""","Joint Stock Company ""Gazprom Gazoraspredelenie Kaluga""",1.0,RUB,,RU0007661856,29887,stock_shares,common_share,0.0,0.0
+EL-RM,Estee Lauder Co Inc ORDSH CL A,EsteeLau А,Estee Lauder Co Inc ORDSH CL A,0.01,USD,2021-11-01,US5184391044,233045213,stock_shares,common_share,0.0,0.0
+LNZLP,"""Лензолото"" ПАО ап",Лензол. ап,Lenzoloto pref.,1.0,SUR,2009-06-18,RU000A0JP1P7,347700,stock_shares,preferred_share,0.0,0.0
+orog,"Открытое акционерное общество ""Оренбургоблгаз""","ОАО ""Оренбургоблгаз""","Public Joint-Stock Company ""Orenburgoblgaz""",1.0,RUB,,RU0006935822,76795,stock_shares,common_share,0.0,0.0
+FDX-RM,FedEx Corporation,FedEx,FedEx Corporation,0.1,USD,2020-11-02,US31428X1063,265650056,stock_shares,common_share,0.0,0.0
+LIFE,Фармсинтез ПАО ао,iФармсинтз,Farmsintez ao,5.0,SUR,2010-11-24,RU000A0JR514,301010754,stock_shares,common_share,0.0,0.0
+fenz,"Открытое акционерное общество ""Фирма Энергозащита""","ОАО ""Фирма Энергозащита""",Energozashita P.L.C,0.5,RUB,,RU000A0JNT84,1755571,stock_shares,common_share,0.0,0.0
+EA-RM,Electronic Arts Inc.,EA Inc.,Electronic Arts Inc.,0.01,USD,2020-11-02,US2855121099,284581807,stock_shares,common_share,0.0,0.0
+GAZAP,ГАЗ ПАО ап,ГАЗ ап,Gaz (pref),1.0,SUR,2018-03-30,RU000A0ZYHF5,1453500,stock_shares,preferred_share,0.0,0.0
+TASBP,"ап""Тамбов.энергсбыт.комп.""ПАО",ТамбЭнСб-п,Tambov EnergoSbyt Comp. (pref),0.02,SUR,2005-08-08,RU000A0D8NH6,217961420,stock_shares,preferred_share,0.0,0.0
+zlad,"Публичное акционерное общество ""Завод ""Ладога""","ПАО ""Завод ""Ладога""","Public Joint-Stock Company ""Zavod ""Ladoga""",1.0,RUB,,RU000A0JQ3A4,968541,stock_shares,common_share,0.0,0.0
+CERN-RM,Cerner Corporation ORD SHS,CernerCorp,Cerner Corporation ORD SHS,0.01,USD,2021-10-01,US1567821046,295585810,stock_shares,common_share,0.0,0.0
+NUE-RM,Nucor Corporation,Nucor,Nucor Corporation,0.4,USD,2021-07-01,US6703461052,293694534,stock_shares,common_share,0.0,0.0
+KHC-RM,The Kraft Heinz Company,KraftHeinz,The Kraft Heinz Company,0.01,USD,2020-12-01,US5007541064,1223387136,stock_shares,common_share,0.0,0.0
+MCHP-RM,Microchip Technology Inc ORDSH,Microchip,Microchip Technology Inc ORDSH,0.001,USD,2021-11-01,US5950171042,548080342,stock_shares,common_share,0.0,0.0
+BSX-RM,Boston Scientific Corporation,BostonSci,Boston Scientific Corporation,0.01,USD,2021-04-01,US1011371077,1423852648,stock_shares,common_share,0.0,0.0
+KMI-RM,Kinder Morgan Ord Shs Class P,KinderM P,Kinder Morgan Ord Shs Class P,0.01,USD,2021-09-01,US49456B1017,2266520797,stock_shares,common_share,0.0,0.0
+HOLN-ME,Holcim Ltd. FR SHS,HOLN-ао,Holcim Ltd. FR SHS,2.0,CHF,2014-04-21,CH0012214059,,stock_shares,common_share,0.0,0.0
+szuc,"Публичное акционерное общество ""Северо-Западная энергетическая управляющая компания""","ПАО ""СЗЭУК""","PUBLIC JOINT STOCK COMPANY ""NORTH-WEST ENERGY MANAGING COMPANY""",0.17,RUB,,RU000A0H1LH1,766035008,stock_shares,common_share,0.0,0.0
+AVAG,Авангард-Агро АО ао,АванАгр-ао,Avangard-Agro ao,1000.0,SUR,2017-12-06,RU000A0JWMY4,,stock_shares,common_share,0.0,0.0
+KUBE,"""Россети Кубань"" ПАО",РСетКубань,Rosseti Kuban,100.0,SUR,2003-09-30,RU0009046767,334657837,stock_shares,common_share,0.0,0.0
+POGR,Petropavlovsk PLC,Petropavl,Petropavlovsk PLC,0.01,GBP,2020-06-25,GB0031544546,3957270254,stock_shares,common_share,0.0,0.0
+YKEN,"АК ""Якутскэнерго"" (ПАО) ао",Якутскэнрг,YakutskEnergo,2.22,SUR,2004-12-02,RU0009257075,7963562986,stock_shares,common_share,0.0,0.0
+EOG-RM,"EOG Resources, Inc. ORD SHS",EOG Res,"EOG Resources, Inc. ORD SHS",0.01,USD,2021-10-01,US26875P1012,583860156,stock_shares,common_share,0.0,0.0
+TSN-RM,"Tyson Foods, Inc.",TysonFoods,"Tyson Foods, Inc.",0.1,USD,2021-05-04,US9024941034,294815725,stock_shares,common_share,0.0,0.0
+JNPR-RM,Juniper Networks ORD SHS,JuniperNet,Juniper Networks ORD SHS,1.0E-5,USD,2021-10-01,US48203R1041,325151821,stock_shares,common_share,0.0,0.0
+PXD-RM,Pioneer Natural Resources ODSH,PioneerNat,Pioneer Natural Resources ODSH,0.01,USD,2021-10-01,US7237871071,243959045,stock_shares,common_share,0.0,0.0
+EBAY-RM,eBay Inc.,eBay,eBay Inc.,0.001,USD,2021-03-01,US2786421030,650055805,stock_shares,common_share,0.0,0.0
+JNOSP,Славнефть-ЯНОС (ПАО) ап,Слав-ЯНОСп,Slavneft-JANOS (pref),1.0,SUR,2010-07-22,RU0009101927,310884574,stock_shares,preferred_share,0.0,0.0
+PYPL-RM,"PayPal Holdings, Inc.",PayPal,"PayPal Holdings, Inc.",1.0E-4,USD,2020-11-02,US70450Y1038,1175032150,stock_shares,common_share,0.0,0.0
+MGM-RM,MGM Resorts International,MGMResorts,MGM Resorts International,0.01,USD,2021-07-01,US5529531015,481880377,stock_shares,common_share,0.0,0.0
+YRSBP,ТНС энерго Ярославль ПАО ап,ТНСэнЯр-п,TNS energo Yaroslavl' (pref),1.0,SUR,2005-08-29,RU000A0D88B3,4507320,stock_shares,preferred_share,0.0,0.0
+OGN-RM,Organon and Co.,Organon,Organon and Co.,0.01,USD,2021-07-01,US68622V1061,253545051,stock_shares,common_share,0.0,0.0
+UAL-RM,"United Airlines Holdings, Inc.",United Air,"United Airlines Holdings, Inc.",0.01,USD,2021-03-01,US9100471096,323612861,stock_shares,common_share,0.0,0.0
+IFF-RM,Inter Flav&Frag Inc ORD SHS,Flav&Frag,Inter Flav&Frag Inc ORD SHS,0.125,USD,2021-10-01,US4595061015,249064711,stock_shares,common_share,0.0,0.0
+KAZT,Куйбышевазот ПАО ао,Куйбазот,Kuib.Azot ao,1.0,SUR,2011-12-14,RU000A0B9BV2,234147999,stock_shares,common_share,0.0,0.0
+MNST-RM,Monster Beverage Corporation,Monster,Monster Beverage Corporation,0.005,USD,2021-05-04,US61174X1090,528885811,stock_shares,common_share,0.0,0.0
+REGI-RM,Renewable Energy Ord Shs,RenewEnerg,Renewable Energy Ord Shs,1.0E-4,USD,2021-09-01,US75972A3014,50235068,stock_shares,common_share,0.0,0.0
+TMUS-RM,"T-Mobile US, Inc.",T-Mobile,"T-Mobile US, Inc.",1.0E-5,USD,2021-03-01,US8725901040,1247966318,stock_shares,common_share,0.0,0.0
+UTAR,"Авиакомания ""ЮТэйр"" (ПАО) ао",ЮТэйр ао,UTAir Aviacompany,1.0,SUR,2005-01-11,RU0007661385,3702208000,stock_shares,common_share,0.0,0.0
+vlog,"Акционерное общество ""Газпром газораспределение Владимир""","АО ""Газпром газораспределение Владимир""","Joint-Stock Company ""Gazprom Gazoraspredelenie Vladimir""",1.0,RUB,,RU0007964813,45043,stock_shares,common_share,0.0,0.0
+AVAN,"АКБ ""АВАНГАРД"" ПАО ао",Авангрд-ао,"AKB ""AVANGARD""",10.0,SUR,2012-07-09,RU000A0DM7B3,80700000,stock_shares,common_share,0.0,0.0
+semp,"Открытое акционерное общество ""Северное морское пароходство""","ОАО ""СМП""","Joint Stock Company ""Northern Shipping Company""",1.0,RUB,,RU0007665014,718390,stock_shares,common_share,0.0,0.0
+DVN-RM,Devon Energy Ord Shs,Devon,Devon Energy Ord Shs,0.1,USD,2021-09-01,US25179M1036,677000000,stock_shares,common_share,0.0,0.0
+SPBE,СПБ Биржа ао,СПБ Биржа,SPB Exchange,3.75,SUR,2021-11-19,RU000A0JQ9P9,114086160,stock_shares,common_share,0.0,0.0
+VRSBP,ТНС энерго Воронеж ПАО ап,ТНСэнВор-п,TNS energo Voroneg ap,0.4,SUR,2005-10-14,RU000A0DPG75,18716678,stock_shares,preferred_share,0.0,0.0
+stkg,"Акционерное общество ""Газпром газораспределение Ставрополь""","АО ""Газпром газораспределение Ставрополь""","Joint-Stock Company ""Gazprom Gazoraspredelenie Stavropol""",5.0,RUB,,RU000A0JPHH3,111389,stock_shares,common_share,0.0,0.0
+VGSBP,"""Волгоград.энергосбыткомп"" ПАО",ВолгЭнСб-п,Volgograd Energo Sbyt (pref),0.12,SUR,2005-09-16,RU000A0D8L57,80499134,stock_shares,preferred_share,0.0,0.0
+KLSB,"ао""Калужская сбыт.комп.""ПАО",КалужскСК,Kalugsk. Sbyt. Company ao,0.2,SUR,2005-08-26,RU000A0DKZK3,91487347,stock_shares,common_share,0.0,0.0
+JNJ-RM,Johnson & Johnson,J&J,Johnson & Johnson,1.0,USD,2020-12-01,US4781601046,2632482092,stock_shares,common_share,0.0,0.0
+MSFT-RM,Microsoft Corporation,Microsoft,Microsoft Corporation,1.0E-5,USD,2018-05-21,US5949181045,7514891248,stock_shares,common_share,0.0,0.0
+A-RM,Agilent TechnologiesORD SHS,AgilentTec,Agilent TechnologiesORD SHS,0.01,USD,2021-11-01,US00846U1016,302722668,stock_shares,common_share,0.0,0.0
+EXPD-RM,Expeditors Ord Shs,Expeditors,Expeditors Ord Shs,0.01,USD,2021-09-01,US3021301094,169891158,stock_shares,common_share,0.0,0.0
+KGKCP,Курганская генер. комп. ПАО ап,КурганГКап,Kurganskaja Gener.Kompanija ap,7.2,SUR,2012-10-22,RU000A0JP138,14393052,stock_shares,preferred_share,0.0,0.0
+yzda,"Открытое акционерное общество ""Ярославский завод дизельной аппаратуры""","ОАО ""ЯЗДА""","Public Joint-Stock Company ""YAroslavskij zavod dizel'noj apparatury""",70.0,RUB,,RU0009848360,12289780,stock_shares,common_share,0.0,0.0
+AVGO-RM,Broadcom Inc.,Broadcom,Broadcom Inc.,0.001,USD,2020-11-02,US11135F1012,410260560,stock_shares,common_share,0.0,0.0
+SELG,"ПАО ""Селигдар""  ао",Селигдар,Seligdar,1.0,SUR,2011-09-22,RU000A0JPR50,842354730,stock_shares,common_share,0.0,0.0
+NSVZ,Наука-Связь ПАО ао,iНаукаСвяз,Nauka-Svyaz ao,1.0,SUR,2011-12-13,RU000A0JQLB6,4701562,stock_shares,common_share,0.0,0.0
+FESH,ДВ морское пароходство ПАО ао,ДВМП ао,DVMP ao,1.0,SUR,2008-08-28,RU0008992318,2951250000,stock_shares,common_share,0.0,0.0
+TROW-RM,T Rowe Price Group Ord Shs,TRowePrice,T Rowe Price Group Ord Shs,0.2,USD,2021-09-01,US74144T1088,226936886,stock_shares,common_share,0.0,0.0
+KEY-RM,Keycorp Ord Shs,KeyCorp,Keycorp Ord Shs,1.0,USD,2021-09-01,US4932671088,956370102,stock_shares,common_share,0.0,0.0
+WU-RM,The Western Union Company,WesternUni,The Western Union Company,0.01,USD,2021-07-01,US9598021098,406348202,stock_shares,common_share,0.0,0.0
+KAZTP,Куйбышевазот ПАО ап,Куйбазот-п,Kuibishevazot ap,1.0,SUR,2011-12-14,RU000A0B9BW0,3696506,stock_shares,preferred_share,0.0,0.0
+L-RM,LOEWS CORPORATION ORDSHS,Loews,LOEWS CORPORATION ORDSHS,0.01,USD,2021-11-01,US5404241086,257273034,stock_shares,common_share,0.0,0.0
+iskrp,"Публичное акционерное общество ""Научно–производственное объединение ""Искра""","ПАО НПО ""Искра""",Public–end Joint–Stock Company Research & Production Association ISKRA,1.0,RUB,,RU000A0JNWD6,314353,stock_shares,preferred_share,0.0,0.0
+MRNA-RM,"Moderna, Inc.",Moderna,"Moderna, Inc.",1.0E-4,USD,2021-03-01,US60770K1079,403646312,stock_shares,common_share,0.0,0.0
+kzizp,"публичное акционерное общество ""Красногорский завод им. С.А.Зверева""",ПАО КМЗ,"Public Joint Stock Company ""Krasnogorsky Zavod""",0.1,RUB,,RU0007940839,1343020,stock_shares,preferred_share,0.0,0.0
+OKE-RM,"ONEOK, Inc.",ONEOK,"ONEOK, Inc.",0.01,USD,2021-07-01,US6826801036,445660920,stock_shares,common_share,0.0,0.0
+SAGO,Самараэнерго (ПАО) - ао,СамарЭн-ао,SamaraEnergo ao,0.25,SUR,2003-07-21,RU0009098255,3538928532,stock_shares,common_share,0.0,0.0
+DASB,ао Дагестанская энергосб.комп.,ДагСб ао,Dagestan energosbyt. company,0.003,SUR,2006-01-12,RU000A0F63G0,5269115472,stock_shares,common_share,0.0,0.0
+BDX-RM,Becton Dickinson Ord Shs,BD,Becton Dickinson Ord Shs,1.0,USD,2021-09-01,US0758871091,287190180,stock_shares,common_share,0.0,0.0
+BIIB-RM,Biogen Inc.,Biogen,Biogen Inc.,5.0E-4,USD,2020-11-02,US09062X1037,149033443,stock_shares,common_share,0.0,0.0
+DXC-RM,DXC Technology Co ORD SHS,DXC Techn,DXC Technology Co ORD SHS,0.01,USD,2021-10-01,US23355L1061,251904242,stock_shares,common_share,0.0,0.0
+ORUP,"ПАО ""ОР ГРУПП"" ао",ОРГ ао,ORG,100.0,SUR,2021-03-26,RU000A0JXKG3,113056000,stock_shares,common_share,0.0,0.0
+BLNG,Белон ОАО ао,Белон ао,Belon ao,0.01,SUR,2009-01-16,RU000A0J2QG8,1150000000,stock_shares,common_share,0.0,0.0
+UKUZ,Южный Кузбасс ПАО ао,ЮжКузб. ао,Uzhnyi Kuzbass,0.04,SUR,2008-08-28,RU0005294775,36109217,stock_shares,common_share,0.0,0.0
+BRZL,Бурятзолото ПАО ао,БурЗолото,Buryatzoloto ao,0.025,SUR,2011-12-09,RU0009288658,7027270,stock_shares,common_share,0.0,0.0
+NKHP,НКХП ПАО ао,НКХП ао,NKHP ao,1.0,SUR,2015-11-17,RU000A0BLWD7,67597000,stock_shares,common_share,0.0,0.0
+LLY-RM,Eli Lilly and Company,Lilly,Eli Lilly and Company,,USD,2021-04-01,US5324571083,956580893,stock_shares,common_share,0.0,0.0
+CLF-RM,Cleveland Cliffs Ord Shs,Cliffs,Cleveland Cliffs Ord Shs,0.125,USD,2021-09-01,US1858991011,499734892,stock_shares,common_share,0.0,0.0
+EVRG-RM,"Evergy, Inc. ORD SHS",Evergy,"Evergy, Inc. ORD SHS",,USD,2021-11-01,US30034W1062,229297836,stock_shares,common_share,0.0,0.0
+GILD-RM,"Gilead Sciences, Inc.",Gilead,"Gilead Sciences, Inc.",0.001,USD,2021-03-01,US3755581036,1253809440,stock_shares,common_share,0.0,0.0
+PAYX-RM,"Paychex, Inc.",Paychex,"Paychex, Inc.",0.01,USD,2021-08-02,US7043261079,360590737,stock_shares,common_share,0.0,0.0
+AKAM-RM,Akamai TechnologiesORD SHS,AkamaiTech,Akamai TechnologiesORD SHS,0.01,USD,2021-11-01,US00971T1016,162829841,stock_shares,common_share,0.0,0.0
+LKOH,НК ЛУКОЙЛ (ПАО) - ао,ЛУКОЙЛ,LUKOIL,0.025,SUR,2003-08-20,RU0009024277,692865762,stock_shares,common_share,0.0,0.0
+trmzp,"Открытое акционерное общество ""Томусинский ремонтно-механический завод""","ОАО ""ТРМЗ""","Public Joint-Stock Company ""Tomusinskij remontno-mexanicheskij zavod""",870.0,RUB,,RU000A0JQD48,7659,stock_shares,preferred_share,0.0,0.0
+MPC-RM,Marathon Petroleum Corporation,Marathon,Marathon Petroleum Corporation,0.01,USD,2021-04-01,US56585A1025,638202178,stock_shares,common_share,0.0,0.0
+RDRB,РоссийскийДорож Банк ПАО ао,РДБанк ао,RosDor Bank ao,124.0,SUR,2013-10-31,RU000A0JU6Q7,15158268,stock_shares,common_share,0.0,0.0
+RUSP,Русполимет ПАО ао,Русполимет,Ruspolimet ao,0.03,SUR,2008-08-28,RU000A0JNH21,5012985740,stock_shares,common_share,0.0,0.0
+SDF-ME,K+S Aktiengesellschaft FR SHS,SDF-ао,K+S Aktiengesellschaft FR SHS,,EUR,2014-04-21,DE000KSAG888,,stock_shares,common_share,0.0,0.0
+KLAC-RM,KLA Ord Shs,KLACorp,KLA Ord Shs,0.001,USD,2021-09-01,US4824801009,152737157,stock_shares,common_share,0.0,0.0
+vugk,"Акционерное общество ""Взрывпром Юга Кузбасса""","АО ""Взрывпром Юга Кузбасса""","Joint-Stock Company ""Vzryvprom Yuga Kuzbassa""",50.0,RUB,,RU000A0JRFE0,460000,stock_shares,common_share,0.0,0.0
+TAP-RM,Molson Coors Bev ORD SHS CL B,MolsonCo B,Molson Coors Bev ORD SHS CL B,0.01,USD,2021-10-01,US60871R2094,200572269,stock_shares,common_share,0.0,0.0
+ugok,"Акционерное общество ""Учалинский горно-обогатительный комбинат""","АО ""Учалинский ГОК""","Joint-Stock Company ""Uchalinsk miningenrichment plant""",20.0,RUB,,RU0009843213,38082730,stock_shares,common_share,0.0,0.0
+FAST-RM,Fastenal Company ORD SHS,Fastenal,Fastenal Company ORD SHS,0.01,USD,2021-10-01,US3119001044,574739393,stock_shares,common_share,0.0,0.0
+DZRDP,Донской завод радиодеталей ап,ДонскЗР п,DZRD pref.,1.0,SUR,2010-12-30,RU000A0JQW29,114469,stock_shares,preferred_share,0.0,0.0
+NI-RM,NiSource Inc. ORD SHS,NiSource,NiSource Inc. ORD SHS,0.01,USD,2021-10-01,US65473P1057,392410381,stock_shares,common_share,0.0,0.0
+XLNX-RM,"Xilinx, Inc. ORD SHS",Xilinx,"Xilinx, Inc. ORD SHS",0.01,USD,2021-10-01,US9839191015,247468170,stock_shares,common_share,0.0,0.0
+tuma,"Акционерное общество ""Акционерная Компания ""Туламашзавод""","АО ""АК ""Туламашзавод""","JSC ""Tulamashzavod""",1.0,RUB,2011-06-14,RU0007661179,2487348400,stock_shares,common_share,0.0,0.0
+BKNG-RM,Booking Holdings Inc.,Booking,Booking Holdings Inc.,0.008,USD,2021-03-01,US09857L1089,41059841,stock_shares,common_share,0.0,0.0
+CMS-RM,CMS Energy Corp ORD SHS,CMSEnergy,CMS Energy Corp ORD SHS,0.01,USD,2021-10-01,US1258961002,289654238,stock_shares,common_share,0.0,0.0
+AFL-RM,AFLAC Ord Shs,Aflac,AFLAC Ord Shs,0.1,USD,2021-09-01,US0010551028,670741349,stock_shares,common_share,0.0,0.0
+POLY,Polymetal International plc,Polymetal,Polymetal International plc,,GBP,2013-06-17,JE00B6T5S470,473585104,stock_shares,common_share,0.0,0.0
+GPS-RM,Gap Inc.,Gap,Gap Inc.,0.05,USD,2021-03-01,US3647601083,376105065,stock_shares,common_share,0.0,0.0
+PNC-RM,PNC Finan Service Group ORDSHS,PNCFinServ,PNC Finan Service Group ORDSHS,5.0,USD,2021-11-01,US6934751057,424993233,stock_shares,common_share,0.0,0.0
+norr,"Публичное акционерное общество ""Нормаль""","ПАО ""Нормаль""","Public Joint-Stock Company ""Normal""",198.21,RUB,,RU0006766623,613212,stock_shares,common_share,0.0,0.0
+COST-RM,Costco Wholesale Corporation,Costco,Costco Wholesale Corporation,0.01,USD,2021-03-01,US22160K1051,441823811,stock_shares,common_share,0.0,0.0
+AKRN,Акрон ПАО ао,Акрон,Acron,5.0,SUR,2006-10-11,RU0009028674,40534000,stock_shares,common_share,0.0,0.0
+XRAY-RM,DENTSPLY SIRONA ORD SHS,DENTSPLSIR,DENTSPLY SIRONA ORD SHS,0.01,USD,2021-11-01,US24906P1093,218550601,stock_shares,common_share,0.0,0.0
+SO-RM,The Southern Company ORD SHS,SouthernC,The Southern Company ORD SHS,5.0,USD,2021-10-01,US8425871071,1058825814,stock_shares,common_share,0.0,0.0
+BMY-RM,Bristol-Myers Squibb Company,BMS Co,Bristol-Myers Squibb Company,0.1,USD,2020-11-02,US1101221083,2222113553,stock_shares,common_share,0.0,0.0
+NEE-RM,"NextEra Energy, Inc.",NextEra En,"NextEra Energy, Inc.",0.01,USD,2020-12-01,US65339F1012,1961756997,stock_shares,common_share,0.0,0.0
+DLTR-RM,"Dollar Tree, Inc ORDSHS",DollarTree,"Dollar Tree, Inc ORDSHS",0.01,USD,2021-10-01,US2567461080,224911868,stock_shares,common_share,0.0,0.0
+RUSI,РУСС-ИНВЕСТ ИК ПАО ао,ИКРУСС-ИНВ,RUSS-INVEST IC ao,1.0,SUR,2011-11-23,RU000A0JQ9W5,109000000,stock_shares,common_share,0.0,0.0
