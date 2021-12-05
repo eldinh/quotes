@@ -1,4 +1,4 @@
-package ru.sfedu.model.entity;
+package ru.sfedu.entity;
 
 import java.util.Date;
 

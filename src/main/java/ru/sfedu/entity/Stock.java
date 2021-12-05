@@ -1,7 +1,6 @@
-package ru.sfedu.model.entity;
+package ru.sfedu.entity;
 
 import com.opencsv.bean.CsvBindByPosition;
-import ru.sfedu.utils.parser.model.type.StockType;
 
 public class Stock extends Security {
     @CsvBindByPosition(position = 10)
@@ -10,7 +9,13 @@ public class Stock extends Security {
     protected double dividendSum;
     @CsvBindByPosition(position = 12)
     protected double capitalization;
+
     public Stock(){}
+
+    public enum StockType {
+        common_share, preferred_share
+    }
+
 
     public Stock(Security security){
         this.ticker = security.getTicker();

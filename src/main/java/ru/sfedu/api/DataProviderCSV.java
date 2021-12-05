@@ -8,14 +8,20 @@ import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
+import ru.sfedu.entity.User;
 import ru.sfedu.model.Result;
-import ru.sfedu.model.entity.Bond;
-import ru.sfedu.model.entity.Security;
-import ru.sfedu.model.entity.Stock;
+import ru.sfedu.entity.Bond;
+import ru.sfedu.entity.Security;
+import ru.sfedu.entity.Stock;
 import ru.sfedu.Constants;
+import ru.sfedu.utils.ValidEntityListValidator;
+
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static ru.sfedu.utils.ConfigurationUtil.getConfigurationEntry;
 import static ru.sfedu.Constants.CSV_FILE_EXTENTION;
@@ -23,330 +29,395 @@ import static ru.sfedu.Constants.CSV_PATH;
 
 public class DataProviderCSV implements IDateProvider{
     private final Logger log = (Logger) LogManager.getLogger(DataProviderCSV.class.getName());
-    private <T> CSVWriter getCSVWriter(Class bean, boolean append) throws Exception {
-        log.info("Starting DataProviderCSV getCSVWriter[6]");
-        try {
-            log.debug("getCSVWriter[7]: {}", bean);
-            log.info(getConfigurationEntry(CSV_PATH));
-            log.debug("Creating FileWriter[8]");
 
+    private static List<User> unionTwoUserLists(List<User> mainList, List<User> appendList){
+        List<Long> idList = mainList.stream().map(User::getId).toList();
+        mainList.addAll(appendList.stream().filter(x -> !idList.contains(x.getId())).toList());
+        return appendList.stream().filter(x -> idList.contains(x.getId())).toList();
+
+    }
+
+    public static List<Long> getUsersId(List<User> users){
+        return users.stream().map(User::getId).toList();
+    }
+
+    private static List<User> generateIdForUsers(List<Long> idList, List<User> userWithoutId){
+        List<User> updatedUsers = new ArrayList<>();
+        List<User> users = new ArrayList<>(userWithoutId);
+        for (long i = 0; ; i ++){
+            if (users.isEmpty())
+                break;
+            if (!idList.contains(i)) {
+                User user = users.remove(0);
+                user.setId(i);
+                updatedUsers.add(user);
+            }
+        }
+        return updatedUsers;
+    }
+
+    private CSVWriter getCSVWriter(Class<?> bean) throws Exception {
+        log.info("Starting DataProviderCSV getCSVWriter[]");
+        try {
+            log.debug("getCSVWriter[]: {}", bean);
+            log.debug("getCSVWriter[]: Creating FileWriter");
+            Files.createDirectories(Paths.get(getConfigurationEntry(CSV_PATH)));
             FileWriter writer = new FileWriter(getConfigurationEntry(CSV_PATH)
                     + bean.getSimpleName().toLowerCase()
-                    + getConfigurationEntry(CSV_FILE_EXTENTION), append);
-
-            log.debug("Creating CSVWriter[9]");
+                    + getConfigurationEntry(CSV_FILE_EXTENTION), false);
+            log.debug("getCSVWriter[]: Creating CSVWriter");
             return new CSVWriter(writer);
         }catch (Exception e){
-            log.error("Function DataProviderCSV getCSVWriter had failed[10]");
+            log.error("Function DataProviderCSV getCSVWriter had failed[]");
             throw new Exception(e);
         }
     }
 
-    private <T> StatefulBeanToCsvBuilder getBeanToCSVBuilder(CSVWriter writer) throws Exception {
-        log.info("Starting DataProviderCSV getBeanToCSVBuilder[11]");
+    private <T> StatefulBeanToCsvBuilder<T> getBeanToCSVBuilder(CSVWriter writer) throws Exception {
+        log.info("Starting DataProviderCSV getBeanToCSVBuilder[]");
         try{
-            log.info("getBeanToCSVBuilder[12]: {}", writer);
+            log.info("getBeanToCSVBuilder[]: {}", writer);
             return new StatefulBeanToCsvBuilder<T>(writer)
                     .withApplyQuotesToAll(false)
                     .withOrderedResults(true)   //
                     .withLineEnd(writer.DEFAULT_LINE_END);
-
         }catch (Exception e){
-            log.error("Function DataProviderCSV getBeanToCSVBuilder had failed[13]");
+            log.error("Function DataProviderCSV getBeanToCSVBuilder had failed[]");
             throw new Exception(e);
-
         }
     }
 
-    public <T extends Security> Result<T> appendSecurities(List<T> list, Class security) throws Exception {
-        log.info("Starting DataProviderCSV append{}[0]", security.getSimpleName());
-        String status = Constants.SUCCESS;
-
-        String message = "";
-        Result<T> result = getSecurities(security);
-        // creating hashmap, key: StockTicker value: Stock
-        Map<String, T> securityNote = new HashMap<>();
-        result.getBody().forEach(x -> securityNote.put(x.getTicker(), x));
-        try
-        {
-            log.info("append{}s[1]: {}, type: {}",security.getSimpleName(), Arrays.toString(list.toArray()), list.getClass().getName());
-            if (list.isEmpty()){
-                log.error("Empty size[2]");
-                throw new Exception("Empty size");
-            }
-            if (list.contains(null)){
-                log.error("List contains null[3]");
-                throw new Exception("List contains null");
-            }
-
-            log.debug("Status of getting file[4]: " + result.getStatus());
-
-            for (T t : list.stream().filter(x -> x.getTicker() != null).toList()){
-                if (!securityNote.containsKey(t.getTicker()))
-                    securityNote.put(t.getTicker(), t);
-                else{
-                    log.error("{} with this ticker already exists[5]: {}",security.getSimpleName(), t);
-                    message =  String.format("%s with this ticker already exists",security.getSimpleName());
-                    return new Result<T>(Constants.FAIL, message, new ArrayList<T>(List.of(t)));
-                }
-
-            }
-            ArrayList<T> securityWithoutTicker = new ArrayList<>(list.stream().filter(x -> x.getTicker() == null).toList());
-            for (int i = 0; ; i++){
-                if (securityWithoutTicker.isEmpty())
-                    break;
-                if (!securityNote.containsKey(i)){
-                    T t = securityWithoutTicker.remove(0);
-                    t.setTicker(Integer.toString(i));
-                    securityNote.put(Integer.toString(i), t);
-                }
-            }
-            log.debug("Creating csvWriter[7]");
-            CSVWriter csvWriter = getCSVWriter(Stock.class, false);
-            log.debug("Creating StatefulBean[8]");
-            StatefulBeanToCsv<T> beanToCsv = getBeanToCSVBuilder(csvWriter).build();
-            log.debug("Writing to csv file[9]");
-            beanToCsv.write(securityNote.values().stream().toList());
-            log.debug("Closing CSVWriter[10]");
+    private <T> void write(List<T> securityList, Class<? extends T> security) throws Exception {
+        log.info("Starting DataProviderCSV write");
+        try {
+            log.info("write[]: {}, {}", securityList, security);
+            log.debug("write[]: Creating csvWriter[7]");
+            CSVWriter csvWriter = getCSVWriter(security);
+            log.debug("write[]: Creating StatefulBean[8]");
+            StatefulBeanToCsvBuilder<T> beanToCsvBuilder = getBeanToCSVBuilder(csvWriter);
+            StatefulBeanToCsv<T> beanToCsv = beanToCsvBuilder.build();
+            log.debug("write[]: Writing to csv file[9]");
+            beanToCsv.write(securityList);
+            log.debug("write[]: Closing CSVWriter[10]");
             csvWriter.close();
-        } catch (Exception e) {
-            log.error("Function DataProviderCSV append{} had crashed[11]", security.getSimpleName());
-            status = Constants.FAIL;
-            message = e.getMessage();
+        } catch (Exception e){
+            log.error("Function DataProviderCSV write had failed");
+            throw new Exception(e);
         }
-        return new Result<T>(status, message,new ArrayList<>());
     }
 
-    private <T> CSVReader getCSWReader(Class ob) throws Exception {
+    private <T> CSVReader getCSWReader(Class<T> ob) throws Exception {
         log.info("Starting DataProviderCSV getCSVReader[12]");
         try {
-            log.info("getCSVWriter[13]: {}, type: {}", ob, ob.getClass());
+            log.info("getCSVWriter[13]: {}, type: {}", ob, ob.getSimpleName());
             log.debug("Creating FileReader[14]");
             FileReader reader = new FileReader(getConfigurationEntry(CSV_PATH)
                     + ob.getSimpleName().toLowerCase()
                     + getConfigurationEntry(CSV_FILE_EXTENTION));
             log.debug("Creating CSWReader[15]");
-            CSVReader csvReader = new CSVReader(reader);
-
-            return csvReader;
+            return new CSVReader(reader);
         }catch (Exception e){
-
             log.error("Function DataProviderCSV getCSWReader had failed[16]");
             throw new Exception(e);
         }
     }
 
-
-    private <T> CsvToBeanBuilder getCsvToBeanBuilder(Class bean) throws Exception {
+    private <T> CsvToBeanBuilder<T> getCsvToBeanBuilder(Class<T> bean) throws Exception {
         log.info("Starting DataProviderCSV getCsvToBeanBuilder[17]");
-
         try
         {
-            log.info("getCsvToBeanBuilder[18]: {}, type: {}", bean, bean.getClass());
+            log.info("getCsvToBeanBuilder[18]: {}, type: {}", bean, bean.getSimpleName());
             log.debug("Creating CSVReader[19]");
             CSVReader reader = getCSWReader(bean);
             log.debug("Creating CsvToBeanBuilder[20]");
-            CsvToBeanBuilder<T> csvToBean = new CsvToBeanBuilder<T>(reader);
-
-            return csvToBean;
+            return new CsvToBeanBuilder<>(reader);
         }catch (Exception e){
             log.error("Function DataProviderCSV CsvToBeanBuilder had failed[21]");
             throw new Exception(e);
         }
     }
 
-    public <T extends Security> Result<T> getSecurities(Class securityClass) throws Exception {
-        log.info("Starting DataProviderCSV get{}s[22]",securityClass.getSimpleName());
-        String status = Constants.SUCCESS;
-        String message = "";
-        List<T> body = new ArrayList<>();
-        try
-        {
-            log.debug("Creating CsvToBean[23]");
-            CsvToBean<T> csvToBean = getCsvToBeanBuilder(securityClass)
-                    .withType(securityClass)
+    private <T> List<T> read(Class<T> bean) throws Exception {
+        log.info("Starting DataProviderCSV write");
+        try {
+            log.info("write: {}", bean);
+            log.debug("write[]: creating csvToBean");
+            CsvToBeanBuilder<T> csvToBeanBuilder = getCsvToBeanBuilder(bean);
+            CsvToBean<T> csvToBean = csvToBeanBuilder
+                    .withType(bean)
                     .build();
-
-            log.debug("Parse CSVToBean[24]");
-            body = csvToBean.parse();
-        } catch (Exception e) {
-            log.error("Function DataProviderCSV get{}s had crashed[25]",securityClass.getSimpleName());
-            status = Constants.FAIL;
-            message = e.getMessage();
+            log.debug("Parse CSVToBean[]");
+            return csvToBean.parse();
+        }catch (Exception e){
+            log.error("Function write had failed");
+            throw new Exception(e);
         }
-        return new Result<T>(status,message,body);
-
     }
 
+    public <T extends Security> Result<T> appendSecurities(List<T> list, Class<? extends T> security) {
+        log.info("Starting DataProviderCSV appendSecurities[]");
+        List<T> oldList = new ArrayList<>(getSecurities(security).getBody());
+        try
+        {
+            ValidEntityListValidator.isValidSecurity(list);
+            log.info("appendSecurities[]: {}, type: {}", Arrays.toString(list.toArray()), list.getClass().getName());
+            List<String> tickerList = oldList.stream().map(T::getTicker).toList();
+            oldList.addAll(list.stream().filter(x -> !tickerList.contains(x.getTicker())).toList());
+            oldList.sort(Comparator.comparing(T::getTicker));
+            List<T> response = list.stream().filter(x -> tickerList.contains(x.getTicker())).toList();
+            log.debug("appendSecurities[]: write to csv file");
+            write(oldList, security);
+            return new Result<>(Constants.SUCCESS, "", response);
+        } catch (Exception e) {
+            log.error("Function DataProviderCSV appendSecurities had crashed[]");
+            return new Result<>(Constants.FAIL, e.getMessage(),new ArrayList<>());
+        }
+    }
 
-    public <T extends Security> Result<T> deleteSecurityByTicker(String ticker, Class securityClass) throws Exception {
-        log.info("Starting DataProviderCSV delete{}ByTicker[27]", securityClass.getSimpleName());
-        String status = Constants.SUCCESS;
-        String message = "";
+    public <T extends Security> Result<T> getSecurities(Class<? extends T>securityClass) {
+        log.info("Starting DataProviderCSV getSecurities[]");
+        try
+        {
+            return new Result<>(Constants.SUCCESS, "", new ArrayList<>(read(securityClass)));
+        } catch (Exception e) {
+            log.error("Function DataProviderCSV getSecurities had crashed[]");
+            return new Result<>(Constants.FAIL, e.getMessage(), new ArrayList<>());
+        }
+    }
+
+    public <T extends Security> Optional<T> deleteSecurityByTicker(String ticker, Class<? extends T> securityClass) throws Exception {
+        log.info("Starting DataProviderCSV deleteSecurityByTicker[]");
         try {
-            log.info("delete{}ByTicker[28]: {}, type: {}",securityClass.getSimpleName(),ticker, "long");
-            log.debug("Get{}s from csv[29]", securityClass.getSimpleName());
-            Result<T> result = getSecurities(securityClass);
-            if (result.getStatus().equals(Constants.FAIL)){
-                return result;
-            }
-            List<T> securities = result.getBody();
-            log.debug("Search a {} by ticker[30]",securityClass.getSimpleName());
+            log.info("deleteSecurityByTicker[]: {}, type: {}",ticker, ticker.getClass());
+            log.debug("deleteSecurityByTicker: GetSecurity from csv file[]");
+            List<T> securities = new ArrayList<>(read(securityClass));
+            log.debug("deleteSecurityByTicker[]: Search a {} by ticker {}[]",securityClass.getSimpleName(), ticker);
             Optional<T> sec = securities.stream().filter(x -> x.getTicker().equals(ticker)).findFirst();
             if(sec.isPresent()){
-                log.debug("Delete {} by ticker[31]",securityClass.getSimpleName());
                 securities.remove(sec.get());
-            }
-            else{
-                log.error("{} wasn't found by ticker[32]",securityClass.getSimpleName());
-                return new Result<>(Constants.FAIL, String.format("%s wasn't found by ticker: %s",securityClass.getSimpleName(), ticker), new ArrayList<>());
-            }
-            log.debug("Update CSV File[33]");
-            deleteAllSecurities(securityClass);
-            return appendSecurities(securities, securityClass);
+                log.debug("Update CSV File[33]");
+                write(securities, securityClass);
+            } else
+                log.warn("{} wasn't found by ticker {}",securityClass.getSimpleName(), ticker);
+            return sec;
         }catch (Exception e){
-            log.error("Function DataProviderCSV delete{}ByTicker has crashed[34]", securityClass);
+            log.error("Function DataProviderCSV deleteSecurityByTicker has crashed[]");
+            throw new Exception(e);
+        }
+    }
+
+    public <T extends Security> Result<T> deleteAllSecurities(Class<? extends T> securityClass)  {
+        log.info("Starting DataProviderCSV deleteAllSecurities[]");
+        try {
+            log.info("deleteAllSecurities[]: {}", securityClass);
+            log.debug("deleteAllSecurities[]: get securities from file");
+            List<T> securityList = new ArrayList<>(read(securityClass));
+            log.debug("deleteAllSecurities[]: delete all securities");
+            write(null, securityClass);
+            return new Result<>(Constants.SUCCESS, "", securityList);
+        }catch (Exception e){
+            log.error("Function DataProviderCSV deleteAllSecurities had failed[]");
+            return new Result<>(Constants.FAIL, e.getMessage(), new ArrayList<>());
+        }
+    }
+
+    public <T extends Security> Optional<T> getSecurityByTicker(String ticker, Class<? extends T> securityClass) throws Exception {
+        log.info("Starting DataProviderCSV getSecurityByTicker[]");
+        log.info("getSecurityByTicker[]: {}, type: {}", ticker, ticker.getClass());
+        try {
+            log.debug("getSecurityByTicker[]: Get {} from CSV[]", securityClass.getSimpleName());
+            List<T> securityList = new ArrayList<>(read(securityClass));
+            log.debug("getSecurityByTicker[]: Search for a {} by ticker {}[]", securityClass.getSimpleName(), ticker);
+            return securityList.stream().filter(x -> x.getTicker().equals(ticker)).findFirst();
+        }catch (Exception e){
+            log.error("Function DataProviderCSV getSecurityByTicker had failed[]");
+            throw new Exception(e);
+        }
+    }
+
+    public <T extends Security> Result<T> updateSecurities(List<T> securities, Class<? extends T> securityClass)  {
+        log.info("Starting DataProviderCSV updateSecurities[]");
+        try {
+            ValidEntityListValidator.isValidSecurity(securities);
+            log.info("updateSecurities: {}, type: {}[]", Arrays.toString(securities.toArray()), securities.getClass());
+            List<T> oldList = new ArrayList<>(read(securityClass));
+            List<String> tickerList = securities.stream().map(T::getTicker).toList();
+            log.debug("updateSecurities[]: Update csv file: {}", securityClass.getSimpleName());
+            write(Stream.concat(securities.stream().filter(x -> tickerList.contains(x.getTicker())), oldList.stream())
+                    .distinct().sorted(Comparator.comparing(T::getTicker)).toList(), securityClass);
+            return new Result<>(Constants.SUCCESS, "", securities.stream().filter(x -> !tickerList.contains(x.getTicker())).toList());
+        } catch (Exception e) {
+            log.error("Function DataProviderCSV updateUsers had crashed[]");
             return new Result<>(Constants.FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
 
-    public <T extends Security> Result<T> deleteAllSecurities(Class securityClass) throws Exception {
-        log.info("Starting DataProviderCSV deleteAll{}s[35]", securityClass.getSimpleName());
-        String status = Constants.SUCCESS;
-        String message = "";
-        Result<Stock> result = getSecurities(securityClass);
-
-        try (
-                CSVWriter csvWriter = getCSVWriter(securityClass, false);
-        ){
-            if (result.getStatus().equals(Constants.FAIL)){
-                throw new Exception(result.getMessage());
-            }
-            //csvWriter.writeNext(null);
-
-        }catch (Exception e){
-            log.error("Function DataProviderCSV deleteAll{}s had failed[35.6]", securityClass.getSimpleName());
-            status = Constants.FAIL;
-            message = e.getMessage();
+    @Override
+    public Result<User> getUsers()  {
+        log.info("Starting DataProviderCSV getUsers[]");
+        try
+        {
+            return new Result<>(Constants.SUCCESS, "", new ArrayList<>(read(User.class)));
+        } catch (Exception e) {
+            log.error("Function DataProviderCSV getUsers had crashed[]");
+            return new Result<>(Constants.FAIL, e.getMessage(), new ArrayList<>());
         }
-        return new Result<T>(status, message, new ArrayList<>());
     }
 
-    public <T extends Security> Optional<T> getSecurityByTicker(String ticker, Class securityClass) throws Exception {
-        log.info("Starting DataProviderCSV get{}ByTicker[36]", securityClass.getSimpleName());
-        log.info("get{}ByTicker[37]: {}, type: {}",securityClass.getSimpleName(), ticker, ticker.getClass());
+    @Override
+    public Result<User> appendUsers(List<User> list)  {
+        log.info("Starting DataProviderCSV appendSecurities[]");
+        List<User> oldList = new ArrayList<>(getUsers().getBody());
+        try
+        {
+            ValidEntityListValidator.isValid(list);
+            log.info("appendUsers[]: {}, type: {}", Arrays.toString(list.toArray()), list.getClass().getName());
+            List<User> response =  unionTwoUserLists(oldList, list.stream().filter(x -> x.getId() != null).toList());
+            oldList.addAll(generateIdForUsers(getUsersId(oldList), list.stream().filter(x -> x.getId() == null).toList()));
+            oldList.sort(Comparator.comparing(User::getId));
+            log.debug("appendSecurities[]: write to csv file");
+            write(oldList, User.class);
+            return new Result<>(Constants.SUCCESS, "", response);
+        } catch (Exception e) {
+            log.error("Function DataProviderCSV appendUsers had crashed[]");
+            return new Result<>(Constants.FAIL, e.getMessage(),new ArrayList<>());
+        }
+    }
+
+    @Override
+    public Result<User> updateUsers(List<User> users)  {
+        log.info("Starting DataProviderCSV updateUsers[]");
         try {
-            log.debug("Get {} from CSV[38]", securityClass.getSimpleName());
-            Result<T> result = getSecurities(securityClass);
-            if (result.getStatus().equals(Constants.FAIL))
-                throw  new Exception(result.getMessage());
-            List<T> securities = result.getBody();
-            log.debug("Search for a {} by ticker[39]", securityClass.getSimpleName());
-            return securities.stream().filter(x -> x.getTicker().equals(ticker)).findFirst();
+
+            log.info("updateUsers: {}, type: {}[]", Arrays.toString(users.toArray()), users.getClass());
+            ValidEntityListValidator.isValidUserToUpdate(users);
+
+            List<User> oldList = new ArrayList<>(read(User.class));
+            List<Long> idList = oldList.stream().map(User::getId).toList();
+            log.debug("updateUsers[]: Update csv file: {}", "user");
+            write(Stream.concat(users.stream().filter(x -> idList.contains(x.getId())), oldList.stream())
+                    .distinct().sorted(Comparator.comparing(User::getId)).toList(), User.class);
+            return new Result<>(Constants.SUCCESS, "", users.stream().filter(x -> !idList.contains(x.getId())).toList());
+        } catch (Exception e) {
+            log.error("Function DataProviderCSV updateUsers had crashed[]");
+            return new Result<>(Constants.FAIL, e.getMessage(), new ArrayList<>());
+        }
+    }
+
+    @Override
+    public Optional<User> deleteUserById(long id) throws Exception {
+        log.info("Starting DataProviderCSV deleteUserById[]");
+        try {
+            log.info("deleteUserById[]: {}",id);
+            log.debug("deleteUserById[]: GetSecurity from csv file[]");
+            List<User> users = new ArrayList<>(read(User.class));
+            log.debug("deleteUserById[]: Search a user by id {}",id);
+            Optional<User> user = users.stream().filter(x -> x.getId().equals(id)).findFirst();
+            if(user.isPresent()){
+                users.remove(user.get());
+                log.debug("deleteUserById[]: Update CSV File[33]");
+                write(users, User.class);
+            } else
+                log.warn("deleteUserById[]: User wasn't found by id {}", id);
+            return user;
         }catch (Exception e){
-            log.error("Function DataProviderCSV get{}ByTicker had failed[40]", securityClass.getSimpleName());
+            log.error("Function DataProviderCSV deleteUserById has crashed[]");
             throw new Exception(e);
         }
     }
 
-    public <T extends Security> Result<T> updateSecurities(List<T> securities, Class securityClass) throws Exception {
-        log.info("Starting DataProviderCSV update{}s[41]", securityClass.getSimpleName());
-        Result<T> result = getSecurities(securityClass);
-        String status = Constants.SUCCESS;
-        String message = "";
+    @Override
+    public Result<User> deleteAllUsers()  {
+        log.info("Starting DataProviderCSV deleteAllUsers[]");
         try {
-            log.info("update{}s: {}, type: {}[42]",securityClass.getSimpleName()
-                    , Arrays.toString(securities.toArray()), securities.getClass());
-            if (securities.isEmpty()) {
-                log.error("Empty size[43]");
-                throw new Exception("Empty size");
-            }
-            if (securities.contains(null)) {
-                log.error("List contains null[44]");
-                throw new Exception("List contains null");
-            }
-            if (result.getStatus().equals(Constants.FAIL)){
-                log.error("File wasn't found[45]");
-                throw new Exception("File wasn't found");
-            }
-
-
-            log.debug("Status of getting file[46]: " + result.getStatus());
-            Map<String, T> securityFromCSV = new TreeMap<>();
-            result.getBody().forEach(x -> securityFromCSV.put(x.getTicker(), x));
-
-            for (T t : securities){
-                if (t.getTicker() == null){
-                    log.error("Ticker contain null: {}[47]", t);
-                    return new Result<>(Constants.FAIL, "Ticker contain null", new ArrayList<>(List.of(t)));
-                }
-
-                if (!securityFromCSV.containsKey(t.getTicker())){
-                    log.error("Ticker wasn't found: {}[48]", t);
-                    return new Result<>(Constants.FAIL, "Ticker wasn't found", new ArrayList<>(List.of(t)));
-                }
-
-                securityFromCSV.put(t.getTicker(), t);
-            }
-            log.debug("append{}s[49]", securityClass.getSimpleName());
-            deleteAllSecurities(securityClass);
-            return appendSecurities(securityFromCSV.values().stream().toList(), securityClass);
-        } catch (Exception e) {
-            log.error("Function DataProviderCSV update{}s had crashed[50]", securityClass.getSimpleName());
-            status = Constants.FAIL;
-            message = e.getMessage();
+            log.debug("deleteAllUsers[]: get users from file");
+            List<User> securityList = new ArrayList<>(read(User.class));
+            log.debug("deleteAllUsers[]: delete all securities");
+            write(null, User.class);
+            return new Result<>(Constants.SUCCESS, "", securityList);
+        }catch (Exception e){
+            log.error("Function DataProviderCSV deleteAllUsers had failed[]");
+            return new Result<>(Constants.FAIL, e.getMessage(), new ArrayList<>());
         }
-        return new Result<T>(status, message, new ArrayList<>());
+    }
+
+    @Override
+    public Optional<User> getUserById(long id) throws Exception {
+        log.info("Starting DataProviderCSV getUserById[]");
+        log.info("getUserById[]: {}",id);
+        try {
+            log.debug("getUserById[]: Get users from CSV file[]");
+            List<User> securityList = new ArrayList<>(read(User.class));
+            log.debug("getUserById[]: Search for the user by id {}", id);
+            return securityList.stream().filter(x -> x.getId().equals(id)).findFirst();
+        }catch (Exception e){
+            log.error("Function DataProviderCSV getUserById had failed[]");
+            throw new Exception(e);
+        }
     }
 
 
+    @Override
+    public Result<Stock> updateStocks(List<Stock> list)  {
+        return updateSecurities(list, Stock.class);
+    }
 
-    public Result<Stock> appendStocks(List<Stock> list) throws Exception {
+    @Override
+    public Result<Bond> updateBonds(List<Bond> list)  {
+        return updateSecurities(list, Bond.class);
+    }
+
+    @Override
+    public Result<Stock> appendStocks(List<Stock> list)  {
         return appendSecurities(list, Stock.class);
 
     }
 
-    public Result<Bond> appendBonds(List<Bond> list) throws Exception {
+    @Override
+    public Result<Bond> appendBonds(List<Bond> list) {
         return appendSecurities(list, Bond.class);
     }
 
-    public Result<Stock> getStocks() throws Exception {
+    @Override
+    public Result<Stock> getStocks()  {
         return getSecurities(Stock.class);
     }
 
-    public Result<Bond> getBonds() throws Exception {
+
+    @Override
+    public Result<Bond> getBonds()  {
         return getSecurities(Bond.class);
     }
 
-    public Result<Stock> deleteStockByTicker(String ticker) throws Exception {
+    @Override
+    public Optional<Stock> deleteStockByTicker(String ticker) throws Exception {
         return deleteSecurityByTicker(ticker, Stock.class);
     }
 
-    public Result<Bond> deleteBondByTicker(String ticker) throws Exception {
+    @Override
+    public Optional<Bond> deleteBondByTicker(String ticker) throws Exception {
         return deleteSecurityByTicker(ticker, Bond.class);
     }
-    public Result<Stock> deleteAllStocks() throws Exception {
+
+    @Override
+    public Result<Stock> deleteAllStocks()  {
         return deleteAllSecurities(Stock.class);
     }
 
-    public Result<Bond> deleteAllBonds() throws Exception {
+    @Override
+    public Result<Bond> deleteAllBonds()  {
         return deleteAllSecurities(Bond.class);
     }
 
+    @Override
     public Optional<Stock> getStockByTicker(String ticker) throws Exception {
         return getSecurityByTicker(ticker, Stock.class);
     }
 
+    @Override
     public Optional<Bond> getBondByTicker(String ticker) throws Exception {
         return getSecurityByTicker(ticker, Bond.class);
     }
 
-    public Result<Stock> updateStocks(List<Stock> list) throws Exception {
-        return updateSecurities(list, Stock.class);
-    }
-
-    public Result<Bond> updateBonds(List<Bond> list) throws Exception {
-        return updateSecurities(list, Bond.class);
-    }
 }

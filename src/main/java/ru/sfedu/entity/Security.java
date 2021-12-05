@@ -1,8 +1,8 @@
-package ru.sfedu.model.entity;
+package ru.sfedu.entity;
 
 import com.opencsv.bean.CsvBindByPosition;
 
-import java.time.LocalDate;
+import java.util.Objects;
 
 public class Security {
     @Override
@@ -20,6 +20,22 @@ public class Security {
                 ", group='" + group + '\'' +
                 ']';
     }
+    // builder instead of setters
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Security security = (Security) o;
+        return Objects.equals(ticker, security.ticker);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ticker);
+    }
+
     @CsvBindByPosition(position = 0)
     protected String ticker;
     @CsvBindByPosition(position = 1)
@@ -29,7 +45,7 @@ public class Security {
     @CsvBindByPosition(position = 3)
     protected String latName;
     @CsvBindByPosition(position = 4)
-    protected Double nominal;
+    protected double nominal;
     @CsvBindByPosition(position = 5)
     protected String nominalValue;
     @CsvBindByPosition(position = 6)
@@ -37,9 +53,13 @@ public class Security {
     @CsvBindByPosition(position = 7)
     protected String isin;
     @CsvBindByPosition(position = 8)
-    protected Long issueSize;
+    protected long issueSize;
     @CsvBindByPosition(position = 9)
     protected String group;  // тип биржи
+
+    public enum SecurityType {
+        stock_shares, stock_bonds
+    }
 
     public Security(){}
 

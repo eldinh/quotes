@@ -1,9 +1,6 @@
-package ru.sfedu.model.entity;
+package ru.sfedu.entity;
 
 import com.opencsv.bean.CsvBindByPosition;
-import ru.sfedu.utils.parser.model.type.BondType;
-
-import java.time.LocalDate;
 
 public class Bond extends Security{
     @CsvBindByPosition(position = 10)
@@ -26,6 +23,11 @@ public class Bond extends Security{
         this.latName = security.getLatName();
         this.issueSize = security.getIssueSize();
         this.group = security.group;
+    }
+
+    public enum BondType {
+        subfederal_bond, municipal_bond, corporate_bond,
+        exchange_bond, ifi_bond, euro_bond, ofz_bond, cb_bond, non_exchange_bond
     }
 
     public Bond(){}

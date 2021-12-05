@@ -1,5 +1,6 @@
 package ru.sfedu.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,7 +14,6 @@ public class Result<T>{
         this.message = message;
         this.body = body;
     }
-    public Result(){}
 
     @Override
     public boolean equals(Object o) {
@@ -28,7 +28,7 @@ public class Result<T>{
         return "Result{" +
                 "Status='" + status + '\'' +
                 ", Message='" + message + '\'' +
-                ", body=" + body +
+                ", body=" + Arrays.toString(body.toArray()) +
                 '}';
     }
 
