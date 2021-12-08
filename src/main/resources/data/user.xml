@@ -1,0 +1,12 @@
+<root>
+   <container class="java.util.ImmutableCollections$ListN">
+      <object class="ru.sfedu.entity.User" id="0" name="Andrew" age="29"/>
+      <object class="ru.sfedu.entity.User" id="1" name=" " age="10"/>
+      <object class="ru.sfedu.entity.User" id="2" name="Dinh" age="19"/>
+      <object class="ru.sfedu.entity.User" id="3" name="Rodion" age="19"/>
+      <object class="ru.sfedu.entity.User" id="4" name="Ev" age="20"/>
+      <object class="ru.sfedu.entity.User" id="5" name="Danil" age="19"/>
+      <object class="ru.sfedu.entity.User" id="6" name="Artem" age="19"/>
+      <object class="ru.sfedu.entity.User" id="7" name="Sanya" age="19"/>
+   </container>
+</root>
