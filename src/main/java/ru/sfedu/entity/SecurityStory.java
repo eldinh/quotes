@@ -9,6 +9,8 @@ public class SecurityStory {
     private double averagePerWeek;
     private double averagePerMonth;
     private double averagePerYear;
+
+
     public SecurityStory(){}
 
     public Date getDate() {
@@ -57,5 +59,17 @@ public class SecurityStory {
 
     public void setAveragePerYear(double averagePerYear) {
         this.averagePerYear = averagePerYear;
+    }
+
+    @Override
+    public String toString() {
+        return "SecurityStory{" +
+                "date=" + date +
+                ", averagePerHour=" + averagePerHour +
+                ", averagePerDay=" + averagePerDay +
+                ", averagePerWeek=" + averagePerWeek +
+                ", averagePerMonth=" + averagePerMonth +
+                ", averagePerYear=" + averagePerYear +
+                '}';
     }
 }

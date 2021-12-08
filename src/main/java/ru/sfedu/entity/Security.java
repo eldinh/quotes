@@ -1,10 +1,35 @@
 package ru.sfedu.entity;
 
 import com.opencsv.bean.CsvBindByPosition;
+import ru.sfedu.model.MarketName;
 
 import java.util.Objects;
 
 public class Security {
+
+    @CsvBindByPosition(position = 0)
+    protected final String ticker;
+    @CsvBindByPosition(position = 1)
+    protected final String name;
+    @CsvBindByPosition(position = 2)
+    protected final String shortName;
+    @CsvBindByPosition(position = 3)
+    protected final String latName;
+    @CsvBindByPosition(position = 4)
+    protected final double nominal;
+    @CsvBindByPosition(position = 5)
+    protected final String nominalValue;
+    @CsvBindByPosition(position = 6)
+    protected final String issueDate;
+    @CsvBindByPosition(position = 7)
+    protected final String isin;
+    @CsvBindByPosition(position = 8)
+    protected final long issueSize;
+    @CsvBindByPosition(position = 9)
+    protected final MarketName marketName;  // тип биржи
+
+
+
     @Override
     public String toString() {
         return "Security [" +
@@ -17,7 +42,7 @@ public class Security {
                 ", issueDate=" + issueDate +
                 ", latName='" + latName + '\'' +
                 ", issueSize=" + issueSize +
-                ", group='" + group + '\'' +
+                ", group='" + marketName + '\'' +
                 ']';
     }
     // builder instead of setters
@@ -36,111 +61,57 @@ public class Security {
         return Objects.hash(ticker);
     }
 
-    @CsvBindByPosition(position = 0)
-    protected String ticker;
-    @CsvBindByPosition(position = 1)
-    protected String name;
-    @CsvBindByPosition(position = 2)
-    protected String shortName;
-    @CsvBindByPosition(position = 3)
-    protected String latName;
-    @CsvBindByPosition(position = 4)
-    protected double nominal;
-    @CsvBindByPosition(position = 5)
-    protected String nominalValue;
-    @CsvBindByPosition(position = 6)
-    protected String issueDate;
-    @CsvBindByPosition(position = 7)
-    protected String isin;
-    @CsvBindByPosition(position = 8)
-    protected long issueSize;
-    @CsvBindByPosition(position = 9)
-    protected String group;  // тип биржи
-
-    public enum SecurityType {
-        stock_shares, stock_bonds
+    public Security(String ticker, String name, String shortName, String latName, double nominal, String nominalValue, String issueDate, String isin, long issueSize, MarketName marketName) {
+        this.ticker = ticker;
+        this.name = name;
+        this.shortName = shortName;
+        this.latName = latName;
+        this.nominal = nominal;
+        this.nominalValue = nominalValue;
+        this.issueDate = issueDate;
+        this.isin = isin;
+        this.issueSize = issueSize;
+        this.marketName = marketName;
     }
 
-    public Security(){}
+    public MarketName getMarketName() {
+        return marketName;
+    }
 
     public String getTicker() {
         return ticker;
-    }
-
-    public void setTicker(String ticker) {
-        this.ticker = ticker;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getShortName() {
         return shortName;
-    }
-
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
-    }
-
-    public String getIsin() {
-        return isin;
-    }
-
-    public void setIsin(String isin) {
-        this.isin = isin;
-    }
-
-    public Double getNominal() {
-        return nominal;
-    }
-
-    public void setNominal(Double nominal) {
-        this.nominal = nominal;
-    }
-
-    public String getNominalValue() {
-        return nominalValue;
-    }
-
-    public void setNominalValue(String nominalValue) {
-        this.nominalValue = nominalValue;
-    }
-
-    public String getIssueDate() {
-        return issueDate;
-    }
-
-    public void setIssueDate(String issueDate) {
-        this.issueDate = issueDate;
     }
 
     public String getLatName() {
         return latName;
     }
 
-    public void setLatName(String latName) {
-        this.latName = latName;
+    public double getNominal() {
+        return nominal;
     }
 
-    public Long getIssueSize() {
+    public String getNominalValue() {
+        return nominalValue;
+    }
+
+    public String getIssueDate() {
+        return issueDate;
+    }
+
+    public String getIsin() {
+        return isin;
+    }
+
+    public long getIssueSize() {
         return issueSize;
-    }
-
-    public void setIssueSize(Long issueSize) {
-        this.issueSize = issueSize;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
     }
 
 

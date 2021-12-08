@@ -155,5 +155,13 @@ public class DataProviderCSVTest extends BaseTest {
 
     }
 
+    public void testDeleteUserById() throws Exception {
+        assertEquals(data.deleteAllUsers().getStatus(), Constants.SUCCESS);
+        assertEquals(data.appendUsers(users).getStatus(), Constants.SUCCESS);
+        Optional<User> user =  data.deleteUserById(0);
+        assertEquals(user, users.stream().filter(x -> x.getId() == 0).findFirst());
+
+    }
+
 
 }

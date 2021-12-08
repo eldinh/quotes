@@ -3,28 +3,26 @@ package api;
 
 import ru.sfedu.Constants;
 import ru.sfedu.api.DataProviderJDBC;
-import ru.sfedu.api.IDateProvider;
 import ru.sfedu.entity.User;
 import ru.sfedu.model.Result;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertNotEquals;
-import static ru.sfedu.Constants.SQL_DROP_USERS_TABLE;
+import static ru.sfedu.Constants.FAIL;
+import static ru.sfedu.Constants.SQL_DROP_USER_TABLE;
 
 
 public class DataProviderJDBCTest extends BaseTest {
     DataProviderJDBC data = new DataProviderJDBC();
-    private void deleteFile() throws SQLException, IOException, ClassNotFoundException {
+    private void deleteFile() throws Exception {
         Connection connection = data.getDbConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL_DROP_USERS_TABLE);
+        PreparedStatement preparedStatement = connection.prepareStatement(SQL_DROP_USER_TABLE);
         preparedStatement.executeUpdate();
     }
 
@@ -37,7 +35,7 @@ public class DataProviderJDBCTest extends BaseTest {
         assert(result.equals(new Result<>(Constants.SUCCESS, "", users)));
     }
 
-    public void testFailGetUsers() throws SQLException, IOException, ClassNotFoundException {
+    public void testFailGetUsers() throws Exception {
         deleteFile();
         assert(data.getUsers().getStatus().equals(Constants.FAIL));
 
@@ -76,7 +74,7 @@ public class DataProviderJDBCTest extends BaseTest {
         assert(result.getBody().equals(new ArrayList<User>()));
     }
 
-    public void testFailDeleteAllUsers() throws SQLException, IOException, ClassNotFoundException {
+    public void testFailDeleteAllUsers() throws Exception {
         deleteFile();
         result = data.deleteAllUsers();
         assert(result.getStatus().equals(Constants.FAIL));
@@ -138,7 +136,7 @@ public class DataProviderJDBCTest extends BaseTest {
             assert(false);
     }
 
-    public void testFailUpdateUsers() throws SQLException, IOException, ClassNotFoundException {
+    public void testFailUpdateUsers() throws Exception {
         deleteFile();
         result = data.updateUsers(users);
         assertNotEquals(result.getStatus(), Constants.SUCCESS);
@@ -158,6 +156,11 @@ public class DataProviderJDBCTest extends BaseTest {
         result = data.updateUsers(new ArrayList<>(List.of(new User(7, " ", 10) ,new User(10,"", 10))));
         System.out.println(result.getBody());
         assertEquals(result.getBody().size(), 1);
+
+        result = data.updateUsers(new ArrayList<>(List.of(new User(1000, "1", 10))));
+        System.out.println(result);
+        assertEquals(result.getStatus(), FAIL);
+
 
     }
 }

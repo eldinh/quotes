@@ -8,6 +8,8 @@ import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
+import ru.sfedu.builder.IUserBuilder;
+import ru.sfedu.builder.UserBuilder;
 import ru.sfedu.entity.User;
 import ru.sfedu.model.Result;
 import ru.sfedu.entity.Bond;
@@ -23,12 +25,17 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 
+import static ru.sfedu.model.CommandName.*;
+import static ru.sfedu.model.RepositoryName.*;
 import static ru.sfedu.utils.ConfigurationUtil.getConfigurationEntry;
-import static ru.sfedu.Constants.CSV_FILE_EXTENTION;
-import static ru.sfedu.Constants.CSV_PATH;
+import static ru.sfedu.Constants.*;
 
 public class DataProviderCSV implements IDateProvider{
     private final Logger log = (Logger) LogManager.getLogger(DataProviderCSV.class.getName());
+
+    private <T extends Security> List<String> getSecurityTicker(List<T> securities){
+        return new ArrayList<>(securities.stream().map(T::getTicker).toList());
+    }
 
     private static List<User> unionTwoUserLists(List<User> mainList, List<User> appendList){
         List<Long> idList = mainList.stream().map(User::getId).toList();
@@ -49,8 +56,7 @@ public class DataProviderCSV implements IDateProvider{
                 break;
             if (!idList.contains(i)) {
                 User user = users.remove(0);
-                user.setId(i);
-                updatedUsers.add(user);
+                updatedUsers.add(new User(i, user.getName(), user.getAge()));
             }
         }
         return updatedUsers;
@@ -87,7 +93,7 @@ public class DataProviderCSV implements IDateProvider{
         }
     }
 
-    private <T> void write(List<T> securityList, Class<? extends T> security) throws Exception {
+    private <T> void write(List<T> securityList, Class<T> security) throws Exception {
         log.info("Starting DataProviderCSV write");
         try {
             log.info("write[]: {}, {}", securityList, security);
@@ -149,12 +155,12 @@ public class DataProviderCSV implements IDateProvider{
             log.debug("Parse CSVToBean[]");
             return csvToBean.parse();
         }catch (Exception e){
-            log.error("Function write had failed");
+            log.error("Function read had failed[]");
             throw new Exception(e);
         }
     }
 
-    public <T extends Security> Result<T> appendSecurities(List<T> list, Class<? extends T> security) {
+    public <T extends Security> Result<T> appendSecurities(List<T> list, Class<T> security) {
         log.info("Starting DataProviderCSV appendSecurities[]");
         List<T> oldList = new ArrayList<>(getSecurities(security).getBody());
         try
@@ -174,7 +180,7 @@ public class DataProviderCSV implements IDateProvider{
         }
     }
 
-    public <T extends Security> Result<T> getSecurities(Class<? extends T>securityClass) {
+    public <T extends Security> Result<T> getSecurities(Class<T>securityClass) {
         log.info("Starting DataProviderCSV getSecurities[]");
         try
         {
@@ -185,7 +191,7 @@ public class DataProviderCSV implements IDateProvider{
         }
     }
 
-    public <T extends Security> Optional<T> deleteSecurityByTicker(String ticker, Class<? extends T> securityClass) throws Exception {
+    public <T extends Security> Optional<T> deleteSecurityByTicker(String ticker, Class<T> securityClass) throws Exception {
         log.info("Starting DataProviderCSV deleteSecurityByTicker[]");
         try {
             log.info("deleteSecurityByTicker[]: {}, type: {}",ticker, ticker.getClass());
@@ -195,8 +201,8 @@ public class DataProviderCSV implements IDateProvider{
             Optional<T> sec = securities.stream().filter(x -> x.getTicker().equals(ticker)).findFirst();
             if(sec.isPresent()){
                 securities.remove(sec.get());
-                log.debug("Update CSV File[33]");
                 write(securities, securityClass);
+                MongoDBLog.save(DELETE, CSV, sec.get());
             } else
                 log.warn("{} wasn't found by ticker {}",securityClass.getSimpleName(), ticker);
             return sec;
@@ -206,7 +212,7 @@ public class DataProviderCSV implements IDateProvider{
         }
     }
 
-    public <T extends Security> Result<T> deleteAllSecurities(Class<? extends T> securityClass)  {
+    public <T extends Security> Result<T> deleteAllSecurities(Class<T> securityClass)  {
         log.info("Starting DataProviderCSV deleteAllSecurities[]");
         try {
             log.info("deleteAllSecurities[]: {}", securityClass);
@@ -214,6 +220,7 @@ public class DataProviderCSV implements IDateProvider{
             List<T> securityList = new ArrayList<>(read(securityClass));
             log.debug("deleteAllSecurities[]: delete all securities");
             write(null, securityClass);
+            MongoDBLog.save(DELETE, CSV, securityList);
             return new Result<>(Constants.SUCCESS, "", securityList);
         }catch (Exception e){
             log.error("Function DataProviderCSV deleteAllSecurities had failed[]");
@@ -221,7 +228,7 @@ public class DataProviderCSV implements IDateProvider{
         }
     }
 
-    public <T extends Security> Optional<T> getSecurityByTicker(String ticker, Class<? extends T> securityClass) throws Exception {
+    public <T extends Security> Optional<T> getSecurityByTicker(String ticker, Class<T> securityClass) throws Exception {
         log.info("Starting DataProviderCSV getSecurityByTicker[]");
         log.info("getSecurityByTicker[]: {}, type: {}", ticker, ticker.getClass());
         try {
@@ -235,16 +242,18 @@ public class DataProviderCSV implements IDateProvider{
         }
     }
 
-    public <T extends Security> Result<T> updateSecurities(List<T> securities, Class<? extends T> securityClass)  {
+    public <T extends Security> Result<T> updateSecurities(List<T> securities, Class<T> securityClass)  {
         log.info("Starting DataProviderCSV updateSecurities[]");
         try {
             ValidEntityListValidator.isValidSecurity(securities);
             log.info("updateSecurities: {}, type: {}[]", Arrays.toString(securities.toArray()), securities.getClass());
             List<T> oldList = new ArrayList<>(read(securityClass));
-            List<String> tickerList = securities.stream().map(T::getTicker).toList();
+            List<String> tickerList = getSecurityTicker(securities);
             log.debug("updateSecurities[]: Update csv file: {}", securityClass.getSimpleName());
-            write(Stream.concat(securities.stream().filter(x -> tickerList.contains(x.getTicker())), oldList.stream())
+            List<T> securityToUpdate = securities.stream().filter(x -> tickerList.contains(x.getTicker())).toList();
+            write(Stream.concat(securityToUpdate.stream(), oldList.stream())
                     .distinct().sorted(Comparator.comparing(T::getTicker)).toList(), securityClass);
+            MongoDBLog.save(UPDATE, CSV, securityToUpdate);
             return new Result<>(Constants.SUCCESS, "", securities.stream().filter(x -> !tickerList.contains(x.getTicker())).toList());
         } catch (Exception e) {
             log.error("Function DataProviderCSV updateUsers had crashed[]");
@@ -294,10 +303,12 @@ public class DataProviderCSV implements IDateProvider{
             ValidEntityListValidator.isValidUserToUpdate(users);
 
             List<User> oldList = new ArrayList<>(read(User.class));
-            List<Long> idList = oldList.stream().map(User::getId).toList();
+            List<Long> idList = getUsersId(oldList);
             log.debug("updateUsers[]: Update csv file: {}", "user");
-            write(Stream.concat(users.stream().filter(x -> idList.contains(x.getId())), oldList.stream())
+            List<User> userToUpdate = users.stream().filter(x -> idList.contains(x.getId())).toList();
+            write(Stream.concat(userToUpdate.stream(), oldList.stream())
                     .distinct().sorted(Comparator.comparing(User::getId)).toList(), User.class);
+            MongoDBLog.save(UPDATE, CSV, userToUpdate);
             return new Result<>(Constants.SUCCESS, "", users.stream().filter(x -> !idList.contains(x.getId())).toList());
         } catch (Exception e) {
             log.error("Function DataProviderCSV updateUsers had crashed[]");
@@ -314,18 +325,19 @@ public class DataProviderCSV implements IDateProvider{
             List<User> users = new ArrayList<>(read(User.class));
             log.debug("deleteUserById[]: Search a user by id {}",id);
             Optional<User> user = users.stream().filter(x -> x.getId().equals(id)).findFirst();
-            if(user.isPresent()){
+            if(user.isPresent()) {
                 users.remove(user.get());
                 log.debug("deleteUserById[]: Update CSV File[33]");
                 write(users, User.class);
-            } else
-                log.warn("deleteUserById[]: User wasn't found by id {}", id);
+                MongoDBLog.save(DELETE, CSV, user.get());
+            }
             return user;
         }catch (Exception e){
             log.error("Function DataProviderCSV deleteUserById has crashed[]");
             throw new Exception(e);
         }
     }
+
 
     @Override
     public Result<User> deleteAllUsers()  {
@@ -334,7 +346,8 @@ public class DataProviderCSV implements IDateProvider{
             log.debug("deleteAllUsers[]: get users from file");
             List<User> securityList = new ArrayList<>(read(User.class));
             log.debug("deleteAllUsers[]: delete all securities");
-            write(null, User.class);
+            write(new ArrayList<>(), User.class);
+            MongoDBLog.save(DELETE, CSV, securityList);
             return new Result<>(Constants.SUCCESS, "", securityList);
         }catch (Exception e){
             log.error("Function DataProviderCSV deleteAllUsers had failed[]");

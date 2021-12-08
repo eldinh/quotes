@@ -9,6 +9,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IDateProvider {
+    public Result<User> getUsers() ;
+    public Result<User> appendUsers(List<User> users) ;
+    public Result<User> updateUsers(List<User> users) ;
+    public Optional<User> deleteUserById(long id) throws Exception;
+    public Result<User> deleteAllUsers() ;
+    public Optional<User> getUserById(long id) throws Exception;
+
     public Result<Stock> getStocks() ;
     public Result<Stock> appendStocks(List<Stock> stocks) ;
     public Result<Stock> updateStocks(List<Stock> stocks) ;
@@ -23,12 +30,6 @@ public interface IDateProvider {
     public Result<Bond> deleteAllBonds() ;
     public Optional<Bond> getBondByTicker(String ticker) throws Exception;
 
-    public Result<User> getUsers() ;
-    public Result<User> appendUsers(List<User> users) ;
-    public Result<User> updateUsers(List<User> users) ;
-    public Optional<User> deleteUserById(long id) throws Exception;
-    public Result<User> deleteAllUsers() ;
-    public Optional<User> getUserById(long id) throws Exception;
 
 
 }

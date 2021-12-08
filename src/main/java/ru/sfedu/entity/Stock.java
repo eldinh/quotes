@@ -1,57 +1,40 @@
 package ru.sfedu.entity;
 
 import com.opencsv.bean.CsvBindByPosition;
+import ru.sfedu.model.MarketName;
 
 public class Stock extends Security {
     @CsvBindByPosition(position = 10)
-    protected StockType type;
+    protected final StockType type;
     @CsvBindByPosition(position = 11)
-    protected double dividendSum;
+    protected final double dividendSum;
     @CsvBindByPosition(position = 12)
-    protected double capitalization;
-
-    public Stock(){}
+    protected final double capitalization;
 
     public enum StockType {
         common_share, preferred_share
     }
 
 
-    public Stock(Security security){
-        this.ticker = security.getTicker();
-        this.name = security.getName();
-        this.shortName = security.getShortName();
-        this.isin = security.getIsin();
-        this.nominal = security.getNominal();
-        this.nominalValue = security.getNominalValue();
-        this.issueDate = security.getIssueDate();
-        this.latName = security.getLatName();
-        this.issueSize = security.getIssueSize();
-        this.group = security.group;
+
+
+    public Stock(String ticker, String name, String shortName, String latName, double nominal, String nominalValue, String issueDate, String isin, long issueSize, MarketName marketName, StockType type, double dividendSum, double capitalization) {
+        super(ticker, name, shortName, latName, nominal, nominalValue, issueDate, isin, issueSize, marketName);
+        this.type = type;
+        this.dividendSum = dividendSum;
+        this.capitalization = capitalization;
     }
 
     public StockType getType() {
         return type;
     }
 
-    public void setType(StockType type) {
-        this.type = type;
-    }
-
     public double getDividendSum() {
         return dividendSum;
     }
 
-    public void setDividendSum(double dividendSum) {
-        this.dividendSum = dividendSum;
-    }
-
     public double getCapitalization() {
         return capitalization;
-    }
-
-    public void setCapitalization(double capitalization) {
-        this.capitalization = capitalization;
     }
 
     @Override
@@ -66,7 +49,7 @@ public class Stock extends Security {
                 ", issueDate=" + issueDate +
                 ", latName='" + latName + '\'' +
                 ", issueSize=" + issueSize +
-                ", group='" + group + '\'' +
+                ", group='" + marketName + '\'' +
                 ", type=" + type + '\'' +
                 ", dividendSum=" + dividendSum + '\'' +
                 ", capitalization=" + capitalization + '\'' +

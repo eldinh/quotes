@@ -1,13 +1,8 @@
 package ru.sfedu;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
-import ru.sfedu.api.DataProviderCSV;
-import ru.sfedu.api.DataProviderJDBC;
-import ru.sfedu.api.IDateProvider;
+import ru.sfedu.api.*;
 import ru.sfedu.entity.User;
-import ru.sfedu.model.Result;
-import ru.sfedu.entity.Bond;
-import ru.sfedu.entity.Stock;
 
 
 import java.time.format.DateTimeFormatter;
@@ -15,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Stream;
 
 public class Quotes {
     private final static Logger log = (Logger) LogManager.getLogger(Quotes.class.getName());
@@ -51,16 +45,9 @@ public class Quotes {
 
         List<User> users2 = new ArrayList<>(Arrays.asList(
                 new User("Anton", 20)
-                , new User("Hello", 100)
+                , new User( "Hello", 100)
         ));
 
-
-        IDateProvider data = new DataProviderJDBC();
-        Result<User> userResult;
-        userResult = data.appendUsers(users);
-        userResult = data.getUsers();
-        log.info(userResult);
-        log.info(data.deleteAllUsers());
 
 
 

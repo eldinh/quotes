@@ -10,10 +10,13 @@ import java.util.Optional;
 public class ValidEntityListValidator {
     ValidEntityListValidator(){}
 
-    public static <T> void isValid(List<T> securityList) throws Exception {
-        if (securityList.contains(null))
-            throw new IllegalArgumentException("list contains null");
+    public static <T> void isValid(List<T> list) throws Exception {
+        if (list.contains(null))
+            throw new IllegalArgumentException("List contains null");
+        if (list.isEmpty())
+            throw new IllegalArgumentException("List is empty");
     }
+
 
     public static <T extends Security> void isValidSecurity(List<T> securityList) throws Exception {
         isValid(securityList);
@@ -29,6 +32,7 @@ public class ValidEntityListValidator {
         if (user.isPresent())
             throw new Exception("Id equals null " + user);
     }
+
 
 
 
