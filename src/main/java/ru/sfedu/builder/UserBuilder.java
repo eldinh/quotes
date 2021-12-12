@@ -1,25 +1,28 @@
 package ru.sfedu.builder;
 
-import ru.sfedu.entity.User;
+import ru.sfedu.model.User;
 
-public class UserBuilder implements IUserBuilder{
+public class UserBuilder {
     private Long id;
     private String name;
     private int age;
 
-    public void setId(Long id) {
+    public UserBuilder setId(Long id) {
         this.id = id;
+        return this;
     }
 
-    public void setName(String name) {
+    public UserBuilder setName(String name) {
         this.name = name;
+        return this;
     }
 
-    public void setAge(int age) {
+    public UserBuilder setAge(int age) {
         this.age = age;
+        return this;
     }
 
-    public User getResult(){
+    public User build(){
         return new User(id, name, age);
     }
 }

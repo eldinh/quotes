@@ -1,78 +1,96 @@
 package ru.sfedu.builder;
 
-import ru.sfedu.entity.Stock;
-import ru.sfedu.model.MarketName;
+import ru.sfedu.model.Stock;
+import ru.sfedu.model.MarketType;
 
-public class StockBuilder implements IStockBuilder , ISecurityBuilder {
-    private String ticker;
-    private String name;
-    private String shortName;
-    private String latName;
-    private double nominal;
-    private String nominalValue;
-    private String issueDate;
-    private String isin;
-    private long issueSize;
-    private MarketName marketName;  // тип биржи
+public class StockBuilder extends SecurityBuilder {
     private Stock.StockType type;
     private double dividendSum;
     private double capitalization;
 
-    public void setTicker(String ticker) {
+    public StockBuilder(){}
+
+    public StockBuilder(SecurityBuilder securityBuilder){
+        this.ticker = securityBuilder.ticker;
+        this.name = securityBuilder.name;
+        this.shortName = securityBuilder.shortName;
+        this.latName = securityBuilder.latName;
+        this.nominal = securityBuilder.nominal;
+        this.nominalValue = securityBuilder.nominalValue;
+        this.issueDate = securityBuilder.issueDate;
+        this.isin = securityBuilder.isin;
+        this.issueSize = securityBuilder.issueSize;
+        this.marketType = securityBuilder.marketType;
+    }
+
+    public StockBuilder withTicker(String ticker) {
         this.ticker = ticker;
+        return this;
     }
 
-    public void setName(String name) {
+    public StockBuilder withName(String name) {
         this.name = name;
+        return this;
     }
 
-    public void setShortName(String shortName) {
+    public StockBuilder withShortName(String shortName) {
         this.shortName = shortName;
+        return this;
     }
 
-    public void setLatName(String latName) {
+    public StockBuilder withLatName(String latName) {
         this.latName = latName;
+        return this;
     }
 
-    public void setNominal(double nominal) {
+    public StockBuilder withNominal(double nominal) {
         this.nominal = nominal;
+        return this;
     }
 
-    public void setNominalValue(String nominalValue) {
+    public StockBuilder withNominalValue(String nominalValue) {
         this.nominalValue = nominalValue;
+        return this;
     }
 
-    public void setIssueDate(String issueDate) {
+    public StockBuilder withIssueDate(String issueDate) {
         this.issueDate = issueDate;
+        return this;
     }
 
-    public void setIsin(String isin) {
+    public StockBuilder withIsin(String isin) {
         this.isin = isin;
+        return this;
     }
 
-    public void setIssueSize(long issueSize) {
+    public StockBuilder withIssueSize(long issueSize) {
         this.issueSize = issueSize;
+        return this;
     }
 
-    public void setMarketName(MarketName marketName) {
-        this.marketName = marketName;
+    public StockBuilder withMarketName(MarketType marketName) {
+        this.marketType = marketName;
+        return this;
     }
 
-    public void setType(Stock.StockType type) {
+    public StockBuilder withType(Stock.StockType type) {
         this.type = type;
+        return this;
     }
 
-    public void setDividendSum(double dividendSum) {
+    public StockBuilder withDividendSum(double dividendSum) {
         this.dividendSum = dividendSum;
+        return this;
     }
 
-    public void setCapitalization(double capitalization) {
+    public StockBuilder withCapitalization(double capitalization) {
         this.capitalization = capitalization;
+        return this;
     }
 
-    public Stock getResult(){
+    public Stock build(){
         return new Stock(ticker, name, shortName, latName,
                         nominal, nominalValue, issueDate, isin,
-                        issueSize, marketName, type, dividendSum, capitalization);
+                        issueSize, marketType, type, dividendSum, capitalization);
     }
 }

@@ -5,11 +5,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
-import ru.sfedu.Constants;
-import ru.sfedu.entity.Bond;
-import ru.sfedu.entity.Security;
-import ru.sfedu.entity.Stock;
-import ru.sfedu.entity.User;
+import ru.sfedu.model.Bond;
+import ru.sfedu.model.Security;
+import ru.sfedu.model.Stock;
+import ru.sfedu.model.User;
 import ru.sfedu.model.Result;
 import ru.sfedu.model.Wrapper;
 import ru.sfedu.utils.ValidEntityListValidator;
@@ -19,13 +18,13 @@ import java.io.FileWriter;
 import java.util.*;
 import java.util.stream.Stream;
 
-import static ru.sfedu.Constants.XML_FILE_EXTENTION;
-import static ru.sfedu.Constants.XML_PATH;
-import static ru.sfedu.model.CommandName.*;
-import static ru.sfedu.model.RepositoryName.*;
+import static ru.sfedu.Constants.*;
+import static ru.sfedu.Constants.WARN;
+import static ru.sfedu.model.CommandType.*;
+import static ru.sfedu.model.RepositoryType.*;
 import static ru.sfedu.utils.ConfigurationUtil.getConfigurationEntry;
 
-public class DataProviderXML implements IDateProvider {
+public class DataProviderXML implements DateProvider {
 
     private final Logger log = (Logger) LogManager.getLogger(DataProviderXML.class.getName());
 
@@ -40,7 +39,7 @@ public class DataProviderXML implements IDateProvider {
 
     }
 
-    public static List<Long> getUsersId(List<User> users){
+    private static List<Long> getUsersId(List<User> users){
         return users.stream().map(User::getId).toList();
     }
 
@@ -52,8 +51,7 @@ public class DataProviderXML implements IDateProvider {
                 break;
             if (!idList.contains(i)) {
                 User user = users.remove(0);
-                user.setId(i);
-                updatedUsers.add(user);
+                updatedUsers.add(new User(i, user.getName(), user.getAge()));
             }
         }
         return updatedUsers;
@@ -65,8 +63,8 @@ public class DataProviderXML implements IDateProvider {
             log.debug("getFileReader[]: {}", ob);
             log.debug("getFileReader[]: Creating FileReader");
             return new FileReader(getConfigurationEntry(XML_PATH)
-                    + ob.getSimpleName().toLowerCase()
-                    + getConfigurationEntry(XML_FILE_EXTENTION));
+                    .concat(ob.getSimpleName().toUpperCase())
+                    .concat(getConfigurationEntry(XML_FILE_EXTENTION)));
         }catch (Exception e){
             log.error("Function DataProviderXML getFileWriter had failed[]");
             throw new Exception(e);
@@ -79,8 +77,8 @@ public class DataProviderXML implements IDateProvider {
             log.debug("getFileWriter[]: {} type: {}", user, user.getSimpleName());
             log.debug("getFileWriter[]: Creating FileWriter[]");
             return new FileWriter(getConfigurationEntry(XML_PATH)
-                    + user.getSimpleName().toLowerCase()
-                    + getConfigurationEntry(XML_FILE_EXTENTION), false);
+                    .concat(user.getSimpleName().toUpperCase())
+                    .concat(getConfigurationEntry(XML_FILE_EXTENTION)), false);
         }catch (Exception e){
             log.error("Function DataProviderXML getFileWriter had failed[]");
             throw new Exception(e);
@@ -129,10 +127,12 @@ public class DataProviderXML implements IDateProvider {
             List<T> response = list.stream().filter(x -> tickerList.contains(x.getTicker())).toList();
             log.debug("appendSecurities[]: write to csv file");
             write(oldList, security);
-            return new Result<>(Constants.SUCCESS, "", response);
+            if (response.isEmpty())
+                return new Result<>(SUCCESS, "Securities have been appended successfully", response);
+            return new Result<>(WARN, String.format("Number of securities that haven't been appended: %d", response.size()), response);
         } catch (Exception e) {
             log.error("Function DataProviderXML appendSecurities had crashed[]");
-            return new Result<>(Constants.FAIL, e.getMessage(),new ArrayList<>());
+            return new Result<>(FAIL, e.getMessage(),new ArrayList<>());
         }
     }
 
@@ -140,10 +140,11 @@ public class DataProviderXML implements IDateProvider {
         log.info("Starting DataProviderXML getSecurities[]");
         try
         {
-            return new Result<>(Constants.SUCCESS, "", new ArrayList<>(read(securityClass)));
+            List<T> response = new ArrayList<>(read(securityClass));
+            return new Result<>(SUCCESS, String.format("Number of securities in file: %d", response.size()), response);
         } catch (Exception e) {
             log.error("Function DataProviderXML getSecurities had crashed[]");
-            return new Result<>(Constants.FAIL, e.getMessage(), new ArrayList<>());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
@@ -158,7 +159,7 @@ public class DataProviderXML implements IDateProvider {
             if(sec.isPresent()){
                 securities.remove(sec.get());
                 write(securities, securityClass);
-                MongoDBLog.save(DELETE, XML, sec.get());
+                MongoHistory.save(DELETE, XML, sec.get());
             } else
                 log.warn("{} wasn't found by ticker {}",securityClass.getSimpleName(), ticker);
             return sec;
@@ -175,12 +176,12 @@ public class DataProviderXML implements IDateProvider {
             log.debug("deleteAllSecurities[]: get securities from file");
             List<T> securityList = new ArrayList<>(read(securityClass));
             log.debug("deleteAllSecurities[]: delete all securities");
-            write(null, securityClass);
-            MongoDBLog.save(DELETE, XML, securityList);
-            return new Result<>(Constants.SUCCESS, "", securityList);
+            write(new ArrayList<>(), securityClass);
+            MongoHistory.save(DELETE, XML, securityList);
+            return new Result<>(SUCCESS, String.format("Number of deleted securities: %d", securityList.size()), securityList);
         }catch (Exception e){
             log.error("Function DataProviderXML deleteAllSecurities had failed[]");
-            return new Result<>(Constants.FAIL, e.getMessage(), new ArrayList<>());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
@@ -204,16 +205,19 @@ public class DataProviderXML implements IDateProvider {
             ValidEntityListValidator.isValidSecurity(securities);
             log.info("updateSecurities: {}, type: {}[]", Arrays.toString(securities.toArray()), securities.getClass());
             List<T> oldList = new ArrayList<>(read(securityClass));
-            List<String> tickerList = getSecurityTicker(securities);
+            List<String> tickerList = getSecurityTicker(oldList);
+            List<T> response = new ArrayList<>(securities.stream().filter(x -> !tickerList.contains(x.getTicker())).toList());
             log.debug("updateSecurities[]: Update csv file: {}", securityClass.getSimpleName());
             List<T> securityToUpdate = securities.stream().filter(x -> tickerList.contains(x.getTicker())).toList();
             write(Stream.concat(securityToUpdate.stream(), oldList.stream())
                     .distinct().sorted(Comparator.comparing(T::getTicker)).toList(), securityClass);
-            MongoDBLog.save(UPDATE, XML, securityToUpdate);
-            return new Result<>(Constants.SUCCESS, "", securities.stream().filter(x -> !tickerList.contains(x.getTicker())).toList());
+            MongoHistory.save(UPDATE, XML, securityToUpdate);
+            if (response.isEmpty())
+                return new Result<>(SUCCESS, "Securities have been updated successfully", response);
+            return new Result<>(WARN, String.format("Number of securities that haven't been updated: %d", response.size()),response);
         } catch (Exception e) {
             log.error("Function DataProviderXML updateUsers had crashed[]");
-            return new Result<>(Constants.FAIL, e.getMessage(), new ArrayList<>());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
@@ -223,10 +227,11 @@ public class DataProviderXML implements IDateProvider {
         log.info("Starting DataProviderXML getUsers[]");
         try
         {
-            return new Result<>(Constants.SUCCESS, "", new ArrayList<>(read(User.class)));
+            List<User> response =  new ArrayList<>(read(User.class));
+            return new Result<>(SUCCESS, String.format("Number of users in file: %d", response.size()), response);
         } catch (Exception e) {
             log.error("Function DataProviderXML getUsers had crashed[]");
-            return new Result<>(Constants.FAIL, e.getMessage(), new ArrayList<>());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
@@ -236,17 +241,19 @@ public class DataProviderXML implements IDateProvider {
         List<User> oldList = new ArrayList<>(getUsers().getBody());
         try
         {
-            ValidEntityListValidator.isValid(list);
+            ValidEntityListValidator.isValidUser(list);
             log.info("appendUsers[]: {}, type: {}", Arrays.toString(list.toArray()), list.getClass().getName());
             List<User> response =  unionTwoUserLists(oldList, list.stream().filter(x -> x.getId() != null).toList());
             oldList.addAll(generateIdForUsers(getUsersId(oldList), list.stream().filter(x -> x.getId() == null).toList()));
             oldList.sort(Comparator.comparing(User::getId));
             log.debug("appendSecurities[]: write to csv file");
             write(oldList, User.class);
-            return new Result<>(Constants.SUCCESS, "", response);
+            if (response.isEmpty())
+                return new Result<>(SUCCESS, "Users have been appended successfully", response);
+            return new Result<>(WARN, String.format("Number of users that haven't been appended: %d", response.size()), response);
         } catch (Exception e) {
             log.error("Function DataProviderXML appendUsers had crashed[]");
-            return new Result<>(Constants.FAIL, e.getMessage(),new ArrayList<>());
+            return new Result<>(FAIL, e.getMessage(),new ArrayList<>());
         }
     }
 
@@ -257,18 +264,20 @@ public class DataProviderXML implements IDateProvider {
 
             log.info("updateUsers: {}, type: {}[]", Arrays.toString(users.toArray()), users.getClass());
             ValidEntityListValidator.isValidUserToUpdate(users);
-
             List<User> oldList = new ArrayList<>(read(User.class));
             List<Long> idList = getUsersId(oldList);
+            List<User> response = users.stream().filter(x -> !idList.contains(x.getId())).toList();
             log.debug("updateUsers[]: Update csv file: {}", "user");
             List<User> userToUpdate = users.stream().filter(x -> idList.contains(x.getId())).toList();
             write(Stream.concat(userToUpdate.stream(), oldList.stream())
                     .distinct().sorted(Comparator.comparing(User::getId)).toList(), User.class);
-            MongoDBLog.save(UPDATE, XML, userToUpdate);
-            return new Result<>(Constants.SUCCESS, "", users.stream().filter(x -> !idList.contains(x.getId())).toList());
+            MongoHistory.save(UPDATE, XML, userToUpdate);
+            if (response.isEmpty())
+                return new Result<>(SUCCESS, "Users have been updated successfully", response);
+            return new Result<>(WARN, String.format("Number of users that haven't been updated: %d", response.size()),response);
         } catch (Exception e) {
             log.error("Function DataProviderXML updateUsers had crashed[]");
-            return new Result<>(Constants.FAIL, e.getMessage(), new ArrayList<>());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
@@ -285,7 +294,7 @@ public class DataProviderXML implements IDateProvider {
                 users.remove(user.get());
                 log.debug("deleteUserById[]: Update CSV File[33]");
                 write(users, User.class);
-                MongoDBLog.save(DELETE, XML, user.get());
+                MongoHistory.save(DELETE, XML, user.get());
             }
             return user;
         }catch (Exception e){
@@ -303,11 +312,11 @@ public class DataProviderXML implements IDateProvider {
             List<User> securityList = new ArrayList<>(read(User.class));
             log.debug("deleteAllUsers[]: delete all securities");
             write(new ArrayList<>(), User.class);
-            MongoDBLog.save(DELETE, XML, securityList);
-            return new Result<>(Constants.SUCCESS, "", securityList);
+            MongoHistory.save(DELETE, XML, securityList);
+            return new Result<>(SUCCESS, String.format("Number of deleted users: %d ", securityList.size()), securityList);
         }catch (Exception e){
             log.error("Function DataProviderXML deleteAllUsers had failed[]");
-            return new Result<>(Constants.FAIL, e.getMessage(), new ArrayList<>());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 

@@ -1,8 +1,7 @@
 package ru.sfedu;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
-import ru.sfedu.api.*;
-import ru.sfedu.entity.User;
+import ru.sfedu.model.User;
 
 
 import java.time.format.DateTimeFormatter;
@@ -53,4 +52,5 @@ public class Quotes {
 
 
     }
+
 }
