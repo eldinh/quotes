@@ -23,6 +23,7 @@ public class BondBuilder extends SecurityBuilder {
         this.isin = securityBuilder.isin;
         this.issueSize = securityBuilder.issueSize;
         this.marketType = securityBuilder.marketType;
+        this.securityHistory = securityBuilder.securityHistory;
     }
 
     public BondBuilder withTicker(String ticker) {
@@ -108,7 +109,7 @@ public class BondBuilder extends SecurityBuilder {
     public Bond build(){
         return new Bond(ticker, name, shortName, latName,
                 nominal, nominalValue, issueDate, isin,
-                issueSize, marketType, type, matDate,
+                issueSize, marketType,securityHistory, type, matDate,
                 coupon, dayToRedemption);
     }
 }

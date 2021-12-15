@@ -2,10 +2,8 @@ package ru.sfedu;
 
 import junit.framework.TestCase;
 import ru.sfedu.api.MongoHistory;
-import ru.sfedu.model.MarketType;
-import ru.sfedu.model.Stock;
-import ru.sfedu.model.User;
-import ru.sfedu.model.Result;
+import ru.sfedu.builder.SecurityHistoryBuilder;
+import ru.sfedu.model.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,51 +31,63 @@ public class BaseTest extends TestCase {
             , new User( "Sanya", 19)
     ));
 
+
+
     protected List<Stock> stocks = new ArrayList<>(Arrays.asList(
             new Stock("SBER", "", "" , "",
                     100, "RUB", "1", "qwe",
-                    1000, MarketType.SHARES, Stock.StockType.COMMON, 0, 0),
+                    1000, MarketType.SHARES, getHistories("SBER"), Stock.StockType.COMMON, 0, 0),
             new Stock("QWER", "", "" , "",
                     100, "RUB", "1", "qwe",
-                    1000, MarketType.SHARES, Stock.StockType.COMMON, 0, 0),
+                    1000, MarketType.SHARES,getHistories("QWER"), Stock.StockType.COMMON, 0, 0),
             new Stock("QQQ", "", "" , "",
                     100, "RUB", "1", "qwe",
-                    1000, MarketType.SHARES, Stock.StockType.COMMON, 0, 0),
+                    1000, MarketType.SHARES, getHistories("SBER"),Stock.StockType.COMMON, 0, 0),
             new Stock("IOUO", "", "" , "",
                     100, "RUB", "1", "qwe",
-                    1000, MarketType.SHARES, Stock.StockType.PREFERRED, 0, 0),
+                    1000, MarketType.SHARES,getHistories("IOUO"), Stock.StockType.PREFERRED, 0, 0),
             new Stock("IOUO2", "", "" , "",
                     100, "RUB", "1", "qwe",
-                    1000, MarketType.SHARES, Stock.StockType.PREFERRED, 0, 0),
-            new Stock("IOUO1", "", "" , "",
-                    100, "RUB", "1", "qwe",
-                    1000, MarketType.SHARES, Stock.StockType.PREFERRED, 0, 0)
+                    1000, MarketType.SHARES, getHistories("IOUO2"),Stock.StockType.PREFERRED, 0, 0)
     ));
 
     protected List<Stock> bonds = new ArrayList<>(Arrays.asList(
             new Stock("SBER", "", "" , "",
                     100, "RUB", "1", "qwe",
-                    1000, MarketType.BONDS, Stock.StockType.COMMON, 0, 0),
+                    1000, MarketType.BONDS, getHistories("SBER"), Stock.StockType.COMMON, 0, 0),
             new Stock("QWER", "", "" , "",
                     100, "RUB", "1", "qwe",
-                    1000, MarketType.BONDS, Stock.StockType.COMMON, 0, 0),
+                    1000, MarketType.BONDS,getHistories("QWER"), Stock.StockType.COMMON, 0, 0),
             new Stock("QQQ", "", "" , "",
                     100, "RUB", "1", "qwe",
-                    1000, MarketType.BONDS, Stock.StockType.COMMON, 0, 0),
+                    1000, MarketType.BONDS, getHistories("SBER"),Stock.StockType.COMMON, 0, 0),
             new Stock("IOUO", "", "" , "",
                     100, "RUB", "1", "qwe",
-                    1000, MarketType.BONDS, Stock.StockType.PREFERRED, 0, 0),
-            new Stock("IOUO1", "", "" , "",
-                    100, "RUB", "1", "qwe",
-                    1000, MarketType.BONDS, Stock.StockType.PREFERRED, 0, 0),
+                    1000, MarketType.BONDS,getHistories("IOUO"), Stock.StockType.PREFERRED, 0, 0),
             new Stock("IOUO2", "", "" , "",
                     100, "RUB", "1", "qwe",
-                    1000, MarketType.BONDS, Stock.StockType.PREFERRED, 0, 0)
+                    1000, MarketType.BONDS, getHistories("IOUO2"),Stock.StockType.PREFERRED, 0, 0)
     ));
+    protected ArrayList<SecurityHistory> histories = new ArrayList<>(List.of(
+            new SecurityHistory("2021-12-15", 123, "SBER", 12, 13, 100),
+            new SecurityHistory("2021-11-21", 123, "SBER", 12, 13, 100),
+            new SecurityHistory("2021-01-12", 123, "SBER", 12, 13, 100),
+            new SecurityHistory("2021-12-12", 123, "SBER", 12, 13, 100),
+            new SecurityHistory("2021-01-01", 123, "SBER", 12, 13, 100),
+            new SecurityHistory("2021-01-13", 123, "SBER", 12, 13, 100)
+    ));
+
+    protected ArrayList<String> dateList = new ArrayList<>(histories.stream().map(SecurityHistory::getDate).toList());
 
 
     protected Result<User> result;
     protected Result<Stock> stockResult;
+    protected Result<SecurityHistory> securityHistoryResult;
 
+
+
+    protected SecurityHistory getHistories(String ticker){
+        return new SecurityHistoryBuilder().empty(ticker);
+    }
 
 }

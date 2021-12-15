@@ -1,52 +1,61 @@
 package ru.sfedu.model;
 
-import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvCustomBindByName;
+import ru.sfedu.utils.conventerCSV.HistoryConventerCSV;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Security {
 
-    @CsvBindByPosition(position = 0)
+    @CsvBindByName
     protected String ticker;
-    @CsvBindByPosition(position = 1)
+    @CsvBindByName
     protected String name;
-    @CsvBindByPosition(position = 2)
+    @CsvBindByName
     protected String shortName;
-    @CsvBindByPosition(position = 3)
+    @CsvBindByName
     protected String latName;
-    @CsvBindByPosition(position = 4)
+    @CsvBindByName
     protected double nominal;
-    @CsvBindByPosition(position = 5)
+    @CsvBindByName
     protected String nominalValue;
-    @CsvBindByPosition(position = 6)
+    @CsvBindByName
     protected String issueDate;
-    @CsvBindByPosition(position = 7)
+    @CsvBindByName
     protected String isin;
-    @CsvBindByPosition(position = 8)
+    @CsvBindByName
     protected long issueSize;
-    @CsvBindByPosition(position = 9)
+    @CsvBindByName
     protected MarketType marketType;  // тип биржи
-
-
-
+    @CsvCustomBindByName(converter = HistoryConventerCSV.class)
+    protected SecurityHistory history;
 
     @Override
     public String toString() {
-        return "Security [" +
+        return "Security{" +
                 "ticker='" + ticker + '\'' +
                 ", name='" + name + '\'' +
                 ", shortName='" + shortName + '\'' +
-                ", isin='" + isin + '\'' +
+                ", latName='" + latName + '\'' +
                 ", nominal=" + nominal +
                 ", nominalValue='" + nominalValue + '\'' +
-                ", issueDate=" + issueDate +
-                ", latName='" + latName + '\'' +
+                ", issueDate='" + issueDate + '\'' +
+                ", isin='" + isin + '\'' +
                 ", issueSize=" + issueSize +
-                ", group='" + marketType + '\'' +
-                ']';
+                ", marketType=" + marketType +
+                ", history=" + history +
+                '}';
     }
+
+
     // builder instead of setters
 
+
+    public SecurityHistory getHistory() {
+        return history;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -61,7 +70,7 @@ public class Security {
         return Objects.hash(ticker);
     }
 
-    public Security(String ticker, String name, String shortName, String latName, double nominal, String nominalValue, String issueDate, String isin, long issueSize, MarketType marketType) {
+    public Security(String ticker, String name, String shortName, String latName, double nominal, String nominalValue, String issueDate, String isin, long issueSize, MarketType marketType, SecurityHistory history) {
         this.ticker = ticker;
         this.name = name;
         this.shortName = shortName;
@@ -72,6 +81,11 @@ public class Security {
         this.isin = isin;
         this.issueSize = issueSize;
         this.marketType = marketType;
+        this.history = history;
+    }
+
+    public void setHistory(SecurityHistory history) {
+        this.history = history;
     }
 
     public Security(){}
@@ -115,6 +129,4 @@ public class Security {
     public long getIssueSize() {
         return issueSize;
     }
-
-
 }

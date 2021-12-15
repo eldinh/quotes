@@ -224,7 +224,7 @@ public class DataProviderCSVTest extends BaseTest {
         System.out.println(data.getStocks());
         Stock stock = new Stock("SBER", "", "" , "",
                 90, "RUB", "1", "qwe",
-                90, MarketType.SHARES, Stock.StockType.COMMON, 0, 0);
+                90, MarketType.SHARES,getHistories("SBER"), Stock.StockType.COMMON, 0, 0);
         stockResult = data.updateStocks(new ArrayList<>(List.of(stock)));
         System.out.println(stockResult);
         assertEquals(stockResult.getStatus(), SUCCESS);
@@ -241,7 +241,7 @@ public class DataProviderCSVTest extends BaseTest {
         deleteFile(STOCK_TABLE_NAME);
         Stock stock = new Stock("SHUSHU", "", "" , "",
                 90, "RUB", "1", "qwe",
-                90, MarketType.SHARES, Stock.StockType.COMMON, 0, 0);
+                90,  MarketType.SHARES,getHistories("SHUSHU"), Stock.StockType.COMMON, 0, 0);
         stockResult = data.updateStocks(new ArrayList<>(List.of(stock)));
         assertEquals(stockResult.getStatus(), FAIL);
         assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);

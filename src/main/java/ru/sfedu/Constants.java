@@ -15,6 +15,8 @@ public class Constants {
     public static final String DB_PASSWORD = "db_password";
     public static final String DB_LOGIN = "db_login";
 
+    public static final String SECURITY_HISTORY_PATH = "security_history/";
+
     public static final String SQL_INSERT_USER = "INSERT INTO USER " +
                                                 "VALUES (%d, '%s', %d);";
     public static final String SQL_INSERT_USER_WITHOUT_ID = "INSERT INTO USER " +
@@ -46,12 +48,16 @@ public class Constants {
     public static final String SQL_SET_STOCK = "SET name = '%s', short_name = '%s', lat_name = '%s', nominal = %f, nominal_value = '%s', issue_date = '%s', " +
                                                     "isin = '%s', issue_size = %d, market_type = '%s', type = '%s', dividend_sum = %f, capitalization = %f ";
     public static final String SQL_SET_BOND = "SET name = '%s', short_name = '%s', lat_name = '%s', nominal = %f, nominal_value = '%s', issue_date = '%s', " +
-            "isin = '%s', issue_size = %d, market_type = '%s', type = '%s', mat_date = '%s', coupon = %f, day_to_redemption = %d ";
+                                                    "isin = '%s', issue_size = %d, market_type = '%s', type = '%s', mat_date = '%s', coupon = %f, day_to_redemption = %d ";
+    public static final String SQL_SET_SECURITY_HISTORY = "SET ticker = '%s', average_per_day = %f, open_price = %f, " +
+                                                            "close_price = %f, volume = %d ";
 
     public static final String SQL_DELETE_FROM = "DELETE FROM %s ";
     public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS %s ";
     public static final String SQL_USER_ID = "id = %d";
     public static final String SQL_SECURITY_TICKER = "ticker = '%s'";
+    public static final String SQL_SECURITY_HISTORY_DATE = "date = '%s'";
+
     public static final String SQL_USER_COLUMNS =  "(id INT NOT NULL AUTO_INCREMENT, " +
                                                     " name VARCHAR(255), " +
                                                     " age INTEGER," +
@@ -71,12 +77,18 @@ public class Constants {
                                                     "type VARCHAR(255), mat_date VARCHAR(255), " +
                                                     "coupon FLOAT, day_to_redemption INT, " +
                                                     "PRIMARY KEY (ticker))";
+    public static final String SQL_SECURITY_HISTORY_COLUMNS = "(date VARCHAR(255), ticker VARCHAR(255), " +
+                                                                "average_per_day FLOAT, open_price FLOAT, " +
+                                                                "close_price FLOAT, volume BIGINT, " +
+                                                                "PRIMARY KEY (date))";
     public static final String SQL_USER_VALUES = "VALUES (%d, '%s', %d);";
     public static final String SQL_USER_VALUES_WITHOUT_ID = "(name, age) VALUES ('%s', %d);";
     public static final String SQL_STOCK_VALUES = "VALUES ('%s', '%s', '%s', '%s', %f, " +
                                                     "'%s', '%s', '%s', %d, '%s', '%s', %f, %f);";
     public static final String SQL_BOND_VALUES = "VALUES ('%s', '%s', '%s', '%s', %f, " +
                                                     "'%s', '%s', '%s', %d, '%s', '%s', '%s', %f, %d);";
+    public static final String SQL_SECURITY_HISTORY_VALUES = "VALUES ('%s', '%s', %f, " +
+                                                                     "%f, %f, %d);";
 
     public static final String MONGODB_USER = "mongodb_user";
     public static final String MONGODB_PASSWORD = "mongodb_password";
@@ -110,7 +122,12 @@ public class Constants {
     public static final String BOND_COLUMN_COUPON = "coupon";
     public static final String BOND_COLUMN_DAYTOREDEMPTION = "day_to_redemption";
 
-    
+    public static final String SECURITY_HISTORY_COLUMN_DATE = "date";
+    public static final String SECURITY_HISTORY_COLUMN_TICKER = "ticker";
+    public static final String SECURITY_HISTORY_COLUMN_AVERAGEPERDAY = "average_per_day";
+    public static final String SECURITY_HISTORY_COLUMN_OPENPRICE = "open_price";
+    public static final String SECURITY_HISTORY_COLUMN_CLOSEPRICE = "close_price";
+    public static final String SECURITY_HISTORY_COLUMN_VOLUME = "volume";
 
     public static final String MONGODB_TIME_FIELD = "time";
     public static final String MONGODB_COMMAND_FIELD = "command";

@@ -219,44 +219,44 @@ public class DataProviderXMLTest extends BaseTest {
         assertEquals(stockResult.getStatus(), FAIL);
     }
 
-    public void testUpdateStocks(){
-        deleteFile(STOCK_TABLE_NAME);
-        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
-        System.out.println(data.getStocks());
-        Stock stock = new Stock("SBER", "", "" , "",
-                90, "RUB", "1", "qwe",
-                90, MarketType.SHARES, Stock.StockType.COMMON, 0, 0);
-        stockResult = data.updateStocks(new ArrayList<>(List.of(stock)));
-        System.out.println(stockResult);
-        assertEquals(stockResult.getStatus(), SUCCESS);
-        stockResult = data.getStocks();
-        System.out.println(stockResult);
-        Optional<Stock> stockFromDB = stockResult.getBody().stream().filter(x -> x.getTicker().equals("SBER")).findFirst();
-        if (stockFromDB.isPresent())
-            assertEquals(stockFromDB.get(), stock);
-        else
-            assert(false);
-    }
-
-    public void testFailUpdateStocks(){
-        deleteFile(STOCK_TABLE_NAME);
-        Stock stock = new Stock("SHUSHU", "", "" , "",
-                90, "RUB", "1", "qwe",
-                90, MarketType.SHARES, Stock.StockType.COMMON, 0, 0);
-        stockResult = data.updateStocks(new ArrayList<>(List.of(stock)));
-        assertEquals(stockResult.getStatus(), FAIL);
-        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
-        System.out.println(data.getStocks());
-        stockResult = data.updateStocks(new ArrayList<>(List.of(stock)));
-        System.out.println(stockResult);
-        assertEquals(stockResult.getStatus(), WARN);
-        stockResult = data.updateStocks(new ArrayList<>());
-        System.out.println(stockResult);
-        assertEquals(stockResult.getStatus(), FAIL);
-        stockResult = data.updateStocks(null);
-        System.out.println(stockResult);
-        assertEquals(stockResult.getStatus(), FAIL);
-
-
-    }
+//    public void testUpdateStocks(){
+//        deleteFile(STOCK_TABLE_NAME);
+//        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
+//        System.out.println(data.getStocks());
+//        Stock stock = new Stock("SBER", "", "" , "",
+//                90, "RUB", "1", "qwe",
+//                90, MarketType.SHARES, Stock.StockType.COMMON, 0, 0);
+//        stockResult = data.updateStocks(new ArrayList<>(List.of(stock)));
+//        System.out.println(stockResult);
+//        assertEquals(stockResult.getStatus(), SUCCESS);
+//        stockResult = data.getStocks();
+//        System.out.println(stockResult);
+//        Optional<Stock> stockFromDB = stockResult.getBody().stream().filter(x -> x.getTicker().equals("SBER")).findFirst();
+//        if (stockFromDB.isPresent())
+//            assertEquals(stockFromDB.get(), stock);
+//        else
+//            assert(false);
+//    }
+//
+//    public void testFailUpdateStocks(){
+//        deleteFile(STOCK_TABLE_NAME);
+//        Stock stock = new Stock("SHUSHU", "", "" , "",
+//                90, "RUB", "1", "qwe",
+//                90, MarketType.SHARES, Stock.StockType.COMMON, 0, 0);
+//        stockResult = data.updateStocks(new ArrayList<>(List.of(stock)));
+//        assertEquals(stockResult.getStatus(), FAIL);
+//        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
+//        System.out.println(data.getStocks());
+//        stockResult = data.updateStocks(new ArrayList<>(List.of(stock)));
+//        System.out.println(stockResult);
+//        assertEquals(stockResult.getStatus(), WARN);
+//        stockResult = data.updateStocks(new ArrayList<>());
+//        System.out.println(stockResult);
+//        assertEquals(stockResult.getStatus(), FAIL);
+//        stockResult = data.updateStocks(null);
+//        System.out.println(stockResult);
+//        assertEquals(stockResult.getStatus(), FAIL);
+//
+//
+//    }
 }

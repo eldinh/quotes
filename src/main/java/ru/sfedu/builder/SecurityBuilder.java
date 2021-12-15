@@ -2,6 +2,9 @@ package ru.sfedu.builder;
 
 import ru.sfedu.model.MarketType;
 import ru.sfedu.model.Security;
+import ru.sfedu.model.SecurityHistory;
+
+import java.util.List;
 
 public class SecurityBuilder {
     protected String ticker;
@@ -15,6 +18,7 @@ public class SecurityBuilder {
     protected long issueSize;
     protected MarketType marketType;  // тип биржи
     protected String matDate; // Дата погашения
+    protected SecurityHistory securityHistory;
 
 
     public SecurityBuilder withTicker(String ticker) {
@@ -75,11 +79,15 @@ public class SecurityBuilder {
         this.marketType = marketType;
         return this;
     }
+    public SecurityBuilder withSecurityHistory(SecurityHistory securityHistory) {
+        this.securityHistory = securityHistory;
+        return this;
+    }
 
     public Security build(){
         return new Security(ticker, name, shortName, latName,
                 nominal, nominalValue, issueDate, isin,
-                issueSize, marketType);
+                issueSize, marketType, securityHistory);
     }
 
 

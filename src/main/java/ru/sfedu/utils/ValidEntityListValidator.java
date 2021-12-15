@@ -1,10 +1,12 @@
 package ru.sfedu.utils;
 
 import ru.sfedu.model.Security;
+import ru.sfedu.model.SecurityHistory;
 import ru.sfedu.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ValidEntityListValidator {
@@ -41,8 +43,25 @@ public class ValidEntityListValidator {
             throw new Exception("Id equals null " + user);
         if (userList.stream().distinct().toList().size() != userList .size())
             throw new IllegalArgumentException("List consists entity with the same key");
+    }
+
+    public static void isValidSecurityHistory(List<SecurityHistory> securityHistories, String ticker) throws Exception {
+        isValid(securityHistories);
+        Optional<SecurityHistory> securityHistory = securityHistories.stream().filter(x -> x.getTicker() == null || !Objects.equals(x.getTicker(), ticker)).findFirst();
+        if (securityHistory.isPresent())
+            throw new Exception("Ticker equals null or tickers not the same");
+        if (securityHistories.stream().distinct().toList().size() != securityHistories .size())
+            throw new IllegalArgumentException("List consists entity with the same date");
 
     }
+
+    public static void isValidSecurityHistory(SecurityHistory securityHistory, String ticker) throws Exception {
+        if (securityHistory.getTicker() == null || ticker == null)
+            throw new Exception("Ticker equals null");
+        if (!securityHistory.getTicker().equals(ticker))
+            throw new Exception("Tickers are not the same");
+    }
+
 
 
 

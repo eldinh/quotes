@@ -1,19 +1,22 @@
 package ru.sfedu.model;
 
+import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
 
+import java.util.List;
+
 public class Bond extends Security {
-    @CsvBindByPosition(position = 10)
+    @CsvBindByName
     private BondType type;
-    @CsvBindByPosition(position = 11)
+    @CsvBindByName
     private String matDate; // Дата погашения
-    @CsvBindByPosition(position = 12)
+    @CsvBindByName
     private double coupon;
-    @CsvBindByPosition(position = 13)
+    @CsvBindByName
     private int dayToRedemption;
 
-    public Bond(String ticker, String name, String shortName, String latName, double nominal, String nominalValue, String issueDate, String isin, long issueSize, MarketType marketName, BondType type, String matDate, Double coupon, Integer dayToRedemption) {
-        super(ticker, name, shortName, latName, nominal, nominalValue, issueDate, isin, issueSize, marketName);
+    public Bond(String ticker, String name, String shortName, String latName, double nominal, String nominalValue, String issueDate, String isin, long issueSize, MarketType marketType, SecurityHistory history, BondType type, String matDate, double coupon, int dayToRedemption) {
+        super(ticker, name, shortName, latName, nominal, nominalValue, issueDate, isin, issueSize, marketType, history);
         this.type = type;
         this.matDate = matDate;
         this.coupon = coupon;

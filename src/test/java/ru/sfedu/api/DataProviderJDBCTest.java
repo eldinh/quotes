@@ -5,11 +5,11 @@ package ru.sfedu.api;
 import org.junit.jupiter.api.AfterEach;
 import ru.sfedu.BaseTest;
 import ru.sfedu.Constants;
-import ru.sfedu.model.MarketType;
-import ru.sfedu.model.Stock;
-import ru.sfedu.model.User;
+import ru.sfedu.builder.SecurityHistoryBuilder;
+import ru.sfedu.model.*;
 
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.junit.Assert.assertNotEquals;
@@ -98,24 +98,19 @@ public class DataProviderJDBCTest extends BaseTest {
         deleteFile(USER_TABLE_NAME);
         result = data.appendUsers(users);
         assert(result.getStatus().equals(Constants.SUCCESS));
-        try{
-            Optional<User> user;
-            user = data.getUserById(100);
-            if (user.isEmpty())
-                assert(true);
-            else
-                assert(false);
-            deleteFile(USER_TABLE_NAME);
-            user = data.getUserById(0);
-            if (user.isEmpty())
-                assert(true);
-            else
-                assert(false);
-
-            assert(false);
-        } catch (Exception e){
+        Optional<User> user;
+        user = data.getUserById(100);
+        if (user.isEmpty())
             assert(true);
-        }
+        else
+            assert(false);
+        deleteFile(USER_TABLE_NAME);
+        user = data.getUserById(0);
+        if (user.isEmpty())
+            assert(true);
+        else
+            assert(false);
+
 
 
 
@@ -220,7 +215,7 @@ public class DataProviderJDBCTest extends BaseTest {
         System.out.println(data.getStocks());
         Stock stock = new Stock("SBER", "", "" , "",
                 90, "RUB", "1", "qwe",
-                90, MarketType.SHARES, Stock.StockType.COMMON, 0, 0);
+                90, MarketType.SHARES, getHistories("SBER"),Stock.StockType.COMMON, 0, 0);
         stockResult = data.updateStocks(new ArrayList<>(List.of(stock)));
         System.out.println(stockResult);
         assertEquals(stockResult.getStatus(), SUCCESS);
@@ -237,7 +232,7 @@ public class DataProviderJDBCTest extends BaseTest {
         deleteFile(STOCK_TABLE_NAME);
         Stock stock = new Stock("SHUSHU", "", "" , "",
                 90, "RUB", "1", "qwe",
-                90, MarketType.SHARES, Stock.StockType.COMMON, 0, 0);
+                90, MarketType.SHARES,getHistories("SBER") ,Stock.StockType.COMMON, 0, 0);
         stockResult = data.updateStocks(new ArrayList<>(List.of(stock)));
         assertEquals(stockResult.getStatus(), FAIL);
         assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
@@ -289,6 +284,144 @@ public class DataProviderJDBCTest extends BaseTest {
 
 
     }
+    public void testGetStockByTicker()  {
+        deleteFile(STOCK_TABLE_NAME);
+        data.appendSecurityHistory(histories, "SBER");
+        data.appendStocks(stocks);
+        Optional<Stock> stock = data.getStockByTicker("SBER");
+        System.out.println(stock);
+        if (stock.isPresent())
+            assert(true);
+        else
+            assert(false);
+        assertEquals(stock.get().getHistory(), data.getSecurityHistoryByDate("SBER"));
+    }
+
+    public void testFailGetStockByTicker(){
+        deleteFile(STOCK_TABLE_NAME);
+        Optional<Stock> stock = data.getStockByTicker("SBER");
+        System.out.println(stock);
+        if (stock.isEmpty())
+            assert(true);
+        else
+            assert(false);
+        data.appendStocks(stocks);
+        stock = data.getStockByTicker("SBER1231421");
+        System.out.println(stock);
+        if (stock.isEmpty())
+            assert(true);
+        else
+            assert(false);
+    }
+
+    public void testAppendSecurityHistory(){
+        data.deleteAllSecurityHistories("SBER");
+        securityHistoryResult = data.appendSecurityHistory(histories, "SBER");
+        assertEquals(securityHistoryResult.getStatus(), SUCCESS);
+
+    }
+
+    public void testFailAppendSecurityHistory(){
+        data.deleteAllSecurityHistories("SBER");
+        securityHistoryResult = data.appendSecurityHistory(histories, "SBER1");
+        assertEquals(securityHistoryResult.getStatus(), FAIL);
+        securityHistoryResult = data.appendSecurityHistory(histories, null);
+        assertEquals(securityHistoryResult.getStatus(), FAIL);
+        securityHistoryResult = data.appendSecurityHistory(null, "");
+        assertEquals(securityHistoryResult.getStatus(), FAIL);
+        securityHistoryResult = data.appendSecurityHistory(histories, "SBER");
+        securityHistoryResult = data.appendSecurityHistory(histories, "SBER");
+        System.out.println(securityHistoryResult);
+        assertEquals(securityHistoryResult.getStatus(), WARN);
+        assertEquals(securityHistoryResult.getBody() ,histories);
+    }
+
+    public void testGetSecurityHistories(){
+        data.deleteAllSecurityHistories("SBER");
+        assertEquals(data.appendSecurityHistory(histories, "SBER").getStatus(), SUCCESS);
+        securityHistoryResult = data.getSecurityHistories("SBER");
+        System.out.println(securityHistoryResult);
+        assertEquals(securityHistoryResult.getBody(), histories);
+    }
+
+    public void testFailGetSecurityHistories(){
+        data.deleteAllSecurityHistories("SBER");
+        securityHistoryResult = data.getSecurityHistories("SBER");
+        assertEquals(securityHistoryResult.getStatus(), FAIL);
+        assertEquals(data.appendSecurityHistory(histories, "SBER").getStatus(), SUCCESS);
+
+        securityHistoryResult = data.getSecurityHistories("SBER1");
+        assertEquals(securityHistoryResult.getStatus(), FAIL);
+
+        securityHistoryResult = data.getSecurityHistories(null);
+        assertEquals(securityHistoryResult.getStatus(), FAIL);
+    }
+
+    public void testGetSecurityHistoryByDate(){
+        data.deleteAllSecurityHistories("SBER");
+        assertEquals(data.appendSecurityHistory(histories, "SBER").getStatus(), SUCCESS);
+        for (String date : dateList){
+            SecurityHistory securityHistory = data.getSecurityHistoryByDate("SBER", date);
+            Optional<SecurityHistory> securityHistory1 = histories.stream().filter(x -> x.getDate().equals(date)).findFirst();
+            assert securityHistory1.isPresent();
+            assertEquals(securityHistory1.get(), securityHistory);
+        }
+    }
+
+    public void testFailGetSecurityHistoryByDate(){
+        data.deleteAllSecurityHistories("SBER");
+        SecurityHistory securityHistory = new SecurityHistoryBuilder().empty("SBER1");
+        for (String date : dateList){
+            SecurityHistory securityHistory1 = data.getSecurityHistoryByDate("SBER",date);
+            assertNotEquals(securityHistory1, securityHistory);
+        }
+        for (String date : dateList){
+            SecurityHistory securityHistory1 = data.getSecurityHistoryByDate("SBER", date);
+            assertEquals(securityHistory1, new SecurityHistoryBuilder().empty(date, "SBER"));
+        }
+    }
+
+    public void testAppendOrUpdate(){
+        data.deleteAllSecurityHistories("SBER");
+        assertEquals(data.getSecurityHistories("SBER").getStatus(), FAIL);
+        assert(data.appendOrUpdate(new SecurityHistoryBuilder().empty("SBER"), "SBER"));
+        securityHistoryResult = data.getSecurityHistories("SBER");
+        assertEquals(securityHistoryResult.getStatus(), SUCCESS);
+        assertEquals(securityHistoryResult.getBody().size(), 1);
+        SecurityHistory securityHistory = new SecurityHistoryBuilder().withTicker("SBER").withAveragePerDay(12314)
+                .withClosePrice(10).withOpenPrice(9).withVolume(1000).withDate(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()))
+                .build();
+        assert(data.appendOrUpdate(securityHistory, "SBER"));
+        securityHistoryResult = data.getSecurityHistories("SBER");
+        assertEquals(securityHistoryResult.getStatus(), SUCCESS);
+        assertEquals(securityHistoryResult.getBody().size(), 1);
+        assertEquals(securityHistoryResult.getBody().get(0), securityHistory);
+    }
+
+    public void testFailAppendOrUpdate(){
+        data.deleteAllSecurityHistories("SBER");
+        assertFalse(data.appendOrUpdate(null, "SBER"));
+        assertFalse(data.appendOrUpdate(new SecurityHistoryBuilder().empty("SBER"), null));
+        assertFalse(data.appendOrUpdate(new SecurityHistoryBuilder().empty("SBER"), "SBERE!"));
+        assertFalse(data.appendOrUpdate(new SecurityHistoryBuilder().empty("SBE1R"), "SBERE!"));
+    }
+
+    public void testDeleteAllSecurityHistories(){
+        data.deleteAllSecurityHistories("SBER");
+        securityHistoryResult = data.appendSecurityHistory(histories, "SBER");
+        assertEquals(securityHistoryResult.getStatus(), SUCCESS);
+        Result<SecurityHistory> securityHistoryResult = data.deleteAllSecurityHistories("SBER");
+        assertEquals(securityHistoryResult.getStatus(), SUCCESS);
+        assertEquals(securityHistoryResult.getBody().size(), histories.size());
+    }
+
+    public void testFailDeleteAllSecurityHistories(){
+        data.deleteAllSecurityHistories("SBER");
+        assertEquals(data.deleteAllSecurityHistories("SBER").getStatus(), FAIL);
+    }
+
+
+
 
 
 }

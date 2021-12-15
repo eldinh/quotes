@@ -21,6 +21,7 @@ public class StockBuilder extends SecurityBuilder {
         this.isin = securityBuilder.isin;
         this.issueSize = securityBuilder.issueSize;
         this.marketType = securityBuilder.marketType;
+        this.securityHistory = securityBuilder.securityHistory;
     }
 
     public StockBuilder withTicker(String ticker) {
@@ -91,6 +92,6 @@ public class StockBuilder extends SecurityBuilder {
     public Stock build(){
         return new Stock(ticker, name, shortName, latName,
                         nominal, nominalValue, issueDate, isin,
-                        issueSize, marketType, type, dividendSum, capitalization);
+                        issueSize, marketType,securityHistory , type, dividendSum, capitalization);
     }
 }

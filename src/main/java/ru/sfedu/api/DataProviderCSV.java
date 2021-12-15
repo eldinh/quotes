@@ -9,11 +9,7 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
-import ru.sfedu.model.User;
-import ru.sfedu.model.Result;
-import ru.sfedu.model.Bond;
-import ru.sfedu.model.Security;
-import ru.sfedu.model.Stock;
+import ru.sfedu.model.*;
 import ru.sfedu.utils.ValidEntityListValidator;
 
 import java.io.FileReader;
@@ -42,6 +38,8 @@ public class DataProviderCSV implements DateProvider {
 
     }
 
+    //  CLI
+    //
     public static List<Long> getUsersId(List<User> users){
         return users.stream().map(User::getId).toList();
     }
@@ -60,14 +58,14 @@ public class DataProviderCSV implements DateProvider {
         return updatedUsers;
     }
 
-    private CSVWriter getCSVWriter(Class<?> bean) throws Exception {
+    private CSVWriter getCSVWriter(String filename, String extraPath) throws Exception {
         log.info("Starting DataProviderCSV getCSVWriter[0]");
         try {
-            log.debug("getCSVWriter[1]: {}", bean);
+            log.debug("getCSVWriter[1]: {}", filename);
             log.debug("getCSVWriter[2]: Creating FileWriter");
-            Files.createDirectories(Paths.get(getConfigurationEntry(CSV_PATH)));
-            FileWriter writer = new FileWriter(getConfigurationEntry(CSV_PATH)
-                    .concat(bean.getSimpleName().toUpperCase())
+            Files.createDirectories(Paths.get(getConfigurationEntry(CSV_PATH).concat(extraPath)));
+            FileWriter writer = new FileWriter(getConfigurationEntry(CSV_PATH).concat(extraPath)
+                    .concat(filename)
                     .concat(getConfigurationEntry(CSV_FILE_EXTENTION)), false);
             log.debug("getCSVWriter[3]: Creating CSVWriter");
             return new CSVWriter(writer);
@@ -76,6 +74,11 @@ public class DataProviderCSV implements DateProvider {
             throw new Exception(e);
         }
     }
+
+    private CSVWriter getCSVWriter(Class<?> bean) throws Exception {
+        return getCSVWriter(bean.getSimpleName().toUpperCase(), "");
+    }
+
 
     private <T> StatefulBeanToCsvBuilder<T> getBeanToCSVBuilder(CSVWriter writer) throws Exception {
         log.info("Starting DataProviderCSV getBeanToCSVBuilder[5]");
@@ -95,29 +98,44 @@ public class DataProviderCSV implements DateProvider {
         log.info("Starting DataProviderCSV write[8]");
         try {
             log.info("write[9]: {}, {}", securityList, security);
-            log.debug("write[10]: Creating csvWriter[7]");
+            log.debug("write[10]: Creating csvWriter");
             CSVWriter csvWriter = getCSVWriter(security);
-            log.debug("write[11]: Creating StatefulBean[8]");
+            log.debug("write[11]: Creating StatefulBean");
             StatefulBeanToCsvBuilder<T> beanToCsvBuilder = getBeanToCSVBuilder(csvWriter);
             StatefulBeanToCsv<T> beanToCsv = beanToCsvBuilder.build();
-            log.debug("write[12]: Writing to csv file[9]");
+            log.debug("write[12]: Writing to csv file");
             beanToCsv.write(securityList);
-            log.debug("write[13]: Closing CSVWriter[10]");
+            log.debug("write[13]: Closing CSVWriter");
             csvWriter.close();
+            log.debug("write[14]: Writing history");
         } catch (Exception e){
             log.error("Function DataProviderCSV write had failed[14]");
             throw new Exception(e);
         }
     }
 
+    private <T extends Security> void writeSecurity(List<T> securityList, Class<T> security) throws Exception {
+        log.info("Starting DataProviderCSV writeSecurity[]");
+        try {
+            log.info("writeSecurity[]: {}, {}", securityList, security);
+            write(securityList, security);
 
-    private <T> CSVReader getCSWReader(Class<T> ob) throws Exception {
+        } catch (Exception e){
+            log.error("Function DataProviderCSV writeSecurity had failed[]");
+            throw new Exception(e);
+        }
+
+    }
+
+
+
+    private CSVReader getCSWReader(String filename, String extraPath) throws Exception {
         log.info("Starting DataProviderCSV getCSVReader[15]");
         try {
-            log.info("getCSVWriter[16]: {}, type: {}", ob, ob.getSimpleName());
+            log.info("getCSVWriter[16]: {}, {}", filename, extraPath);
             log.debug("Creating FileReader[17]");
             FileReader reader = new FileReader(getConfigurationEntry(CSV_PATH)
-                    .concat(ob.getSimpleName().toUpperCase())
+                    .concat(extraPath).concat(filename)
                     .concat(getConfigurationEntry(CSV_FILE_EXTENTION)));
             log.debug("Creating CSWReader[18]");
             return new CSVReader(reader);
@@ -127,13 +145,13 @@ public class DataProviderCSV implements DateProvider {
         }
     }
 
-    private <T> CsvToBeanBuilder<T> getCsvToBeanBuilder(Class<T> bean) throws Exception {
+    private <T> CsvToBeanBuilder<T> getCsvToBeanBuilder(String filename, String extraPath) throws Exception {
         log.info("Starting DataProviderCSV getCsvToBeanBuilder[20]");
         try
         {
-            log.info("getCsvToBeanBuilder[21]: {}, type: {}", bean, bean.getSimpleName());
+            log.info("getCsvToBeanBuilder[21]: {}, {}", filename, extraPath);
             log.debug("Creating CSVReader[22]");
-            CSVReader reader = getCSWReader(bean);
+            CSVReader reader = getCSWReader(filename,extraPath);
             log.debug("Creating CsvToBeanBuilder[23]");
             return new CsvToBeanBuilder<>(reader);
         }catch (Exception e){
@@ -142,11 +160,15 @@ public class DataProviderCSV implements DateProvider {
         }
     }
 
+    private <T> CsvToBeanBuilder<T> getCsvToBeanBuilder(Class<T> bean) throws Exception {
+        return getCsvToBeanBuilder(bean.getSimpleName().toUpperCase(), "");
+    }
+
     private <T> List<T> read(Class<T> bean) throws Exception {
-        log.info("Starting DataProviderCSV write[25]");
+        log.info("Starting DataProviderCSV read[25]");
         try {
             log.info("write[26]: {}", bean);
-            log.debug("write[27]: creating csvToBean");
+            log.debug("read[27]: creating csvToBean");
             CsvToBeanBuilder<T> csvToBeanBuilder = getCsvToBeanBuilder(bean);
             CsvToBean<T> csvToBean = csvToBeanBuilder
                     .withType(bean)
@@ -171,7 +193,7 @@ public class DataProviderCSV implements DateProvider {
             oldList.sort(Comparator.comparing(T::getTicker));
             List<T> response = list.stream().filter(x -> tickerList.contains(x.getTicker())).toList();
             log.debug("appendSecurities[32]: write to csv file");
-            write(oldList, security);
+            writeSecurity(oldList, security);
             if (response.isEmpty())
                 return new Result<>(SUCCESS, "Securities have been appended successfully", response);
             return new Result<>(WARN, String.format("Number of securities that haven't been appended: %d", response.size()), response);
@@ -441,6 +463,68 @@ public class DataProviderCSV implements DateProvider {
     @Override
     public Optional<Bond> getBondByTicker(String ticker) throws Exception {
         return getSecurityByTicker(ticker, Bond.class);
+    }
+
+
+    private void writeHistory(List<SecurityHistory> securityList, String ticker) throws Exception {
+        log.info("Starting DataProviderCSV write[]");
+        try {
+            log.info("writeHistory[]: {}", securityList);
+            log.debug("writeHistory[]: Creating csvWriter[]");
+            CSVWriter csvWriter = getCSVWriter(ticker.toUpperCase(), SECURITY_HISTORY_PATH);
+            log.debug("writeHistory[]: Creating StatefulBean");
+            StatefulBeanToCsvBuilder<SecurityHistory> beanToCsvBuilder = getBeanToCSVBuilder(csvWriter);
+            StatefulBeanToCsv<SecurityHistory> beanToCsv = beanToCsvBuilder.build();
+            log.debug("writeHistory[]: Writing to csv file");
+            beanToCsv.write(securityList);
+            log.debug("writeHistory[]: Closing CSVWriter");
+            csvWriter.close();
+        } catch (Exception e){
+            log.error("Function DataProviderCSV writeHistory had failed[]");
+            throw new Exception(e);
+        }
+    }
+
+    public void appendSecuritiesHistory(List<SecurityHistory> securityHistories, String ticker){
+        log.info("Starting DataProviderCSV appendSecuritiesHistory");
+        try {
+            log.info("appendSecuritiesHistory[]: {}", securityHistories);
+            ValidEntityListValidator.isValidSecurityHistory(securityHistories, ticker);
+            securityHistories.sort(Comparator.comparing(SecurityHistory::getDate).reversed());
+            log.debug("appendSecuritiesHistory[]: write to file");
+            writeHistory(securityHistories, ticker);
+        }catch (Exception e){
+            log.error("Function DataProviderCSV appendSecuritiesHistory had failed[]: {}", e.getMessage());
+        }
+    }
+
+
+    private List<SecurityHistory> readHistory(String ticker, Class<SecurityHistory> historyClass) throws Exception {
+        log.info("Starting DataProviderCSV readHistory[]");
+        try {
+            log.info("readHistory[]: {}", ticker);
+            log.debug("readHistory[]: creating csvToBean");
+            CsvToBeanBuilder<SecurityHistory> csvToBeanBuilder = getCsvToBeanBuilder(ticker, SECURITY_HISTORY_PATH);
+            CsvToBean<SecurityHistory> csvToBean = csvToBeanBuilder
+                    .withType(historyClass)
+                    .build();
+            log.debug("readHistory:[] Parse CSVToBean");
+            return csvToBean.parse();
+        }catch (Exception e){
+            log.error("Function readHistory had failed[]");
+            throw new Exception(e);
+        }
+    }
+
+    public List<SecurityHistory> getSecurityHistory(String ticker, Class<SecurityHistory> historyClass) throws Exception {
+        log.info("Starting DataProviderCSV getSecurityHistory[]");
+        try {
+
+            return readHistory(ticker, historyClass);
+        }catch (Exception e){
+            log.error("Function getSecurityHistory had failed");
+            throw new Exception(e);
+        }
     }
 
 }
