@@ -1,7 +1,6 @@
 package ru.sfedu;
 
 import junit.framework.TestCase;
-import ru.sfedu.api.MongoHistory;
 import ru.sfedu.builder.SecurityHistoryBuilder;
 import ru.sfedu.model.*;
 
@@ -10,6 +9,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BaseTest extends TestCase {
+    protected final String SBER = "SBER";
+    protected final String SBERBOND = "SBERBOND";
+
     protected List<User> users = new ArrayList<>(Arrays.asList(
             new User(0, "Andrew", 29)
             , new User(1, "NorAdeww", 10)
@@ -51,22 +53,22 @@ public class BaseTest extends TestCase {
                     1000, MarketType.SHARES, getHistories("IOUO2"),Stock.StockType.PREFERRED, 0, 0)
     ));
 
-    protected List<Stock> bonds = new ArrayList<>(Arrays.asList(
-            new Stock("SBER", "", "" , "",
+    protected List<Bond> bonds = new ArrayList<>(Arrays.asList(
+            new Bond("SBERBOND", "", "" , "",
                     100, "RUB", "1", "qwe",
-                    1000, MarketType.BONDS, getHistories("SBER"), Stock.StockType.COMMON, 0, 0),
-            new Stock("QWER", "", "" , "",
+                    1000, MarketType.BONDS, getHistories("SBERBOND"), Bond.BondType.cb_bond,"", 0, 0),
+            new Bond("QWERBOND", "", "" , "",
                     100, "RUB", "1", "qwe",
-                    1000, MarketType.BONDS,getHistories("QWER"), Stock.StockType.COMMON, 0, 0),
-            new Stock("QQQ", "", "" , "",
+                    1000, MarketType.BONDS,getHistories("QWERBOND"), Bond.BondType.cb_bond,"", 0, 0),
+            new Bond("QQQBOND", "", "" , "",
                     100, "RUB", "1", "qwe",
-                    1000, MarketType.BONDS, getHistories("SBER"),Stock.StockType.COMMON, 0, 0),
-            new Stock("IOUO", "", "" , "",
+                    1000, MarketType.BONDS, getHistories("QQQBOND"),Bond.BondType.cb_bond,"", 0, 0),
+            new Bond("IOUOBOND", "", "" , "",
                     100, "RUB", "1", "qwe",
-                    1000, MarketType.BONDS,getHistories("IOUO"), Stock.StockType.PREFERRED, 0, 0),
-            new Stock("IOUO2", "", "" , "",
+                    1000, MarketType.BONDS,getHistories("IOUOBOND"), Bond.BondType.cb_bond,"", 0, 0),
+            new Bond("IOUO2BOND", "", "" , "",
                     100, "RUB", "1", "qwe",
-                    1000, MarketType.BONDS, getHistories("IOUO2"),Stock.StockType.PREFERRED, 0, 0)
+                    1000, MarketType.BONDS, getHistories("IOUO2BOND"),Bond.BondType.cb_bond,"", 0, 0)
     ));
     protected ArrayList<SecurityHistory> histories = new ArrayList<>(List.of(
             new SecurityHistory("2021-12-15", 123, "SBER", 12, 13, 100),
@@ -76,14 +78,23 @@ public class BaseTest extends TestCase {
             new SecurityHistory("2021-01-01", 123, "SBER", 12, 13, 100),
             new SecurityHistory("2021-01-13", 123, "SBER", 12, 13, 100)
     ));
+    protected ArrayList<SecurityHistory> historiesBond = new ArrayList<>(List.of(
+            new SecurityHistory("2021-12-16", 123, "SBERBOND", 12, 13, 100),
+            new SecurityHistory("2021-11-21", 123, "SBERBOND", 12, 13, 100),
+            new SecurityHistory("2021-01-12", 123, "SBERBOND", 12, 13, 100),
+            new SecurityHistory("2021-12-12", 123, "SBERBOND", 12, 13, 100),
+            new SecurityHistory("2021-01-01", 123, "SBERBOND", 12, 13, 100),
+            new SecurityHistory("2021-01-13", 123, "SBERBOND", 12, 13, 100)
+    ));
 
     protected ArrayList<String> dateList = new ArrayList<>(histories.stream().map(SecurityHistory::getDate).toList());
+    protected ArrayList<String> dateBondList = new ArrayList<>(historiesBond.stream().map(SecurityHistory::getDate).toList());
 
 
     protected Result<User> result;
     protected Result<Stock> stockResult;
     protected Result<SecurityHistory> securityHistoryResult;
-
+    protected Result<Bond> bondResult;
 
 
     protected SecurityHistory getHistories(String ticker){

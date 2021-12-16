@@ -215,7 +215,7 @@ public class DataProviderCSV implements DateProvider {
         }
     }
 
-    private <T extends Security> Optional<T> deleteSecurityByTicker(String ticker, Class<T> securityClass) throws Exception {
+    private <T extends Security> Optional<T> deleteSecurityByTicker(String ticker, Class<T> securityClass)  {
         log.info("Starting DataProviderCSV deleteSecurityByTicker[36]");
         try {
             log.info("deleteSecurityByTicker[37]: {}, type: {}",ticker, ticker.getClass());
@@ -232,8 +232,8 @@ public class DataProviderCSV implements DateProvider {
             return sec;
         }catch (Exception e){
             log.error("Function DataProviderCSV deleteSecurityByTicker has crashed[41]");
-            throw new Exception(e);
         }
+        return Optional.empty();
     }
 
     private <T extends Security> Result<T> deleteAllSecurities(Class<T> securityClass)  {
@@ -252,7 +252,7 @@ public class DataProviderCSV implements DateProvider {
         }
     }
 
-    private <T extends Security> Optional<T> getSecurityByTicker(String ticker, Class<T> securityClass) throws Exception {
+    private <T extends Security> Optional<T> getSecurityByTicker(String ticker, Class<T> securityClass)  {
         log.info("Starting DataProviderCSV getSecurityByTicker[47]");
         log.info("getSecurityByTicker[48]: {}, type: {}", ticker, ticker.getClass());
         try {
@@ -262,8 +262,8 @@ public class DataProviderCSV implements DateProvider {
             return securityList.stream().filter(x -> x.getTicker().equals(ticker)).findFirst();
         }catch (Exception e){
             log.error("Function DataProviderCSV getSecurityByTicker had failed[51]");
-            throw new Exception(e);
         }
+        return Optional.empty();
     }
 
     private <T extends Security> Result<T> updateSecurities(List<T> securities, Class<T> securityClass)  {
@@ -349,7 +349,7 @@ public class DataProviderCSV implements DateProvider {
     }
 
     @Override
-    public Optional<User> deleteUserById(long id) throws Exception {
+    public Optional<User> deleteUserById(long id) {
         log.info("Starting DataProviderCSV deleteUserById[64]");
         try {
             log.info("deleteUserById[65]: {}",id);
@@ -366,8 +366,8 @@ public class DataProviderCSV implements DateProvider {
             return user;
         }catch (Exception e){
             log.error("Function DataProviderCSV deleteUserById has crashed[69]");
-            throw new Exception(e);
         }
+        return Optional.empty();
     }
 
 
@@ -388,7 +388,7 @@ public class DataProviderCSV implements DateProvider {
     }
 
     @Override
-    public Optional<User> getUserById(long id) throws Exception {
+    public Optional<User> getUserById(long id)  {
         log.info("Starting DataProviderCSV getUserById[74]");
         log.info("getUserById[75]: {}",id);
         try {
@@ -398,8 +398,8 @@ public class DataProviderCSV implements DateProvider {
             return securityList.stream().filter(x -> x.getId().equals(id)).findFirst();
         }catch (Exception e){
             log.error("Function DataProviderCSV getUserById had failed[78]");
-            throw new Exception(e);
         }
+        return Optional.empty();
     }
 
 
@@ -436,12 +436,12 @@ public class DataProviderCSV implements DateProvider {
     }
 
     @Override
-    public Optional<Stock> deleteStockByTicker(String ticker) throws Exception {
+    public Optional<Stock> deleteStockByTicker(String ticker)  {
         return deleteSecurityByTicker(ticker, Stock.class);
     }
 
     @Override
-    public Optional<Bond> deleteBondByTicker(String ticker) throws Exception {
+    public Optional<Bond> deleteBondByTicker(String ticker)  {
         return deleteSecurityByTicker(ticker, Bond.class);
     }
 
@@ -456,12 +456,12 @@ public class DataProviderCSV implements DateProvider {
     }
 
     @Override
-    public Optional<Stock> getStockByTicker(String ticker) throws Exception {
+    public Optional<Stock> getStockByTicker(String ticker)  {
         return getSecurityByTicker(ticker, Stock.class);
     }
 
     @Override
-    public Optional<Bond> getBondByTicker(String ticker) throws Exception {
+    public Optional<Bond> getBondByTicker(String ticker)  {
         return getSecurityByTicker(ticker, Bond.class);
     }
 
@@ -497,7 +497,6 @@ public class DataProviderCSV implements DateProvider {
             log.error("Function DataProviderCSV appendSecuritiesHistory had failed[]: {}", e.getMessage());
         }
     }
-
 
     private List<SecurityHistory> readHistory(String ticker, Class<SecurityHistory> historyClass) throws Exception {
         log.info("Starting DataProviderCSV readHistory[]");

@@ -123,6 +123,16 @@ public class DataProviderJDBC implements DateProvider {
                 .concat(SQL_WHERE + String.format(SQL_SECURITY_TICKER, stock.getTicker()));
     }
 
+    private String sqlUpdateBond(Bond bond){
+        return String.format(SQL_UPDATE, BOND_TABLE_NAME)
+                .concat(String.format(Locale.ROOT,SQL_SET_BOND , bond.getName(), bond.getShortName(),
+                        bond.getLatName(), bond.getNominal(), bond.getNominalValue(),
+                        bond.getIssueDate(), bond.getIsin(), bond.getIssueSize(),
+                        bond.getMarketType().toString(), bond.getType().toString(),
+                        bond.getMatDate(), bond.getCoupon(), bond.getDayToRedemption()))
+                .concat(SQL_WHERE + String.format(SQL_SECURITY_TICKER, bond.getTicker()));
+    }
+
     private String sqlUpdateSecurityHistory(SecurityHistory securityHistory, String ticker){
         return String.format(SQL_UPDATE, ticker.toUpperCase())
                 .concat(String.format(Locale.ROOT,SQL_SET_SECURITY_HISTORY, securityHistory.getTicker(),
@@ -304,7 +314,7 @@ public class DataProviderJDBC implements DateProvider {
         try {
             log.debug("deleteAllUsers[33]: get all users");
             Result<User> result = getUsers();
-            if (getUsers().getStatus().equals(FAIL))
+            if (result.getStatus().equals(FAIL))
                 throw new Exception(result.getMessage());
             log.debug("deleteAllUsers[34]: Connect to db");
             Connection connection = getDbConnection(USER_TABLE_NAME);
@@ -377,7 +387,7 @@ public class DataProviderJDBC implements DateProvider {
             log.debug("appendStocks[50]: Get all ticker");
             List<String> allTicker = getSecuritiesTicker(getStocks().getBody());
             List<Stock> response = new ArrayList<>(stocks.stream().filter(x -> allTicker.contains(x.getTicker())).toList());
-            log.debug("appendStocks[51]: append users with ticker");
+            log.debug("appendStocks[51]: append stocks with ticker");
             for (Stock stock : stocks.stream().filter(x ->!allTicker.contains(x.getTicker())).toList()) {
                 connection.createStatement().executeUpdate(String.format(SQL_INSERT, STOCK_TABLE_NAME)
                         .concat(setStockValues(stock)));
@@ -437,88 +447,216 @@ public class DataProviderJDBC implements DateProvider {
                 deleteAllSecurityHistories(ticker);
                 connection.commit();
                 MongoHistory.save(DELETE, JDBC, resultSetToStock(rs));
-                log.debug("deleteStockByTicker[]: Delete {}'s SecurityHistory table", ticker);
+                log.debug("deleteStockByTicker[63]: Delete {}'s SecurityHistory table", ticker);
                 deleteAllSecurityHistories(ticker);
                 return Optional.of(resultSetToStock(rs));
             }
         }catch (Exception e){
-            log.error("Function DataProviderJDBC deleteStockByTicker had failed[63]");
+            log.error("Function DataProviderJDBC deleteStockByTicker had failed[64]");
         }
         return Optional.empty();
     }
 
     @Override
     public Result<Stock> deleteAllStocks() {
-        log.info("Starting DataProviderJDBC deleteAllStocks[64]");
+        log.info("Starting DataProviderJDBC deleteAllStocks[65]");
         try {
-            log.debug("deleteAllStocks[65]: get all stocks");
+            log.debug("deleteAllStocks[66]: get all stocks");
             Result<Stock> result = getStocks();
-            if (getUsers().getStatus().equals(FAIL))
+            if (result.getStatus().equals(FAIL))
                 throw new Exception(result.getMessage());
-            log.debug("deleteAllStocks[66]: Connect to db");
+            log.debug("deleteAllStocks[67]: Connect to db");
             Connection connection = getDbConnection(STOCK_TABLE_NAME);
-            log.debug("deleteAllStocks[67]: Delete all stocks");
+            log.debug("deleteAllStocks[68]: Delete all stocks");
             int count  = connection.prepareStatement(String.format(SQL_DELETE_FROM, STOCK_TABLE_NAME)).executeUpdate();
             log.info("deleteAllStocks[68]: Number of delete stocks: {}" , count);
-            log.debug("deleteAllStocks[]: Delete all histories");
+            log.debug("deleteAllStocks[69]: Delete all histories");
             deleteAllSecurityHistories(result.getBody().stream().map(Security::getTicker).toList());
             connection.commit();
             MongoHistory.save(DELETE, JDBC, result.getBody());
             return new Result<>(result.getStatus(), String.format("Number of delete stocks: %d", count), result.getBody());
         }catch (Exception e){
-            log.error("Function DataProviderJDBC deleteAllStocks had failed[69]");
+            log.error("Function DataProviderJDBC deleteAllStocks had failed[70]");
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
     @Override
     public Optional<Stock> getStockByTicker(String ticker){
-        log.info("Starting DataProviderJDBC getStockByTicker[]");
+        log.info("Starting DataProviderJDBC getStockByTicker[71]");
         try {
-            log.debug("getStockByTicker[]: Connect to db");
+            log.debug("getStockByTicker[72]: Connect to db");
             Connection connection = getDbConnection(STOCK_TABLE_NAME);
-            log.debug("getUserById[]: Get resultSet");
+            log.debug("getStockByTicker[73]: Get resultSet");
             ResultSet rs = connection.prepareStatement(String.format(SQL_SELECT_FROM, STOCK_TABLE_NAME)
                     .concat(SQL_WHERE).concat(String.format(SQL_SECURITY_TICKER, ticker))).executeQuery();
             if (rs.next())
                 return Optional.of(resultSetToStock(rs));
         } catch (Exception e){
-            log.error("Function DataProvider JDBC getStockByTicker had failed[]");
+            log.error("Function DataProvider JDBC getStockByTicker had failed[74]");
         }
         return Optional.empty();
     }
 
     @Override
     public Result<Bond> getBonds() {
-        return null;
+        log.info("Starting DataProviderJDBC getBonds[75]");
+        List<Bond> bonds = new ArrayList<>();
+        try {
+            log.debug("getBonds[76]: Connect to db");
+            Connection connection = getDbConnection(BOND_TABLE_NAME);
+            log.debug("getBonds[77]: Get users from db");
+            PreparedStatement preparedStatement = connection.prepareStatement(String.format(SQL_SELECT_FROM, BOND_TABLE_NAME));
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next())
+                bonds.add(resultSetToBond(rs));
+            log.debug("getBonds[78]: Set history to Stocks");
+            setHistory(bonds);
+            return new Result<>(SUCCESS, String.format("Number of bonds in file: %d", bonds.size()), bonds);
+        } catch (Exception e){
+            log.error("Function DataProviderJDBC getBonds had failed[79]");
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
     }
 
     @Override
     public Result<Bond> appendBonds(List<Bond> bonds) {
-        return null;
+        log.info("Starting DataProviderJDBC appendBonds[80]");
+        try {
+            log.info("appendBonds[81]: {}, type: {}", Arrays.toString(bonds.toArray()), bonds.getClass().getName());
+            ValidEntityListValidator.isValidSecurity(bonds);
+            log.debug("appendBonds[82]: Create table");
+            creatingTable(Bond.class, SQL_BOND_COLUMNS);
+            log.debug("appendBonds[83]: Connect to db");
+            Connection connection = getDbConnection(BOND_TABLE_NAME);
+            log.debug("appendBonds[84]: Get all ticker");
+            List<String> allTicker = getSecuritiesTicker(getBonds().getBody());
+            List<Bond> response = new ArrayList<>(bonds.stream().filter(x -> allTicker.contains(x.getTicker())).toList());
+            log.debug("appendBonds[85]: append bonds with ticker");
+            for (Bond bond : bonds.stream().filter(x ->!allTicker.contains(x.getTicker())).toList()) {
+                connection.createStatement().executeUpdate(String.format(SQL_INSERT, BOND_TABLE_NAME)
+                        .concat(setBondValues(bond)));
+                appendOrUpdate(bond.getHistory(), bond.getTicker());
+            }
+            connection.commit();
+            if (response.isEmpty())
+                return new Result<>(SUCCESS, "Securities have been appended successfully", response);
+            return new Result<>(WARN, String.format("Number of securities that haven't been appended: %d", response.size()), response);
+        } catch (Exception e){
+            log.error("Function DataProviderJDBC appendBonds had failed[86]");
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
     }
 
     @Override
     public Result<Bond> updateBonds(List<Bond> bonds) {
-        return null;
+        log.info("Starting DataProviderJDBC updateBonds[87]");
+        try {
+            log.info("updateBonds[88]: {}, type: {}", Arrays.toString(bonds.toArray()), bonds.getClass().getName());
+            ValidEntityListValidator.isValidSecurity(bonds);
+            List<Bond> response = new ArrayList<>();
+            List<Bond> bondToUpdate = new ArrayList<>(bonds);
+            log.debug("updateBonds[89]: Connect to db");
+            Connection connection = getDbConnection(BOND_TABLE_NAME);
+            log.debug("updateBonds[90]: Update users");
+            for (int i = 0; i < bondToUpdate.size(); i ++)
+                if( connection.createStatement().executeUpdate(sqlUpdateBond(bondToUpdate.get(i))) == 0)
+                    response.add(bondToUpdate.remove(i));
+                else
+                    appendOrUpdate(bondToUpdate.get(i).getHistory(), bondToUpdate.get(i).getTicker());
+            connection.commit();
+            MongoHistory.save(UPDATE, JDBC, bondToUpdate);
+            if (response.isEmpty())
+                return new Result<>(SUCCESS, String.format("Securities have been updated successfully, number of updated users: %d", bondToUpdate.size()), response);
+            return new Result<>(WARN, String.format("Number of Securities that haven't been updated: %d", response.size()),response);
+        } catch (Exception e){
+            log.error("Function DataProviderJDBC updateBonds had failed[91]");
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
     }
 
     @Override
     public Optional<Bond> deleteBondByTicker(String ticker) {
+        log.info("Starting DataProviderJDBC deleteBondByTicker[92]");
+        try {
+            log.info("deleteBondByTicker[93]: {}",ticker);
+            log.debug("deleteBondByTicker[94]: Connect to db");
+            Connection connection = getDbConnection(BOND_TABLE_NAME);
+            log.debug("deleteBondByTicker[95]: Get bond by ticker: {}", ticker);
+            ResultSet rs = connection.prepareStatement(String.format(SQL_SELECT_FROM, BOND_TABLE_NAME)
+                    .concat(SQL_WHERE).concat(String.format(SQL_SECURITY_TICKER, ticker))).executeQuery();
+            if (rs.next()){
+                log.debug("deleteBondByTicker[96]: Delete bond by ticker: {}", ticker);
+                connection.createStatement().executeUpdate(String.format(SQL_DELETE_FROM, BOND_TABLE_NAME)
+                        .concat(SQL_WHERE).concat(String.format(SQL_SECURITY_TICKER, ticker)));
+                deleteAllSecurityHistories(ticker);
+                MongoHistory.save(DELETE, JDBC, resultSetToBond(rs));
+                log.debug("deleteBondByTicker[97]: Delete {}'s SecurityHistory table", ticker);
+                deleteAllSecurityHistories(ticker);
+                connection.commit();
+                return Optional.of(resultSetToBond(rs));
+            }
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC deleteBondByTicker had failed[98]: {}", e.getMessage());
+        }
         return Optional.empty();
     }
 
     @Override
     public Result<Bond> deleteAllBonds() {
-        return null;
+        log.info("Starting DataProviderJDBC deleteAllBonds[99]");
+        try {
+            log.debug("deleteAllBonds[100]: get all bonds");
+            Result<Bond> result = getBonds();
+            if (result.getStatus().equals(FAIL))
+                throw new Exception(result.getMessage());
+            log.debug("deleteAllBonds[101]: Connect to db");
+            Connection connection = getDbConnection(BOND_TABLE_NAME);
+            log.debug("deleteAllBonds[102]: Delete all bonds");
+            int count  = connection.prepareStatement(String.format(SQL_DELETE_FROM, BOND_TABLE_NAME)).executeUpdate();
+            log.info("deleteAllBonds[68]: Number of delete bonds: {}" , count);
+            log.debug("deleteAllBonds[103]: Delete all histories");
+            deleteAllSecurityHistories(result.getBody().stream().map(Security::getTicker).toList());
+            connection.commit();
+            MongoHistory.save(DELETE, JDBC, result.getBody());
+            return new Result<>(result.getStatus(), String.format("Number of delete bonds: %d", count), result.getBody());
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC deleteAllBonds had failed[104]");
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
     }
 
     @Override
     public Optional<Bond> getBondByTicker(String ticker) {
+        log.info("Starting DataProviderJDBC getBondByTicker[105]");
+        try {
+            log.debug("getBondByTicker[106]: Connect to db");
+            Connection connection = getDbConnection(BOND_TABLE_NAME);
+            log.debug("getBondByTicker[107]: Get resultSet");
+            ResultSet rs = connection.prepareStatement(String.format(SQL_SELECT_FROM, BOND_TABLE_NAME)
+                    .concat(SQL_WHERE).concat(String.format(SQL_SECURITY_TICKER, ticker))).executeQuery();
+            if (rs.next())
+                return Optional.of(resultSetToBond(rs));
+        } catch (Exception e){
+            log.error("Function DataProvider JDBC getBondByTicker had failed[108]");
+        }
         return Optional.empty();
     }
 
+
+
+
     // Security history
+
+    /**
+     * Method to append security histories to database, for each ticker method creates a separate table
+     * @param securityHistories - list of histories to append
+     * @param ticker - security's ticker
+     * @return Result<SecurityHistory> - (Status, Message, Response)
+     * Status
+     * Message
+     * Response - list of histories that haven't been appended
+     */
     public Result<SecurityHistory> appendSecurityHistory(List<SecurityHistory> securityHistories, String ticker) {
         log.info("Starting DataProviderJDBC appendSecurityHistory[]");
         try {
@@ -545,6 +683,14 @@ public class DataProviderJDBC implements DateProvider {
         }
     }
 
+    /**
+     * Method to get security history by ticker
+     * @param ticker - Security's ticker
+     * @return Result<SecurityHistory> - (Status, Message, Response)
+     * Status
+     * Message
+     * Response - list of security's history
+     */
     public Result<SecurityHistory> getSecurityHistories(String ticker){
         log.info("Starting DataProviderJDBC getSecurityHistory[]");
         List<SecurityHistory> securityHistories = new ArrayList<>();
@@ -563,6 +709,13 @@ public class DataProviderJDBC implements DateProvider {
         }
     }
 
+
+    /**
+     * Method to get Security history by date and ticker
+     * @param ticker - Security's ticker
+     * @param date - date that was required
+     * @return SecurityHistory with special date that consists information or empty SecurityHistory that consists only date and ticker if it won't find
+     */
     public SecurityHistory getSecurityHistoryByDate(String ticker, String date) {
         log.info("Starting DataProviderJDBC getSecurityHistoryByDate[]");
         try {
@@ -580,10 +733,23 @@ public class DataProviderJDBC implements DateProvider {
         return new SecurityHistoryBuilder().empty(date, ticker);
     }
 
+    /**
+     * Method to get today's Security history by ticker
+     * @param ticker - Security's ticker
+     * @return today's Security history. If Security history wasn't found in database method will return empty history
+     */
     public SecurityHistory getSecurityHistoryByDate(String ticker) {
         return getSecurityHistoryByDate(ticker, date);
     }
 
+    /**
+     * Method to delete security's history database by his ticker
+     * @param dbName - security's ticker
+     * @return Result<SecurityHistory> - (Status, Message, Response)
+     * Status
+     * Message
+     * Response - list of security history that was in database
+     */
     public Result<SecurityHistory> deleteAllSecurityHistories(String dbName) {
         log.info("Starting DataProviderJDBC dropHistoryTable[]");
         try {
@@ -605,10 +771,20 @@ public class DataProviderJDBC implements DateProvider {
         }
     }
 
+    /**
+     * Method to delete security's history database by ticker
+     * @param tickerList - list of security's ticker histories that need to be deleted
+     */
     public void deleteAllSecurityHistories(List<String> tickerList){
         tickerList.forEach(this::deleteAllSecurityHistories);
     }
 
+    /**
+     * Method to append or update security's history by one date
+     * @param securityHistory - Security history
+     * @param ticker - security's ticker
+     * @return boolean - result of the work
+     */
     public boolean appendOrUpdate(SecurityHistory securityHistory, String ticker){
         log.info("Starting DataProviderJDBC appendOrUpdate[]");
         try {

@@ -24,7 +24,7 @@ import static ru.sfedu.utils.ConfigurationUtil.getConfigurationEntry;
 public class MongoHistory {
     private static final Logger log = LogManager.getLogger(MongoHistory.class.getName());
 
-    private static Boolean writeToHistory = true;
+    private static Boolean writeToHistory = false;
 
     public static void disable(){
         writeToHistory = false;

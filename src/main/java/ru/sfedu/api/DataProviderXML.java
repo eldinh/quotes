@@ -148,7 +148,7 @@ public class DataProviderXML implements DateProvider {
         }
     }
 
-    public <T extends Security> Optional<T> deleteSecurityByTicker(String ticker, Class<T> securityClass) throws Exception {
+    public <T extends Security> Optional<T> deleteSecurityByTicker(String ticker, Class<T> securityClass)  {
         log.info("Starting DataProviderXML deleteSecurityByTicker[]");
         try {
             log.info("deleteSecurityByTicker[]: {}, type: {}",ticker, ticker.getClass());
@@ -165,8 +165,8 @@ public class DataProviderXML implements DateProvider {
             return sec;
         }catch (Exception e){
             log.error("Function DataProviderXML deleteSecurityByTicker has crashed[]");
-            throw new Exception(e);
         }
+        return Optional.empty();
     }
 
     public <T extends Security> Result<T> deleteAllSecurities(Class<T> securityClass)  {
@@ -185,7 +185,7 @@ public class DataProviderXML implements DateProvider {
         }
     }
 
-    public <T extends Security> Optional<T> getSecurityByTicker(String ticker, Class<T> securityClass) throws Exception {
+    public <T extends Security> Optional<T> getSecurityByTicker(String ticker, Class<T> securityClass)  {
         log.info("Starting DataProviderXML getSecurityByTicker[]");
         log.info("getSecurityByTicker[]: {}, type: {}", ticker, ticker.getClass());
         try {
@@ -195,8 +195,8 @@ public class DataProviderXML implements DateProvider {
             return securityList.stream().filter(x -> x.getTicker().equals(ticker)).findFirst();
         }catch (Exception e){
             log.error("Function DataProviderXML getSecurityByTicker had failed[]");
-            throw new Exception(e);
         }
+        return Optional.empty();
     }
 
     public <T extends Security> Result<T> updateSecurities(List<T> securities, Class<T> securityClass)  {
@@ -282,7 +282,7 @@ public class DataProviderXML implements DateProvider {
     }
 
     @Override
-    public Optional<User> deleteUserById(long id) throws Exception {
+    public Optional<User> deleteUserById(long id)  {
         log.info("Starting DataProviderXML deleteUserById[]");
         try {
             log.info("deleteUserById[]: {}",id);
@@ -299,8 +299,8 @@ public class DataProviderXML implements DateProvider {
             return user;
         }catch (Exception e){
             log.error("Function DataProviderXML deleteUserById has crashed[]");
-            throw new Exception(e);
         }
+        return Optional.empty();
     }
 
 
@@ -321,7 +321,7 @@ public class DataProviderXML implements DateProvider {
     }
 
     @Override
-    public Optional<User> getUserById(long id) throws Exception {
+    public Optional<User> getUserById(long id) {
         log.info("Starting DataProviderXML getUserById[]");
         log.info("getUserById[]: {}",id);
         try {
@@ -331,8 +331,8 @@ public class DataProviderXML implements DateProvider {
             return securityList.stream().filter(x -> x.getId().equals(id)).findFirst();
         }catch (Exception e){
             log.error("Function DataProviderXML getUserById had failed[]");
-            throw new Exception(e);
         }
+        return Optional.empty();
     }
 
 
@@ -369,12 +369,12 @@ public class DataProviderXML implements DateProvider {
     }
 
     @Override
-    public Optional<Stock> deleteStockByTicker(String ticker) throws Exception {
+    public Optional<Stock> deleteStockByTicker(String ticker)  {
         return deleteSecurityByTicker(ticker, Stock.class);
     }
 
     @Override
-    public Optional<Bond> deleteBondByTicker(String ticker) throws Exception {
+    public Optional<Bond> deleteBondByTicker(String ticker)  {
         return deleteSecurityByTicker(ticker, Bond.class);
     }
 
@@ -389,12 +389,12 @@ public class DataProviderXML implements DateProvider {
     }
 
     @Override
-    public Optional<Stock> getStockByTicker(String ticker) throws Exception {
+    public Optional<Stock> getStockByTicker(String ticker)  {
         return getSecurityByTicker(ticker, Stock.class);
     }
 
     @Override
-    public Optional<Bond> getBondByTicker(String ticker) throws Exception {
+    public Optional<Bond> getBondByTicker(String ticker)  {
         return getSecurityByTicker(ticker, Bond.class);
     }
 }

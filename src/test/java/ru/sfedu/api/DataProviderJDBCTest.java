@@ -2,7 +2,6 @@ package ru.sfedu.api;
 
 
 
-import org.junit.jupiter.api.AfterEach;
 import ru.sfedu.BaseTest;
 import ru.sfedu.Constants;
 import ru.sfedu.builder.SecurityHistoryBuilder;
@@ -249,8 +248,14 @@ public class DataProviderJDBCTest extends BaseTest {
     }
     public void testDeleteStockByTicker() throws Exception {
         deleteFile(STOCK_TABLE_NAME);
+        data.deleteAllSecurityHistories("SBER");
+        data.appendSecurityHistory(histories, "SBER");
+        securityHistoryResult = data.deleteAllSecurityHistories("SBER");
+        assertEquals(securityHistoryResult.getStatus(), SUCCESS);
         assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
         Optional<Stock> deletedStock = data.deleteStockByTicker("SBER");
+        securityHistoryResult = data.deleteAllSecurityHistories("SBER");
+        assertEquals(securityHistoryResult.getStatus(), FAIL);
         Optional<Stock> stock= stocks.stream().filter(x -> x.getTicker().equals("SBER")).findFirst();
         if (deletedStock.isPresent())
             assertEquals(deletedStock, stock);
@@ -263,6 +268,8 @@ public class DataProviderJDBCTest extends BaseTest {
         updatedStocks.removeAll(stockResult.getBody());
         assertEquals(updatedStocks.size(), 1);
         assertEquals(updatedStocks.get(0), deletedStock.get());
+
+
     }
 
     public void testFailDeleteStockByTicker(){
@@ -312,6 +319,29 @@ public class DataProviderJDBCTest extends BaseTest {
             assert(true);
         else
             assert(false);
+    }
+
+
+    public void testDeleteAllStocks(){
+        deleteFile(STOCK_TABLE_NAME);
+        stockResult = data.appendStocks(stocks);
+        assertEquals(stockResult.getStatus(), SUCCESS);
+        stockResult = data.deleteAllStocks();
+        System.out.println(stockResult);
+        assertEquals(stockResult.getStatus(), SUCCESS);
+        assertEquals(stockResult.getBody(), stocks);
+        for (String ticker : stocks.stream().map(Security::getTicker).toList()){
+            securityHistoryResult = data.getSecurityHistories(ticker);
+            assertEquals(securityHistoryResult.getStatus(), FAIL);
+        }
+    }
+
+    public void testFailDeleteAllStocks(){
+        deleteFile(STOCK_TABLE_NAME);
+        stockResult = data.deleteAllStocks();
+        System.out.println(stockResult);
+        assertEquals(stockResult.getStatus(), FAIL);
+        assertEquals(stockResult.getBody().size(), 0);
     }
 
     public void testAppendSecurityHistory(){
@@ -415,13 +445,154 @@ public class DataProviderJDBCTest extends BaseTest {
         assertEquals(securityHistoryResult.getBody().size(), histories.size());
     }
 
+
     public void testFailDeleteAllSecurityHistories(){
         data.deleteAllSecurityHistories("SBER");
         assertEquals(data.deleteAllSecurityHistories("SBER").getStatus(), FAIL);
     }
 
+    public void testAppendBonds(){
+        deleteFile(BOND_TABLE_NAME);
+        data.deleteAllSecurityHistories(SBERBOND);
+        securityHistoryResult = data.appendSecurityHistory(historiesBond, SBERBOND);
+        assertEquals(securityHistoryResult.getStatus(), SUCCESS);
+        assertNotEquals(data.getSecurityHistoryByDate(SBERBOND), getHistories(SBERBOND));
+        bondResult = data.appendBonds(bonds);
+        System.out.println(bondResult);
+        assertEquals(bondResult.getStatus(), SUCCESS);
 
+    }
 
+    public void testFailAppendBonds(){
+        deleteFile(BOND_TABLE_NAME);
+        data.deleteAllSecurityHistories(SBERBOND);
+        bondResult = data.appendBonds(bonds);
+        bondResult = data.appendBonds(bonds);
+        assertEquals(bondResult.getStatus(), WARN);
+        assertEquals(bondResult.getBody().size(), bonds.size());
+        Bond bond = new Bond("SBERBOND", "", "" , "",
+                100, "RUB", "1", "qwe",
+                1000, MarketType.BONDS, getHistories("SBERBOND"), Bond.BondType.cb_bond,"", 0, 0);
+        bondResult = data.appendBonds(new ArrayList<>(List.of(bond, bond)));
+        assertEquals(bondResult.getStatus(), FAIL);
+        assertEquals(data.appendBonds(null).getStatus(), FAIL);
+        assertEquals(data.appendBonds(new ArrayList<>()).getStatus(), FAIL);
+    }
 
+    public void testGetBonds(){
+        deleteFile(BOND_TABLE_NAME);
+        data.deleteAllSecurityHistories(SBERBOND);
+        bondResult = data.appendBonds(bonds);
+        bondResult = data.getBonds();
+        assertEquals(bondResult.getBody(), bonds);
+    }
+
+    public void testFailGetBonds(){
+        deleteFile(BOND_TABLE_NAME);
+        data.deleteAllSecurityHistories(SBERBOND);
+        bondResult = data.getBonds();
+        assertEquals(bondResult.getStatus(), FAIL);
+    }
+
+    public void testUpdateBonds(){
+        deleteFile(BOND_TABLE_NAME);
+        bondResult = data.appendBonds(bonds);
+        assertEquals(bondResult.getStatus(), SUCCESS);
+        Bond bond = new Bond(SBERBOND, "", "" , "",
+                100, "RUB", "1", "qwe",
+                1000000000, MarketType.BONDS, getHistories(SBERBOND), Bond.BondType.cb_bond,"", 123124412, 2138912);
+
+        bondResult = data.updateBonds(new ArrayList<>(List.of(bond)));
+        assertEquals(bondResult.getStatus(), SUCCESS);
+        securityHistoryResult = data.getSecurityHistories(SBERBOND);
+        assertEquals(securityHistoryResult.getStatus(), SUCCESS);
+        assert(securityHistoryResult.getBody().contains(getHistories(SBERBOND)));
+        Optional<Bond> bond1 = data.getBondByTicker(SBERBOND);
+        assert(bond1.isPresent());
+        assertEquals(bond1.get(), bond);
+    }
+
+    public void testFailUpdateBonds(){
+        deleteFile(BOND_TABLE_NAME);
+        Bond bond = new Bond("SDQWEQF", "", "" , "",
+                100, "RUB", "1", "qwe",
+                1000000000, MarketType.BONDS, getHistories(SBERBOND), Bond.BondType.cb_bond,"", 123124412, 2138912);
+
+        bondResult = data.updateBonds(new ArrayList<>(List.of(bond)));
+        assertEquals(bondResult.getStatus(), FAIL);
+        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+        bondResult = data.updateBonds(new ArrayList<>(List.of(bond)));
+        assertEquals(bondResult.getStatus(), WARN);
+
+        bondResult = data.updateBonds(null);
+        assertEquals(bondResult.getStatus(), FAIL);
+        bondResult = data.updateBonds(new ArrayList<>());
+        assertEquals(bondResult.getStatus(), FAIL);
+        Bond bond1 = new Bond(null, "", "" , "",
+                100, "RUB", "1", "qwe",
+                1000000000, MarketType.BONDS, getHistories(SBERBOND), Bond.BondType.cb_bond,"", 123124412, 2138912);
+        bondResult = data.updateBonds(new ArrayList<>(List.of(bond1)));
+        System.out.println(bondResult);
+        assertEquals(bondResult.getStatus(), FAIL);
+    }
+
+    public void testDeleteBondByTicker(){
+        deleteFile(BOND_TABLE_NAME);
+        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+        Optional<Bond> bond = data.deleteBondByTicker(SBERBOND);
+        assert(bond.isPresent());
+        assertEquals(bond, bonds.stream().filter(x -> x.getTicker().equals(SBERBOND)).findFirst());
+        bondResult = data.getBonds();
+        assertEquals(bondResult.getBody().size(), bonds.size() - 1);
+    }
+
+    public void testFailDeleteBondByTicker(){
+        deleteFile(BOND_TABLE_NAME);
+        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+        Optional<Bond> bond = data.deleteBondByTicker("FFFFFFFFFFFFFFFFFFF");
+        assert(bond.isEmpty());
+        assertEquals(data.getBonds().getBody().size(), bonds.size());
+    }
+
+    public void testDeleteAllBonds(){
+        deleteFile(BOND_TABLE_NAME);
+        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+
+        bondResult = data.deleteAllBonds();
+        System.out.println(bondResult);
+        assertEquals(bondResult.getStatus(), SUCCESS);
+        assertEquals(bondResult.getBody(), bonds);
+        for (String ticker : bonds.stream().map(Security::getTicker).toList()){
+            securityHistoryResult = data.getSecurityHistories(ticker);
+            assertEquals(securityHistoryResult.getStatus(), FAIL);
+        }
+
+        bondResult = data.getBonds();
+        assertEquals(bondResult.getBody().size(), 0);
+    }
+
+    public void testFailDeleteAllBonds(){
+        deleteFile(BOND_TABLE_NAME);
+        assertEquals(data.deleteAllBonds().getStatus(), FAIL);
+    }
+
+    public void testGetBondByTicker(){
+        deleteFile(BOND_TABLE_NAME);
+        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+        Optional<Bond> bond = data.getBondByTicker(SBERBOND);
+        assert(bond.isPresent());
+        assertEquals(bond, bonds.stream().filter(x -> x.getTicker().equals(SBERBOND)).findFirst());
+        bondResult = data.getBonds();
+        assertEquals(bondResult.getBody().size(), bonds.size());
+    }
+
+    public void testFailGetBondByTicker(){
+        deleteFile(BOND_TABLE_NAME);
+        Optional<Bond> bond = data.getBondByTicker(SBERBOND);
+        assert bond.isEmpty();
+        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+        bond = data.getBondByTicker("QWEFASWFASF");
+        assert bond.isEmpty();
+    }
 
 }
