@@ -5,16 +5,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
-import ru.sfedu.model.Bond;
-import ru.sfedu.model.Security;
-import ru.sfedu.model.Stock;
-import ru.sfedu.model.User;
-import ru.sfedu.model.Result;
-import ru.sfedu.model.Wrapper;
-import ru.sfedu.utils.ValidEntityListValidator;
+import ru.sfedu.model.*;
+import ru.sfedu.utils.Validator;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -57,44 +55,54 @@ public class DataProviderXML implements DateProvider {
         return updatedUsers;
     }
 
-    private FileReader getFileReader(Class<?> ob) throws Exception {
+    private FileReader getFileReader(String filename, String extraPath) throws Exception {
         log.info("Starting DataProviderXML getFileReader[]");
         try {
-            log.debug("getFileReader[]: {}", ob);
+            log.debug("getFileReader[]: filename - {}, extraPath - {}", filename, extraPath);
             log.debug("getFileReader[]: Creating FileReader");
             return new FileReader(getConfigurationEntry(XML_PATH)
-                    .concat(ob.getSimpleName().toUpperCase())
+                    .concat(extraPath).concat(filename)
                     .concat(getConfigurationEntry(XML_FILE_EXTENTION)));
         }catch (Exception e){
-            log.error("Function DataProviderXML getFileWriter had failed[]");
+            log.error("Function DataProviderXML getFileWriter had failed[]: {}", e.getMessage());
+            throw new Exception(e);
+        }
+    }
+
+    private FileReader getFileReader(Class<?> ob) throws Exception {
+        return getFileReader(ob.getSimpleName().toUpperCase(), "");
+    }
+
+    private FileWriter getFileWriter(String filename, String extraPath) throws Exception {
+        log.info("Starting DataProviderXML getFileWriter[]");
+        try {
+            log.debug("getFileWriter[]: filename - {}, extraPath - {}", filename, extraPath);
+            log.debug("getFileWriter[]: Creating FileWriter[]");
+            Files.createDirectories(Paths.get(getConfigurationEntry(XML_PATH).concat(extraPath)));
+            return new FileWriter(getConfigurationEntry(XML_PATH)
+                    .concat(extraPath).concat(filename)
+                    .concat(getConfigurationEntry(XML_FILE_EXTENTION)), false);
+        }catch (Exception e){
+            log.error("Function DataProviderXML getFileWriter had failed[]: {}", e.getMessage());
             throw new Exception(e);
         }
     }
 
     private FileWriter getFileWriter(Class<?> user) throws Exception {
-        log.info("Starting DataProviderXML getFileWriter[]");
-        try {
-            log.debug("getFileWriter[]: {} type: {}", user, user.getSimpleName());
-            log.debug("getFileWriter[]: Creating FileWriter[]");
-            return new FileWriter(getConfigurationEntry(XML_PATH)
-                    .concat(user.getSimpleName().toUpperCase())
-                    .concat(getConfigurationEntry(XML_FILE_EXTENTION)), false);
-        }catch (Exception e){
-            log.error("Function DataProviderXML getFileWriter had failed[]");
-            throw new Exception(e);
-        }
+        return getFileWriter(user.getSimpleName().toUpperCase(), "");
     }
 
     private <T> void write(List<T> list  , Class<T> pojo) throws Exception {
         log.info("Starting DataProviderXML write[]");
         try {
-            log.info("write[]: {}, {}", Arrays.toString(list.toArray()), pojo);
+            log.info("write[]: list - {}, pojo - {}", Arrays.toString(list.toArray()), pojo);
             Serializer serializer = new Persister();
             log.debug("write[]: Getting writer");
             FileWriter writer = getFileWriter(pojo);
             log.debug("write[]: Writing to XML file[]");
             serializer.write(new Wrapper<>(list), writer);
         } catch (Exception e){
+            log.error("Function DataProviderXML write[]: {}", e.getMessage());
             throw new Exception(e);
         }
     }
@@ -102,6 +110,7 @@ public class DataProviderXML implements DateProvider {
     private <T> List<T> read(Class<T> bean) throws Exception {
         log.info("Starting DataProviderXML read");
         try {
+            log.info("read[]: bean - {}", bean);
             Wrapper<T> wrapper = new Wrapper<>();
             log.debug("read[]: Get serializer");
             Serializer serializer = new Persister();
@@ -109,101 +118,106 @@ public class DataProviderXML implements DateProvider {
             serializer.read(wrapper, getFileReader(bean));
             return wrapper.getContainer();
         }catch (Exception e){
-            log.error("Function read had failed[]");
+            log.error("Function read had failed[]: {}", e.getMessage());
             throw new Exception(e);
         }
     }
 
-    public <T extends Security> Result<T> appendSecurities(List<T> list, Class<T> security) {
+    private <T extends Security> Result<T> appendSecurities(List<T> list, Class<T> security) {
         log.info("Starting DataProviderXML appendSecurities[]");
         List<T> oldList = new ArrayList<>(getSecurities(security).getBody());
         try
         {
-            ValidEntityListValidator.isValidSecurity(list);
-            log.info("appendSecurities[]: {}, type: {}", Arrays.toString(list.toArray()), list.getClass().getName());
+            Validator.isValidSecurity(list);
+            log.info("appendSecurities[]: list - {}, security - {}", list, security);
             List<String> tickerList = oldList.stream().map(T::getTicker).toList();
-            oldList.addAll(list.stream().filter(x -> !tickerList.contains(x.getTicker())).toList());
+            List<T> securityToAppend = list.stream().filter(x -> !tickerList.contains(x.getTicker())).toList();
+            oldList.addAll(securityToAppend);
             oldList.sort(Comparator.comparing(T::getTicker));
             List<T> response = list.stream().filter(x -> tickerList.contains(x.getTicker())).toList();
-            log.debug("appendSecurities[]: write to csv file");
+            log.debug("appendSecurities[]: Writing to csv file");
             write(oldList, security);
+            securityToAppend.forEach(x -> appendOrUpdate(x.getHistory(), x.getTicker()));
             if (response.isEmpty())
                 return new Result<>(SUCCESS, "Securities have been appended successfully", response);
             return new Result<>(WARN, String.format("Number of securities that haven't been appended: %d", response.size()), response);
         } catch (Exception e) {
-            log.error("Function DataProviderXML appendSecurities had crashed[]");
+            log.error("Function DataProviderXML appendSecurities had crashed[]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(),new ArrayList<>());
         }
     }
 
-    public <T extends Security> Result<T> getSecurities(Class<T>securityClass) {
+    private <T extends Security> Result<T> getSecurities(Class<T>securityClass) {
         log.info("Starting DataProviderXML getSecurities[]");
         try
         {
+            log.info("getSecurities[]: securityClass - {}", securityClass);
             List<T> response = new ArrayList<>(read(securityClass));
             return new Result<>(SUCCESS, String.format("Number of securities in file: %d", response.size()), response);
         } catch (Exception e) {
-            log.error("Function DataProviderXML getSecurities had crashed[]");
+            log.error("Function DataProviderXML getSecurities had crashed[]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
-    public <T extends Security> Optional<T> deleteSecurityByTicker(String ticker, Class<T> securityClass)  {
+    private <T extends Security> Optional<T> deleteSecurityByTicker(String ticker, Class<T> securityClass)  {
         log.info("Starting DataProviderXML deleteSecurityByTicker[]");
         try {
-            log.info("deleteSecurityByTicker[]: {}, type: {}",ticker, ticker.getClass());
+            log.info("deleteSecurityByTicker[]: ticker - {}, securityClass - {}",ticker, securityClass);
             log.debug("deleteSecurityByTicker: GetSecurity from csv file[]");
             List<T> securities = new ArrayList<>(read(securityClass));
-            log.debug("deleteSecurityByTicker[]: Search a {} by ticker {}[]",securityClass.getSimpleName(), ticker);
+            log.debug("deleteSecurityByTicker[]: Search a {} by ticker {}",securityClass.getSimpleName(), ticker);
             Optional<T> sec = securities.stream().filter(x -> x.getTicker().equals(ticker)).findFirst();
             if(sec.isPresent()){
                 securities.remove(sec.get());
                 write(securities, securityClass);
-                MongoHistory.save(DELETE, XML, sec.get());
+                deleteAllSecurityHistories(ticker);
+                MongoHistory.save(DELETE, CSV, sec.get());
             } else
-                log.warn("{} wasn't found by ticker {}",securityClass.getSimpleName(), ticker);
+                log.warn("deleteSecurityByTicker[]: {} wasn't found by ticker {}",securityClass.getSimpleName(), ticker);
             return sec;
         }catch (Exception e){
-            log.error("Function DataProviderXML deleteSecurityByTicker has crashed[]");
+            log.error("Function DataProviderXML deleteSecurityByTicker has crashed[]: {}", e.getMessage());
         }
         return Optional.empty();
     }
 
-    public <T extends Security> Result<T> deleteAllSecurities(Class<T> securityClass)  {
+    private <T extends Security> Result<T> deleteAllSecurities(Class<T> securityClass)  {
         log.info("Starting DataProviderXML deleteAllSecurities[]");
         try {
-            log.info("deleteAllSecurities[]: {}", securityClass);
+            log.info("deleteAllSecurities[]: securityClass - {}", securityClass);
             log.debug("deleteAllSecurities[]: get securities from file");
             List<T> securityList = new ArrayList<>(read(securityClass));
             log.debug("deleteAllSecurities[]: delete all securities");
             write(new ArrayList<>(), securityClass);
-            MongoHistory.save(DELETE, XML, securityList);
+            deleteAllSecurityHistories(securityList.stream().map(T::getTicker).toList());
+            MongoHistory.save(DELETE, CSV, securityList);
             return new Result<>(SUCCESS, String.format("Number of deleted securities: %d", securityList.size()), securityList);
         }catch (Exception e){
-            log.error("Function DataProviderXML deleteAllSecurities had failed[]");
+            log.error("Function DataProviderXML deleteAllSecurities had failed[]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
-    public <T extends Security> Optional<T> getSecurityByTicker(String ticker, Class<T> securityClass)  {
+    private <T extends Security> Optional<T> getSecurityByTicker(String ticker, Class<T> securityClass)  {
         log.info("Starting DataProviderXML getSecurityByTicker[]");
-        log.info("getSecurityByTicker[]: {}, type: {}", ticker, ticker.getClass());
+        log.info("getSecurityByTicker[]: ticker - {}, securityClass - {}", ticker, ticker.getClass());
         try {
             log.debug("getSecurityByTicker[]: Get {} from CSV[]", securityClass.getSimpleName());
             List<T> securityList = new ArrayList<>(read(securityClass));
             log.debug("getSecurityByTicker[]: Search for a {} by ticker {}[]", securityClass.getSimpleName(), ticker);
             return securityList.stream().filter(x -> x.getTicker().equals(ticker)).findFirst();
         }catch (Exception e){
-            log.error("Function DataProviderXML getSecurityByTicker had failed[]");
+            log.error("Function DataProviderXML getSecurityByTicker had failed[]: {}", e.getMessage());
         }
         return Optional.empty();
     }
 
-    public <T extends Security> Result<T> updateSecurities(List<T> securities, Class<T> securityClass)  {
+    private <T extends Security> Result<T> updateSecurities(List<T> securities, Class<T> securityClass)  {
         log.info("Starting DataProviderXML updateSecurities[]");
         try {
-            ValidEntityListValidator.isValidSecurity(securities);
-            log.info("updateSecurities: {}, type: {}[]", Arrays.toString(securities.toArray()), securities.getClass());
+            Validator.isValidSecurity(securities);
+            log.info("updateSecurities[]: securities - {}, securityClass - {}", securities, securityClass);
             List<T> oldList = new ArrayList<>(read(securityClass));
             List<String> tickerList = getSecurityTicker(oldList);
             List<T> response = new ArrayList<>(securities.stream().filter(x -> !tickerList.contains(x.getTicker())).toList());
@@ -211,12 +225,13 @@ public class DataProviderXML implements DateProvider {
             List<T> securityToUpdate = securities.stream().filter(x -> tickerList.contains(x.getTicker())).toList();
             write(Stream.concat(securityToUpdate.stream(), oldList.stream())
                     .distinct().sorted(Comparator.comparing(T::getTicker)).toList(), securityClass);
-            MongoHistory.save(UPDATE, XML, securityToUpdate);
+            securityToUpdate.forEach(x -> appendOrUpdate(x.getHistory(), x.getTicker()));
+            MongoHistory.save(UPDATE, CSV, securityToUpdate);
             if (response.isEmpty())
                 return new Result<>(SUCCESS, "Securities have been updated successfully", response);
             return new Result<>(WARN, String.format("Number of securities that haven't been updated: %d", response.size()),response);
         } catch (Exception e) {
-            log.error("Function DataProviderXML updateUsers had crashed[]");
+            log.error("Function DataProviderXML updateUsers had crashed[]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
@@ -241,7 +256,7 @@ public class DataProviderXML implements DateProvider {
         List<User> oldList = new ArrayList<>(getUsers().getBody());
         try
         {
-            ValidEntityListValidator.isValidUser(list);
+            Validator.isValidUser(list);
             log.info("appendUsers[]: {}, type: {}", Arrays.toString(list.toArray()), list.getClass().getName());
             List<User> response =  unionTwoUserLists(oldList, list.stream().filter(x -> x.getId() != null).toList());
             oldList.addAll(generateIdForUsers(getUsersId(oldList), list.stream().filter(x -> x.getId() == null).toList()));
@@ -263,7 +278,7 @@ public class DataProviderXML implements DateProvider {
         try {
 
             log.info("updateUsers: {}, type: {}[]", Arrays.toString(users.toArray()), users.getClass());
-            ValidEntityListValidator.isValidUserToUpdate(users);
+            Validator.isValidUserToUpdate(users);
             List<User> oldList = new ArrayList<>(read(User.class));
             List<Long> idList = getUsersId(oldList);
             List<User> response = users.stream().filter(x -> !idList.contains(x.getId())).toList();
@@ -397,4 +412,135 @@ public class DataProviderXML implements DateProvider {
     public Optional<Bond> getBondByTicker(String ticker)  {
         return getSecurityByTicker(ticker, Bond.class);
     }
+
+
+
+    private void writeHistory(List<SecurityHistory> securityList, String ticker) throws Exception {
+        log.info("Starting DataProviderXML writeHistory[]");
+        try {
+            log.info("writeHistory[]: securityList - {}, ticker - {}", securityList, ticker);
+            Serializer serializer = new Persister();
+            log.debug("writeHistory[]: Getting writer");
+            FileWriter writer = getFileWriter(ticker.toUpperCase(), SECURITY_HISTORY_PATH);
+            log.debug("writeHistory[]: Writing to XML file[]");
+            serializer.write(new Wrapper<>(securityList), writer);
+        } catch (Exception e){
+            log.error("Function DataProviderXML writeHistory[]: {}", e.getMessage());
+            throw new Exception(e);
+        }
+    }
+
+    private List<SecurityHistory> readHistory(String ticker) throws Exception {
+        log.info("Starting DataProviderXML readHistory");
+        try {
+            log.info("readHistory[]: ticker - {}", ticker);
+            Wrapper<SecurityHistory> wrapper = new Wrapper<>();
+            log.debug("readHistory[]: Get serializer");
+            Serializer serializer = new Persister();
+            log.debug("readHistory[]: Read from file");
+            serializer.read(wrapper, getFileReader(ticker.toUpperCase(), SECURITY_HISTORY_PATH));
+            return wrapper.getContainer();
+        }catch (Exception e){
+            log.error("Function readHistory had failed[]: {}", e.getMessage());
+            throw new Exception(e);
+        }
+    }
+
+    @Override
+    public Result<SecurityHistory> appendSecurityHistory(List<SecurityHistory> securityHistories, String ticker){
+        List<SecurityHistory> oldList = getSecurityHistories(ticker).getBody();
+        log.info("Starting DataProviderCSV appendSecuritiesHistory");
+        try {
+            log.info("appendSecuritiesHistory[]: securityHistories - {}, ticker - {}", securityHistories, ticker);
+            Validator.isValidSecurityHistory(securityHistories, ticker);
+            log.debug("appendSecuritiesHistory[]: Data filtering");
+            List<String> dateList = oldList.stream().map(SecurityHistory::getDate).toList();
+            oldList.addAll(securityHistories.stream().filter(x -> !dateList.contains(x.getDate())).toList());
+            oldList.sort(Comparator.comparing(SecurityHistory::getDate).reversed());
+            List<SecurityHistory> response = securityHistories.stream().filter(x -> dateList.contains(x.getDate())).toList();
+            log.debug("appendSecuritiesHistory[]: write to file");
+            writeHistory(securityHistories, ticker);
+            if (response.isEmpty())
+                return new Result<>(SUCCESS, "SecurityHistories have been appended successfully", response);
+            return new Result<>(WARN, String.format("Number of SecurityHistories that haven't been appended: %d", response.size()), response);
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC appendSecurityHistory had failed[]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
+    }
+    @Override
+    public Result<SecurityHistory> getSecurityHistories(String ticker) {
+        log.info("Starting DataProviderCSV getSecurityHistories[]");
+        try {
+            List<SecurityHistory> securityHistories = readHistory(ticker);
+            return new Result<>(SUCCESS, String.format("Number of histories in file: %d", securityHistories.size()), securityHistories);
+        } catch (Exception e) {
+            log.error("Function DataProviderCSV getSecurityHistory had crashed[]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
+    }
+    @Override
+    public SecurityHistory getSecurityHistoryByDate(String ticker, String date){
+        log.info("Starting DataProviderCSV getSecurityHistoryByDate[]");
+        try {
+            log.info("getSecurityHistoryByDate[]: ticker - {}, date - {}", ticker, date);
+            log.debug("getSecurityHistoryByDate[]: security story search by date");
+            Optional<SecurityHistory> securityHistory = readHistory(ticker).stream().filter(x -> x.getDate().equals(date)).findFirst();
+            if(securityHistory.isPresent())
+                return securityHistory.get();
+        }catch (Exception e){
+            log.error("Function DataProviderCSV getSecurityHistoryByDate had failed: {}", e.getMessage());
+        }
+        return new SecurityHistoryBuilder().empty(date, ticker);
+    }
+    @Override
+    public SecurityHistory getSecurityHistoryByDate(String ticker){
+        return getSecurityHistoryByDate(ticker, DATE);
+    }
+    @Override
+    public Result<SecurityHistory> deleteAllSecurityHistories(String ticker){
+        log.info("Starting DataProviderCSV deleteAllSecurityHistories[]");
+        try {
+            log.info("deleteAllSecurityHistories[]: ticker - {}", ticker);
+            Result<SecurityHistory> securityHistoryResult = getSecurityHistories(ticker);
+            if (securityHistoryResult.getStatus().equals(FAIL))
+                throw new Exception(String.format("Database %s wasn't found", ticker));
+            log.debug("deleteAllSecurityHistories[]: Delete all security histories");
+            File file = new File(getConfigurationEntry(XML_PATH)
+                    .concat(SECURITY_HISTORY_PATH).concat(ticker)
+                    .concat(getConfigurationEntry(XML_FILE_EXTENTION)));
+            if (!file.delete())
+                throw new Exception("Processing of deleting had failed");
+            return new Result<>(SUCCESS, String.format("Num of deleted history: %d", securityHistoryResult.getBody().size()), securityHistoryResult.getBody());
+        }catch (Exception e){
+            log.error("Function DataProviderCSV deleteAllSecurityHistories had failed[]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
+
+    }
+    @Override
+    public void deleteAllSecurityHistories(List<String> tickerList){
+        tickerList.forEach(this::deleteAllSecurityHistories);
+    }
+    @Override
+    public boolean appendOrUpdate(SecurityHistory securityHistory, String ticker){
+        log.info("Starting DataProviderCSV appendOrUpdate[]");
+        try {
+            Validator.isValidSecurityHistory(securityHistory, ticker);
+            log.info("appendOrUpdate[]: securityHistory - {},  ticker - {}",securityHistory, ticker);
+            log.debug("appendOrUpdate[]: Get all histories");
+            List<SecurityHistory> securityHistoryList = getSecurityHistories(ticker).getBody();
+            log.debug("appendOrUpdate[]: Filter the list, to find securityHistory to update");
+            Optional<SecurityHistory> sec = securityHistoryList.stream().filter(x -> x.getDate().equals(securityHistory.getDate())).findFirst();
+            sec.ifPresent(securityHistoryList::remove);
+            securityHistoryList.add(securityHistory);
+            log.debug("appendOrUpdate[]: update history file");
+            writeHistory(securityHistoryList, ticker);
+            return true;
+        }catch (Exception e){
+            log.error("Function DataProviderCSV appendOrUpdate had failed: {}", e.getMessage());
+        }
+        return false;
+    }
+
 }

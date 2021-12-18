@@ -1,6 +1,4 @@
-package ru.sfedu.builder;
-
-import ru.sfedu.model.User;
+package ru.sfedu.model;
 
 public class UserBuilder {
     private Long id;

@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class ValidEntityListValidator {
-    ValidEntityListValidator(){}
+public class Validator {
+    Validator(){}
 
     public static <T> void isValid(List<T> list) throws Exception {
         if (list.contains(null))
@@ -61,6 +61,7 @@ public class ValidEntityListValidator {
         if (!securityHistory.getTicker().equals(ticker))
             throw new Exception("Tickers are not the same");
     }
+
 
 
 

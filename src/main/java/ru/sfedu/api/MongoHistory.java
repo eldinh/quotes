@@ -10,7 +10,7 @@ import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import ru.sfedu.model.CommandType;
 import ru.sfedu.model.RepositoryType;
-import ru.sfedu.utils.ValidEntityListValidator;
+import ru.sfedu.utils.Validator;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,7 +56,7 @@ public class MongoHistory {
             if (!writeToHistory)
                 throw new Exception("Writing to history is disable");
             log.info("save[5]: {}, {}, {}", command, repository, changes);
-            ValidEntityListValidator.isValid(changes);
+            Validator.isValid(changes);
             MongoCollection<Document> collection = getCollection(changes.get(0).getClass());
             Document document = new Document();
             document.put(MONGODB_TIME_FIELD, new Date());

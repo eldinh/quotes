@@ -1,30 +1,24 @@
-package ru.sfedu.builder;
+
+package ru.sfedu.model;
 
 
-import ru.sfedu.model.Bond;
-import ru.sfedu.model.MarketType;
-
-public class BondBuilder extends SecurityBuilder {
+public class BondBuilder {
+    protected String ticker;
+    protected String name;
+    protected String shortName;
+    protected String latName;
+    protected double nominal;
+    protected String nominalValue;
+    protected String issueDate;
+    protected String isin;
+    protected long issueSize;
+    protected SecurityHistory securityHistory;
     private double coupon;
     private int dayToRedemption;
     private String matDate;
     private Bond.BondType type;
 
     public BondBuilder(){}
-
-    public BondBuilder(SecurityBuilder securityBuilder){
-        this.ticker = securityBuilder.ticker;
-        this.name = securityBuilder.name;
-        this.shortName = securityBuilder.shortName;
-        this.latName = securityBuilder.latName;
-        this.nominal = securityBuilder.nominal;
-        this.nominalValue = securityBuilder.nominalValue;
-        this.issueDate = securityBuilder.issueDate;
-        this.isin = securityBuilder.isin;
-        this.issueSize = securityBuilder.issueSize;
-        this.marketType = securityBuilder.marketType;
-        this.securityHistory = securityBuilder.securityHistory;
-    }
 
     public BondBuilder withTicker(String ticker) {
         this.ticker = ticker;
@@ -80,11 +74,6 @@ public class BondBuilder extends SecurityBuilder {
     }
 
 
-    public BondBuilder withMarketName(MarketType marketName) {
-        this.marketType = marketName;
-        return this;
-    }
-
     public BondBuilder withMatDate(String matDate) {
         this.matDate = matDate;
         return this;
@@ -109,7 +98,12 @@ public class BondBuilder extends SecurityBuilder {
     public Bond build(){
         return new Bond(ticker, name, shortName, latName,
                 nominal, nominalValue, issueDate, isin,
-                issueSize, marketType,securityHistory, type, matDate,
+                issueSize,securityHistory, type, matDate,
                 coupon, dayToRedemption);
+    }
+
+    public BondBuilder withSecurityHistory(SecurityHistory securityHistory) {
+        this.securityHistory = securityHistory;
+        return this;
     }
 }

@@ -2,36 +2,52 @@ package ru.sfedu.model;
 
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
-import ru.sfedu.utils.conventerCSV.HistoryConventerCSV;
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
+import ru.sfedu.utils.HistoryCsvConverter;
 
-import java.util.List;
 import java.util.Objects;
 
 public class Security {
 
+    @Attribute
     @CsvBindByName
     protected String ticker;
+    @Attribute
     @CsvBindByName
     protected String name;
+    @Attribute
     @CsvBindByName
     protected String shortName;
+    @Attribute
     @CsvBindByName
     protected String latName;
+    @Attribute
     @CsvBindByName
     protected double nominal;
+    @Attribute
     @CsvBindByName
     protected String nominalValue;
+    @Attribute
     @CsvBindByName
     protected String issueDate;
+    @Attribute(required = false)
     @CsvBindByName
     protected String isin;
+    @Attribute
     @CsvBindByName
     protected long issueSize;
+    @Attribute
     @CsvBindByName
     protected MarketType marketType;  // тип биржи
-    @CsvCustomBindByName(converter = HistoryConventerCSV.class)
+    @Element(name = "SecurityHistory")
+    @CsvCustomBindByName(converter = HistoryCsvConverter.class)
     protected SecurityHistory history;
 
+
+    public Security(MarketType marketType){
+        this.marketType = marketType;
+    }
     @Override
     public String toString() {
         return "Security{" +
@@ -70,7 +86,8 @@ public class Security {
         return Objects.hash(ticker);
     }
 
-    public Security(String ticker, String name, String shortName, String latName, double nominal, String nominalValue, String issueDate, String isin, long issueSize, MarketType marketType, SecurityHistory history) {
+
+    public Security(String ticker, String name, String shortName, String latName, double nominal, String nominalValue, String issueDate, String isin, long issueSize, SecurityHistory history) {
         this.ticker = ticker;
         this.name = name;
         this.shortName = shortName;
@@ -80,15 +97,12 @@ public class Security {
         this.issueDate = issueDate;
         this.isin = isin;
         this.issueSize = issueSize;
-        this.marketType = marketType;
         this.history = history;
     }
 
     public void setHistory(SecurityHistory history) {
         this.history = history;
     }
-
-    public Security(){}
 
     public MarketType getMarketType() {
         return marketType;

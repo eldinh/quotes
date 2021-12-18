@@ -1,10 +1,6 @@
 package ru.sfedu.model;
 
 import com.opencsv.bean.CsvBindByName;
-import com.opencsv.bean.CsvBindByPosition;
-
-import java.util.List;
-
 public class Bond extends Security {
     @CsvBindByName
     private BondType type;
@@ -15,8 +11,9 @@ public class Bond extends Security {
     @CsvBindByName
     private int dayToRedemption;
 
-    public Bond(String ticker, String name, String shortName, String latName, double nominal, String nominalValue, String issueDate, String isin, long issueSize, MarketType marketType, SecurityHistory history, BondType type, String matDate, double coupon, int dayToRedemption) {
-        super(ticker, name, shortName, latName, nominal, nominalValue, issueDate, isin, issueSize, marketType, history);
+    public Bond(String ticker, String name, String shortName, String latName, double nominal, String nominalValue, String issueDate, String isin, long issueSize, SecurityHistory history, BondType type, String matDate, double coupon, int dayToRedemption) {
+        super(ticker, name, shortName, latName, nominal, nominalValue, issueDate, isin, issueSize, history);
+        this.marketType = MarketType.BONDS;
         this.type = type;
         this.matDate = matDate;
         this.coupon = coupon;
@@ -24,11 +21,14 @@ public class Bond extends Security {
     }
 
     public enum BondType {
-        subfederal_bond, municipal_bond, corporate_bond,
-        exchange_bond, ifi_bond, euro_bond, ofz_bond, cb_bond, non_exchange_bond
+        SUBFEDERAL, MUNICIPAL, CORPORATE,
+        EXCHANGE, IFI, EURO, OFZ, CB, NON_EXCHANGE
     }
 
-    public Bond(){}
+    public Bond(){
+        super(MarketType.BONDS);
+    }
+
 
     public String getMatDate() {
         return matDate;

@@ -1,28 +1,21 @@
-package ru.sfedu.builder;
+package ru.sfedu.model;
 
-import ru.sfedu.model.Stock;
-import ru.sfedu.model.MarketType;
-
-public class StockBuilder extends SecurityBuilder {
+public class StockBuilder {
+    protected String ticker;
+    protected String name;
+    protected String shortName;
+    protected String latName;
+    protected double nominal;
+    protected String nominalValue;
+    protected String issueDate;
+    protected String isin;
+    protected long issueSize;
+    protected SecurityHistory securityHistory;
     private Stock.StockType type;
     private double dividendSum;
     private double capitalization;
 
     public StockBuilder(){}
-
-    public StockBuilder(SecurityBuilder securityBuilder){
-        this.ticker = securityBuilder.ticker;
-        this.name = securityBuilder.name;
-        this.shortName = securityBuilder.shortName;
-        this.latName = securityBuilder.latName;
-        this.nominal = securityBuilder.nominal;
-        this.nominalValue = securityBuilder.nominalValue;
-        this.issueDate = securityBuilder.issueDate;
-        this.isin = securityBuilder.isin;
-        this.issueSize = securityBuilder.issueSize;
-        this.marketType = securityBuilder.marketType;
-        this.securityHistory = securityBuilder.securityHistory;
-    }
 
     public StockBuilder withTicker(String ticker) {
         this.ticker = ticker;
@@ -69,11 +62,6 @@ public class StockBuilder extends SecurityBuilder {
         return this;
     }
 
-    public StockBuilder withMarketName(MarketType marketName) {
-        this.marketType = marketName;
-        return this;
-    }
-
     public StockBuilder withType(Stock.StockType type) {
         this.type = type;
         return this;
@@ -84,6 +72,11 @@ public class StockBuilder extends SecurityBuilder {
         return this;
     }
 
+    public StockBuilder withSecurityHistory(SecurityHistory securityHistory){
+        this.securityHistory = securityHistory;
+        return this;
+    }
+
     public StockBuilder withCapitalization(double capitalization) {
         this.capitalization = capitalization;
         return this;
@@ -91,7 +84,7 @@ public class StockBuilder extends SecurityBuilder {
 
     public Stock build(){
         return new Stock(ticker, name, shortName, latName,
-                        nominal, nominalValue, issueDate, isin,
-                        issueSize, marketType,securityHistory , type, dividendSum, capitalization);
+                nominal, nominalValue, issueDate, isin,
+                issueSize,securityHistory , type, dividendSum, capitalization);
     }
 }

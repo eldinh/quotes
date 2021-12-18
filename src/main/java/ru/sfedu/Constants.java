@@ -1,5 +1,8 @@
 package ru.sfedu;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class Constants {
 
     public static final String SUCCESS = "SUCCESS";
@@ -134,5 +137,5 @@ public class Constants {
     public static final String MONGODB_REPOSITORY_FIELD = "repository";
     public static final String MONGODB_CHANGES_FIELD = "changes";
 
-
+    public static final String DATE = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
 }

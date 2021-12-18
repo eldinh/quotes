@@ -1,21 +1,27 @@
 package ru.sfedu.model;
 
 import com.opencsv.bean.CsvBindByName;
+import org.simpleframework.xml.Attribute;
 
-import java.util.Date;
 import java.util.Objects;
 
 public class SecurityHistory {
+    @Attribute
     @CsvBindByName
     private String date;
+    @Attribute
     @CsvBindByName
     private String ticker;
+    @Attribute
     @CsvBindByName
     private double averagePerDay;
+    @Attribute
     @CsvBindByName
     private double openPrice;
+    @Attribute
     @CsvBindByName
     private double closePrice;
+    @Attribute
     @CsvBindByName
     private long volume;
 

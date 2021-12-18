@@ -10,8 +10,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
 import ru.sfedu.model.*;
-import ru.sfedu.utils.ValidEntityListValidator;
+import ru.sfedu.utils.Validator;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.file.Files;
@@ -38,8 +39,6 @@ public class DataProviderCSV implements DateProvider {
 
     }
 
-    //  CLI
-    //
     public static List<Long> getUsersId(List<User> users){
         return users.stream().map(User::getId).toList();
     }
@@ -61,7 +60,7 @@ public class DataProviderCSV implements DateProvider {
     private CSVWriter getCSVWriter(String filename, String extraPath) throws Exception {
         log.info("Starting DataProviderCSV getCSVWriter[0]");
         try {
-            log.debug("getCSVWriter[1]: {}", filename);
+            log.debug("getCSVWriter[1]: filename - {}, extraPath - {}", filename, extraPath);
             log.debug("getCSVWriter[2]: Creating FileWriter");
             Files.createDirectories(Paths.get(getConfigurationEntry(CSV_PATH).concat(extraPath)));
             FileWriter writer = new FileWriter(getConfigurationEntry(CSV_PATH).concat(extraPath)
@@ -70,7 +69,7 @@ public class DataProviderCSV implements DateProvider {
             log.debug("getCSVWriter[3]: Creating CSVWriter");
             return new CSVWriter(writer);
         }catch (Exception e){
-            log.error("Function DataProviderCSV getCSVWriter had failed[4]");
+            log.error("Function DataProviderCSV getCSVWriter had failed[4]: {}", e.getMessage());
             throw new Exception(e);
         }
     }
@@ -78,18 +77,16 @@ public class DataProviderCSV implements DateProvider {
     private CSVWriter getCSVWriter(Class<?> bean) throws Exception {
         return getCSVWriter(bean.getSimpleName().toUpperCase(), "");
     }
-
-
     private <T> StatefulBeanToCsvBuilder<T> getBeanToCSVBuilder(CSVWriter writer) throws Exception {
         log.info("Starting DataProviderCSV getBeanToCSVBuilder[5]");
         try{
-            log.info("getBeanToCSVBuilder[6]: {}", writer);
+            log.info("getBeanToCSVBuilder[6]: writer - {}", writer);
             return new StatefulBeanToCsvBuilder<T>(writer)
                     .withApplyQuotesToAll(false)
                     .withOrderedResults(true)   //
                     .withLineEnd(writer.DEFAULT_LINE_END);
         }catch (Exception e){
-            log.error("Function DataProviderCSV getBeanToCSVBuilder had failed[7]");
+            log.error("Function DataProviderCSV getBeanToCSVBuilder had failed[7]: {}", e.getMessage());
             throw new Exception(e);
         }
     }
@@ -97,7 +94,7 @@ public class DataProviderCSV implements DateProvider {
     private <T> void write(List<T> securityList, Class<T> security) throws Exception {
         log.info("Starting DataProviderCSV write[8]");
         try {
-            log.info("write[9]: {}, {}", securityList, security);
+            log.info("write[9]: securityList - {}, security - {}", securityList, security);
             log.debug("write[10]: Creating csvWriter");
             CSVWriter csvWriter = getCSVWriter(security);
             log.debug("write[11]: Creating StatefulBean");
@@ -109,30 +106,16 @@ public class DataProviderCSV implements DateProvider {
             csvWriter.close();
             log.debug("write[14]: Writing history");
         } catch (Exception e){
-            log.error("Function DataProviderCSV write had failed[14]");
+            log.error("Function DataProviderCSV write had failed[14]: {}",e.getMessage());
             throw new Exception(e);
         }
     }
-
-    private <T extends Security> void writeSecurity(List<T> securityList, Class<T> security) throws Exception {
-        log.info("Starting DataProviderCSV writeSecurity[]");
-        try {
-            log.info("writeSecurity[]: {}, {}", securityList, security);
-            write(securityList, security);
-
-        } catch (Exception e){
-            log.error("Function DataProviderCSV writeSecurity had failed[]");
-            throw new Exception(e);
-        }
-
-    }
-
 
 
     private CSVReader getCSWReader(String filename, String extraPath) throws Exception {
         log.info("Starting DataProviderCSV getCSVReader[15]");
         try {
-            log.info("getCSVWriter[16]: {}, {}", filename, extraPath);
+            log.info("getCSVWriter[16]: filename - {}, extraPath - {}", filename, extraPath);
             log.debug("Creating FileReader[17]");
             FileReader reader = new FileReader(getConfigurationEntry(CSV_PATH)
                     .concat(extraPath).concat(filename)
@@ -140,7 +123,7 @@ public class DataProviderCSV implements DateProvider {
             log.debug("Creating CSWReader[18]");
             return new CSVReader(reader);
         }catch (Exception e){
-            log.error("Function DataProviderCSV getCSWReader had failed[19]");
+            log.error("Function DataProviderCSV getCSWReader had failed[19]: {}", e.getMessage());
             throw new Exception(e);
         }
     }
@@ -149,13 +132,13 @@ public class DataProviderCSV implements DateProvider {
         log.info("Starting DataProviderCSV getCsvToBeanBuilder[20]");
         try
         {
-            log.info("getCsvToBeanBuilder[21]: {}, {}", filename, extraPath);
+            log.info("getCsvToBeanBuilder[21]: filename - {}, extraPath - {}", filename, extraPath);
             log.debug("Creating CSVReader[22]");
             CSVReader reader = getCSWReader(filename,extraPath);
             log.debug("Creating CsvToBeanBuilder[23]");
             return new CsvToBeanBuilder<>(reader);
         }catch (Exception e){
-            log.error("Function DataProviderCSV CsvToBeanBuilder had failed[24]");
+            log.error("Function DataProviderCSV CsvToBeanBuilder had failed[24]: {}", e.getMessage());
             throw new Exception(e);
         }
     }
@@ -167,7 +150,7 @@ public class DataProviderCSV implements DateProvider {
     private <T> List<T> read(Class<T> bean) throws Exception {
         log.info("Starting DataProviderCSV read[25]");
         try {
-            log.info("write[26]: {}", bean);
+            log.info("write[26]: bean - {}", bean);
             log.debug("read[27]: creating csvToBean");
             CsvToBeanBuilder<T> csvToBeanBuilder = getCsvToBeanBuilder(bean);
             CsvToBean<T> csvToBean = csvToBeanBuilder
@@ -176,7 +159,7 @@ public class DataProviderCSV implements DateProvider {
             log.debug("Parse CSVToBean[28]");
             return csvToBean.parse();
         }catch (Exception e){
-            log.error("Function read had failed[29]");
+            log.error("Function read had failed[29]: {}", e.getMessage());
             throw new Exception(e);
         }
     }
@@ -186,19 +169,21 @@ public class DataProviderCSV implements DateProvider {
         List<T> oldList = new ArrayList<>(getSecurities(security).getBody());
         try
         {
-            ValidEntityListValidator.isValidSecurity(list);
-            log.info("appendSecurities[31]: {}, type: {}", Arrays.toString(list.toArray()), list.getClass().getName());
+            Validator.isValidSecurity(list);
+            log.info("appendSecurities[]: list - {}, security - {}", list, security);
             List<String> tickerList = oldList.stream().map(T::getTicker).toList();
-            oldList.addAll(list.stream().filter(x -> !tickerList.contains(x.getTicker())).toList());
+            List<T> securityToAppend = list.stream().filter(x -> !tickerList.contains(x.getTicker())).toList();
+            oldList.addAll(securityToAppend);
             oldList.sort(Comparator.comparing(T::getTicker));
             List<T> response = list.stream().filter(x -> tickerList.contains(x.getTicker())).toList();
-            log.debug("appendSecurities[32]: write to csv file");
-            writeSecurity(oldList, security);
+            log.debug("appendSecurities[]: Writing to csv file");
+            write(oldList, security);
+            securityToAppend.forEach(x -> appendOrUpdate(x.getHistory(), x.getTicker()));
             if (response.isEmpty())
                 return new Result<>(SUCCESS, "Securities have been appended successfully", response);
             return new Result<>(WARN, String.format("Number of securities that haven't been appended: %d", response.size()), response);
         } catch (Exception e) {
-            log.error("Function DataProviderCSV appendSecurities had crashed[33]");
+            log.error("Function DataProviderCSV appendSecurities had crashed[33]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(),new ArrayList<>());
         }
     }
@@ -207,10 +192,11 @@ public class DataProviderCSV implements DateProvider {
         log.info("Starting DataProviderCSV getSecurities[34]");
         try
         {
+            log.info("getSecurities[]: securityClass - {}", securityClass);
             List<T> response = new ArrayList<>(read(securityClass));
             return new Result<>(SUCCESS, String.format("Number of securities in file: %d", response.size()), response);
         } catch (Exception e) {
-            log.error("Function DataProviderCSV getSecurities had crashed[35]");
+            log.error("Function DataProviderCSV getSecurities had crashed[35]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
@@ -218,7 +204,7 @@ public class DataProviderCSV implements DateProvider {
     private <T extends Security> Optional<T> deleteSecurityByTicker(String ticker, Class<T> securityClass)  {
         log.info("Starting DataProviderCSV deleteSecurityByTicker[36]");
         try {
-            log.info("deleteSecurityByTicker[37]: {}, type: {}",ticker, ticker.getClass());
+            log.info("deleteSecurityByTicker[37]: ticker - {}, securityClass - {}",ticker, securityClass);
             log.debug("deleteSecurityByTicker: GetSecurity from csv file[38]");
             List<T> securities = new ArrayList<>(read(securityClass));
             log.debug("deleteSecurityByTicker[39]: Search a {} by ticker {}",securityClass.getSimpleName(), ticker);
@@ -226,12 +212,13 @@ public class DataProviderCSV implements DateProvider {
             if(sec.isPresent()){
                 securities.remove(sec.get());
                 write(securities, securityClass);
+                deleteAllSecurityHistories(ticker);
                 MongoHistory.save(DELETE, CSV, sec.get());
             } else
                 log.warn("deleteSecurityByTicker[40]: {} wasn't found by ticker {}",securityClass.getSimpleName(), ticker);
             return sec;
         }catch (Exception e){
-            log.error("Function DataProviderCSV deleteSecurityByTicker has crashed[41]");
+            log.error("Function DataProviderCSV deleteSecurityByTicker has crashed[41]: {}", e.getMessage());
         }
         return Optional.empty();
     }
@@ -239,29 +226,30 @@ public class DataProviderCSV implements DateProvider {
     private <T extends Security> Result<T> deleteAllSecurities(Class<T> securityClass)  {
         log.info("Starting DataProviderCSV deleteAllSecurities[42]");
         try {
-            log.info("deleteAllSecurities[43]: {}", securityClass);
+            log.info("deleteAllSecurities[43]: securityClass - {}", securityClass);
             log.debug("deleteAllSecurities[44]: get securities from file");
             List<T> securityList = new ArrayList<>(read(securityClass));
             log.debug("deleteAllSecurities[45]: delete all securities");
             write(new ArrayList<>(), securityClass);
+            deleteAllSecurityHistories(securityList.stream().map(T::getTicker).toList());
             MongoHistory.save(DELETE, CSV, securityList);
             return new Result<>(SUCCESS, String.format("Number of deleted securities: %d", securityList.size()), securityList);
         }catch (Exception e){
-            log.error("Function DataProviderCSV deleteAllSecurities had failed[46]");
+            log.error("Function DataProviderCSV deleteAllSecurities had failed[46]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
     private <T extends Security> Optional<T> getSecurityByTicker(String ticker, Class<T> securityClass)  {
         log.info("Starting DataProviderCSV getSecurityByTicker[47]");
-        log.info("getSecurityByTicker[48]: {}, type: {}", ticker, ticker.getClass());
+        log.info("getSecurityByTicker[48]: ticker - {}, securityClass - {}", ticker, ticker.getClass());
         try {
             log.debug("getSecurityByTicker[49]: Get {} from CSV[]", securityClass.getSimpleName());
             List<T> securityList = new ArrayList<>(read(securityClass));
             log.debug("getSecurityByTicker[50]: Search for a {} by ticker {}[]", securityClass.getSimpleName(), ticker);
             return securityList.stream().filter(x -> x.getTicker().equals(ticker)).findFirst();
         }catch (Exception e){
-            log.error("Function DataProviderCSV getSecurityByTicker had failed[51]");
+            log.error("Function DataProviderCSV getSecurityByTicker had failed[51]: {}", e.getMessage());
         }
         return Optional.empty();
     }
@@ -269,8 +257,8 @@ public class DataProviderCSV implements DateProvider {
     private <T extends Security> Result<T> updateSecurities(List<T> securities, Class<T> securityClass)  {
         log.info("Starting DataProviderCSV updateSecurities[52]");
         try {
-            ValidEntityListValidator.isValidSecurity(securities);
-            log.info("updateSecurities[53]: {}, type: {}", Arrays.toString(securities.toArray()), securities.getClass());
+            Validator.isValidSecurity(securities);
+            log.info("updateSecurities[53]: securities - {}, securityClass - {}", securities, securityClass);
             List<T> oldList = new ArrayList<>(read(securityClass));
             List<String> tickerList = getSecurityTicker(oldList);
             List<T> response = new ArrayList<>(securities.stream().filter(x -> !tickerList.contains(x.getTicker())).toList());
@@ -278,16 +266,16 @@ public class DataProviderCSV implements DateProvider {
             List<T> securityToUpdate = securities.stream().filter(x -> tickerList.contains(x.getTicker())).toList();
             write(Stream.concat(securityToUpdate.stream(), oldList.stream())
                     .distinct().sorted(Comparator.comparing(T::getTicker)).toList(), securityClass);
+            securityToUpdate.forEach(x -> appendOrUpdate(x.getHistory(), x.getTicker()));
             MongoHistory.save(UPDATE, CSV, securityToUpdate);
             if (response.isEmpty())
                 return new Result<>(SUCCESS, "Securities have been updated successfully", response);
             return new Result<>(WARN, String.format("Number of securities that haven't been updated: %d", response.size()),response);
         } catch (Exception e) {
-            log.error("Function DataProviderCSV updateUsers had crashed[55]");
+            log.error("Function DataProviderCSV updateUsers had crashed[55]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
-
 
     @Override
     public Result<User> getUsers()  {
@@ -308,7 +296,7 @@ public class DataProviderCSV implements DateProvider {
         List<User> oldList = new ArrayList<>(getUsers().getBody());
         try
         {
-            ValidEntityListValidator.isValidUser(list);
+            Validator.isValidUser(list);
             log.info("appendUsers[]: {}, type: {}", Arrays.toString(list.toArray()), list.getClass().getName());
             List<User> response =  unionTwoUserLists(oldList, list.stream().filter(x -> x.getId() != null).toList());
             oldList.addAll(generateIdForUsers(getUsersId(oldList), list.stream().filter(x -> x.getId() == null).toList()));
@@ -330,7 +318,7 @@ public class DataProviderCSV implements DateProvider {
         try {
 
             log.info("updateUsers[61]: {}, type: {}", Arrays.toString(users.toArray()), users.getClass());
-            ValidEntityListValidator.isValidUserToUpdate(users);
+            Validator.isValidUserToUpdate(users);
             List<User> oldList = new ArrayList<>(read(User.class));
             List<Long> idList = getUsersId(oldList);
             List<User> response = users.stream().filter(x -> !idList.contains(x.getId())).toList();
@@ -382,7 +370,7 @@ public class DataProviderCSV implements DateProvider {
             MongoHistory.save(DELETE, CSV, securityList);
             return new Result<>(SUCCESS, String.format("Number of deleted users: %d ", securityList.size()), securityList);
         }catch (Exception e){
-            log.error("Function DataProviderCSV deleteAllUsers had failed[73]");
+            log.error("Function DataProviderCSV deleteAllUsers had failed[73]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
@@ -390,14 +378,14 @@ public class DataProviderCSV implements DateProvider {
     @Override
     public Optional<User> getUserById(long id)  {
         log.info("Starting DataProviderCSV getUserById[74]");
-        log.info("getUserById[75]: {}",id);
+        log.info("getUserById[75]: id - {}",id);
         try {
             log.debug("getUserById[76]: Get users from CSV file");
             List<User> securityList = new ArrayList<>(read(User.class));
             log.debug("getUserById[77]: Search for the user by id {}", id);
             return securityList.stream().filter(x -> x.getId().equals(id)).findFirst();
         }catch (Exception e){
-            log.error("Function DataProviderCSV getUserById had failed[78]");
+            log.error("Function DataProviderCSV getUserById had failed[78]: {}", e.getMessage());
         }
         return Optional.empty();
     }
@@ -466,10 +454,12 @@ public class DataProviderCSV implements DateProvider {
     }
 
 
+    //security history
+
     private void writeHistory(List<SecurityHistory> securityList, String ticker) throws Exception {
         log.info("Starting DataProviderCSV write[]");
         try {
-            log.info("writeHistory[]: {}", securityList);
+            log.info("writeHistory[]: securityList - {}, ticker - {}", securityList, ticker);
             log.debug("writeHistory[]: Creating csvWriter[]");
             CSVWriter csvWriter = getCSVWriter(ticker.toUpperCase(), SECURITY_HISTORY_PATH);
             log.debug("writeHistory[]: Creating StatefulBean");
@@ -480,50 +470,126 @@ public class DataProviderCSV implements DateProvider {
             log.debug("writeHistory[]: Closing CSVWriter");
             csvWriter.close();
         } catch (Exception e){
-            log.error("Function DataProviderCSV writeHistory had failed[]");
+            log.error("Function DataProviderCSV writeHistory had failed[]: {}", e.getMessage());
             throw new Exception(e);
         }
     }
 
-    public void appendSecuritiesHistory(List<SecurityHistory> securityHistories, String ticker){
-        log.info("Starting DataProviderCSV appendSecuritiesHistory");
-        try {
-            log.info("appendSecuritiesHistory[]: {}", securityHistories);
-            ValidEntityListValidator.isValidSecurityHistory(securityHistories, ticker);
-            securityHistories.sort(Comparator.comparing(SecurityHistory::getDate).reversed());
-            log.debug("appendSecuritiesHistory[]: write to file");
-            writeHistory(securityHistories, ticker);
-        }catch (Exception e){
-            log.error("Function DataProviderCSV appendSecuritiesHistory had failed[]: {}", e.getMessage());
-        }
-    }
-
-    private List<SecurityHistory> readHistory(String ticker, Class<SecurityHistory> historyClass) throws Exception {
+    private List<SecurityHistory> readHistory(String ticker) throws Exception {
         log.info("Starting DataProviderCSV readHistory[]");
         try {
-            log.info("readHistory[]: {}", ticker);
+            log.info("readHistory[]: ticker - {}", ticker);
             log.debug("readHistory[]: creating csvToBean");
             CsvToBeanBuilder<SecurityHistory> csvToBeanBuilder = getCsvToBeanBuilder(ticker, SECURITY_HISTORY_PATH);
             CsvToBean<SecurityHistory> csvToBean = csvToBeanBuilder
-                    .withType(historyClass)
+                    .withType(SecurityHistory.class)
                     .build();
             log.debug("readHistory:[] Parse CSVToBean");
             return csvToBean.parse();
         }catch (Exception e){
-            log.error("Function readHistory had failed[]");
+            log.error("Function readHistory had failed[]: {}", e.getMessage());
             throw new Exception(e);
         }
     }
 
-    public List<SecurityHistory> getSecurityHistory(String ticker, Class<SecurityHistory> historyClass) throws Exception {
-        log.info("Starting DataProviderCSV getSecurityHistory[]");
+    public Result<SecurityHistory> appendSecurityHistory(List<SecurityHistory> securityHistories, String ticker){
+        List<SecurityHistory> oldList = getSecurityHistories(ticker).getBody();
+        log.info("Starting DataProviderCSV appendSecuritiesHistory");
         try {
-
-            return readHistory(ticker, historyClass);
+            log.info("appendSecuritiesHistory[]: securityHistories - {}, ticker - {}", securityHistories, ticker);
+            Validator.isValidSecurityHistory(securityHistories, ticker);
+            log.debug("appendSecuritiesHistory[]: Data filtering");
+            List<String> dateList = oldList.stream().map(SecurityHistory::getDate).toList();
+            oldList.addAll(securityHistories.stream().filter(x -> !dateList.contains(x.getDate())).toList());
+            oldList.sort(Comparator.comparing(SecurityHistory::getDate).reversed());
+            List<SecurityHistory> response = securityHistories.stream().filter(x -> dateList.contains(x.getDate())).toList();
+            log.debug("appendSecuritiesHistory[]: write to file");
+            writeHistory(securityHistories, ticker);
+            if (response.isEmpty())
+                return new Result<>(SUCCESS, "SecurityHistories have been appended successfully", response);
+            return new Result<>(WARN, String.format("Number of SecurityHistories that haven't been appended: %d", response.size()), response);
         }catch (Exception e){
-            log.error("Function getSecurityHistory had failed");
-            throw new Exception(e);
+            log.error("Function DataProviderJDBC appendSecurityHistory had failed[]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
+
+    public Result<SecurityHistory> getSecurityHistories(String ticker) {
+        log.info("Starting DataProviderCSV getSecurityHistories[]");
+        try {
+            List<SecurityHistory> securityHistories = readHistory(ticker);
+            return new Result<>(SUCCESS, String.format("Number of histories in file: %d", securityHistories.size()), securityHistories);
+        } catch (Exception e) {
+            log.error("Function DataProviderCSV getSecurityHistory had crashed[]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
+    }
+
+    public SecurityHistory getSecurityHistoryByDate(String ticker, String date){
+        log.info("Starting DataProviderCSV getSecurityHistoryByDate[]");
+        try {
+            log.info("getSecurityHistoryByDate[]: ticker - {}, date - {}", ticker, date);
+            log.debug("getSecurityHistoryByDate[]: security story search by date");
+            Optional<SecurityHistory> securityHistory = readHistory(ticker).stream().filter(x -> x.getDate().equals(date)).findFirst();
+            if(securityHistory.isPresent())
+                return securityHistory.get();
+        }catch (Exception e){
+            log.error("Function DataProviderCSV getSecurityHistoryByDate had failed: {}", e.getMessage());
+        }
+        return new SecurityHistoryBuilder().empty(date, ticker);
+    }
+
+    public SecurityHistory getSecurityHistoryByDate(String ticker){
+        return getSecurityHistoryByDate(ticker, DATE);
+    }
+
+    public Result<SecurityHistory> deleteAllSecurityHistories(String ticker){
+        log.info("Starting DataProviderCSV deleteAllSecurityHistories[]");
+        try {
+            log.info("deleteAllSecurityHistories[]: ticker - {}", ticker);
+            Result<SecurityHistory> securityHistoryResult = getSecurityHistories(ticker);
+            if (securityHistoryResult.getStatus().equals(FAIL))
+                throw new Exception(String.format("Database %s wasn't found", ticker));
+            log.debug("deleteAllSecurityHistories[]: Delete all security histories");
+            File file = new File(getConfigurationEntry(CSV_PATH)
+                    .concat(SECURITY_HISTORY_PATH).concat(ticker)
+                    .concat(getConfigurationEntry(CSV_FILE_EXTENTION)));
+            if (!file.delete())
+                throw new Exception("Processing of deleting had failed");
+            return new Result<>(SUCCESS, String.format("Num of deleted history: %d", securityHistoryResult.getBody().size()), securityHistoryResult.getBody());
+        }catch (Exception e){
+            log.error("Function DataProviderCSV deleteAllSecurityHistories had failed[]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
+
+    }
+
+    public void deleteAllSecurityHistories(List<String> tickerList){
+        tickerList.forEach(this::deleteAllSecurityHistories);
+    }
+
+    public boolean appendOrUpdate(SecurityHistory securityHistory, String ticker){
+        log.info("Starting DataProviderCSV appendOrUpdate[]");
+        try {
+            Validator.isValidSecurityHistory(securityHistory, ticker);
+            log.info("appendOrUpdate[]: securityHistory - {},  ticker - {}",securityHistory, ticker);
+            log.debug("appendOrUpdate[]: Get all histories");
+            List<SecurityHistory> securityHistoryList = getSecurityHistories(ticker).getBody();
+            log.debug("appendOrUpdate[]: Filter the list, to find securityHistory to update");
+            Optional<SecurityHistory> sec = securityHistoryList.stream().filter(x -> x.getDate().equals(securityHistory.getDate())).findFirst();
+            sec.ifPresent(securityHistoryList::remove);
+            securityHistoryList.add(securityHistory);
+            log.debug("appendOrUpdate[]: update history file");
+            writeHistory(securityHistoryList, ticker);
+            return true;
+        }catch (Exception e){
+            log.error("Function DataProviderCSV appendOrUpdate had failed: {}", e.getMessage());
+        }
+        return false;
+    }
+
+
+
+
 
 }

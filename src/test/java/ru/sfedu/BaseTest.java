@@ -1,7 +1,6 @@
 package ru.sfedu;
 
 import junit.framework.TestCase;
-import ru.sfedu.builder.SecurityHistoryBuilder;
 import ru.sfedu.model.*;
 
 import java.util.ArrayList;
@@ -36,39 +35,69 @@ public class BaseTest extends TestCase {
 
 
     protected List<Stock> stocks = new ArrayList<>(Arrays.asList(
-            new Stock("SBER", "", "" , "",
-                    100, "RUB", "1", "qwe",
-                    1000, MarketType.SHARES, getHistories("SBER"), Stock.StockType.COMMON, 0, 0),
-            new Stock("QWER", "", "" , "",
-                    100, "RUB", "1", "qwe",
-                    1000, MarketType.SHARES,getHistories("QWER"), Stock.StockType.COMMON, 0, 0),
-            new Stock("QQQ", "", "" , "",
-                    100, "RUB", "1", "qwe",
-                    1000, MarketType.SHARES, getHistories("SBER"),Stock.StockType.COMMON, 0, 0),
-            new Stock("IOUO", "", "" , "",
-                    100, "RUB", "1", "qwe",
-                    1000, MarketType.SHARES,getHistories("IOUO"), Stock.StockType.PREFERRED, 0, 0),
-            new Stock("IOUO2", "", "" , "",
-                    100, "RUB", "1", "qwe",
-                    1000, MarketType.SHARES, getHistories("IOUO2"),Stock.StockType.PREFERRED, 0, 0)
+            new StockBuilder()
+                    .withCapitalization(0).withDividendSum(0).withTicker("SBER")
+                    .withName("").withShortName("").withLatName("")
+                    .withNominal(100).withSecurityHistory(getHistories("SBER"))
+                    .withNominalValue("RUB").withIssueDate("").withType(Stock.StockType.COMMON)
+                    .build(),
+            new StockBuilder()
+                    .withCapitalization(0).withDividendSum(0).withTicker("QWER")
+                    .withName("").withShortName("").withLatName("")
+                    .withNominal(100).withSecurityHistory(getHistories("QWER"))
+                    .withNominalValue("RUB").withIssueDate("").withType(Stock.StockType.COMMON)
+                    .build(),
+            new StockBuilder()
+                    .withCapitalization(0).withDividendSum(0).withTicker("QQQ")
+                    .withName("").withShortName("").withLatName("")
+                    .withNominal(100).withSecurityHistory(getHistories("QQQ"))
+                    .withNominalValue("RUB").withIssueDate("").withType(Stock.StockType.COMMON)
+                    .build(),
+            new StockBuilder()
+                    .withCapitalization(0).withDividendSum(0).withTicker("IOUO")
+                    .withName("").withShortName("").withLatName("")
+                    .withNominal(100).withSecurityHistory(getHistories("IOUO"))
+                    .withNominalValue("RUB").withIssueDate("").withType(Stock.StockType.COMMON)
+                    .build(),
+            new StockBuilder()
+                    .withCapitalization(0).withDividendSum(0).withTicker("IOUO1")
+                    .withName("").withShortName("").withLatName("")
+                    .withNominal(100).withSecurityHistory(getHistories("IOUO1"))
+                    .withNominalValue("RUB").withIssueDate("").withType(Stock.StockType.COMMON)
+                    .build()
     ));
 
     protected List<Bond> bonds = new ArrayList<>(Arrays.asList(
-            new Bond("SBERBOND", "", "" , "",
-                    100, "RUB", "1", "qwe",
-                    1000, MarketType.BONDS, getHistories("SBERBOND"), Bond.BondType.cb_bond,"", 0, 0),
-            new Bond("QWERBOND", "", "" , "",
-                    100, "RUB", "1", "qwe",
-                    1000, MarketType.BONDS,getHistories("QWERBOND"), Bond.BondType.cb_bond,"", 0, 0),
-            new Bond("QQQBOND", "", "" , "",
-                    100, "RUB", "1", "qwe",
-                    1000, MarketType.BONDS, getHistories("QQQBOND"),Bond.BondType.cb_bond,"", 0, 0),
-            new Bond("IOUOBOND", "", "" , "",
-                    100, "RUB", "1", "qwe",
-                    1000, MarketType.BONDS,getHistories("IOUOBOND"), Bond.BondType.cb_bond,"", 0, 0),
-            new Bond("IOUO2BOND", "", "" , "",
-                    100, "RUB", "1", "qwe",
-                    1000, MarketType.BONDS, getHistories("IOUO2BOND"),Bond.BondType.cb_bond,"", 0, 0)
+            new BondBuilder()
+                    .withTicker("SBERBOND")
+                    .withName("").withShortName("").withLatName("")
+                    .withNominal(100).withSecurityHistory(getHistories("SBERBOND"))
+                    .withNominalValue("RUB").withIssueDate("").withType(Bond.BondType.CB).withCoupon(0.0).withDayToRedemption(0)
+                    .build(),
+            new BondBuilder()
+                    .withTicker("QWERBOND")
+                    .withName("").withShortName("").withLatName("")
+                    .withNominal(100).withSecurityHistory(getHistories("QWERBOND"))
+                    .withNominalValue("RUB").withIssueDate("").withType(Bond.BondType.CB).withCoupon(0.0).withDayToRedemption(0)
+                    .build(),
+            new BondBuilder()
+                    .withTicker("QQQBOND").withName("").withShortName("")
+                    .withLatName("").withNominal(100).withSecurityHistory(getHistories("QQQBOND"))
+                    .withNominalValue("RUB").withIssueDate("").withType(Bond.BondType.CB)
+                    .withCoupon(0.0).withDayToRedemption(0)
+                    .build(),
+            new BondBuilder()
+                    .withTicker("IOUOBOND")
+                    .withName("").withShortName("").withLatName("")
+                    .withNominal(100).withSecurityHistory(getHistories("IOUOBOND"))
+                    .withNominalValue("RUB").withIssueDate("").withType(Bond.BondType.CB).withCoupon(0.0).withDayToRedemption(0)
+                    .build(),
+            new BondBuilder()
+                   .withTicker("IOUO1BOND")
+                    .withName("").withShortName("").withLatName("")
+                    .withNominal(100).withSecurityHistory(getHistories("IOUO1BOND"))
+                    .withNominalValue("RUB").withIssueDate("").withType(Bond.BondType.CB).withCoupon(0.0).withDayToRedemption(0)
+                    .build()
     ));
     protected ArrayList<SecurityHistory> histories = new ArrayList<>(List.of(
             new SecurityHistory("2021-12-15", 123, "SBER", 12, 13, 100),

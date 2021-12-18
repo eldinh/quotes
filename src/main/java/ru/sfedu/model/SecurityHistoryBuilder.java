@@ -1,7 +1,5 @@
-package ru.sfedu.builder;
+package ru.sfedu.model;
 
-
-import ru.sfedu.model.SecurityHistory;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
