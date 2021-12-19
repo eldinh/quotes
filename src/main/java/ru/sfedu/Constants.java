@@ -40,6 +40,8 @@ public class Constants {
     public static final String USER_TABLE_NAME = "USER";
     public static final String STOCK_TABLE_NAME = "STOCK";
     public static final String BOND_TABLE_NAME = "BOND";
+    public static final String ACTON_TABLE_NAME = "ACTION";
+    public static final String MARKET_TABLE_NAME = "MARKET";
 
     public static final String SQL_INSERT = "INSERT INTO %s ";
     public static final String SQL_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS %s ";
@@ -60,6 +62,7 @@ public class Constants {
     public static final String SQL_USER_ID = "id = %d";
     public static final String SQL_SECURITY_TICKER = "ticker = '%s'";
     public static final String SQL_SECURITY_HISTORY_DATE = "date = '%s'";
+    public static final String SQL_MARKET_MARKET_TYPE = "market_type = '%s'";
 
     public static final String SQL_USER_COLUMNS =  "(id INT NOT NULL AUTO_INCREMENT, " +
                                                     " name VARCHAR(255), " +
@@ -80,12 +83,14 @@ public class Constants {
                                                     "type VARCHAR(255), mat_date VARCHAR(255), " +
                                                     "coupon FLOAT, day_to_redemption INT, " +
                                                     "PRIMARY KEY (ticker))";
+    public static final String SQL_MARKET_COLUMNS = "(market_type VARCHAR(255), PRIMARY KEY (market_type))";
     public static final String SQL_SECURITY_HISTORY_COLUMNS = "(date VARCHAR(255), ticker VARCHAR(255), " +
                                                                 "average_per_day FLOAT, open_price FLOAT, " +
                                                                 "close_price FLOAT, volume BIGINT, " +
                                                                 "PRIMARY KEY (date))";
     public static final String SQL_USER_VALUES = "VALUES (%d, '%s', %d);";
     public static final String SQL_USER_VALUES_WITHOUT_ID = "(name, age) VALUES ('%s', %d);";
+    public static final String SQL_MARKET_VALUES = "VALUES ('%s')";
     public static final String SQL_STOCK_VALUES = "VALUES ('%s', '%s', '%s', '%s', %f, " +
                                                     "'%s', '%s', '%s', %d, '%s', '%s', %f, %f);";
     public static final String SQL_BOND_VALUES = "VALUES ('%s', '%s', '%s', '%s', %f, " +
@@ -104,6 +109,8 @@ public class Constants {
     public static final String USER_COLUMN_ID = "id";
     public static final String USER_COLUMN_NAME = "name";
     public static final String USER_COLUMN_AGE = "age";
+
+    public static final String MARKET_COLUMN_MARKET_TYPE = "market_type";
 
     public static final String SECURITY_COLUMN_TICKER = "ticker";
     public static final String SECURITY_COLUMN_NAME = "name";

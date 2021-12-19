@@ -1,28 +1,29 @@
 package ru.sfedu.model;
 
 import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvBindByPosition;
 import org.simpleframework.xml.Attribute;
 
 import java.util.Objects;
 
 public class SecurityHistory {
     @Attribute
-    @CsvBindByName
+    @CsvBindByPosition(position = 0)
     private String date;
     @Attribute
-    @CsvBindByName
+    @CsvBindByPosition(position = 1)
     private String ticker;
     @Attribute
-    @CsvBindByName
+    @CsvBindByPosition(position = 2)
     private double averagePerDay;
     @Attribute
-    @CsvBindByName
+    @CsvBindByPosition(position = 3)
     private double openPrice;
     @Attribute
-    @CsvBindByName
+    @CsvBindByPosition(position = 4)
     private double closePrice;
     @Attribute
-    @CsvBindByName
+    @CsvBindByPosition(position = 5)
     private long volume;
 
     // http://www.netinvestor.ru/manual_nipro_A.aspx

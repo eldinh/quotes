@@ -16,7 +16,7 @@ public class BondBuilder {
     private double coupon;
     private int dayToRedemption;
     private String matDate;
-    private Bond.BondType type;
+    private BondType type;
 
     public BondBuilder(){}
 
@@ -90,20 +90,73 @@ public class BondBuilder {
     }
 
 
-    public BondBuilder withType(Bond.BondType type) {
+    public BondBuilder withType(BondType type) {
         this.type = type;
         return this;
-    }
-
-    public Bond build(){
-        return new Bond(ticker, name, shortName, latName,
-                nominal, nominalValue, issueDate, isin,
-                issueSize,securityHistory, type, matDate,
-                coupon, dayToRedemption);
     }
 
     public BondBuilder withSecurityHistory(SecurityHistory securityHistory) {
         this.securityHistory = securityHistory;
         return this;
+    }
+
+    public String getTicker() {
+        return ticker;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public String getLatName() {
+        return latName;
+    }
+
+    public double getNominal() {
+        return nominal;
+    }
+
+    public String getNominalValue() {
+        return nominalValue;
+    }
+
+    public String getIssueDate() {
+        return issueDate;
+    }
+
+    public String getIsin() {
+        return isin;
+    }
+
+    public long getIssueSize() {
+        return issueSize;
+    }
+
+    public SecurityHistory getSecurityHistory() {
+        return securityHistory;
+    }
+
+    public double getCoupon() {
+        return coupon;
+    }
+
+    public int getDayToRedemption() {
+        return dayToRedemption;
+    }
+
+    public String getMatDate() {
+        return matDate;
+    }
+
+    public BondType getType() {
+        return type;
+    }
+
+    public Bond build(){
+        return new Bond(this);
     }
 }

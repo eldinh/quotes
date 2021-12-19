@@ -1,29 +1,26 @@
 package ru.sfedu.model;
-
 import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvBindByPosition;
+
 public class Bond extends Security {
-    @CsvBindByName
+    @CsvBindByPosition(position = 11)
     private BondType type;
-    @CsvBindByName
+    @CsvBindByPosition(position = 12)
     private String matDate; // Дата погашения
-    @CsvBindByName
+    @CsvBindByPosition(position = 13)
     private double coupon;
-    @CsvBindByName
+    @CsvBindByPosition(position = 14)
     private int dayToRedemption;
 
-    public Bond(String ticker, String name, String shortName, String latName, double nominal, String nominalValue, String issueDate, String isin, long issueSize, SecurityHistory history, BondType type, String matDate, double coupon, int dayToRedemption) {
-        super(ticker, name, shortName, latName, nominal, nominalValue, issueDate, isin, issueSize, history);
+    public Bond(BondBuilder bondBuilder){
+        super(bondBuilder.getTicker(), bondBuilder.getName(), bondBuilder.getShortName(), bondBuilder.getLatName(), bondBuilder.getNominal(), bondBuilder.getNominalValue(), bondBuilder.getIssueDate(), bondBuilder.getIsin(), bondBuilder.getIssueSize(), bondBuilder.getSecurityHistory());
         this.marketType = MarketType.BONDS;
-        this.type = type;
-        this.matDate = matDate;
-        this.coupon = coupon;
-        this.dayToRedemption = dayToRedemption;
+        this.type = bondBuilder.getType();
+        this.matDate = bondBuilder.getMatDate();
+        this.coupon = bondBuilder.getCoupon();
+        this.dayToRedemption = bondBuilder.getDayToRedemption();
     }
 
-    public enum BondType {
-        SUBFEDERAL, MUNICIPAL, CORPORATE,
-        EXCHANGE, IFI, EURO, OFZ, CB, NON_EXCHANGE
-    }
 
     public Bond(){
         super(MarketType.BONDS);

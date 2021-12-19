@@ -1,7 +1,9 @@
 package ru.sfedu.model;
 
 import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvCustomBindByName;
+import com.opencsv.bean.CsvCustomBindByPosition;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import ru.sfedu.utils.HistoryCsvConverter;
@@ -11,37 +13,37 @@ import java.util.Objects;
 public class Security {
 
     @Attribute
-    @CsvBindByName
+    @CsvBindByPosition(position = 0)
     protected String ticker;
     @Attribute
-    @CsvBindByName
+    @CsvBindByPosition(position = 1)
     protected String name;
     @Attribute
-    @CsvBindByName
+    @CsvBindByPosition(position = 2)
     protected String shortName;
     @Attribute
-    @CsvBindByName
+    @CsvBindByPosition(position = 3)
     protected String latName;
     @Attribute
-    @CsvBindByName
+    @CsvBindByPosition(position = 4)
     protected double nominal;
     @Attribute
-    @CsvBindByName
+    @CsvBindByPosition(position = 5)
     protected String nominalValue;
     @Attribute
-    @CsvBindByName
+    @CsvBindByPosition(position = 6)
     protected String issueDate;
     @Attribute(required = false)
-    @CsvBindByName
+    @CsvBindByPosition(position = 7)
     protected String isin;
     @Attribute
-    @CsvBindByName
+    @CsvBindByPosition(position = 8)
     protected long issueSize;
     @Attribute
-    @CsvBindByName
+    @CsvBindByPosition(position = 9)
     protected MarketType marketType;  // тип биржи
     @Element(name = "SecurityHistory")
-    @CsvCustomBindByName(converter = HistoryCsvConverter.class)
+    @CsvCustomBindByPosition(position = 10,converter = HistoryCsvConverter.class)
     protected SecurityHistory history;
 
 

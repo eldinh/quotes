@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DateProvider {
+
+    public boolean appendOrUpdateMarket(MarketType marketType);
+    public Result<Market> getMarkets();
+    public Optional<Market> getMarket(MarketType marketType);
+
     /**
      * Method to get all users from database
      * @return Result<User> - (Status, Message, Response)

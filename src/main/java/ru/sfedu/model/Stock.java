@@ -1,31 +1,27 @@
 package ru.sfedu.model;
 import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvBindByPosition;
 import org.simpleframework.xml.Attribute;
 
 
 public class Stock extends Security {
     @Attribute(empty = "")
-    @CsvBindByName
+    @CsvBindByPosition(position = 11)
     protected StockType type;
     @Attribute
-    @CsvBindByName
+    @CsvBindByPosition(position = 12)
     protected double dividendSum;
     @Attribute
-    @CsvBindByName
+    @CsvBindByPosition(position = 13)
     protected double capitalization;
 
 
-    public enum StockType {
-        COMMON, PREFERRED
-    }
-
-
-    public Stock(String ticker, String name, String shortName, String latName, double nominal, String nominalValue, String issueDate, String isin, long issueSize,  SecurityHistory history, StockType type, double dividendSum, double capitalization) {
-        super(ticker, name, shortName, latName, nominal, nominalValue, issueDate, isin, issueSize, history);
-        this.marketType = MarketType.SHARES;
-        this.type = type;
-        this.dividendSum = dividendSum;
-        this.capitalization = capitalization;
+    public Stock(StockBuilder stockBuilder){
+        super(stockBuilder.getTicker(), stockBuilder.getName(), stockBuilder.getShortName(), stockBuilder.getLatName(), stockBuilder.getNominal(), stockBuilder.getNominalValue(), stockBuilder.getIssueDate(), stockBuilder.getIsin(), stockBuilder.getIssueSize(), stockBuilder.getSecurityHistory());
+        this.marketType = MarketType.BONDS;
+        this.type = stockBuilder.getType();
+        this.dividendSum = stockBuilder.getDividendSum();
+        this.capitalization = stockBuilder.getCapitalization();
     }
 
     public Stock(){

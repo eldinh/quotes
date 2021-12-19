@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static ru.sfedu.Constants.DATE;
+
 public class BaseTest extends TestCase {
     protected final String SBER = "SBER";
     protected final String SBERBOND = "SBERBOND";
@@ -39,31 +41,31 @@ public class BaseTest extends TestCase {
                     .withCapitalization(0).withDividendSum(0).withTicker("SBER")
                     .withName("").withShortName("").withLatName("")
                     .withNominal(100).withSecurityHistory(getHistories("SBER"))
-                    .withNominalValue("RUB").withIssueDate("").withType(Stock.StockType.COMMON)
+                    .withNominalValue("RUB").withIssueDate("").withType(StockType.COMMON)
                     .build(),
             new StockBuilder()
                     .withCapitalization(0).withDividendSum(0).withTicker("QWER")
                     .withName("").withShortName("").withLatName("")
                     .withNominal(100).withSecurityHistory(getHistories("QWER"))
-                    .withNominalValue("RUB").withIssueDate("").withType(Stock.StockType.COMMON)
+                    .withNominalValue("RUB").withIssueDate("").withType(StockType.COMMON)
                     .build(),
             new StockBuilder()
                     .withCapitalization(0).withDividendSum(0).withTicker("QQQ")
                     .withName("").withShortName("").withLatName("")
                     .withNominal(100).withSecurityHistory(getHistories("QQQ"))
-                    .withNominalValue("RUB").withIssueDate("").withType(Stock.StockType.COMMON)
+                    .withNominalValue("RUB").withIssueDate("").withType(StockType.COMMON)
                     .build(),
             new StockBuilder()
                     .withCapitalization(0).withDividendSum(0).withTicker("IOUO")
                     .withName("").withShortName("").withLatName("")
                     .withNominal(100).withSecurityHistory(getHistories("IOUO"))
-                    .withNominalValue("RUB").withIssueDate("").withType(Stock.StockType.COMMON)
+                    .withNominalValue("RUB").withIssueDate("").withType(StockType.COMMON)
                     .build(),
             new StockBuilder()
                     .withCapitalization(0).withDividendSum(0).withTicker("IOUO1")
                     .withName("").withShortName("").withLatName("")
                     .withNominal(100).withSecurityHistory(getHistories("IOUO1"))
-                    .withNominalValue("RUB").withIssueDate("").withType(Stock.StockType.COMMON)
+                    .withNominalValue("RUB").withIssueDate("").withType(StockType.COMMON)
                     .build()
     ));
 
@@ -72,31 +74,31 @@ public class BaseTest extends TestCase {
                     .withTicker("SBERBOND")
                     .withName("").withShortName("").withLatName("")
                     .withNominal(100).withSecurityHistory(getHistories("SBERBOND"))
-                    .withNominalValue("RUB").withIssueDate("").withType(Bond.BondType.CB).withCoupon(0.0).withDayToRedemption(0)
+                    .withNominalValue("RUB").withIssueDate("").withType(BondType.CB).withCoupon(0.0).withDayToRedemption(0)
                     .build(),
             new BondBuilder()
                     .withTicker("QWERBOND")
                     .withName("").withShortName("").withLatName("")
                     .withNominal(100).withSecurityHistory(getHistories("QWERBOND"))
-                    .withNominalValue("RUB").withIssueDate("").withType(Bond.BondType.CB).withCoupon(0.0).withDayToRedemption(0)
+                    .withNominalValue("RUB").withIssueDate("").withType(BondType.CB).withCoupon(0.0).withDayToRedemption(0)
                     .build(),
             new BondBuilder()
                     .withTicker("QQQBOND").withName("").withShortName("")
                     .withLatName("").withNominal(100).withSecurityHistory(getHistories("QQQBOND"))
-                    .withNominalValue("RUB").withIssueDate("").withType(Bond.BondType.CB)
+                    .withNominalValue("RUB").withIssueDate("").withType(BondType.CB)
                     .withCoupon(0.0).withDayToRedemption(0)
                     .build(),
             new BondBuilder()
                     .withTicker("IOUOBOND")
                     .withName("").withShortName("").withLatName("")
                     .withNominal(100).withSecurityHistory(getHistories("IOUOBOND"))
-                    .withNominalValue("RUB").withIssueDate("").withType(Bond.BondType.CB).withCoupon(0.0).withDayToRedemption(0)
+                    .withNominalValue("RUB").withIssueDate("").withType(BondType.CB).withCoupon(0.0).withDayToRedemption(0)
                     .build(),
             new BondBuilder()
                    .withTicker("IOUO1BOND")
                     .withName("").withShortName("").withLatName("")
                     .withNominal(100).withSecurityHistory(getHistories("IOUO1BOND"))
-                    .withNominalValue("RUB").withIssueDate("").withType(Bond.BondType.CB).withCoupon(0.0).withDayToRedemption(0)
+                    .withNominalValue("RUB").withIssueDate("").withType(BondType.CB).withCoupon(0.0).withDayToRedemption(0)
                     .build()
     ));
     protected ArrayList<SecurityHistory> histories = new ArrayList<>(List.of(
@@ -115,6 +117,8 @@ public class BaseTest extends TestCase {
             new SecurityHistory("2021-01-01", 123, "SBERBOND", 12, 13, 100),
             new SecurityHistory("2021-01-13", 123, "SBERBOND", 12, 13, 100)
     ));
+    protected Action action = new ActionBuilder().withAction(ActionType.ADD).withSecurity(bonds.get(0))
+            .withDate(DATE).withUserID("0").build();
 
     protected ArrayList<String> dateList = new ArrayList<>(histories.stream().map(SecurityHistory::getDate).toList());
     protected ArrayList<String> dateBondList = new ArrayList<>(historiesBond.stream().map(SecurityHistory::getDate).toList());
@@ -124,6 +128,8 @@ public class BaseTest extends TestCase {
     protected Result<Stock> stockResult;
     protected Result<SecurityHistory> securityHistoryResult;
     protected Result<Bond> bondResult;
+    protected Result<Action> actionResult;
+    protected Result<Market> marketResult;
 
 
     protected SecurityHistory getHistories(String ticker){

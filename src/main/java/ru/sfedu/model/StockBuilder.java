@@ -11,7 +11,7 @@ public class StockBuilder {
     protected String isin;
     protected long issueSize;
     protected SecurityHistory securityHistory;
-    private Stock.StockType type;
+    private StockType type;
     private double dividendSum;
     private double capitalization;
 
@@ -62,7 +62,7 @@ public class StockBuilder {
         return this;
     }
 
-    public StockBuilder withType(Stock.StockType type) {
+    public StockBuilder withType(StockType type) {
         this.type = type;
         return this;
     }
@@ -82,9 +82,59 @@ public class StockBuilder {
         return this;
     }
 
+    public String getTicker() {
+        return ticker;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public String getLatName() {
+        return latName;
+    }
+
+    public double getNominal() {
+        return nominal;
+    }
+
+    public String getNominalValue() {
+        return nominalValue;
+    }
+
+    public String getIssueDate() {
+        return issueDate;
+    }
+
+    public String getIsin() {
+        return isin;
+    }
+
+    public long getIssueSize() {
+        return issueSize;
+    }
+
+    public SecurityHistory getSecurityHistory() {
+        return securityHistory;
+    }
+
+    public StockType getType() {
+        return type;
+    }
+
+    public double getDividendSum() {
+        return dividendSum;
+    }
+
+    public double getCapitalization() {
+        return capitalization;
+    }
+
     public Stock build(){
-        return new Stock(ticker, name, shortName, latName,
-                nominal, nominalValue, issueDate, isin,
-                issueSize,securityHistory , type, dividendSum, capitalization);
+        return new Stock(this);
     }
 }

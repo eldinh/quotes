@@ -1,5 +1,6 @@
 package ru.sfedu.utils;
 
+import ru.sfedu.model.Action;
 import ru.sfedu.model.Security;
 import ru.sfedu.model.SecurityHistory;
 import ru.sfedu.model.User;
@@ -11,6 +12,19 @@ import java.util.Optional;
 
 public class Validator {
     Validator(){}
+
+    public static <T> void isValid(T pojo) throws Exception {
+        if(pojo == null)
+            throw new IllegalArgumentException("Object is null");
+    }
+
+    public static void isValidAction(Action action) throws Exception {
+        isValid(action.getAction());
+        isValid(action.getId());
+        isValid(action.getDate());
+        isValid(action.getSecurity());
+        isValid(action.getUserID());
+    }
 
     public static <T> void isValid(List<T> list) throws Exception {
         if (list.contains(null))
