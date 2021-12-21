@@ -1,41 +1,58 @@
 package ru.sfedu.model;
 
+import com.opencsv.bean.CsvBindAndSplitByPosition;
 import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.CsvCustomBindByPosition;
 import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.ElementList;
+import ru.sfedu.utils.IDGenerator;
+import ru.sfedu.utils.SecurityListCsvConverter;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 public class User implements Serializable {
     @Attribute
     @CsvBindByPosition(position = 0)
-    private Long id;
+    private String id;
     @Attribute
     @CsvBindByPosition(position = 1)
     private String name;
-    @Attribute
-    @CsvBindByPosition(position = 2)
-    private int age;
-
-    public User(long id, String name, int age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-    }
-
-    public User(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
+    @ElementList
+    @CsvCustomBindByPosition(position = 2, converter = SecurityListCsvConverter.class)
+    private List<Security> tickerList;
+    @ElementList
+    @CsvBindByPosition(position = 3)
+    private List<Action> actionHistory;
 
     public User(){}
 
-    @Override
-    public String toString() {
-        return "User [Id=" + id +
-                ", Name=" + name +
-                ", Age=" + age +
-                "]";
+    public User(UserBuilder userBuilder){
+        this.id = userBuilder.getId();
+        if (userBuilder.getId()== null)
+            this.id = IDGenerator.generate();
+        this.name = userBuilder.getName();
+        this.tickerList = userBuilder.getTickerList();
+        this.actionHistory = userBuilder.getActionHistory();
+    }
+
+
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Security> getTickerList() {
+        return tickerList;
+    }
+
+    public List<Action> getActionHistory() {
+        return actionHistory;
     }
 
     @Override
@@ -51,16 +68,14 @@ public class User implements Serializable {
         return Objects.hash(id);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", tickerList=" + tickerList +
+                ", actionHistory=" + actionHistory +
+                '}';
     }
 }
 

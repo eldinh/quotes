@@ -34,6 +34,16 @@ public class Action {
         this.security = security;
     }
 
+    public Action(ActionBuilder actionBuilder){
+        this.id = actionBuilder.getId();
+        if (this.id == null)
+            id = IDGenerator.generate();
+        this.date = actionBuilder.getDate();
+        this.action = actionBuilder.getAction();
+        this.userID = actionBuilder.getUserID();
+        this.security = actionBuilder.getSecurity();
+    }
+
     public String getId() {
         return id;
     }

@@ -49,7 +49,8 @@ public class Constants {
     public static final String SQL_WHERE = "WHERE ";
     public static final String SQL_UPDATE = "UPDATE %s ";
 
-    public static final String SQL_SET_USER = "SET name = '%s', age = %d ";
+    public static final String SQL_SET_USER = "SET name = '%s' ";
+
     public static final String SQL_SET_STOCK = "SET name = '%s', short_name = '%s', lat_name = '%s', nominal = %f, nominal_value = '%s', issue_date = '%s', " +
                                                     "isin = '%s', issue_size = %d, market_type = '%s', type = '%s', dividend_sum = %f, capitalization = %f ";
     public static final String SQL_SET_BOND = "SET name = '%s', short_name = '%s', lat_name = '%s', nominal = %f, nominal_value = '%s', issue_date = '%s', " +
@@ -59,15 +60,15 @@ public class Constants {
 
     public static final String SQL_DELETE_FROM = "DELETE FROM %s ";
     public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS %s ";
-    public static final String SQL_USER_ID = "id = %d";
+    public static final String SQL_USER_ID = "id = '%s'";
     public static final String SQL_SECURITY_TICKER = "ticker = '%s'";
     public static final String SQL_SECURITY_HISTORY_DATE = "date = '%s'";
     public static final String SQL_MARKET_MARKET_TYPE = "market_type = '%s'";
 
-    public static final String SQL_USER_COLUMNS =  "(id INT NOT NULL AUTO_INCREMENT, " +
+    public static final String SQL_USER_COLUMNS =  "(id VARCHAR(255) NOT NULL, " +
                                                     " name VARCHAR(255), " +
-                                                    " age INTEGER," +
                                                     "PRIMARY KEY (id))";
+
     public static final String SQL_STOCK_COLUMNS = "(ticker VARCHAR(255) NOT NULL,  name VARCHAR(255), " +
                                                     "short_name VARCHAR(255),  lat_name VARCHAR(255), " +
                                                     "nominal FLOAT,  nominal_value VARCHAR(255), " +
@@ -88,8 +89,7 @@ public class Constants {
                                                                 "average_per_day FLOAT, open_price FLOAT, " +
                                                                 "close_price FLOAT, volume BIGINT, " +
                                                                 "PRIMARY KEY (date))";
-    public static final String SQL_USER_VALUES = "VALUES (%d, '%s', %d);";
-    public static final String SQL_USER_VALUES_WITHOUT_ID = "(name, age) VALUES ('%s', %d);";
+    public static final String SQL_USER_VALUES = "VALUES ('%s', '%s');";
     public static final String SQL_MARKET_VALUES = "VALUES ('%s')";
     public static final String SQL_STOCK_VALUES = "VALUES ('%s', '%s', '%s', '%s', %f, " +
                                                     "'%s', '%s', '%s', %d, '%s', '%s', %f, %f);";
@@ -108,7 +108,6 @@ public class Constants {
 
     public static final String USER_COLUMN_ID = "id";
     public static final String USER_COLUMN_NAME = "name";
-    public static final String USER_COLUMN_AGE = "age";
 
     public static final String MARKET_COLUMN_MARKET_TYPE = "market_type";
 

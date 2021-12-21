@@ -31,48 +31,8 @@ public class DataProviderJDBCTest extends BaseTest {
     }
 
 
-    public void testGetUsers()  {
-        result = data.appendUsers(users);
-        assertEquals(data.deleteAllUsers().getStatus(), Constants.SUCCESS);
-        result = data.appendUsers(users);
-        result = data.getUsers();
-        assert(result.getStatus().equals(Constants.SUCCESS));
-        assertEquals(result.getStatus(), SUCCESS);
-        assertEquals(result.getBody(), users);
-    }
-
-    public void testFailGetUsers()  {
-        assert(data.getUsers().getStatus().equals(Constants.FAIL));
-    }
-
-    public void testAppendUsers()  {
-
-    }
-
-    public void testFailAppendUsers()  {
-    }
 
 
-    public void testDeleteAllUsers()  {
-    }
-
-    public void testFailDeleteAllUsers()  {
-    }
-
-    public void testGetUserById() {
-    }
-
-    public void testFailGetUserById()  {
-    }
-
-    public void testUpdateUsers() {
-    }
-
-    public void testFailUpdateUsers() {
-    }
-
-    public void testDeleteUserById() {
-    }
     public void testAppendOrUpdateMarket(){
         assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
         assert data.appendOrUpdateMarket(MarketType.SHARES);

@@ -22,37 +22,12 @@ import static ru.sfedu.model.CommandType.*;
 import static ru.sfedu.model.RepositoryType.*;
 import static ru.sfedu.utils.ConfigurationUtil.getConfigurationEntry;
 
-public class DataProviderXML implements DateProvider {
+public class DataProviderXML implements DataProvider {
 
     private final Logger log = (Logger) LogManager.getLogger(DataProviderXML.class.getName());
 
     private <T extends Security> List<String> getSecurityTicker(List<T> securities){
         return new ArrayList<>(securities.stream().map(T::getTicker).toList());
-    }
-
-    private static List<User> unionTwoUserLists(List<User> mainList, List<User> appendList){
-        List<Long> idList = mainList.stream().map(User::getId).toList();
-        mainList.addAll(appendList.stream().filter(x -> !idList.contains(x.getId())).toList());
-        return appendList.stream().filter(x -> idList.contains(x.getId())).toList();
-
-    }
-
-    private static List<Long> getUsersId(List<User> users){
-        return users.stream().map(User::getId).toList();
-    }
-
-    private static List<User> generateIdForUsers(List<Long> idList, List<User> userWithoutId){
-        List<User> updatedUsers = new ArrayList<>();
-        List<User> users = new ArrayList<>(userWithoutId);
-        for (long i = 0; ; i ++){
-            if (users.isEmpty())
-                break;
-            if (!idList.contains(i)) {
-                User user = users.remove(0);
-                updatedUsers.add(new User(i, user.getName(), user.getAge()));
-            }
-        }
-        return updatedUsers;
     }
 
     private FileReader getFileReader(String filename, String extraPath) throws Exception {
@@ -286,7 +261,6 @@ public class DataProviderXML implements DateProvider {
         }
     }
 
-
     @Override
     public Result<Stock> updateStocks(List<Stock> list)  {
         return updateSecurities(list, Stock.class);
@@ -311,7 +285,6 @@ public class DataProviderXML implements DateProvider {
     public Result<Stock> getStocks()  {
         return getSecurities(Stock.class);
     }
-
 
     @Override
     public Result<Bond> getBonds()  {
@@ -347,7 +320,6 @@ public class DataProviderXML implements DateProvider {
     public Optional<Bond> getBondByTicker(String ticker)  {
         return getSecurityByTicker(ticker, Bond.class);
     }
-
 
     private void writeHistory(List<SecurityHistory> securityList, String ticker) throws Exception {
         log.info("Starting DataProviderXML writeHistory[]");
@@ -483,116 +455,143 @@ public class DataProviderXML implements DateProvider {
     }
 
 
-    @Override
-    public Result<User> getUsers()  {
-        log.info("Starting DataProviderXML getUsers[]");
-        try
-        {
-            List<User> response =  new ArrayList<>(read(User.class));
-            return new Result<>(SUCCESS, String.format("Number of users in file: %d", response.size()), response);
-        } catch (Exception e) {
-            log.error("Function DataProviderXML getUsers had crashed[]");
+
+    public static List<String> getUsersId(List<User> users){
+        return users.stream().map(User::getId).toList();
+    }
+
+    public Result<User> appendUser(User user){
+        log.info("Starting DataProviderXML appendUser[]");
+        try {
+            Validator.isValid(user);
+            log.info("appendUser[]: user - {}", user);
+            return appendUsers(new ArrayList<>(List.of(user)));
+        }catch (Exception e){
+            log.error("Function DataProviderXML appendUser had failed");
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
-    @Override
-    public Result<User> appendUsers(List<User> list)  {
-        log.info("Starting DataProviderXML appendSecurities[]");
-        List<User> oldList = new ArrayList<>(getUsers().getBody());
-        try
-        {
-            Validator.isValidUser(list);
-            log.info("appendUsers[]: {}, type: {}", Arrays.toString(list.toArray()), list.getClass().getName());
-            List<User> response =  unionTwoUserLists(oldList, list.stream().filter(x -> x.getId() != null).toList());
-            oldList.addAll(generateIdForUsers(getUsersId(oldList), list.stream().filter(x -> x.getId() == null).toList()));
-            oldList.sort(Comparator.comparing(User::getId));
-            log.debug("appendSecurities[]: write to csv file");
-            write(oldList, User.class);
-            if (response.isEmpty())
-                return new Result<>(SUCCESS, "Users have been appended successfully", response);
-            return new Result<>(WARN, String.format("Number of users that haven't been appended: %d", response.size()), response);
-        } catch (Exception e) {
-            log.error("Function DataProviderXML appendUsers had crashed[]");
-            return new Result<>(FAIL, e.getMessage(),new ArrayList<>());
+    public Result<User> appendUsers(List<User> users){
+        log.info("Starting DataProviderXML appendUsers[]");
+        try {
+            Validator.isValid(users);
+            log.info("appendUsers[]: users - {}", users);
+            log.debug("appendUsers[]: Getting all users");
+            List<User> oldList = getUsers().getBody();
+            List<String> usersId = getUsersId(oldList);
+            log.debug("appendUsers[]: Filtering users");
+            List<User> userToAppend = users.stream().filter(x -> !usersId.contains(x.getId())).toList();
+            List<User> response = users.stream().filter(x -> usersId.contains(x.getId())).toList();
+            log.debug("appendUsers[]: Writing to file");
+            log.info(userToAppend);
+            write(Stream.concat(oldList.stream(), userToAppend.stream()).toList(), User.class);
+            if (response.size() != 0)
+                return new Result<>(WARN, String.format("Users that weren't added %d ", response.size()), response);
+            return new Result<>(SUCCESS, "User was appended successfully", response);
+        }catch (Exception e){
+            log.error("Function DataProviderXML appendUsers had failed[]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
-    @Override
-    public Result<User> updateUsers(List<User> users)  {
+    public Result<User> getUsers(){
+        log.info("Starting DataProviderXML getUsers[]");
+        try {
+            log.debug("getUsers[]: Getting users from csv");
+            List<User> users = read(User.class);
+            return new Result<>(SUCCESS, String.format("Number of users: %d", users.size()), users);
+        }catch (Exception e){
+            log.error("Function DataProviderXML getUsers had failed[]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
+    }
+
+    // update active ?
+    public Result<User> updateUsers(List<User> users){
         log.info("Starting DataProviderXML updateUsers[]");
         try {
-
-            log.info("updateUsers: {}, type: {}[]", Arrays.toString(users.toArray()), users.getClass());
             Validator.isValidUserToUpdate(users);
-            List<User> oldList = new ArrayList<>(read(User.class));
-            List<Long> idList = getUsersId(oldList);
+            log.info("updateUsers[]: users - {}", users);
+            log.debug("updateUsers[]: Getting users from db");
+            List<User> userFromDb = read(User.class);
+            List<String> idList = getUsersId(userFromDb);
+            log.debug("updateUsers[]: Filtering users");
+            List<User> usersToAppend = Stream.concat(users.stream().filter(x -> idList.contains(x.getId()))
+                    , userFromDb.stream()).distinct().toList();
+            log.debug("updateUsers[]: Writing to file");
+            write(usersToAppend, User.class);
             List<User> response = users.stream().filter(x -> !idList.contains(x.getId())).toList();
-            log.debug("updateUsers[]: Update csv file: {}", "user");
-            List<User> userToUpdate = users.stream().filter(x -> idList.contains(x.getId())).toList();
-            write(Stream.concat(userToUpdate.stream(), oldList.stream())
-                    .distinct().sorted(Comparator.comparing(User::getId)).toList(), User.class);
-            MongoHistory.save(UPDATE, XML, userToUpdate);
-            if (response.isEmpty())
-                return new Result<>(SUCCESS, "Users have been updated successfully", response);
-            return new Result<>(WARN, String.format("Number of users that haven't been updated: %d", response.size()),response);
-        } catch (Exception e) {
-            log.error("Function DataProviderXML updateUsers had crashed[]");
+            if (response.size() != 0)
+                return new Result<>(WARN, String.format("Number of users that weren't updated: %d", response.size()), response);
+            return new Result<>(SUCCESS, "Users were updated successfully", response);
+        }catch (Exception e){
+            log.error("Function DataProviderXML updateUsers had failed[]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
-    @Override
-    public Optional<User> deleteUserById(long id)  {
+    public Result<User> updateUser(User user){
+        log.info("Starting DataProviderXML updateUser[]");
+        try {
+            Validator.isValid(user);
+            log.info("updateUser[]: user - {}", user);
+            return updateUsers(new ArrayList<>(List.of(user)));
+        }catch (Exception e){
+            log.error("Function DataProviderXML updateUser had failed");
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
+    }
+
+    public Optional<User> getUserById(String id){
+        log.info("Starting DataProviderXML getUserById[]");
+        try {
+            Validator.isValid(id);
+            log.info("getUserById[]: id - {}", id);
+            log.debug("getUserById[]: Getting all users");
+            List<User> users = read(User.class);
+            log.debug("getUserById[]: Get user by id {}", id);
+            return users.stream().filter(x -> x.getId().equals(id)).findFirst();
+        }catch (Exception e){
+            log.error("Function DataProviderXML getUserById had failed[]: {}", e.getMessage());
+        }
+        return Optional.empty();
+    }
+
+    public Optional<User> deleteUserById(String id){
         log.info("Starting DataProviderXML deleteUserById[]");
         try {
-            log.info("deleteUserById[]: {}",id);
-            log.debug("deleteUserById[]: GetSecurity from csv file[]");
-            List<User> users = new ArrayList<>(read(User.class));
-            log.debug("deleteUserById[]: Search a user by id {}",id);
+            Validator.isValid(id);
+            log.info("deleteUserById[]: id - {}", id);
+            log.debug("deleteUserById[]: Getting all users");
+            List<User> users = read(User.class);
+            log.debug("deleteUserById[]: Deleting user with id {}", id);
             Optional<User> user = users.stream().filter(x -> x.getId().equals(id)).findFirst();
-            if(user.isPresent()) {
+            if (user.isPresent()) {
                 users.remove(user.get());
-                log.debug("deleteUserById[]: Update CSV File[33]");
+                // delete user active
                 write(users, User.class);
-                MongoHistory.save(DELETE, XML, user.get());
+                return user;
             }
-            return user;
         }catch (Exception e){
-            log.error("Function DataProviderXML deleteUserById has crashed[]");
+            log.error("Function DataProviderXML deleteUserById had failed[]: {}", e.getMessage());
         }
         return Optional.empty();
     }
 
-    @Override
-    public Result<User> deleteAllUsers()  {
+    public Result<User> deleteAllUsers(){
         log.info("Starting DataProviderXML deleteAllUsers[]");
         try {
-            log.debug("deleteAllUsers[]: get users from file");
-            List<User> securityList = new ArrayList<>(read(User.class));
-            log.debug("deleteAllUsers[]: delete all securities");
+            log.debug("deleteAllUsers[]: Getting all users");
+            List<User> users = read(User.class);
+            log.debug("deleteAllUsers[]: Deleting all users");
             write(new ArrayList<>(), User.class);
-            MongoHistory.save(DELETE, XML, securityList);
-            return new Result<>(SUCCESS, String.format("Number of deleted users: %d ", securityList.size()), securityList);
+            // delete all active
+            return new Result<>(SUCCESS, String.format("Number of deleted users: %d", users.size()), users);
         }catch (Exception e){
-            log.error("Function DataProviderXML deleteAllUsers had failed[]");
+            log.error("Function DataProviderXML deleteAllUsers had failed[]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
-    }
-
-    @Override
-    public Optional<User> getUserById(long id) {
-        log.info("Starting DataProviderXML getUserById[]");
-        log.info("getUserById[]: {}",id);
-        try {
-            log.debug("getUserById[]: Get users from CSV file[]");
-            List<User> securityList = new ArrayList<>(read(User.class));
-            log.debug("getUserById[]: Search for the user by id {}", id);
-            return securityList.stream().filter(x -> x.getId().equals(id)).findFirst();
-        }catch (Exception e){
-            log.error("Function DataProviderXML getUserById had failed[]");
-        }
-        return Optional.empty();
     }
 
 }

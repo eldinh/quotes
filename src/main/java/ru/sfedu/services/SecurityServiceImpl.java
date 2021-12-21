@@ -1,14 +1,14 @@
 package ru.sfedu.services;
 
 import ru.sfedu.api.DataProviderJDBC;
-import ru.sfedu.api.DateProvider;
+import ru.sfedu.api.DataProvider;
 import ru.sfedu.model.*;
 
 import java.util.List;
 import java.util.Optional;
 
 public class SecurityServiceImpl implements SecurityService {
-        private final DateProvider data = new DataProviderJDBC();
+        private final DataProvider data = new DataProviderJDBC();
 
         @Override
         public List<? extends Security> getActiveSecurities(MarketType marketType){

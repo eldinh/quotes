@@ -13,27 +13,6 @@ public class BaseTest extends TestCase {
     protected final String SBER = "SBER";
     protected final String SBERBOND = "SBERBOND";
 
-    protected List<User> users = new ArrayList<>(Arrays.asList(
-            new User(0, "Andrew", 29)
-            , new User(1, "NorAdeww", 10)
-            , new User(2, "Dinh", 19)
-            , new User(3, "Rodion", 19)
-            , new User(4, "Ev", 20)
-            , new User(5, "Danil", 19)
-            , new User(6, "Artem", 19)
-            , new User(7, "Sanya", 19)));
-
-    protected List<User> userWithoutID = new ArrayList<>(Arrays.asList(
-            new User("Andrew", 29)
-            , new User( "NorAdeww", 10)
-            , new User( "Dinh", 19)
-            , new User( "Rodion", 19)
-            , new User( "Ev", 20)
-            , new User( "Danil", 19)
-            , new User( "Artem", 19)
-            , new User( "Sanya", 19)
-    ));
-
 
 
     protected List<Stock> stocks = new ArrayList<>(Arrays.asList(
@@ -117,6 +96,19 @@ public class BaseTest extends TestCase {
             new SecurityHistory("2021-01-01", 123, "SBERBOND", 12, 13, 100),
             new SecurityHistory("2021-01-13", 123, "SBERBOND", 12, 13, 100)
     ));
+
+
+    protected List<User> users = new ArrayList<>(Arrays.asList(
+            new UserBuilder().withName("Andrew").withActionHistory(new ArrayList<>()).withTickerList(new ArrayList<>(bonds)).build()
+            , new UserBuilder().withName("newAndrew").withActionHistory(new ArrayList<>()).withTickerList(new ArrayList<>(stocks)).build()
+            , new UserBuilder().withName("Dinh").withActionHistory(new ArrayList<>()).withTickerList(new ArrayList<>(List.of(bonds.get(0), stocks.get(0)) )).build()
+            , new UserBuilder().withName("Rodion").withActionHistory(new ArrayList<>()).withTickerList(new ArrayList<>()).build()
+            , new UserBuilder().withName("Vlad").withActionHistory(new ArrayList<>()).withTickerList(new ArrayList<>()).build()
+            , new UserBuilder().withName("Danil").withActionHistory(new ArrayList<>()).withTickerList(new ArrayList<>()).build()
+            , new UserBuilder().withName("Artem").withActionHistory(new ArrayList<>()).withTickerList(new ArrayList<>()).build()
+            , new UserBuilder().withName("Sanya").withActionHistory(new ArrayList<>()).withTickerList(new ArrayList<>()).build()
+    ));
+
     protected Action action = new ActionBuilder().withAction(ActionType.ADD).withSecurity(bonds.get(0))
             .withDate(DATE).withUserID("0").build();
 
@@ -130,10 +122,16 @@ public class BaseTest extends TestCase {
     protected Result<Bond> bondResult;
     protected Result<Action> actionResult;
     protected Result<Market> marketResult;
+    protected Result<Security> securityResult;
 
 
     protected SecurityHistory getHistories(String ticker){
         return new SecurityHistoryBuilder().empty(ticker);
+    }
+
+    protected boolean compareTwoUsers(User user1, User user2){
+        return user1.getId().equals(user2.getId()) && user1.getTickerList().equals(user2.getTickerList())
+                && user1.getName().equals(user2.getName());
     }
 
 }

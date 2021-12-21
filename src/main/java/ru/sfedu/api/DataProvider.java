@@ -5,64 +5,12 @@ import ru.sfedu.model.*;
 import java.util.List;
 import java.util.Optional;
 
-public interface DateProvider {
+public interface DataProvider {
 
     public boolean appendOrUpdateMarket(MarketType marketType);
     public Result<Market> getMarkets();
     public Optional<Market> getMarket(MarketType marketType);
 
-    /**
-     * Method to get all users from database
-     * @return Result<User> - (Status, Message, Response)
-     * Status
-     * Message
-     * Response - List of all users in database
-     *
-     */
-    public Result<User> getUsers() ;
-
-    /**
-     * Method to append users
-     * @param users - list os user to append to database
-     * @return Result<User> - (Status, Message, Response)
-     * Status
-     * Message
-     * Response - users that haven't been appended
-     */
-    public Result<User> appendUsers(List<User> users) ;
-
-    /**
-     * Method to update users by id
-     * @param users - list of users to update
-     * @return Result<User> - (Status, Message, Response)
-     * Status
-     * Message
-     * Response - users that haven't been updated
-     */
-    public Result<User> updateUsers(List<User> users) ;
-
-    /**
-     * Method to delete user by id
-     * @param id - UserID
-     * @return Optional<User> user that was deleted if it existed
-     */
-    public Optional<User> deleteUserById(long id);
-
-    /**
-     * Method to delete all users
-     * @return Result<User> - (Status, Message, Response)
-     * Status
-     * Message
-     * Response - list of users that have been deleted
-     */
-    public Result<User> deleteAllUsers() ;
-
-    /**
-     * Method to get user by ID
-     * @param id - UserID
-     * @return Optional<User> - User that was found by id(Optional.empty() if it wasn't found)
-     */
-    public Optional<User> getUserById(long id) ;
 
     /**
      * Method to get all stocks from database
@@ -229,5 +177,5 @@ public interface DateProvider {
      * @return boolean - result of the work
      */
     public boolean appendOrUpdate(SecurityHistory securityHistory, String ticker);
-
+    
 }

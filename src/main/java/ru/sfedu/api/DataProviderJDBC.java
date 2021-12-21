@@ -17,17 +17,10 @@ import static ru.sfedu.model.RepositoryType.*;
 import static ru.sfedu.utils.ConfigurationUtil.getConfigurationEntry;
 
 
-public class DataProviderJDBC implements DateProvider {
+public class DataProviderJDBC implements DataProvider {
     private final Logger log = LogManager.getLogger(DataProviderJDBC.class.getName());
 
 
-    private <T extends Security> List<String> getSecuritiesTicker(List<T> securities){
-        return new ArrayList<>(securities.stream().map(Security::getTicker).toList());
-    }
-
-    private List<String> getDate(List<SecurityHistory> securityHistories){
-        return new ArrayList<>(securityHistories.stream().map(SecurityHistory::getDate).toList());
-    }
 
     public Connection getDbConnection(String dbName, String extraPath)
             throws Exception {
@@ -66,11 +59,6 @@ public class DataProviderJDBC implements DateProvider {
             throws Exception {
         return getDbConnection(dbName, "");
     }
-    public Connection getSecurityHistoryDBConnection(String dbName)
-            throws Exception {
-        log.info("Starting DataProviderJDBC getHistoryDBConnection[3]");
-        return getDbConnection(dbName, SECURITY_HISTORY_PATH);
-    }
 
     private void creatingTable(String tableName,String direction, String column) throws Exception {
         log.info("Starting DataProviderJDBC creatingTable[3]");
@@ -96,6 +84,7 @@ public class DataProviderJDBC implements DateProvider {
         creatingTable(objClass.getSimpleName().toUpperCase(), "",column);
     }
 
+    // market
 
     private Market resultSetToMarket(ResultSet rs) throws SQLException {
         MarketType marketType = MarketType.valueOf(rs.getString(MARKET_COLUMN_MARKET_TYPE));
@@ -172,6 +161,13 @@ public class DataProviderJDBC implements DateProvider {
             log.error("Function DataProviderJDBC getMarket had failed[]: {}", e.getMessage());
         }
         return Optional.empty();
+    }
+
+
+    //  security
+
+    private <T extends Security> List<String> getSecuritiesTicker(List<T> securities){
+        return new ArrayList<>(securities.stream().map(Security::getTicker).toList());
     }
 
     private <T extends Security> void setHistory(List<T> securities){
@@ -492,6 +488,16 @@ public class DataProviderJDBC implements DateProvider {
 
     // Security history
 
+    private Connection getSecurityHistoryDBConnection(String dbName)
+            throws Exception {
+        log.info("Starting DataProviderJDBC getHistoryDBConnection[3]");
+        return getDbConnection(dbName, SECURITY_HISTORY_PATH);
+    }
+
+    private List<String> getDate(List<SecurityHistory> securityHistories){
+        return new ArrayList<>(securityHistories.stream().map(SecurityHistory::getDate).toList());
+    }
+
     private SecurityHistory resultSetToSecurityHistory(ResultSet rs) throws SQLException {
         return new SecurityHistoryBuilder().withDate(rs.getString(SECURITY_HISTORY_COLUMN_DATE))
                 .withTicker(rs.getString(SECURITY_HISTORY_COLUMN_TICKER))
@@ -681,163 +687,24 @@ public class DataProviderJDBC implements DateProvider {
 
     // user
 
-    private List<Long> getUsersID(List<User> users){
+    private List<String> getUsersID(List<User> users){
         return users.stream().map(User::getId).toList();
     }
 
     private User resultSetToUser(ResultSet rs) throws SQLException {
-        return new UserBuilder().setId(rs.getLong(USER_COLUMN_ID))
-                .setName(rs.getString(USER_COLUMN_NAME))
-                .setAge(rs.getInt(USER_COLUMN_AGE))
+        return new UserBuilder(rs.getString(USER_COLUMN_ID))
+                .withName(rs.getString(USER_COLUMN_NAME))
+                .withActionHistory(null)
+                .withTickerList(null)
                 .build();
     }
 
     private String sqlUpdateUser(User user){
         return String.format(SQL_UPDATE, USER_TABLE_NAME)
-                .concat(String.format(SQL_SET_USER, user.getName(), user.getAge()))
+                .concat(String.format(SQL_SET_USER, user.getName()))
                 .concat(SQL_WHERE + String.format(SQL_USER_ID, user.getId()));
     }
 
-    @Override
-    public Result<User> appendUsers(List<User> users) {
-        log.info("Starting DataProviderJDBC appendUsers[9]");
-        try {
-            log.info("appendUsers[10]: users - {}", Arrays.toString(users.toArray()));
-            Validator.isValidUser(users);
-            log.debug("appendUsers[11]: Create table");
-            creatingTable(User.class, SQL_USER_COLUMNS);
-            log.debug("appendUsers[12]: Connect to db");
-            Connection connection = getDbConnection(USER_TABLE_NAME);
-            log.debug("appendUsers[13]: Get all ID");
-            List<Long> allId = getUsersID(getUsers().getBody());
-            List<User> response = users.stream().filter(x -> allId.contains(x.getId())).toList();
-            log.debug("appendUsers[14]: append users with ID");
-            for (User user : users.stream().filter(x ->!allId.contains(x.getId())).toList())
-                connection.createStatement().executeUpdate(String.format(SQL_INSERT,USER_TABLE_NAME )
-                        .concat(String.format(SQL_USER_VALUES, user.getId(), user.getName(), user.getAge())));
-            log.debug("appendUsers[15]: append users without ID");
-            for (User user : users.stream().filter(x -> x.getId()== null).toList())
-                connection.createStatement().executeUpdate(String.format(SQL_INSERT,USER_TABLE_NAME )
-                        .concat(String.format(SQL_USER_VALUES_WITHOUT_ID,  user.getName(), user.getAge())));
-            connection.commit();
-            if (response.isEmpty())
-                return new Result<>(SUCCESS, "Users have been appended successfully", response);
-            return new Result<>(WARN, String.format("Number of users that haven't been appended: %d", response.size()), response);
-        } catch (Exception e){
-            log.error("Function DataProviderJDBC appendUsers had failed[16]: {}", e.getMessage());
-            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
-        }
-    }
 
-    @Override
-    public Result<User> getUsers()  {
-        log.info("Starting DataProviderJDBC getUsers[17]");
-        List<User> users = new ArrayList<>();
-        try {
-            log.debug("getUsers[18]: Connect to db");
-            Connection connection = getDbConnection(USER_TABLE_NAME);
-            log.debug("getUsers[19]: Get users from db");
-            PreparedStatement preparedStatement = connection.prepareStatement(String.format(SQL_SELECT_FROM, USER_TABLE_NAME));
-            ResultSet rs = preparedStatement.executeQuery();
-            while(rs.next()){
-                users.add(resultSetToUser(rs));
-            }
-            return new Result<>(SUCCESS, String.format("Number of users in file: %d", users.size()), users);
-        } catch (Exception e){
-            log.error("Function DataProviderJDBC getUsers had failed[20]: {}", e.getMessage());
-            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
-        }
-    }
-
-    @Override
-    public Result<User> updateUsers(List<User> users){
-        log.info("Starting DataProviderJDBC updateUsers[21]");
-        try {
-            log.info("updateUsers[22]: {}", Arrays.toString(users.toArray()));
-            Validator.isValidUserToUpdate(users);
-            List<User> response = new ArrayList<>();
-            List<User> userToUpdate = new ArrayList<>(users);
-            log.debug("updateUsers[24]: Connect to db");
-            Connection connection = getDbConnection(USER_TABLE_NAME);
-            log.debug("updateUsers[25]: Update users");
-            for (int i = 0; i < userToUpdate.size(); i ++)
-                if( connection.createStatement().executeUpdate(sqlUpdateUser(userToUpdate.get(i))) == 0)
-                    response.add(userToUpdate.remove(i));
-            connection.commit();
-            MongoHistory.save(UPDATE, JDBC, userToUpdate);
-            if (response.isEmpty())
-                return new Result<>(SUCCESS, String.format("Users have been updated successfully, number of updated users: %d", userToUpdate.size()), response);
-            return new Result<>(WARN, String.format("Number of users that haven't been updated: %d", response.size()),response);
-        } catch (Exception e){
-            log.error("Function DataProviderJDBC updateUsers had failed[26]: {}", e.getMessage());
-            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
-        }
-    }
-
-    @Override
-    public Optional<User> deleteUserById(long id) {
-        log.info("Starting DataProviderJDBC deleteUserById[27]");
-        try {
-            log.info("deleteUserById[28]: id - {}",id);
-            log.debug("deleteUserById[]: Connect to db");
-            Connection connection = getDbConnection(USER_TABLE_NAME);
-            log.debug("deleteUserById[29]: Get user by ID {}", id);
-            ResultSet rs = connection.prepareStatement(String.format(SQL_SELECT_FROM, USER_TABLE_NAME)
-                    .concat(SQL_WHERE).concat(String.format(SQL_USER_ID, id))).executeQuery();
-            if (rs.next()){
-                log.debug("deleteUserById[30]: Delete user by ID {}", id);
-                connection.createStatement().executeUpdate(String.format(SQL_DELETE_FROM, USER_TABLE_NAME)
-                        .concat(SQL_WHERE).concat(String.format(SQL_USER_ID, id)));
-                connection.commit();
-                MongoHistory.save(DELETE, JDBC, resultSetToUser(rs));
-                return Optional.of(resultSetToUser(rs));
-            }
-        }catch (Exception e){
-            log.error("Function DataProviderJDBC deleteUserById had failed[31]: {}", e.getMessage());
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    public Result<User> deleteAllUsers() {
-        log.info("Starting DataProviderJDBC deleteAllUsers [32]");
-        try {
-            log.debug("deleteAllUsers[33]: get all users");
-            Result<User> result = getUsers();
-            if (result.getStatus().equals(FAIL))
-                throw new Exception(result.getMessage());
-            log.debug("deleteAllUsers[34]: Connect to db");
-            Connection connection = getDbConnection(USER_TABLE_NAME);
-            log.debug("deleteAllUsers[35]: Delete all users");
-            int count  = connection.prepareStatement(String.format(SQL_DELETE_FROM, USER_TABLE_NAME)).executeUpdate();
-            log.info("deleteAllUsers[36]: Number of delete users: {}" , count);
-            connection.commit();
-            MongoHistory.save(DELETE, JDBC, result.getBody());
-            return new Result<>(result.getStatus(), String.format("Number of delete users: %d", count), result.getBody());
-        }catch (Exception e){
-            log.error("Function DataProviderJDBC deleteAllUsers had failed[37]: {}", e.getMessage());
-            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
-        }
-
-    }
-
-    @Override
-    public Optional<User> getUserById(long id) {
-        log.info("Starting DataProviderJDBC getUSerById[38]");
-        try {
-            log.info("getUserById[] : id - {}", id);
-            log.debug("getUserById[39]: Connect to db");
-            Connection connection = getDbConnection(USER_TABLE_NAME);
-            log.debug("getUserById[40]: Get resultSet");
-            ResultSet rs = connection.prepareStatement(String.format(SQL_SELECT_FROM, USER_TABLE_NAME)
-                    .concat(SQL_WHERE).concat(String.format(SQL_USER_ID, id))).executeQuery();
-            connection.commit();
-            if (rs.next())
-                return Optional.of(resultSetToUser(rs));
-        } catch (Exception e){
-            log.error("Function DataProvider JDBC getUserById had failed[41]: {}", e.getMessage());
-        }
-        return Optional.empty();
-    }
 
 }
