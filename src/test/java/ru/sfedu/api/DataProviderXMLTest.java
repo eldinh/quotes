@@ -1,7 +1,6 @@
 package ru.sfedu.api;
 
 import ru.sfedu.BaseTest;
-import ru.sfedu.Constants;
 import ru.sfedu.model.*;
 import ru.sfedu.utils.IDGenerator;
 
@@ -99,7 +98,7 @@ public class DataProviderXMLTest extends BaseTest {
         assertEquals(result.getStatus(), SUCCESS);
 
         // checking user's security list
-        assertEquals(user.getTickerList().size(), 2);
+        assertEquals(user.getSecurityList().size(), 2);
         // comparing 2 users
         User userFromDB = result.getBody().get(0);
         assert compareTwoUsers(userFromDB, user);

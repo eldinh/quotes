@@ -96,7 +96,7 @@ public class DataProviderCSVTest extends BaseTest {
 
         // checking user's security list
         User userFromDB = result.getBody().get(0);
-        assertEquals(user.getTickerList().size(), 2);
+        assertEquals(user.getSecurityList().size(), 2);
     }
 
     public void testFailGetUsers(){
@@ -106,7 +106,7 @@ public class DataProviderCSVTest extends BaseTest {
     }
 
     public void testUpdateUsers(){
-        // appending stocks and bonds
+        // appending stocks and bodeleteAllSecuritiesnds
         assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
         assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
 

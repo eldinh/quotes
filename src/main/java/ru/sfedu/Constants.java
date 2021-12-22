@@ -20,21 +20,6 @@ public class Constants {
 
     public static final String SECURITY_HISTORY_PATH = "security_history/";
 
-    public static final String SQL_INSERT_USER = "INSERT INTO USER " +
-                                                "VALUES (%d, '%s', %d);";
-    public static final String SQL_INSERT_USER_WITHOUT_ID = "INSERT INTO USER " +
-                                                            "(name, age) VALUES ('%s', %d);";
-    public static final String SQL_CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS USER " +
-                                                        "(id INT NOT NULL AUTO_INCREMENT, " +
-                                                        " name VARCHAR(255), " +
-                                                        " age INTEGER," +
-                                                        "PRIMARY KEY (id))";
-    public static final String SQL_SELECT_FROM_USER = "SELECT * FROM USER";
-    public static final String SQL_SELECT_FROM_USER_BY_ID = "SELECT * FROM user WHERE id = %d";
-    public static final String SQL_UPDATE_USER = "UPDATE USER SET name = '%s', age = %d WHERE id = %d";
-    public static final String SQL_DELETE_ALL_USER = "DELETE FROM user";
-    public static final String SQL_DELETE_BY_ID_USER = "DELETE FROM user WHERE ID = %d;";
-    public static final String SQL_DROP_USER_TABLE = "DROP TABLE IF EXISTS USER";
 
 
     public static final String USER_TABLE_NAME = "USER";
@@ -42,11 +27,13 @@ public class Constants {
     public static final String BOND_TABLE_NAME = "BOND";
     public static final String ACTON_TABLE_NAME = "ACTION";
     public static final String MARKET_TABLE_NAME = "MARKET";
+    public static final String USERS_SECURITY_TABLE_NAME = "USERS_SECURITY";
 
     public static final String SQL_INSERT = "INSERT INTO %s ";
     public static final String SQL_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS %s ";
     public static final String SQL_SELECT_FROM = "SELECT * FROM %s ";
     public static final String SQL_WHERE = "WHERE ";
+    public static final String SQL_AND = " AND ";
     public static final String SQL_UPDATE = "UPDATE %s ";
 
     public static final String SQL_SET_USER = "SET name = '%s' ";
@@ -60,10 +47,12 @@ public class Constants {
 
     public static final String SQL_DELETE_FROM = "DELETE FROM %s ";
     public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS %s ";
-    public static final String SQL_USER_ID = "id = '%s'";
-    public static final String SQL_SECURITY_TICKER = "ticker = '%s'";
-    public static final String SQL_SECURITY_HISTORY_DATE = "date = '%s'";
-    public static final String SQL_MARKET_MARKET_TYPE = "market_type = '%s'";
+    public static final String SQL_USER_ID = "id = '%s' ";
+    public static final String SQL_SECURITY_TICKER = "ticker = '%s' ";
+    public static final String SQL_SECURITY_HISTORY_DATE = "date = '%s' ";
+    public static final String SQL_MARKET_MARKET_TYPE = "market_type = '%s' ";
+    public static final String SQL_ACTION_USER_ID = "user_id = '%s' ";
+    public static final String SQL_ACTION_SECURITY = "security = '%s'";
 
     public static final String SQL_USER_COLUMNS =  "(id VARCHAR(255) NOT NULL, " +
                                                     " name VARCHAR(255), " +
@@ -83,12 +72,19 @@ public class Constants {
                                                     "issue_size BIGINT, market_type VARCHAR(255), " +
                                                     "type VARCHAR(255), mat_date VARCHAR(255), " +
                                                     "coupon FLOAT, day_to_redemption INT, " +
-                                                    "PRIMARY KEY (ticker))";
-    public static final String SQL_MARKET_COLUMNS = "(market_type VARCHAR(255), PRIMARY KEY (market_type))";
+                                                    "PRIMARY KEY (ticker));";
+    public static final String SQL_MARKET_COLUMNS = "(market_type VARCHAR(255), PRIMARY KEY (market_type));";
+
+    public static final String SQL_ACTION_COLUMNS = "(id VARCHAR(255) NOT NULL, date VARCHAR(255), " +
+                                                     "action_type VARCHAR(255), user_id VARCHAR(255), " +
+                                                     "security VARCHAR(255), PRIMARY KEY (id));";
+
     public static final String SQL_SECURITY_HISTORY_COLUMNS = "(date VARCHAR(255), ticker VARCHAR(255), " +
                                                                 "average_per_day FLOAT, open_price FLOAT, " +
                                                                 "close_price FLOAT, volume BIGINT, " +
-                                                                "PRIMARY KEY (date))";
+                                                                "PRIMARY KEY (date));";
+    public static final String SQL_USERS_SECURITY_COLUMNS = "(user_id VARCHAR(255), security VARCHAR(255))";
+
     public static final String SQL_USER_VALUES = "VALUES ('%s', '%s');";
     public static final String SQL_MARKET_VALUES = "VALUES ('%s')";
     public static final String SQL_STOCK_VALUES = "VALUES ('%s', '%s', '%s', '%s', %f, " +
@@ -97,6 +93,8 @@ public class Constants {
                                                     "'%s', '%s', '%s', %d, '%s', '%s', '%s', %f, %d);";
     public static final String SQL_SECURITY_HISTORY_VALUES = "VALUES ('%s', '%s', %f, " +
                                                                      "%f, %f, %d);";
+    public static final String SQL_ACTION_VALUES = "VALUES ('%s', '%s', '%s', '%s', '%s')";
+    public static final String SQL_USERS_SECURITY_VALUES = "VALUES ('%s', '%s')";
 
     public static final String MONGODB_USER = "mongodb_user";
     public static final String MONGODB_PASSWORD = "mongodb_password";
@@ -120,7 +118,7 @@ public class Constants {
     public static final String SECURITY_COLUMN_ISSUEDATE = "issue_date";
     public static final String SECURITY_COLUMN_ISIN = "isin";
     public static final String SECURITY_COLUMN_ISSUESIZE = "issue_size";
-    public static final String SECURITY_COLUMN_MARKETTYPE = "market_type";
+    public static final String SECURITY_COLUMN_MARKET_TYPE = "market_type";
 
     public static final String STOCK_COLUMN_TYPE = "type";
     public static final String STOCK_COLUMN_DIVIDENDSUM = "dividend_sum";
@@ -137,6 +135,14 @@ public class Constants {
     public static final String SECURITY_HISTORY_COLUMN_OPENPRICE = "open_price";
     public static final String SECURITY_HISTORY_COLUMN_CLOSEPRICE = "close_price";
     public static final String SECURITY_HISTORY_COLUMN_VOLUME = "volume";
+
+    public static final String ACTION_COLUMN_ID = "id";
+    public static final String ACTION_COLUMN_DATE = "date";
+    public static final String ACTION_COLUMN_ACTION = "action_type";
+    public static final String ACTION_COLUMN_USER_ID = "user_id";
+    public static final String ACTION_COLUMN_SECURITY = "security";
+
+
 
     public static final String MONGODB_TIME_FIELD = "time";
     public static final String MONGODB_COMMAND_FIELD = "command";

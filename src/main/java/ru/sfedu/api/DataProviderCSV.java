@@ -566,14 +566,6 @@ public class DataProviderCSV implements DataProvider {
 
     // user
 
-
-//    private static List<User> unionTwoUserLists(List<User> mainList, List<User> appendList){
-//        List<Long> idList = mainList.stream().map(User::getId).toList();
-//        mainList.addAll(appendList.stream().filter(x -> !idList.contains(x.getId())).toList());
-//        return appendList.stream().filter(x -> idList.contains(x.getId())).toList();
-//
-//    }
-
     public static List<String> getUsersId(List<User> users){
         return users.stream().map(User::getId).toList();
     }
@@ -593,7 +585,7 @@ public class DataProviderCSV implements DataProvider {
     public Result<User> appendUsers(List<User> users){
         log.info("Starting DataProviderCSV appendUsers[]");
         try {
-            Validator.isValid(users);
+            Validator.isValidUser(users);
             log.info("appendUsers[]: users - {}", users);
             log.debug("appendUsers[]: Getting all users");
             List<String> usersId = getUsersId(getUsers().getBody());
@@ -739,6 +731,7 @@ public class DataProviderCSV implements DataProvider {
         return Optional.empty();
     }
 
+
     public Result<Action> getActionHistory(String userID){
         log.info("Starting DataProviderCSV getActionHistory");
         try {
@@ -751,39 +744,6 @@ public class DataProviderCSV implements DataProvider {
             log.error("Function DataProviderCSV getActionHistory had failed[]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
-    }
-
-    public Optional<Action> getActionById(String actionID){
-        log.info("Starting DataProviderCSV getActionById[]");
-        try {
-            Validator.isValid(actionID);
-            log.info("getActionHistory[]: actionID - {}", actionID);
-            log.debug("getActionHistory[]: Getting all actions");
-            return read(Action.class).stream().filter(x -> x.getId().equals(actionID)).findFirst();
-        }catch (Exception e){
-            log.error("Function DataProviderCSV getActionById had failed[]: {}", e.getMessage());
-        }
-        return Optional.empty();
-    }
-
-    public Optional<Action> deleteActionById(String actionID){
-        log.info("Starting DataProviderCSV deleteActionById[]");
-        try {
-            Validator.isValid(actionID);
-            log.info("deleteActionById[]: actionID - {}", actionID);
-            log.debug("deleteActionById[]: Getting all actions");
-            List<Action> actions = read(Action.class);
-            log.debug("deleteActionById[]: Finding action with id: {}", actionID);
-            Optional<Action> action = actions.stream().filter(x -> x.getId().equals(actionID)).findFirst();
-            if (action.isPresent()){
-                actions.remove(action.get());
-                write(actions, Action.class);
-                return action;
-            }
-        }catch (Exception e){
-            log.error("Function DataProviderCSV getActionById had failed[]: {}", e.getMessage());
-        }
-        return Optional.empty();
     }
 
     public Result<Action> deleteActionHistory(String userID){

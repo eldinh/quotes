@@ -1,6 +1,5 @@
 package ru.sfedu.model;
 
-import com.opencsv.bean.CsvBindAndSplitByPosition;
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvCustomBindByPosition;
 import org.simpleframework.xml.Attribute;
@@ -21,7 +20,7 @@ public class User implements Serializable {
     private String name;
     @ElementList
     @CsvCustomBindByPosition(position = 2, converter = SecurityListCsvConverter.class)
-    private List<Security> tickerList;
+    private List<Security> securityList;
     @ElementList
     @CsvBindByPosition(position = 3)
     private List<Action> actionHistory;
@@ -33,7 +32,7 @@ public class User implements Serializable {
         if (userBuilder.getId()== null)
             this.id = IDGenerator.generate();
         this.name = userBuilder.getName();
-        this.tickerList = userBuilder.getTickerList();
+        this.securityList = userBuilder.getTickerList();
         this.actionHistory = userBuilder.getActionHistory();
     }
 
@@ -47,8 +46,8 @@ public class User implements Serializable {
         return name;
     }
 
-    public List<Security> getTickerList() {
-        return tickerList;
+    public List<Security> getSecurityList() {
+        return securityList;
     }
 
     public List<Action> getActionHistory() {
@@ -73,7 +72,7 @@ public class User implements Serializable {
         return "User{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", tickerList=" + tickerList +
+                ", securityList=" + securityList +
                 ", actionHistory=" + actionHistory +
                 '}';
     }

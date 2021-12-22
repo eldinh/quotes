@@ -84,6 +84,7 @@ public class DataProviderJDBC implements DataProvider {
         creatingTable(objClass.getSimpleName().toUpperCase(), "",column);
     }
 
+
     // market
 
     private Market resultSetToMarket(ResultSet rs) throws SQLException {
@@ -261,6 +262,7 @@ public class DataProviderJDBC implements DataProvider {
                                                                    Function<ResultSet, Optional<T>> resultSetToSecurityFunction){
         log.info("Starting DataProviderJDBC deleteSecurityByTicker[]");
         try {
+            Validator.isValid(ticker);
             log.info("deleteSecurityByTicker[]: ticker - {}, securityTableName - {}",ticker, securityTableName);
             log.debug("deleteSecurityByTicker[]: Connect to db");
             Connection connection = getDbConnection(securityTableName);
@@ -271,7 +273,6 @@ public class DataProviderJDBC implements DataProvider {
                 log.debug("deleteSecurityByTicker[]: Delete security by ticker: {}", ticker);
                 connection.createStatement().executeUpdate(String.format(SQL_DELETE_FROM, securityTableName)
                         .concat(SQL_WHERE).concat(String.format(SQL_SECURITY_TICKER, ticker)));
-                deleteAllSecurityHistories(ticker);
                 log.debug("deleteSecurityByTicker[]: Delete {}'s SecurityHistory table", ticker);
                 deleteAllSecurityHistories(ticker);
                 connection.commit();
@@ -312,6 +313,7 @@ public class DataProviderJDBC implements DataProvider {
                                                                 Function<ResultSet, Optional<T>> resultSetToSecurityFunction){
         log.info("Starting DataProviderJDBC getSecurityByTicker[]");
         try {
+            Validator.isValid(ticker);
             log.info("getSecurityByTicker[]: ticker - {}, securityTableName - {}", ticker, securityTableName);
             log.debug("getSecurityByTicker[]: Connect to db");
             Connection connection = getDbConnection(securityTableName);
@@ -324,6 +326,22 @@ public class DataProviderJDBC implements DataProvider {
             log.error("Function DataProvider JDBC getSecurityByTicker had failed[]: {}", e.getMessage());
         }
         return Optional.empty();
+    }
+
+    public <T extends Security> Result<T> getSecuritiesByTickerList(List<String> tickerList, Supplier<Result<T>> getSecuritiesFunction){
+        log.info("Starting DataProviderJDBC getSecuritiesByTickerList[0]");
+        try {
+            log.info("getSecuritiesByTickerList[1]: tickerList - {}", tickerList);
+            log.debug("Getting all securities");
+            List<T> securityList = getSecuritiesFunction.get().getBody();
+            log.debug("getSecuritiesByTickerList[2]: Filtering security list");
+            List<T> response = new ArrayList<>(securityList.stream().filter(x -> tickerList.contains(x.getTicker())).toList());
+            return new Result<>(SUCCESS, String.format("Number of securities: %d", response.size()), response);
+
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC getSecuritiesByTickerList had failed[3]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
     }
 
     private String sqlUpdateStock(Stock stock){
@@ -485,6 +503,45 @@ public class DataProviderJDBC implements DataProvider {
         return getSecurityByTicker(ticker, BOND_TABLE_NAME, this::resultSetToBond);
     }
 
+    public Result<Stock> getStocksByTickerList(List<String> tickerList){
+        return getSecuritiesByTickerList(tickerList, this::getStocks);
+    }
+
+    public Result<Bond> getBondsByTickerList(List<String> tickerList){
+        return getSecuritiesByTickerList(tickerList, this::getBonds);
+    }
+
+    public Result<Security> getSecuritiesByTickerList(List<String> tickers){
+        log.info("Starting DataProviderJDBC getSecuritiesByTickerList[0]");
+        try {
+            log.info("getSecuritiesByTickerList[1]: {}", tickers);
+            log.debug("getSecuritiesByTickerList[2]: Getting securities from markets");
+            List<Security> response = new ArrayList<>();
+            response.addAll(getStocksByTickerList(tickers).getBody());
+            response.addAll(getBondsByTickerList(tickers).getBody());
+            return new Result<>(SUCCESS, String.format("Number of securities: %d", response.size()), response);
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC getSecuritiesByTickerList had failed[3]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
+    }
+
+    public Optional<Security> getSecurityByTicker(String ticker){
+        log.info("Starting DataProviderJDBC getSecurityByTicker[0]");
+        try {
+            log.info("getSecurityByTicker[1]: ticker - {}", ticker);
+            log.debug("getSecurityByTicker[2]: Getting security by ticker {}", ticker);
+            Optional<Stock> security = getStockByTicker(ticker);
+            if (security.isPresent())
+                return Optional.of(security.get());
+            Optional<Bond> bond = getBondByTicker(ticker);
+            if (bond.isPresent())
+                return Optional.of(bond.get());
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC had failed[3]: {}", e.getMessage());
+        }
+        return Optional.empty();
+    }
 
     // Security history
 
@@ -687,15 +744,16 @@ public class DataProviderJDBC implements DataProvider {
 
     // user
 
-    private List<String> getUsersID(List<User> users){
+    private List<String> getUsersId(List<User> users){
         return users.stream().map(User::getId).toList();
     }
 
     private User resultSetToUser(ResultSet rs) throws SQLException {
-        return new UserBuilder(rs.getString(USER_COLUMN_ID))
+        String userId = rs.getString(USER_COLUMN_ID);
+        return new UserBuilder(userId)
                 .withName(rs.getString(USER_COLUMN_NAME))
-                .withActionHistory(null)
-                .withTickerList(null)
+                .withActionHistory(getActionHistory(userId).getBody())
+                .withTickerList(getUsersSecurity(userId).getBody())
                 .build();
     }
 
@@ -703,6 +761,336 @@ public class DataProviderJDBC implements DataProvider {
         return String.format(SQL_UPDATE, USER_TABLE_NAME)
                 .concat(String.format(SQL_SET_USER, user.getName()))
                 .concat(SQL_WHERE + String.format(SQL_USER_ID, user.getId()));
+    }
+
+    private String setUserValues(User user){
+        return String.format(SQL_USER_VALUES, user.getId(), user.getName());
+    }
+
+    public Result<User> appendUsers(List<User> userList){
+        log.info("Starting DataProviderJDBC appendUsers[0]");
+        try {
+            Validator.isValidUser(userList);
+            log.info("appendUsers[1]: users - {}", userList);
+            log.debug("appendUsers[2]: Getting all users");
+            List<String> idList = getUsersId(getUsers().getBody());
+            log.debug("appendUsers[3]: Creating table");
+            creatingTable(User.class, SQL_USER_COLUMNS);
+            log.debug("appendUsers[4]: Connecting to db");
+            Connection connection = getDbConnection(USER_TABLE_NAME);
+            log.debug("appendUsers[5]: Appending to db");
+            for (User user : userList.stream().filter(x ->!idList.contains(x.getId())).toList()) {
+                connection.createStatement().executeUpdate(String.format(SQL_INSERT, USER_TABLE_NAME)
+                        .concat(setUserValues(user)));
+            }
+            List<User> response = userList.stream().filter(x ->idList.contains(x.getId())).toList();
+            connection.commit();
+            if (response.isEmpty())
+                return new Result<>(SUCCESS, "Users were appended successfully", new ArrayList<>());
+            return new Result<>(WARN, String.format("Number of users that weren't appended: %d", response.size()), response);
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC had failed[6]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
+    }
+
+    public Optional<String> appendUser(String name){
+        log.info("Starting DataProviderJDBC appendUser[0]");
+        try {
+            Validator.isValid(name);
+            log.info("appendUser[1]: name - {}", name);
+            User user = new UserBuilder().withName(name).withTickerList(new ArrayList<>())
+                    .withActionHistory(new ArrayList<>()).build();
+            log.debug("appendUser[2]: Appending user");
+            appendUsers(new ArrayList<>(List.of(user)));
+            return Optional.of(user.getId());
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC appendUser had failed[2]: {}", e.getMessage());
+        }
+        return Optional.empty();
+    }
+
+    public Result<User> getUsers(){
+        List<User> usersList = new ArrayList<>();
+        log.info("Starting DataProviderJDBC getUsers[0]");
+        try {
+            log.debug("getUsers[1]: Connect to db");
+            Connection connection = getDbConnection(USER_TABLE_NAME);
+            log.debug("getUsers[2]: Get users from db");
+            PreparedStatement preparedStatement = connection.prepareStatement(String.format(SQL_SELECT_FROM, USER_TABLE_NAME));
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next()){
+                usersList.add(resultSetToUser(rs));
+            }
+            return new Result<>(SUCCESS, String.format("Number of users: %d", usersList.size()),usersList );
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC had failed[3]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
+    }
+
+    public Result<User> updateUsers(List<User> userList){
+        log.info("Starting DataProviderJDBC updateUsers[0]");
+        try {
+            Validator.isValidUserToUpdate(userList);
+            log.info("updateUsers[1]: users - {}", userList);
+            log.debug("updateUsers[2]: Connect to db");
+            Connection connection = getDbConnection(USER_TABLE_NAME);
+            log.debug("updateUsers[3]: Updating user");
+            List<User> response = new ArrayList<>();
+            for (User user : userList)
+                if( connection.createStatement().executeUpdate(sqlUpdateUser(user)) == 0)
+                    response.add(user);
+            if (response.isEmpty())
+                return new Result<>(SUCCESS, "Users were updated successfully", new ArrayList<>());
+            return new Result<>(WARN, String.format("Number of users that weren't updated: %d", response.size()), response);
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC updateUsers had failed[4]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
+    }
+
+    public Result<User> updateUser(User user){
+        log.info("Starting DataProviderJDBC updateUser[0]");
+        try {
+            Validator.isValid(user);
+            log.info("updateUser[1]: user - {}", user);
+            return updateUsers(new ArrayList<>(List.of(user)));
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC updateUsers had failed[2]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
+    }
+
+    public Optional<User> getUserById(String id){
+        log.info("Starting DataProviderJDBC getUserById[0]");
+        try {
+            Validator.isValid(id);
+            log.info("getUserById[1]: id - {}", id);
+            log.debug("updateUsers[2]: Connect to db");
+            Connection connection = getDbConnection(USER_TABLE_NAME);
+            log.debug("updateUsers[3]: Get resultSet");
+            ResultSet rs = connection.prepareStatement(String.format(SQL_SELECT_FROM, USER_TABLE_NAME)
+                    .concat(SQL_WHERE).concat(String.format(SQL_USER_ID, id))).executeQuery();
+            if (rs.next())
+                return Optional.of(resultSetToUser(rs));
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC getUserById had failed[4]: {}", e.getMessage());
+        }
+        return Optional.empty();
+    }
+
+    public Optional<User> deleteUserById(String id) {
+        log.info("Starting DataProviderJDBC deleteUserById[0]");
+        try {
+            log.info("deleteUserById[1]: id - {}", id);
+            log.debug("deleteUserById[2]: Connecting to table");
+            Connection connection = getDbConnection(USER_TABLE_NAME);
+            log.debug("deleteUserById[3]: Getting resultSet");
+            ResultSet rs = connection.prepareStatement(String.format(SQL_SELECT_FROM, USER_TABLE_NAME)
+                    .concat(SQL_WHERE).concat(String.format(SQL_USER_ID, id))).executeQuery();
+            if (rs.next()){
+                log.debug("deleteUserById[4]: Delete user by id: {}", id);
+                connection.createStatement().executeUpdate(String.format(SQL_DELETE_FROM, USER_TABLE_NAME)
+                        .concat(SQL_WHERE).concat(String.format(SQL_USER_ID, id)));
+                return Optional.of(resultSetToUser(rs));
+            }
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC deleteUserById had failed[5]: {}", e.getMessage());
+        }
+        return Optional.empty();
+    }
+
+    public Result<User> deleteAllUsers(){
+        log.info("Starting DataProviderJDBC deleteAllUsers[0]");
+        try {
+            log.debug("deleteAllUsers[1]: get all stocks");
+            Result<User> result = getUsers();
+            if (result.getStatus().equals(FAIL))
+                throw new Exception(result.getMessage());
+            log.debug("deleteAllUsers[2]: Connect to db");
+            Connection connection = getDbConnection(USER_TABLE_NAME);
+            log.debug("deleteAllUsers[3]: Delete all users");
+            int count = connection.prepareStatement(String.format(SQL_DELETE_FROM, USER_TABLE_NAME)).executeUpdate();
+            log.info("deleteAllUsers[4]: Number of delete stocks: {}", count);
+            return new Result<>(SUCCESS, String.format("Number of deleted users: %d", result.getBody().size()), result.getBody());
+        } catch (Exception e){
+            log.error("Function DataProviderJDBC had failed[5]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
+    }
+
+    // action
+
+    private String setActionValues(Action action){
+        return String.format(SQL_ACTION_VALUES, action.getId(), action.getDate(),
+                action.getAction(), action.getUserID(), action.getSecurity().getTicker());
+    }
+
+    private Action resultSetToAction(ResultSet rs) throws SQLException {
+        return new ActionBuilder()
+                .withId(rs.getString(ACTION_COLUMN_ID))
+                .withDate(rs.getString(ACTION_COLUMN_DATE))
+                .withUserID(rs.getString(ACTION_COLUMN_USER_ID))
+                .withAction(ActionType.valueOf(rs.getString(ACTION_COLUMN_ACTION)))
+                .withSecurity(getSecurityByTicker(rs.getString(ACTION_COLUMN_SECURITY)).get())
+                .build();
+    }
+
+
+    public Optional<String> appendAction(ActionType actionType, String userID, String ticker){
+        log.info("Starting DataProviderJDBC appendAction had failed[0]");
+        try {
+            log.info("appendAction[1]: actionType - {}, userID - {}, security - {}", actionType, userID, ticker);
+            Optional<Security> security = getSecurityByTicker(ticker);
+            if (security.isEmpty())
+                throw new Exception(String.format("Security hasn't been found by ticker %s", ticker));
+            Action action = new ActionBuilder().withAction(actionType)
+                    .withUserID(userID).withDate(DATE).withSecurity(security.get()).build();
+            Validator.isValidAction(action);
+            if (!appendOrDeleteUsersSecurity(action))
+                return Optional.empty();
+            log.debug("appendUsers[2]: Creating table");
+            creatingTable(Action.class, SQL_ACTION_COLUMNS);
+            log.debug("appendUsers[3]: Connecting to db");
+            Connection connection = getDbConnection(ACTON_TABLE_NAME);
+            log.debug("appendAction[4]: Appending action");
+            connection.createStatement().executeUpdate(String.format(SQL_INSERT, ACTON_TABLE_NAME)
+                    .concat(setActionValues(action)));
+            return Optional.of(action.getId());
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC appendAction had failed[5]: {}", e.getMessage());
+        }
+        return Optional.empty();
+    }
+
+    public Result<Action> getActionHistory(String userId){
+        List<Action> actionHistory = new ArrayList<>();
+        log.info("Starting DataProviderJDBC getActionHistory[0]");
+        try {
+            Validator.isValid(userId);
+            log.info("getActionHistory[1]: userId - {}", userId);
+            log.debug("getActionHistory[2]: Connecting to db");
+            Connection connection = getDbConnection(ACTON_TABLE_NAME);
+            log.debug("getActionHistory[3]: Getting actions from db");
+            PreparedStatement preparedStatement = connection.prepareStatement(String.format(SQL_SELECT_FROM, ACTON_TABLE_NAME)
+                    .concat(SQL_WHERE).concat(String.format(SQL_ACTION_USER_ID, userId)));
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next())
+                actionHistory.add(resultSetToAction(rs));
+            return new Result<>(SUCCESS, String.format("Number of actions: %d", actionHistory.size()), actionHistory);
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC getActionHistory had failed[]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
+    }
+
+    public Result<Action> deleteActionHistory(String userId){
+        log.info("Starting DataProviderJDBC deleteActionHistory[0]");
+        try {
+            Validator.isValid(userId);
+            log.info("deleteActionHistory[1]: userId - {}", userId);
+            log.debug("deleteActionHistory[2]: Connecting to db");
+            Connection connection = getDbConnection(ACTON_TABLE_NAME);
+            log.debug("deleteActionHistory[3]: Getting all actions");
+            List<Action> actions = getActionHistory(userId).getBody();
+            log.debug("deleteActionHistory[4]: Deleting action history");
+            connection.createStatement().executeUpdate(String.format(SQL_DELETE_FROM, ACTON_TABLE_NAME)
+                    .concat(SQL_WHERE).concat(String.format(SQL_ACTION_USER_ID, userId)));
+            log.debug("deleteActionHistory[5]: Deleting all user's securities");
+            deleteAllUsersSecurity(userId);
+            return new Result<>(SUCCESS, String.format("Number of deleted actions: %d", actions.size()), actions);
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC deleteActionHistory had failed[5]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
+    }
+
+
+
+    private boolean appendOrDeleteUsersSecurity(Action action){
+        log.info("Starting DataProviderJDBC appendUsersSecurity[0]");
+        try {
+            Validator.isValidAction(action);
+            log.info("appendUsersSecurity[1]: action - {}", action);
+            boolean result = processAction(action);
+            log.debug("appendUsersSecurity[2]: Creating table");
+            creatingTable(USERS_SECURITY_TABLE_NAME,"", SQL_USERS_SECURITY_COLUMNS);
+            log.debug("appendUsersSecurity[3]: Connecting to db");
+            Connection connection = getDbConnection(USERS_SECURITY_TABLE_NAME);
+            if (action.getAction().equals(ActionType.DELETE) && result ) {
+                log.debug("appendUsersSecurity[4]: Deleting info");
+                return connection.prepareStatement(String.format(SQL_DELETE_FROM, USERS_SECURITY_TABLE_NAME)
+                        .concat(SQL_WHERE)
+                        .concat(String.format(SQL_ACTION_USER_ID, action.getUserID())).concat(SQL_AND)
+                        .concat(String.format(SQL_ACTION_SECURITY, action.getSecurity().getTicker()))).executeUpdate() > 0;
+            }
+            if (action.getAction().equals(ActionType.ADD) && !result) {
+                log.debug("appendUsersSecurity[5]: Appending info");
+                return connection.createStatement().executeUpdate(String.format(SQL_INSERT, USERS_SECURITY_TABLE_NAME)
+                        .concat(String.format(SQL_USERS_SECURITY_VALUES, action.getUserID(), action.getSecurity().getTicker()))) > 0;
+            }
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC appendUsersSecurity had failed[6]: {}", e.getMessage());
+        }
+        return false;
+    }
+
+    private boolean processAction(Action action) {
+        log.info("Starting DataProviderJDBC processAction[0]");
+        try {
+            Validator.isValidAction(action);
+            log.info("processAction[1]: action - {}", action);
+            log.debug("processAction[2]: Connecting to db");
+            Connection connection = getDbConnection(USERS_SECURITY_TABLE_NAME);
+            PreparedStatement preparedStatement = connection.prepareStatement(String.format(SQL_SELECT_FROM, USERS_SECURITY_TABLE_NAME)
+                    .concat(SQL_WHERE)
+                    .concat(String.format(SQL_ACTION_USER_ID, action.getUserID())).concat(SQL_AND)
+                    .concat(String.format(SQL_ACTION_SECURITY, action.getSecurity().getTicker())));
+            return preparedStatement.executeQuery().next();
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC processAction had failed[3]: {}", e.getMessage());
+        }
+        return false;
+    }
+
+    private Result<Security> getUsersSecurity(String userId){
+        log.info("Starting DataProviderJDBC getUsersSecurity[0]");
+        List<String> tickerList = new ArrayList<>();
+        try {
+            Validator.isValid(userId);
+            log.info("getUsersSecurity[1]: userId - {}", userId);
+            log.debug("getUsersSecurity[2]: Connecting to db");
+            Connection connection = getDbConnection(USERS_SECURITY_TABLE_NAME);
+            log.debug("getUsersSecurity[3]: Getting tickers from db");
+            PreparedStatement preparedStatement = connection.prepareStatement(String.format(SQL_SELECT_FROM, USERS_SECURITY_TABLE_NAME)
+                    .concat(SQL_WHERE).concat(String.format(SQL_ACTION_USER_ID, userId)));
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next())
+                tickerList.add(rs.getString(ACTION_COLUMN_SECURITY));
+            Validator.isValid(tickerList);
+            return new Result<>(SUCCESS, String.format("Number of securities: %d", tickerList.size()), getSecuritiesByTickerList(tickerList).getBody());
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC getUsersSecurity had failed[4]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+        }
+    }
+
+    private void deleteAllUsersSecurity(String userId){
+        log.info("Starting DataProviderJDBC deleteAllUsersSecurity[0]");
+        try {
+            Validator.isValid(userId);
+            log.info("deleteAllUsersSecurity[1]: userId- {}", userId);
+            log.debug("deleteAllUsersSecurity[2]: Connecting to db");
+            Connection connection = getDbConnection(USERS_SECURITY_TABLE_NAME);
+            log.debug("deleteAllUsersSecurity[3]: Deleting all user's securities");
+            connection.prepareStatement(String.format(SQL_DELETE_FROM, USERS_SECURITY_TABLE_NAME)
+                    .concat(SQL_WHERE)
+                    .concat(String.format(SQL_ACTION_USER_ID, userId)))
+                    .executeUpdate();
+        }catch (Exception e){
+            log.error("Function DataProviderJDBC had failed[]: {}", e.getMessage());
+        }
     }
 
 

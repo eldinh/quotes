@@ -130,7 +130,7 @@ public class BaseTest extends TestCase {
     }
 
     protected boolean compareTwoUsers(User user1, User user2){
-        return user1.getId().equals(user2.getId()) && user1.getTickerList().equals(user2.getTickerList())
+        return user1.getId().equals(user2.getId()) && user1.getSecurityList().equals(user2.getSecurityList())
                 && user1.getName().equals(user2.getName());
     }
 

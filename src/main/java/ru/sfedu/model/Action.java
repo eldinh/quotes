@@ -1,10 +1,7 @@
 package ru.sfedu.model;
 
-import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
-import com.opencsv.bean.CsvCustomBindByName;
 import com.opencsv.bean.CsvCustomBindByPosition;
-import ru.sfedu.utils.HistoryCsvConverter;
 import ru.sfedu.utils.IDGenerator;
 import ru.sfedu.utils.SecurityCsvConverter;
 
@@ -86,6 +83,6 @@ public class Action {
                 ", action=" + action +
                 ", userID='" + userID + '\'' +
                 ", security=" + security +
-                '}';
+                "}\n";
     }
 }
