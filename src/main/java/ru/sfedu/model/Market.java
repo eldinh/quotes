@@ -2,8 +2,10 @@ package ru.sfedu.model;
 
 import com.opencsv.bean.CsvBindAndSplitByPosition;
 import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.CsvCustomBindByPosition;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
+import ru.sfedu.utils.SecurityListCsvConverter;
 
 import java.util.List;
 
@@ -12,14 +14,14 @@ public class Market {
     @CsvBindByPosition(position = 0)
     private MarketType marketType;
     @ElementList(inline = true)
-    @CsvBindAndSplitByPosition(position = 1, elementType = String.class, splitOn = " ", collectionType = List.class)
-    private List<String> tickerList;
+    @CsvCustomBindByPosition(position = 1, converter = SecurityListCsvConverter.class)
+    private List<Security> securityList;
 
     public Market(){}
 
-    public Market(MarketType marketType, List<String> tickerList) {
+    public Market(MarketType marketType, List<Security> securityList) {
         this.marketType = marketType;
-        this.tickerList = tickerList;
+        this.securityList = securityList;
     }
 
     public MarketType getMarketType() {
@@ -30,19 +32,19 @@ public class Market {
         this.marketType = marketType;
     }
 
-    public List<String> getTickerList() {
-        return tickerList;
+    public List<Security> getSecurityList() {
+        return securityList;
     }
 
-    public void setTickerList(List<String> tickerList) {
-        this.tickerList = tickerList;
+    public void setSecurityList(List<Security> securityList) {
+        this.securityList = securityList;
     }
 
     @Override
     public String toString() {
         return "Market{" +
                 "marketType=" + marketType +
-                ", tickerList=" + tickerList +
+                ", securityList=" + securityList +
                 '}';
     }
 }

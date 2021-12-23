@@ -18,6 +18,13 @@ public class UserBuilder {
         this.id = id;
     }
 
+    public UserBuilder(User user){
+        this.id = user.getId();
+        this.name = user.getName();
+        this.tickerList = user.getSecurityList();
+        this.actionHistory = user.getActionHistory();
+    }
+
     public UserBuilder withName(String name) {
         this.name = name;
         return this;

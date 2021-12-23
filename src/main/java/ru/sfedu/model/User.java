@@ -4,7 +4,8 @@ import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvCustomBindByPosition;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
-import ru.sfedu.utils.IDGenerator;
+import ru.sfedu.utils.ActionListCsvConverter;
+import ru.sfedu.utils.IdGenerator;
 import ru.sfedu.utils.SecurityListCsvConverter;
 
 import java.io.Serializable;
@@ -22,7 +23,7 @@ public class User implements Serializable {
     @CsvCustomBindByPosition(position = 2, converter = SecurityListCsvConverter.class)
     private List<Security> securityList;
     @ElementList
-    @CsvBindByPosition(position = 3)
+    @CsvCustomBindByPosition(position = 3, converter = ActionListCsvConverter.class)
     private List<Action> actionHistory;
 
     public User(){}
@@ -30,7 +31,7 @@ public class User implements Serializable {
     public User(UserBuilder userBuilder){
         this.id = userBuilder.getId();
         if (userBuilder.getId()== null)
-            this.id = IDGenerator.generate();
+            this.id = IdGenerator.generate();
         this.name = userBuilder.getName();
         this.securityList = userBuilder.getTickerList();
         this.actionHistory = userBuilder.getActionHistory();

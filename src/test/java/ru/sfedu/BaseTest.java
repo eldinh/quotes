@@ -99,9 +99,9 @@ public class BaseTest extends TestCase {
 
 
     protected List<User> users = new ArrayList<>(Arrays.asList(
-            new UserBuilder().withName("Andrew").withActionHistory(new ArrayList<>()).withTickerList(new ArrayList<>(bonds)).build()
-            , new UserBuilder().withName("newAndrew").withActionHistory(new ArrayList<>()).withTickerList(new ArrayList<>(stocks)).build()
-            , new UserBuilder().withName("Dinh").withActionHistory(new ArrayList<>()).withTickerList(new ArrayList<>(List.of(bonds.get(0), stocks.get(0)) )).build()
+            new UserBuilder().withName("Andrew").withActionHistory(new ArrayList<>()).withTickerList(new ArrayList<>()).build()
+            , new UserBuilder().withName("newAndrew").withActionHistory(new ArrayList<>()).withTickerList(new ArrayList<>()).build()
+            , new UserBuilder().withName("Dinh").withActionHistory(new ArrayList<>()).withTickerList(new ArrayList<>()).build()
             , new UserBuilder().withName("Rodion").withActionHistory(new ArrayList<>()).withTickerList(new ArrayList<>()).build()
             , new UserBuilder().withName("Vlad").withActionHistory(new ArrayList<>()).withTickerList(new ArrayList<>()).build()
             , new UserBuilder().withName("Danil").withActionHistory(new ArrayList<>()).withTickerList(new ArrayList<>()).build()

@@ -57,10 +57,10 @@ public class Bond extends Security {
                 ", issueSize=" + issueSize +
                 ", group='" + marketType + '\'' +
                 ", type=" + type + '\'' +
+                ", history =" + history + '\'' +
                 ", matDate='" + matDate + '\'' +
                 ", coupon='" + coupon + '\'' +
                 ", dayToRedemption='" + dayToRedemption + '\'' +
-                ", type='" + type + '\'' +
                 ']';
     }
 }

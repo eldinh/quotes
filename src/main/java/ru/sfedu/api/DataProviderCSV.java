@@ -21,6 +21,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import static ru.sfedu.model.CommandType.*;
+import static ru.sfedu.model.CommandType.DELETE;
 import static ru.sfedu.model.RepositoryType.*;
 import static ru.sfedu.utils.ConfigurationUtil.getConfigurationEntry;
 import static ru.sfedu.Constants.*;
@@ -28,10 +29,15 @@ import static ru.sfedu.Constants.*;
 public class DataProviderCSV implements DataProvider {
     private final Logger log = (Logger) LogManager.getLogger(DataProviderCSV.class.getName());
 
-    private <T extends Security> List<String> getSecurityTicker(List<T> securities){
-        return new ArrayList<>(securities.stream().map(T::getTicker).toList());
-    }
 
+    /**
+     * Method for getting getCSVWriter to write pojo to file
+     * @param filename - file name
+     * @param extraPath - extra pth
+     * @param append - true - append data, false - rewrite data
+     * @return - CSVWriter
+     * @throws Exception - Exception
+     */
     private CSVWriter getCSVWriter(String filename, String extraPath, boolean append) throws Exception {
         log.info("Starting DataProviderCSV getCSVWriter[0]");
         try {
@@ -49,107 +55,169 @@ public class DataProviderCSV implements DataProvider {
         }
     }
 
+    /**
+     * Method for getting getCSVWriter to write pojo to file
+     * @param filename - file name
+     * @param append - true - append data, false - rewrite data
+     * @return - CSVWriter
+     * @throws Exception - Exception
+     */
     private CSVWriter getCSVWriter(String filename, boolean append) throws Exception {
         return getCSVWriter(filename, "",append);
     }
+
+
+    /**
+     * Method for creating getBeanToCSVBuilder to write pojo to file
+     * @param writer - CSVWriter
+     * @param <T> - Type of bean
+     * @return StatefulBeanToCsvBuilder
+     * @throws Exception - Exception
+     */
     private <T> StatefulBeanToCsvBuilder<T> getBeanToCSVBuilder(CSVWriter writer) throws Exception {
-        log.info("Starting DataProviderCSV getBeanToCSVBuilder[5]");
+        log.info("Starting DataProviderCSV getBeanToCSVBuilder[0]");
         try{
-            log.info("getBeanToCSVBuilder[6]: writer - {}", writer);
+            log.info("getBeanToCSVBuilder[1]: writer - {}", writer);
             return new StatefulBeanToCsvBuilder<T>(writer)
                     .withApplyQuotesToAll(false)
                     .withOrderedResults(true)   //
                     .withLineEnd(writer.DEFAULT_LINE_END);
         }catch (Exception e){
-            log.error("Function DataProviderCSV getBeanToCSVBuilder had failed[7]: {}", e.getMessage());
+            log.error("Function DataProviderCSV getBeanToCSVBuilder had failed[2]: {}", e.getMessage());
             throw new Exception(e);
         }
     }
 
+
+    /**
+     * Method for writing list of beans to file
+     * @param pojoList - list of beans to write
+     * @param filename - file name
+     * @param append - true to append data, false - rewrite data
+     * @param <T> - Type of bean
+     * @throws Exception - Exception
+     */
     private <T> void write(List<T> pojoList, String filename, boolean append) throws Exception {
-        log.info("Starting DataProviderCSV write[8]");
+        log.info("Starting DataProviderCSV write[0]");
         try {
-            log.info("write[9]: pojoList - {}, filename - {}", pojoList, filename);
-            log.debug("write[10]: Creating csvWriter");
+            log.info("write[1]: pojoList - {}, filename - {}", pojoList, filename);
+            log.debug("write[2]: Creating csvWriter");
             CSVWriter csvWriter = getCSVWriter(filename, append);
-            log.debug("write[11]: Creating StatefulBean");
+            log.debug("write[3]: Creating StatefulBean");
             StatefulBeanToCsvBuilder<T> beanToCsvBuilder = getBeanToCSVBuilder(csvWriter);
             StatefulBeanToCsv<T> beanToCsv = beanToCsvBuilder.build();
-            log.debug("write[12]: Writing to csv file");
+            log.debug("write[4]: Writing to csv file");
             beanToCsv.write(pojoList);
-            log.debug("write[13]: Closing CSVWriter");
+            log.debug("write[5]: Closing CSVWriter");
             csvWriter.close();
-            log.debug("write[14]: Writing history");
+            log.debug("write[6]: Writing history");
         } catch (Exception e){
-            log.error("Function DataProviderCSV write had failed[14]: {}",e.getMessage());
+            log.error("Function DataProviderCSV write had failed[7]: {}",e.getMessage());
             throw new Exception(e);
         }
     }
 
+    /**
+     * Method for writing list of beans to file
+     * @param pojoList - list of beans to write
+     * @param pojoClass - file name
+     * @param <T> - Type of bean
+     * @throws Exception - Exception
+     */
     private <T> void write(List<T> pojoList, Class<T> pojoClass) throws Exception {
         write(pojoList, pojoClass.getSimpleName().toUpperCase(), false);
     }
 
-    private <T> void write(List<T> pojoList, Class<T> pojoClass, boolean append) throws Exception {
-        write(pojoList, pojoClass.getSimpleName().toUpperCase(), append);
-    }
-
-    private <T> void write(T pojo, String filename, boolean append) throws Exception{
-        write(new ArrayList<>(List.of(pojo)), filename, append);
-    }
-
+    /**
+     * Method for writing bean to file
+     * @param pojo - pojo to write
+     * @param pojoClass - file name
+     * @param append - true to append data, false - rewrite data
+     * @param <T> - Type of bean
+     * @throws Exception - Exception
+     */
     private <T> void write(T pojo, Class<T> pojoClass, boolean append) throws Exception {
-        write(pojo, pojoClass.getSimpleName().toUpperCase(), append);
+        write(new ArrayList<>(List.of(pojo)), pojoClass.getSimpleName().toUpperCase(), append);
     }
 
+
+    /**
+     * Method for getting CSVReader to read a bean file
+     * @param filename - filename
+     * @param extraPath - extra path
+     * @return CSVReader
+     * @throws Exception - Exception
+     */
     private CSVReader getCSWReader(String filename, String extraPath) throws Exception {
-        log.info("Starting DataProviderCSV getCSVReader[15]");
+        log.info("Starting DataProviderCSV getCSVReader[0]");
         try {
-            log.info("getCSVWriter[16]: filename - {}, extraPath - {}", filename, extraPath);
-            log.debug("Creating FileReader[17]");
+            log.info("getCSVWriter[1]: filename - {}, extraPath - {}", filename, extraPath);
+            log.debug("Creating FileReader[2]");
             FileReader reader = new FileReader(getConfigurationEntry(CSV_PATH)
                     .concat(extraPath).concat(filename)
                     .concat(getConfigurationEntry(CSV_FILE_EXTENTION)));
-            log.debug("Creating CSWReader[18]");
+            log.debug("Creating CSWReader[3]");
             return new CSVReader(reader);
         }catch (Exception e){
-            log.error("Function DataProviderCSV getCSWReader had failed[19]: {}", e.getMessage());
+            log.error("Function DataProviderCSV getCSWReader had failed[4]: {}", e.getMessage());
             throw new Exception(e);
         }
     }
 
+    /**
+     * Generic method for creating CsvToBeanBuilder to read a bean file
+     * @param filename - filename
+     * @param extraPath - extra path
+     * @param <T> - Type of bean
+     * @return CsvToBeanBuilder
+     * @throws Exception - Exception
+     */
     private <T> CsvToBeanBuilder<T> getCsvToBeanBuilder(String filename, String extraPath) throws Exception {
-        log.info("Starting DataProviderCSV getCsvToBeanBuilder[20]");
+        log.info("Starting DataProviderCSV getCsvToBeanBuilder[0]");
         try
         {
-            log.info("getCsvToBeanBuilder[21]: filename - {}, extraPath - {}", filename, extraPath);
-            log.debug("Creating CSVReader[22]");
+            log.info("getCsvToBeanBuilder[1]: filename - {}, extraPath - {}", filename, extraPath);
+            log.debug("Creating CSVReader[2]");
             CSVReader reader = getCSWReader(filename,extraPath);
-            log.debug("Creating CsvToBeanBuilder[23]");
+            log.debug("Creating CsvToBeanBuilder[3]");
             return new CsvToBeanBuilder<>(reader);
         }catch (Exception e){
-            log.error("Function DataProviderCSV CsvToBeanBuilder had failed[24]: {}", e.getMessage());
+            log.error("Function DataProviderCSV CsvToBeanBuilder had failed[4]: {}", e.getMessage());
             throw new Exception(e);
         }
     }
 
+    /**
+     * Generic method for creating CsvToBeanBuilder to read a bean file
+     * @param bean - filename
+     * @param <T> - Type of bean
+     * @return CsvToBeanBuilder
+     * @throws Exception - Exception
+     */
     private <T> CsvToBeanBuilder<T> getCsvToBeanBuilder(Class<T> bean) throws Exception {
         return getCsvToBeanBuilder(bean.getSimpleName().toUpperCase(), "");
     }
 
+    /**
+     * Method for reading data from file and converting it into list of beans
+     * @param pojoClass - name of file
+     * @param <T> - Type of bean
+     * @return List<T> - List of beans
+     * @throws Exception - Exception
+     */
     private <T> List<T> read(Class<T> pojoClass) throws Exception {
-        log.info("Starting DataProviderCSV read[25]");
+        log.info("Starting DataProviderCSV read[0]");
         try {
-            log.info("write[26]: pojoClass - {}", pojoClass);
-            log.debug("read[27]: creating csvToBean");
+            log.info("write[1]: pojoClass - {}", pojoClass);
+            log.debug("read[2]: creating csvToBean");
             CsvToBeanBuilder<T> csvToBeanBuilder = getCsvToBeanBuilder(pojoClass);
             CsvToBean<T> csvToBean = csvToBeanBuilder
                     .withType(pojoClass)
                     .build();
-            log.debug("Parse CSVToBean[28]");
+            log.debug("Parse CSVToBean[3]");
             return new ArrayList<>(csvToBean.parse());
         }catch (Exception e){
-            log.error("Function read had failed[29]: {}", e.getMessage());
+            log.error("Function read had failed[4]: {}", e.getMessage());
             throw new Exception(e);
         }
     }
@@ -158,181 +226,264 @@ public class DataProviderCSV implements DataProvider {
     // market
     @Override
     public boolean appendOrUpdateMarket(MarketType marketType){
-        log.info("Starting DataProviderCSV appendOrUpdateMarket[]");
+        log.info("Starting DataProviderCSV appendOrUpdateMarket[0]");
         try {
             Validator.isValid(marketType);
-            log.info("appendOrUpdateMarket[]: marketType - {}", marketType);
-            log.debug("appendOrUpdateMarket[]: Getting all markets");
+            log.info("appendOrUpdateMarket[1]: marketType - {}", marketType);
+            log.debug("appendOrUpdateMarket[2]: Getting all markets");
             List<Market> markets = new ArrayList<>(getMarkets().getBody().stream().filter(x -> !x.getMarketType().equals(marketType)).toList());
             Market market = null;
             switch (marketType){
-                case SHARES -> market = new Market(MarketType.SHARES, getStocks().getBody().stream().map(Security::getTicker).toList());
-                case BONDS -> market = new Market(MarketType.BONDS, getBonds().getBody().stream().map(Security::getTicker).toList());
+                case SHARES -> market = new Market(MarketType.SHARES, new ArrayList<>(getStocks().getBody()));
+                case BONDS -> market = new Market(MarketType.BONDS, new ArrayList<>(getBonds().getBody()));
             }
-            log.debug("appendOrUpdateMarket[]: Updating markets");
+            log.debug("appendOrUpdateMarket[3]: Updating markets");
             markets.add(market);
-            write(markets, Market.class, false);
+            write(markets, Market.class);
             return true;
         }catch (Exception e){
-            log.error("Function DataProviderCSV appendOrUpdateMarket had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV appendOrUpdateMarket had failed[4]: {}", e.getMessage());
         }
         return false;
     }
+
     @Override
     public Result<Market> getMarkets(){
-        log.info("Starting DataProviderCSV getMarkets");
+        log.info("Starting DataProviderCSV getMarkets[0]");
         try {
-            log.debug("getMarkets[]: Getting all markets from file");
+            log.debug("getMarkets[1]: Getting all markets from file");
             List<Market> markets = read(Market.class);
             return new Result<>(SUCCESS, String.format("Number of markets: %d", markets.size()), markets);
         }catch (Exception e){
-            log.error("Function DataProviderCSV getMarkets had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV getMarkets had failed[2]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
+
     @Override
     public Optional<Market> getMarket(MarketType marketType){
-        log.info("Starting DataProviderCSV getMarket");
+        log.info("Starting DataProviderCSV getMarket[0]");
         try {
             Validator.isValid(marketType);
-            log.info("getMarket[]: marketType - {}", marketType);
+            log.info("getMarket[1]: marketType - {}", marketType);
             log.debug("getMarket[]: Getting all markets");
             List<Market> markets = read(Market.class);
-            log.debug("getMarket[]: Getting {}", marketType);
+            log.debug("getMarket[2]: Getting {}", marketType);
             return markets.stream().filter(x -> x.getMarketType().equals(marketType)).findFirst();
         }catch (Exception e){
-            log.error("Function DataProviderCSV getMarket had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV getMarket had failed[3]: {}", e.getMessage());
         }
         return Optional.empty();
     }
 
     // securities
 
+    /**
+     * Method for getting security's ticker
+     * @param securities - list of securities
+     * @param <T> - Type of securities
+     * @return List<String> - list of security's tickers
+     */
+    private <T extends Security> List<String> getSecurityTicker(List<T> securities){
+        return new ArrayList<>(securities.stream().map(T::getTicker).toList());
+    }
+
+    /**
+     * Generic method for appending security to db
+     * @param list - list of securities to append
+     * @param security - class that function work with(securities type)
+     * @param marketType - security's market
+     * @param <T> - Type of securities
+     * @return Result<T extends Security> - (Status, Message, Response)
+     * Status
+     * Message
+     * Response - list of securities that haven't been appended
+     */
     private <T extends Security> Result<T> appendSecurities(List<T> list, Class<T> security, MarketType marketType) {
-        log.info("Starting DataProviderCSV appendSecurities[]");
+        log.info("Starting DataProviderCSV appendSecurities[0]");
         List<T> oldList = new ArrayList<>(getSecurities(security).getBody());
         try
         {
             Validator.isValidSecurity(list);
-            log.info("appendSecurities[]: list - {}, security - {}", list, security);
+            log.info("appendSecurities[1]: list - {}, security - {}", list, security);
             List<String> tickerList = oldList.stream().map(T::getTicker).toList();
-            log.debug("appendSecurities[]: Getting securities to append");
-            List<T> securityToAppend = list.stream().filter(x -> !tickerList.contains(x.getTicker())).toList();
-            List<T> response = list.stream().filter(x -> tickerList.contains(x.getTicker())).toList();
-            log.debug("appendSecurities[]: Writing to csv file");
-            write(securityToAppend, security, true);
-            securityToAppend.forEach(x -> appendOrUpdate(x.getHistory(), x.getTicker()));
+            log.debug("appendSecurities[2]: Getting securities to append");
+            List<T> securityToAppend = new ArrayList<>(list.stream().filter(x -> Collections.binarySearch(tickerList, x.getTicker()) < 0).toList());
+            List<T> response = new ArrayList<>(list.stream().filter(x -> Collections.binarySearch(tickerList, x.getTicker()) >= 0).toList());
+            log.debug("appendSecurities[3]: Writing to csv file");
+            write(Stream.concat(securityToAppend.stream(), oldList.stream()).sorted(Comparator.comparing(T::getTicker)).toList(), security);
+            log.debug("appendSecurities[4]: Appending or updating security's history");
+            securityToAppend.forEach(x -> appendOrUpdateSecurityHistory(x.getHistory(), x.getTicker()));
+            log.debug("appendSecurities[5]: Updating or appending market {}", marketType);
             appendOrUpdateMarket(marketType);
             if (response.isEmpty())
                 return new Result<>(SUCCESS, "Securities have been appended successfully", response);
             return new Result<>(WARN, String.format("Number of securities that haven't been appended: %d", response.size()), response);
         } catch (Exception e) {
-            log.error("Function DataProviderCSV appendSecurities had crashed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV appendSecurities had crashed[6]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(),new ArrayList<>());
         }
     }
 
+    /**
+     * Generic method for getting securities
+     * @param securityClass - class that function work with(securities type)
+     * @param <T> - Type of securities
+     * @return Result<T extends Security> - (Status, Message, Response)
+     * Status
+     * Message
+     * Response - list of all securities from database
+     */
     private <T extends Security> Result<T> getSecurities(Class<T>securityClass) {
-        log.info("Starting DataProviderCSV getSecurities[]");
+        log.info("Starting DataProviderCSV getSecurities[0]");
         try
         {
-            log.info("getSecurities[]: securityClass - {}", securityClass);
+            log.info("getSecurities[1]: securityClass - {}", securityClass);
             List<T> response = new ArrayList<>(read(securityClass));
             return new Result<>(SUCCESS, String.format("Number of securities in file: %d", response.size()), response);
         } catch (Exception e) {
-            log.error("Function DataProviderCSV getSecurities had crashed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV getSecurities had crashed[2]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
+    /**
+     * Generic method for deleting security by ticker
+     * @param ticker - security's ticker
+     * @param securityClass  - class that function work with(securities type)
+     * @param <T> - Type of securities
+     * @return - Optional<T extends Security> security that was deleted if it existed
+     */
     private <T extends Security> Optional<T> deleteSecurityByTicker(String ticker, Class<T> securityClass)  {
-        log.info("Starting DataProviderCSV deleteSecurityByTicker[]");
+        log.info("Starting DataProviderCSV deleteSecurityByTicker[0]");
         try {
-            log.info("deleteSecurityByTicker[]: ticker - {}, securityClass - {}",ticker, securityClass);
-            log.debug("deleteSecurityByTicker[]: GetSecurity from csv file[38]");
+            log.info("deleteSecurityByTicker[1]: ticker - {}, securityClass - {}",ticker, securityClass);
+            log.debug("deleteSecurityByTicker[2]: GetSecurity from csv file[38]");
             List<T> securities = new ArrayList<>(read(securityClass));
-            log.debug("deleteSecurityByTicker[]: Search a {} by ticker {}",securityClass.getSimpleName(), ticker);
+            log.debug("deleteSecurityByTicker[3]: Search a {} by ticker {}",securityClass.getSimpleName(), ticker);
             Optional<T> sec = securities.stream().filter(x -> x.getTicker().equals(ticker)).findFirst();
             if(sec.isPresent()){
                 securities.remove(sec.get());
+                log.debug("deleteSecurityByTicker[4]: Updating securities");
                 write(securities, securityClass);
+                log.debug("deleteSecurityByTicker[5]: Deleting security's history");
                 deleteAllSecurityHistories(ticker);
                 MongoHistory.save(DELETE, CSV, sec.get());
             } else
-                log.warn("deleteSecurityByTicker[]: {} wasn't found by ticker {}",securityClass.getSimpleName(), ticker);
+                log.warn("deleteSecurityByTicker[6]: {} wasn't found by ticker {}",securityClass.getSimpleName(), ticker);
             return sec;
         }catch (Exception e){
-            log.error("Function DataProviderCSV deleteSecurityByTicker has crashed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV deleteSecurityByTicker has crashed[7]: {}", e.getMessage());
         }
         return Optional.empty();
     }
 
-    private <T extends Security> Result<T> deleteAllSecurities(Class<T> securityClass)  {
-        log.info("Starting DataProviderCSV deleteAllSecurities[]");
+    /**
+     * Generic method for deleting all securities
+     * @param securityClass - class that function work with(securities type)
+     * @param marketType - security's market
+     * @param <T> - Type of securities
+     * @return Result<T extends Security> - (Status, Message, Response)
+     * Status
+     * Message
+     * Response - list of securities that have been deleted
+     */
+    private <T extends Security> Result<T> deleteAllSecurities(Class<T> securityClass, MarketType marketType)  {
+        log.info("Starting DataProviderCSV deleteAllSecurities[0]");
         try {
-            log.info("deleteAllSecurities[]: securityClass - {}", securityClass);
-            log.debug("deleteAllSecurities[]: get securities from file");
+            log.info("deleteAllSecurities[1]: securityClass - {}", securityClass);
+            log.debug("deleteAllSecurities[2]: get securities from file");
             List<T> securityList = new ArrayList<>(read(securityClass));
-            log.debug("deleteAllSecurities[]: delete all securities");
+            log.debug("deleteAllSecurities[3]: delete all securities");
             write(new ArrayList<>(), securityClass);
+            log.debug("deleteAllSecurities[4]: deleting all security's history");
             deleteAllSecurityHistories(securityList.stream().map(T::getTicker).toList());
+            appendOrUpdateMarket(marketType);
             MongoHistory.save(DELETE, CSV, securityList);
             return new Result<>(SUCCESS, String.format("Number of deleted securities: %d", securityList.size()), securityList);
         }catch (Exception e){
-            log.error("Function DataProviderCSV deleteAllSecurities had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV deleteAllSecurities had failed[5]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
+    /**
+     * Generic method for getting security by ticker
+     * @param ticker - security's ticker
+     * @param securityClass - class that function work with(securities type)
+     * @param <T> - Type of securities
+     * @return Optional<T extends Security> - Security if it exists
+     */
     private <T extends Security> Optional<T> getSecurityByTicker(String ticker, Class<T> securityClass)  {
-        log.info("Starting DataProviderCSV getSecurityByTicker[]");
-        log.info("getSecurityByTicker[]: ticker - {}, securityClass - {}", ticker, ticker.getClass());
+        log.info("Starting DataProviderCSV getSecurityByTicker[0]");
+        log.info("getSecurityByTicker[1]: ticker - {}, securityClass - {}", ticker, ticker.getClass());
         try {
-            log.debug("getSecurityByTicker[]: Get {} from CSV[]", securityClass.getSimpleName());
+            log.debug("getSecurityByTicker[2]: Get {} from CSV[]", securityClass.getSimpleName());
             List<T> securityList = new ArrayList<>(read(securityClass));
-            log.debug("getSecurityByTicker[]: Search for a {} by ticker {}[]", securityClass.getSimpleName(), ticker);
+            log.debug("getSecurityByTicker[3]: Search for a {} by ticker {}[]", securityClass.getSimpleName(), ticker);
             return securityList.stream().filter(x -> x.getTicker().equals(ticker)).findFirst();
         }catch (Exception e){
-            log.error("Function DataProviderCSV getSecurityByTicker had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV getSecurityByTicker had failed[4]: {}", e.getMessage());
         }
         return Optional.empty();
     }
 
+    /**
+     * Generic method for updating securities by their id depending on their type
+     * @param securities - list of securities to update
+     * @param securityClass - class that function work with(securities type)
+     * @param <T> - Type of securities
+     * @return Result<T extends Security> - (Status, Message, Response)
+     * Status
+     * Message
+     * Response - list of securities that haven't been updated
+     */
     private <T extends Security> Result<T> updateSecurities(List<T> securities, Class<T> securityClass)  {
-        log.info("Starting DataProviderCSV updateSecurities[]");
+        log.info("Starting DataProviderCSV updateSecurities[0]");
         try {
             Validator.isValidSecurity(securities);
-            log.info("updateSecurities[]: securities - {}, securityClass - {}", securities, securityClass);
+            log.info("updateSecurities[1]: securities - {}, securityClass - {}", securities, securityClass);
             List<T> oldList = new ArrayList<>(read(securityClass));
             List<String> tickerList = getSecurityTicker(oldList);
-            List<T> response = new ArrayList<>(securities.stream().filter(x -> !tickerList.contains(x.getTicker())).toList());
-            log.debug("updateSecurities[]: Update csv file: {}", securityClass.getSimpleName());
-            List<T> securityToUpdate = securities.stream().filter(x -> tickerList.contains(x.getTicker())).toList();
+            List<T> response = new ArrayList<>(securities.stream().filter(x -> Collections.binarySearch(tickerList, x.getTicker()) < 0).toList());
+            log.debug("updateSecurities[2]: Update csv file: {}", securityClass.getSimpleName());
+            List<T> securityToUpdate = new ArrayList<>(securities.stream().filter(x -> Collections.binarySearch(tickerList, x.getTicker()) >= 0).toList());
             write(Stream.concat(securityToUpdate.stream(), oldList.stream())
                     .distinct().sorted(Comparator.comparing(T::getTicker)).toList(), securityClass);
-            securityToUpdate.forEach(x -> appendOrUpdate(x.getHistory(), x.getTicker()));
+            log.debug("updateSecurities[3]: Updating security's history");
+            securityToUpdate.forEach(x -> appendOrUpdateSecurityHistory(x.getHistory(), x.getTicker()));
             MongoHistory.save(UPDATE, CSV, securityToUpdate);
             if (response.isEmpty())
                 return new Result<>(SUCCESS, "Securities have been updated successfully", response);
             return new Result<>(WARN, String.format("Number of securities that haven't been updated: %d", response.size()),response);
         } catch (Exception e) {
-            log.error("Function DataProviderCSV updateUsers had crashed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV updateUsers had crashed[4]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
+    /**
+     * Generic function for getting securities by ticker list
+     * @param tickers - ticker list
+     * @param securityClass - class that function work with
+     * @param <T> - Type of securities
+     * @return Result<T extends Security> - (Status, Message, Response)
+     * Status
+     * Message
+     * Response - list of securities
+     */
     private <T extends Security> Result<T> getSecuritiesByTickerList(List<String> tickers, Class<T> securityClass){
-        log.info("Starting DataProviderCSV getSecuritiesByTickerList[]");
+        log.info("Starting DataProviderCSV getSecuritiesByTickerList[0]");
         try {
             Validator.isValid(tickers);
-            log.info("getSecuritiesByTickerList[]: tickers - {}, securityClass - {}", tickers, securityClass);
-            log.debug("getSecuritiesByTickerList[]: Getting all tickers");
+            log.info("getSecuritiesByTickerList[1]: tickers - {}, securityClass - {}", tickers, securityClass);
+            log.debug("getSecuritiesByTickerList[2]: Getting all tickers");
             List<T> securityList = getSecurities(securityClass).getBody();
-            log.debug("getSecuritiesByTickerList[]: Filtering security list");
+            log.debug("getSecuritiesByTickerList[3]: Filtering security list");
             List<T> response = new ArrayList<>(securityList.stream().filter(x -> tickers.contains(x.getTicker())).toList());
             return new Result<>(SUCCESS, String.format("Number of securities: %d", response.size()), response);
         }catch (Exception e){
-            log.error("Function DataProviderCSV had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV had failed[4]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
@@ -380,12 +531,12 @@ public class DataProviderCSV implements DataProvider {
 
     @Override
     public Result<Stock> deleteAllStocks()  {
-        return deleteAllSecurities(Stock.class);
+        return deleteAllSecurities(Stock.class,MarketType.SHARES);
     }
 
     @Override
     public Result<Bond> deleteAllBonds()  {
-        return deleteAllSecurities(Bond.class);
+        return deleteAllSecurities(Bond.class, MarketType.BONDS);
     }
 
     @Override
@@ -398,64 +549,110 @@ public class DataProviderCSV implements DataProvider {
         return getSecurityByTicker(ticker, Bond.class);
     }
 
-    public Result<Stock> getStocksByTickerList(List<String> ticker){
+
+    /**
+     * Method for getting list of stocks by ticker list
+     * @param ticker - ticker list
+     * @return - list of stocks
+     */
+    private Result<Stock> getStocksByTickerList(List<String> ticker){
         return getSecuritiesByTickerList(ticker, Stock.class);
     }
 
-    public Result<Bond> getBondsByTickerList(List<String> ticker){
+    /**
+     * Method for getting list of bonds by ticker list
+     * @param ticker - ticker list
+     * @return - list of bonds
+     */
+    private Result<Bond> getBondsByTickerList(List<String> ticker){
         return getSecuritiesByTickerList(ticker, Bond.class);
     }
 
+
+    //
     public Result<Security> getSecuritiesByTickerList(List<String> tickers){
-        log.info("Starting DataProviderCSV getSecuritiesByTickerList[]");
+        log.info("Starting DataProviderCSV getSecuritiesByTickerList[0]");
         try {
-            log.info("getSecuritiesByTickerList[]: {}", tickers);
-            log.debug("getSecuritiesByTickerList[]: Getting securities from markets");
+            Validator.isValid(tickers);
+            log.info("getSecuritiesByTickerList[1]: {}", tickers);
+            log.debug("getSecuritiesByTickerList[2]: Getting securities from markets");
             List<Security> response = new ArrayList<>();
             response.addAll(getStocksByTickerList(tickers).getBody());
             response.addAll(getBondsByTickerList(tickers).getBody());
             return new Result<>(SUCCESS, String.format("Number of securities: %d", response.size()), response);
         }catch (Exception e){
-            log.error("Function DataProviderCSV getSecuritiesByTickerList had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV getSecuritiesByTickerList had failed[3]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
+    }
+
+    @Override
+    public Optional<Security> getSecurityByTicker(String ticker){
+        log.info("Starting DataProviderCSV getSecurityByTicker[0]");
+        try {
+            Validator.isValid(ticker);
+            log.info("getSecurityByTicker[1]: ticker - {}", ticker);
+            log.debug("getSecurityByTicker[2]: Getting security by ticker {}", ticker);
+            Optional<Stock> security = getStockByTicker(ticker);
+            if (security.isPresent())
+                return Optional.of(security.get());
+            Optional<Bond> bond = getBondByTicker(ticker);
+            if (bond.isPresent())
+                return Optional.of(bond.get());
+        }catch (Exception e){
+            log.error("Function DataProviderCSV getSecurityByTicker had failed[3]: {}", e.getMessage());
+        }
+        return Optional.empty();
     }
 
 
     //security history
 
+    /**
+     * Method for appending security's history to file, method will create file for each security if it doesn't exist
+     * @param securityList - list of security's history to append
+     * @param ticker - name of file
+     * @param append - status of append(true - append, false rewriting file)
+     * @throws Exception - Exception
+     */
     private void writeHistory(List<SecurityHistory> securityList, String ticker, boolean append) throws Exception {
-        log.info("Starting DataProviderCSV write[]");
+        log.info("Starting DataProviderCSV write[0]");
         try {
-            log.info("writeHistory[]: securityList - {}, ticker - {}", securityList, ticker);
-            log.debug("writeHistory[]: Creating csvWriter[]");
+            log.info("writeHistory[1]: securityList - {}, ticker - {}", securityList, ticker);
+            log.debug("writeHistory[2]: Creating csvWriter");
             CSVWriter csvWriter = getCSVWriter(ticker.toUpperCase(), SECURITY_HISTORY_PATH, append);
-            log.debug("writeHistory[]: Creating StatefulBean");
+            log.debug("writeHistory[3]: Creating StatefulBean");
             StatefulBeanToCsvBuilder<SecurityHistory> beanToCsvBuilder = getBeanToCSVBuilder(csvWriter);
             StatefulBeanToCsv<SecurityHistory> beanToCsv = beanToCsvBuilder.build();
-            log.debug("writeHistory[]: Writing to csv file");
+            log.debug("writeHistory[4]: Writing to csv file");
             beanToCsv.write(securityList);
-            log.debug("writeHistory[]: Closing CSVWriter");
+            log.debug("writeHistory[5]: Closing CSVWriter");
             csvWriter.close();
         } catch (Exception e){
-            log.error("Function DataProviderCSV writeHistory had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV writeHistory had failed[6]: {}", e.getMessage());
             throw new Exception(e);
         }
     }
 
+    /**
+     * Method for reading security's history file
+     * @param ticker - name of file
+     * @return - List<SecurityHistory> - list of security's history
+     * @throws Exception - file doesn't exist
+     */
     private List<SecurityHistory> readHistory(String ticker) throws Exception {
-        log.info("Starting DataProviderCSV readHistory[]");
+        log.info("Starting DataProviderCSV readHistory[0]");
         try {
-            log.info("readHistory[]: ticker - {}", ticker);
-            log.debug("readHistory[]: creating csvToBean");
+            log.info("readHistory[1]: ticker - {}", ticker);
+            log.debug("readHistory[2]: creating csvToBean");
             CsvToBeanBuilder<SecurityHistory> csvToBeanBuilder = getCsvToBeanBuilder(ticker, SECURITY_HISTORY_PATH);
             CsvToBean<SecurityHistory> csvToBean = csvToBeanBuilder
                     .withType(SecurityHistory.class)
                     .build();
-            log.debug("readHistory:[] Parse CSVToBean");
+            log.debug("readHistory:[3] Parse CSVToBean");
             return csvToBean.parse();
         }catch (Exception e){
-            log.error("Function readHistory had failed[]: {}", e.getMessage());
+            log.error("Function readHistory had failed[4]: {}", e.getMessage());
             throw new Exception(e);
         }
     }
@@ -463,48 +660,48 @@ public class DataProviderCSV implements DataProvider {
     @Override
     public Result<SecurityHistory> appendSecurityHistory(List<SecurityHistory> securityHistories, String ticker){
         List<SecurityHistory> oldList = getSecurityHistories(ticker).getBody();
-        log.info("Starting DataProviderCSV appendSecuritiesHistory");
+        log.info("Starting DataProviderCSV appendSecuritiesHistory[0]");
         try {
-            log.info("appendSecuritiesHistory[]: securityHistories - {}, ticker - {}", securityHistories, ticker);
+            log.info("appendSecuritiesHistory[1]: securityHistories - {}, ticker - {}", securityHistories, ticker);
             Validator.isValidSecurityHistory(securityHistories, ticker);
-            log.debug("appendSecuritiesHistory[]: Data filtering");
+            log.debug("appendSecuritiesHistory[2]: Data filtering");
             List<String> dateList = oldList.stream().map(SecurityHistory::getDate).toList();
             List<SecurityHistory> historyToAppend = securityHistories.stream().filter(x -> !dateList.contains(x.getDate())).toList();
             List<SecurityHistory> response = securityHistories.stream().filter(x -> dateList.contains(x.getDate())).toList();
-            log.debug("appendSecuritiesHistory[]: write to file");
+            log.debug("appendSecuritiesHistory[3]: write to file");
             writeHistory(historyToAppend, ticker, true);
             if (response.isEmpty())
                 return new Result<>(SUCCESS, "SecurityHistories have been appended successfully", response);
             return new Result<>(WARN, String.format("Number of SecurityHistories that haven't been appended: %d", response.size()), response);
         }catch (Exception e){
-            log.error("Function DataProviderJDBC appendSecurityHistory had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderJDBC appendSecurityHistory had failed[4]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
     @Override
     public Result<SecurityHistory> getSecurityHistories(String ticker) {
-        log.info("Starting DataProviderCSV getSecurityHistories[]");
+        log.info("Starting DataProviderCSV getSecurityHistories[0]");
         try {
             List<SecurityHistory> securityHistories = readHistory(ticker);
             return new Result<>(SUCCESS, String.format("Number of histories in file: %d", securityHistories.size()), securityHistories);
         } catch (Exception e) {
-            log.error("Function DataProviderCSV getSecurityHistory had crashed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV getSecurityHistory had crashed[1]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
     @Override
     public SecurityHistory getSecurityHistoryByDate(String ticker, String date){
-        log.info("Starting DataProviderCSV getSecurityHistoryByDate[]");
+        log.info("Starting DataProviderCSV getSecurityHistoryByDate[0]");
         try {
-            log.info("getSecurityHistoryByDate[]: ticker - {}, date - {}", ticker, date);
-            log.debug("getSecurityHistoryByDate[]: security story search by date");
+            log.info("getSecurityHistoryByDate[1]: ticker - {}, date - {}", ticker, date);
+            log.debug("getSecurityHistoryByDate[2]: security story search by date");
             Optional<SecurityHistory> securityHistory = readHistory(ticker).stream().filter(x -> x.getDate().equals(date)).findFirst();
             if(securityHistory.isPresent())
                 return securityHistory.get();
         }catch (Exception e){
-            log.error("Function DataProviderCSV getSecurityHistoryByDate had failed: {}", e.getMessage());
+            log.error("Function DataProviderCSV getSecurityHistoryByDate had failed[3]: {}", e.getMessage());
         }
         return new SecurityHistoryBuilder().empty(date, ticker);
     }
@@ -516,13 +713,13 @@ public class DataProviderCSV implements DataProvider {
 
     @Override
     public Result<SecurityHistory> deleteAllSecurityHistories(String ticker){
-        log.info("Starting DataProviderCSV deleteAllSecurityHistories[]");
+        log.info("Starting DataProviderCSV deleteAllSecurityHistories[0]");
         try {
-            log.info("deleteAllSecurityHistories[]: ticker - {}", ticker);
+            log.info("deleteAllSecurityHistories[1]: ticker - {}", ticker);
             Result<SecurityHistory> securityHistoryResult = getSecurityHistories(ticker);
             if (securityHistoryResult.getStatus().equals(FAIL))
                 throw new Exception(String.format("Database %s wasn't found", ticker));
-            log.debug("deleteAllSecurityHistories[]: Delete all security histories");
+            log.debug("deleteAllSecurityHistories[2]: Delete all security histories");
             File file = new File(getConfigurationEntry(CSV_PATH)
                     .concat(SECURITY_HISTORY_PATH).concat(ticker)
                     .concat(getConfigurationEntry(CSV_FILE_EXTENTION)));
@@ -530,7 +727,7 @@ public class DataProviderCSV implements DataProvider {
                 throw new Exception("Processing of deleting had failed");
             return new Result<>(SUCCESS, String.format("Num of deleted history: %d", securityHistoryResult.getBody().size()), securityHistoryResult.getBody());
         }catch (Exception e){
-            log.error("Function DataProviderCSV deleteAllSecurityHistories had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV deleteAllSecurityHistories had failed[3]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
 
@@ -542,22 +739,22 @@ public class DataProviderCSV implements DataProvider {
     }
 
     @Override
-    public boolean appendOrUpdate(SecurityHistory securityHistory, String ticker){
-        log.info("Starting DataProviderCSV appendOrUpdate[]");
+    public boolean appendOrUpdateSecurityHistory(SecurityHistory securityHistory, String ticker){
+        log.info("Starting DataProviderCSV appendOrUpdateSecurityHistory[0]");
         try {
             Validator.isValidSecurityHistory(securityHistory, ticker);
-            log.info("appendOrUpdate[]: securityHistory - {},  ticker - {}",securityHistory, ticker);
-            log.debug("appendOrUpdate[]: Get all histories");
+            log.info("appendOrUpdateSecurityHistory[1]: securityHistory - {},  ticker - {}",securityHistory, ticker);
+            log.debug("appendOrUpdateSecurityHistory[2]: Get all histories");
             List<SecurityHistory> securityHistoryList = getSecurityHistories(ticker).getBody();
-            log.debug("appendOrUpdate[]: Filter the list, to find securityHistory to update");
+            log.debug("appendOrUpdateSecurityHistory[3]: Filter the list, to find securityHistory to update");
             Optional<SecurityHistory> sec = securityHistoryList.stream().filter(x -> x.getDate().equals(securityHistory.getDate())).findFirst();
             sec.ifPresent(securityHistoryList::remove);
             securityHistoryList.add(securityHistory);
-            log.debug("appendOrUpdate[]: update history file");
+            log.debug("appendOrUpdateSecurityHistory[4]: update history file");
             writeHistory(securityHistoryList, ticker, false);
             return true;
         }catch (Exception e){
-            log.error("Function DataProviderCSV appendOrUpdate had failed: {}", e.getMessage());
+            log.error("Function DataProviderCSV appendOrUpdateSecurityHistory had failed[5]: {}", e.getMessage());
         }
         return false;
     }
@@ -566,138 +763,156 @@ public class DataProviderCSV implements DataProvider {
 
     // user
 
+    /**
+     * Method for getting user's id from user's list
+     * @param users - list of users
+     * @return list of user's id
+     */
     public static List<String> getUsersId(List<User> users){
         return users.stream().map(User::getId).toList();
     }
 
-    public Result<User> appendUser(User user){
-        log.info("Starting DataProviderCSV appendUser[]");
+    @Override
+    public Optional<String> appendUser(String name){
+        log.info("Starting DataProviderCSV appendUser[0]");
         try {
-            Validator.isValid(user);
-            log.info("appendUser[]: user - {}", user);
-            return appendUsers(new ArrayList<>(List.of(user)));
+            Validator.isValid(name);
+            log.info("appendUser[1]: name - {}", name);
+            User user = new UserBuilder().withName(name).withTickerList(new ArrayList<>())
+                    .withActionHistory(new ArrayList<>()).build();
+            log.debug("appendUser[2]: Appending user");
+            appendUsers(new ArrayList<>(List.of(user)));
+            return Optional.of(user.getId());
         }catch (Exception e){
-            log.error("Function DataProviderCSV appendUser had failed");
-            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
+            log.error("Function DataProviderCSV appendUser had failed[3]: {}", e.getMessage());
         }
+        return Optional.empty();
     }
 
+    @Override
     public Result<User> appendUsers(List<User> users){
-        log.info("Starting DataProviderCSV appendUsers[]");
+        log.info("Starting DataProviderCSV appendUsers[0]");
         try {
             Validator.isValidUser(users);
-            log.info("appendUsers[]: users - {}", users);
-            log.debug("appendUsers[]: Getting all users");
-            List<String> usersId = getUsersId(getUsers().getBody());
-            log.debug("appendUsers[]: Filtering users");
-            List<User> userToAppend = users.stream().filter(x -> !usersId.contains(x.getId())).toList();
-            List<User> response = users.stream().filter(x -> usersId.contains(x.getId())).toList();
-            log.debug("appendUsers[]: Writing to file");
-            write(userToAppend, User.class, true);
+            log.info("appendUsers[1]: users - {}", users);
+            log.debug("appendUsers[2]: Getting all users");
+            List<User> oldList = getUsers().getBody();
+            List<String> usersId = getUsersId(oldList);
+            log.debug("appendUsers[3]: Filtering users");
+            List<User> userToAppend = new ArrayList<>(users.stream().filter(x -> Collections.binarySearch(usersId, x.getId()) < 0).toList());
+            List<User> response = new ArrayList<>(users.stream().filter(x -> Collections.binarySearch(usersId, x.getId()) >= 0).toList());
+            log.debug("appendUsers[4]: Writing to file");
+            write(Stream.concat(userToAppend.stream(), oldList.stream()).sorted(Comparator.comparing(User::getId)).toList(), User.class);
             if (response.size() != 0)
                 return new Result<>(WARN, String.format("Users that weren't added %d ", response.size()), response);
             return new Result<>(SUCCESS, "User was appended successfully", response);
         }catch (Exception e){
-            log.error("Function DataProviderCSV appendUsers had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV appendUsers had failed[5]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
+    @Override
     public Result<User> getUsers(){
-        log.info("Starting DataProviderCSV getUsers[]");
+        log.info("Starting DataProviderCSV getUsers[0]");
         try {
-            log.debug("getUsers[]: Getting users from csv");
+            log.debug("getUsers[1]: Getting users from csv");
             List<User> users = read(User.class);
             return new Result<>(SUCCESS, String.format("Number of users: %d", users.size()), users);
         }catch (Exception e){
-            log.error("Function DataProviderCSV getUsers had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV getUsers had failed[2]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
-    // update active ?
+    @Override
     public Result<User> updateUsers(List<User> users){
-        log.info("Starting DataProviderCSV updateUsers[]");
+        log.info("Starting DataProviderCSV updateUsers[0]");
         try {
             Validator.isValidUserToUpdate(users);
-            log.info("updateUsers[]: users - {}", users);
-            log.debug("updateUsers[]: Getting users from db");
+            log.info("updateUsers[1]: users - {}", users);
+            log.debug("updateUsers[2]: Getting users from db");
             List<User> userFromDb = read(User.class);
             List<String> idList = getUsersId(userFromDb);
-            log.debug("updateUsers[]: Filtering users");
-            List<User> usersToAppend = Stream.concat(users.stream().filter(x -> idList.contains(x.getId()))
-                    , userFromDb.stream()).distinct().toList();
-            log.debug("updateUsers[]: Writing to file");
-            write(usersToAppend, User.class);
-            List<User> response = users.stream().filter(x -> !idList.contains(x.getId())).toList();
+            log.debug("updateUsers[3]: Filtering users");
+            List<User> usersToUpdate = new ArrayList<>(Stream.concat(users.stream().filter(x -> Collections.binarySearch(idList, x.getId()) >= 0)
+                    , userFromDb.stream()).distinct().sorted(Comparator.comparing(User::getId)).toList());
+            log.debug("updateUsers[4]: Writing to file");
+            write(usersToUpdate, User.class);
+            List<User> response = new ArrayList<>(users.stream().filter(x -> Collections.binarySearch(idList, x.getId()) < 0).toList());
             if (response.size() != 0)
                 return new Result<>(WARN, String.format("Number of users that weren't updated: %d", response.size()), response);
             return new Result<>(SUCCESS, "Users were updated successfully", response);
         }catch (Exception e){
-            log.error("Function DataProviderCSV updateUsers had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV updateUsers had failed[5]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
+    @Override
     public Result<User> updateUser(User user){
-        log.info("Starting DataProviderCSV updateUser[]");
+        log.info("Starting DataProviderCSV updateUser[0]");
         try {
             Validator.isValid(user);
-            log.info("updateUser[]: user - {}", user);
+            log.info("updateUser[1]: user - {}", user);
             return updateUsers(new ArrayList<>(List.of(user)));
         }catch (Exception e){
-            log.error("Function DataProviderCSV updateUser had failed");
+            log.error("Function DataProviderCSV updateUser had failed[4]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
+    @Override
     public Optional<User> getUserById(String id){
-        log.info("Starting DataProviderCSV getUserById[]");
+        log.info("Starting DataProviderCSV getUserById[0]");
         try {
             Validator.isValid(id);
-            log.info("getUserById[]: id - {}", id);
+            log.info("getUserById[1]: id - {}", id);
             log.debug("getUserById[]: Getting all users");
             List<User> users = read(User.class);
-            log.debug("getUserById[]: Get user by id {}", id);
+            log.debug("getUserById[2]: Get user by id {}", id);
             return users.stream().filter(x -> x.getId().equals(id)).findFirst();
         }catch (Exception e){
-            log.error("Function DataProviderCSV getUserById had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV getUserById had failed[3]: {}", e.getMessage());
         }
         return Optional.empty();
     }
 
+    @Override
     public Optional<User> deleteUserById(String id){
-        log.info("Starting DataProviderCSV deleteUserById[]");
+        log.info("Starting DataProviderCSV deleteUserById[0]");
         try {
             Validator.isValid(id);
-            log.info("deleteUserById[]: id - {}", id);
-            log.debug("deleteUserById[]: Getting all users");
+            log.info("deleteUserById[1]: id - {}", id);
+            log.debug("deleteUserById[2]: Getting all users");
             List<User> users = read(User.class);
-            log.debug("deleteUserById[]: Deleting user with id {}", id);
+            log.debug("deleteUserById[3]: Deleting user with id {}", id);
             Optional<User> user = users.stream().filter(x -> x.getId().equals(id)).findFirst();
             if (user.isPresent()) {
                 users.remove(user.get());
-                // delete user active
+                log.debug("deleteUserById[4]: Deleting user's actions");
+                deleteActionHistory(id);
                 write(users, User.class);
                 return user;
             }
         }catch (Exception e){
-            log.error("Function DataProviderCSV deleteUserById had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV deleteUserById had failed[5]: {}", e.getMessage());
         }
         return Optional.empty();
     }
 
+    @Override
     public Result<User> deleteAllUsers(){
-        log.info("Starting DataProviderCSV deleteAllUsers[]");
+        log.info("Starting DataProviderCSV deleteAllUsers[0]");
         try {
-            log.debug("deleteAllUsers[]: Getting all users");
+            log.debug("deleteAllUsers[1]: Getting all users");
             List<User> users = read(User.class);
-            log.debug("deleteAllUsers[]: Deleting all users");
+            log.debug("deleteAllUsers[2]: Deleting all users");
             write(new ArrayList<>(), User.class);
-            // delete all active
+            deleteAllActions();
             return new Result<>(SUCCESS, String.format("Number of deleted users: %d", users.size()), users);
         }catch (Exception e){
-            log.error("Function DataProviderCSV deleteAllUsers had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV deleteAllUsers had failed[3]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
@@ -705,62 +920,308 @@ public class DataProviderCSV implements DataProvider {
 
     // action
 
-    public boolean appendAction(Action action){
-        log.info("Starting DataProviderCSV appendAction[]");
+    @Override
+    public Optional<String> appendAction(ActionType actionType, String userID, String ticker){
+        log.info("Starting DataProviderCSV appendAction[0]");
         try {
-            Validator.isValidAction(action);
-            log.info("appendAction[]: action - {}", action);
-            write(action, Action.class, true);
-            return true;
-        }catch (Exception e){
-            log.error("Function DataProviderCSV appendAction had failed[]: {}", e.getMessage());
-        }
-        return false;
-    }
-
-    public Optional<String> appendAction(ActionType actionType, String userID, Security security){
-        log.info("Starting DataProviderCSV appendAction[]");
-        try {
-            log.info("appendAction[]: actionType - {}, userID - {}, security - {}", actionType, userID, security);
-            Action action = new ActionBuilder().withAction(actionType).withDate(DATE).withUserID(userID).withSecurity(security).build();
+            log.info("appendAction[1]: actionType - {}, userID - {}, ticker - {}", actionType, userID, ticker);
+            log.debug("appendAction[2]: Getting security by ticker if it exist");
+            Optional<Security> security = getSecurityByTicker(ticker);
+            if (security.isEmpty())
+                throw new Exception(String.format("Security hasn't been found by ticker %s", ticker));
+            Action action = new ActionBuilder().withAction(actionType).withDate(CURRENT_TIME).withUserID(userID).withSecurity(security.get()).build();
+            Validator.isValid(action);
+            log.debug("appendAction[3]: Checking for valid adding");
+            if (!processAction(action))
+                return Optional.empty();
+            log.debug("appendAction[4]: Writing action to db");
             write(action, Action.class, true);
             return Optional.of(action.getId());
         }catch (Exception e){
-            log.error("Function DataProviderCSV appendAction had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV appendAction had failed[5]: {}", e.getMessage());
         }
         return Optional.empty();
     }
 
-
+    @Override
     public Result<Action> getActionHistory(String userID){
-        log.info("Starting DataProviderCSV getActionHistory");
+        log.info("Starting DataProviderCSV getActionHistory[0]");
         try {
             Validator.isValid(userID);
-            log.info("getActionHistory[]: userID - {}", userID);
-            log.debug("getActionHistory[]: Getting all actions");
+            log.info("getActionHistory[1]: userID - {}", userID);
+            log.debug("getActionHistory[2]: Getting all actions");
             List<Action> actions = new ArrayList<>(read(Action.class).stream().filter(x -> x.getUserID().equals(userID)).toList());
             return new Result<>(SUCCESS, String.format("Number of actions: %d", actions.size()), actions);
         }catch (Exception e){
-            log.error("Function DataProviderCSV getActionHistory had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV getActionHistory had failed[3]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
 
+    @Override
     public Result<Action> deleteActionHistory(String userID){
-        log.info("Starting DataProviderCSV deleteAllUserAction[]");
+        log.info("Starting DataProviderCSV deleteAllUserAction[0]");
         try {
             Validator.isValid(userID);
-            log.info("deleteAllUserAction[]: userID - {}", userID);
-            log.debug("deleteAllUserAction[]: Getting all actions");
+            log.info("deleteAllUserAction[1]: userID - {}", userID);
+            log.debug("deleteAllUserAction[2]: Getting all actions");
             List<Action> actions = read(Action.class);
-            log.debug("deleteAllUserAction[]: Getting all user's {}  actions", userID);
+            log.debug("deleteAllUserAction[3]: Getting all user's {}  actions", userID);
             List<Action> actionToDelete = new ArrayList<>(actions.stream().filter(x -> x.getUserID().equals(userID)).toList());
             actions.removeAll(actionToDelete);
             write(actions, Action.class);
             return new Result<>(SUCCESS, String.format("Number of deleted actions: %d", actionToDelete.size()), actionToDelete);
         }catch (Exception e){
-            log.error("Function DataProviderCSV deleteAllUserAction had failed[]: {}", e.getMessage());
+            log.error("Function DataProviderCSV deleteAllUserAction had failed[4]: {}", e.getMessage());
             return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
     }
+
+
+    /**
+     * Method for deleting all actions from db
+     */
+    private void deleteAllActions(){
+        log.debug("Starting DataProviderCSV deleteAllActions[0]");
+        try {
+            log.debug("deleteAllActions[1]: Deleting all actions");
+            write(new ArrayList<>(), Action.class);
+        }catch (Exception e){
+            log.error("Function DataProviderCSV deleteAllActions had failed[]: {}", e.getMessage());
+        }
+    }
+
+    /**
+     * Method for processing action depending on actionType
+     * It will add security or delete security if the expression matches the condition
+     * @param action - user's action
+     * @return status of function
+     * true - if function ended up successfully
+     * false - otherwise
+     */
+    private boolean processAction(Action action){
+        log.info("Starting DataProviderCSV processAction[0]");
+        try {
+            log.info("processAction[1]: action - {}", action);
+            log.debug("processAction[2]: Getting user by id");
+            Optional<User> user = getUserById(action.getUserID());
+            if (user.isEmpty())
+                throw new Exception(String.format("User wasn't found by id %s", action.getUserID()));
+            switch (action.getAction()){
+                case ADD -> {
+                    return addUsersSecurity(action, user.get());
+                }
+                case DELETE -> {
+                    return deleteUsersSecurity(action, user.get());
+                }
+            }
+        }catch (Exception e){
+            log.error("Function DataProviderCSV processAction had failed[3]: {}", e.getMessage());
+        }
+        return false;
+    }
+
+    /**
+     * Method for adding updating user's briefcase(add)
+     * @param action - user's action
+     * @param user - user
+     * @return status of function
+     * true - if function ended up successfully
+     * false - otherwise
+     */
+    private boolean addUsersSecurity(Action action, User user){
+        log.info("Starting DataProviderCSV addUsersSecurity[0]");
+        try {
+            log.info("addUsersSecurity[1]: action - {}, user - {}", action, user);
+            log.debug("addUsersSecurity[2]: Adding action");
+            if (action.getAction().equals(ActionType.ADD) && !user.getSecurityList().contains(action.getSecurity())){
+                log.debug("addUsersSecurity[3]: Updating user, adding security");
+                user.getActionHistory().add(action);
+                user.getSecurityList().add(action.getSecurity());
+                updateUser(new UserBuilder(user).build());
+                return true;
+            }
+        }catch (Exception e){
+            log.error("Function DataProviderCSV addUsersSecurity had failed[4]: {}", e.getMessage());
+        }
+        return false;
+    }
+
+    /**
+     * Method for adding updating user's briefcase(delete)
+     * @param action - user's action
+     * @param user - user
+     * @return status of function
+     * true - if function ended up successfully
+     * false - otherwise
+     */
+    private boolean deleteUsersSecurity(Action action, User user){
+        log.info("Starting DataProviderCSV deleteUsersSecurity[0]");
+        try {
+            log.info("deleteUsersSecurity[1]: action - {}, user - {}", action, user);
+            log.debug("deleteUsersSecurity[2]: Adding action");
+            if (action.getAction().equals(ActionType.DELETE) && user.getSecurityList().contains(action.getSecurity())){
+                log.debug("deleteUsersSecurity[3]: Deleting user, deleting security");
+                user.getActionHistory().add(action);
+                user.getSecurityList().remove(action.getSecurity());
+                updateUser(new UserBuilder(user).build());
+                return true;
+            }
+        }catch (Exception e){
+            log.error("Function DataProviderCSV deleteUsersSecurity had failed[4]: {}", e.getMessage());
+        }
+        return false;
+    }
+
+
+    // use case
+    @Override
+    public List<SecurityHistory> findSecurity(String ticker){
+        log.info("Starting DataProviderCSV findSecurity[0]");
+        try {
+            Validator.isValid(ticker);
+            log.info("findSecurity[1]: ticker - {}", ticker);
+            return showDetailedInfo(ticker);
+        }catch (Exception e){
+            log.error("Function DataProviderCSV had failed[2]: {}", e.getMessage());
+        }
+        return new ArrayList<>();
+    }
+    @Override
+    public List<Security> findSecurity(MarketType marketType){
+        log.info("Starting DataProviderCSV findSecurity[0]");
+        try {
+            Validator.isValid(marketType);
+            log.info("findSecurity[1]: marketType - {}", marketType);
+            return getActiveSecurities(marketType);
+        }catch (Exception e){
+            log.error("Function DataProviderCSV had failed[2]: {}", e.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<Security> getActiveSecurities(MarketType marketType){
+        log.info("Starting DataProviderCSV getActiveSecurities[0]");
+        try {
+            log.info("getActiveSecurities[1]: marketType - {}", marketType);
+            Optional<Market> market = getMarket(marketType);
+            if (market.isEmpty())
+                throw new Exception("Market wasn't found");
+            List<Security> securityList = market.get().getSecurityList();
+            securityList.sort(Comparator.comparing( (Security x) -> x.getHistory().getVolume() ).reversed());
+            return securityList;
+        }catch (Exception e){
+            log.error("Function DataProviderCSV getActiveSecurities had failed[2]: {}", e.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<SecurityHistory> showDetailedInfo(String ticker) {
+        log.info("Starting DataProviderCSV showDetailedInfo[0]");
+        try {
+            Validator.isValid(ticker);
+            log.debug("showDetailedInfo[1]: ticker - {}", ticker);
+            Optional<Security> security = getSecurityByTicker(ticker);
+            if (security.isEmpty())
+                throw new Exception("Security wasn't found");
+            log.debug("showDetailedInfo[2]: Getting and sorting history");
+            List<SecurityHistory> securityHistoryList = getSecurityHistories(security.get().getTicker()).getBody();
+            securityHistoryList.sort(Comparator.comparing(SecurityHistory::getDate).reversed());
+            return securityHistoryList;
+        }catch (Exception e){
+            log.error("Function DataProviderCSV showDetailedInfo had failed[3]: {}", e.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public String showInfo(String ticker){
+        log.info("Starting DataProviderCSV showInfo[0]");
+        try {
+            Validator.isValid(ticker);
+            log.info("showInfo[1]: ticker - {}", ticker);
+            log.debug("showInfo[2]: Getting security by ticker {}", ticker);
+            Optional<Security> security = getSecurityByTicker(ticker);
+            if (security.isEmpty())
+                throw new Exception(String.format("Security %s wasn't found", ticker));
+            log.debug("showInfo[3]: Getting extra information");
+            String extraInfo = security.get().getMarketType().equals(MarketType.SHARES) ?
+                    "dividendSum: " + ((Stock) security.get()).getDividendSum() + "\n" +
+                            "capitalization: " + ((Stock) security.get()).getCapitalization() + "\n" :
+                    "matDate: " + ((Bond) security.get()).getMatDate() +  "\n" +
+                            "coupon: " + ((Bond) security.get()).getCoupon() +  "\n" +
+                            "dayToRedemption: " + ((Bond) security.get()).getDayToRedemption() + "\n" ;
+            return "ticker: " + security.get().getTicker() + "\n" +
+                    "name: " + security.get().getShortName() + "\n" +
+                    "isin: " + security.get().getIsin() + "\n"  +
+                    "nominal: " + security.get().getNominal() + "\n" +
+                    "nominalValue: " + security.get().getNominalValue() + "\n"  +
+                    "issueDate: " + security.get().getIssueDate() + "\n" +
+                    "latName: " + security.get().getLatName() + "\n" +
+                    "issueSize: " + security.get().getIssueSize() +
+                    "group: " + security.get().getMarketType() + "\n" +
+                    "volume: " + security.get().getHistory().getVolume() + "\n" +
+                    "type: " + security.get().getMarketType() + "\n" + extraInfo;
+        }catch (Exception e){
+            log.error("Function DataProviderCSV showInfo had failed[4]: {}", e.getMessage());
+        }
+        return "";
+    }
+
+    @Override
+    public List<Security> checkVirtualBriefCase(String userId){
+        log.info("Starting DataProviderCSV checkVirtualBriefCase[0]");
+        try {
+            Validator.isValid(userId);
+            log.info("checkVirtualBriefCase[1]: userId - {}", userId);
+            log.debug("checkVirtualBriefCase[2]: Getting user by id {}", userId);
+            Optional<User> user = getUserById(userId);
+            if (user.isEmpty())
+                throw new Exception(String.format("User wasn't found by id %s", userId));
+            return user.get().getSecurityList();
+        }catch (Exception e){
+            log.error("Function DataProviderCSV checkVirtualBriefCase[3]: {}" ,e.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public String showStatistics(String userId){
+        log.info("Starting DataProviderCSV showStatistics[0]");
+        try {
+            Validator.isValid(userId);
+            log.info("showStatistics[1]: userId - {}", userId);
+            log.debug("showStatistics[2]: Getting user by id {}", userId);
+            Optional<User> user = getUserById(userId);
+            if (user.isEmpty())
+                throw new Exception(String.format("User %s wasn't found", userId));
+            StringBuilder info = new StringBuilder();
+            for (Security security: user.get().getSecurityList())
+                info.append(security.getTicker()).append(": ").append(security.getHistory().getAveragePerDay()).append("\n");
+            List<Action> actions = user.get().getActionHistory();
+            actions.sort(Comparator.comparing(Action::getDate).reversed());
+            for (Action action : actions)
+                info.append("Time: ").append(action.getDate()).append("\n Action: ").append(action.getAction())
+                        .append("\n Security: ").append(action.getSecurity().getTicker()).append("\n");
+            return info.toString();
+        }catch (Exception e){
+            log.error("Function DataProviderCSV showStatistics had failed[3]: {}" , e.getMessage());
+        }
+        return "";
+    }
+
+    @Override
+    public boolean performActon(String userId, String actionType, String ticker){
+        log.info("Starting DataProviderCSV performActon[0]");
+        try {
+            log.info("performActon[1]: userId - {}, actionType - {}, ticker - {}", userId, actionType, ticker);
+            return appendAction(ActionType.valueOf(actionType.toUpperCase()),userId ,ticker).isPresent();
+        }catch (Exception e){
+            log.error("Function DataProviderCSV performActon had failed[2]: {}", e.getMessage());
+        }
+        return false;
+    }
+
 }

@@ -4,7 +4,7 @@ package ru.sfedu.api;
 import ru.sfedu.BaseTest;
 import ru.sfedu.model.SecurityHistoryBuilder;
 import ru.sfedu.model.*;
-import ru.sfedu.utils.IDGenerator;
+import ru.sfedu.utils.IdGenerator;
 
 
 import java.text.SimpleDateFormat;
@@ -33,15 +33,35 @@ public class DataProviderJDBCTest extends BaseTest {
 
 
 
+    // users
     public void testAppendUsers(){
-        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
-        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
         // appending users
         result = data.appendUsers(users);
         assertEquals(result.getStatus(), SUCCESS);
 
         // getting users
         result = data.getUsers();
+        assertEquals(result.getBody().size(), users.size());
+    }
+
+    public void testFailAppendUsers(){
+        // appending empty list
+        result = data.appendUsers(new ArrayList<>());
+        assertEquals(result.getStatus(), FAIL);
+
+        // null
+        result = data.appendUsers(null);
+        assertEquals(result.getStatus(), FAIL);
+
+    }
+
+    public void testWarnAppendUsers(){
+        // appending same users twice
+
+        result = data.appendUsers(users);
+
+        result = data.appendUsers(users);
+        assertEquals(result.getStatus(), WARN);
         assertEquals(result.getBody().size(), users.size());
     }
 
@@ -91,17 +111,18 @@ public class DataProviderJDBCTest extends BaseTest {
 
         // updating users
         result = data.updateUsers(new ArrayList<>(List.of(userToUpdate1, userToUpdate2)));
+        System.out.println(result);
         assertEquals(result.getStatus(), SUCCESS);
 
         // comparing 2 users
         Optional<User> user = data.getUserById(users.get(0).getId());
         assert user.isPresent();
-//        assert compareTwoUsers(user.get(), userToUpdate1);
+        assert compareTwoUsers(user.get(), userToUpdate1);
 
         // comparing 2 users
         user = data.getUserById(users.get(1).getId());
         assert user.isPresent();
-//        assert compareTwoUsers(user.get(), userToUpdate2);
+        assert compareTwoUsers(user.get(), userToUpdate2);
     }
 
     public void testFailUpdateUsers(){
@@ -117,17 +138,27 @@ public class DataProviderJDBCTest extends BaseTest {
         result = data.updateUsers(new ArrayList<>(List.of(userToUpdate1, userToUpdate2)));
         assertEquals(result.getStatus(), FAIL);
 
+        // null and empty
+        assertEquals(data.updateUsers(new ArrayList<>()).getStatus(), FAIL);
+        assertEquals(data.updateUsers(null).getStatus(), FAIL);
+
+    }
+
+    public void testWarnUpdateUsers(){
+        User userToUpdate1 = new UserBuilder("").withName("EEEE")
+                .withActionHistory(new ArrayList<>())
+                .withTickerList(new ArrayList<>()).build();
+
+        User userToUpdate2 = new UserBuilder("31412").withName("EEEE")
+                .withActionHistory(new ArrayList<>())
+                .withTickerList(new ArrayList<>()).build();
+
         // updating users that doesn't exist
         assertEquals(data.appendUsers(users).getStatus(), SUCCESS);
         result = data.updateUsers(new ArrayList<>(List.of(userToUpdate1, userToUpdate2)));
 
         assertEquals(result.getStatus(), WARN);
         assertEquals(result.getBody().size(), 2);
-
-        // null and empty
-        assertEquals(data.updateUsers(new ArrayList<>()).getStatus(), FAIL);
-        assertEquals(data.updateUsers(null).getStatus(), FAIL);
-
     }
 
     public void testUpdateUser(){
@@ -157,8 +188,8 @@ public class DataProviderJDBCTest extends BaseTest {
         // null
         result = data.updateUser(null);
         assertEquals(result.getStatus(), FAIL);
-
     }
+
 
     public void testGetUserById(){
         // appending bonds and stocks
@@ -172,8 +203,8 @@ public class DataProviderJDBCTest extends BaseTest {
         System.out.println(user);
         assert user.isPresent();
         // comparing 2 users
-//        assertEquals(user.get().getActionHistory(), users.get(0).getActionHistory());
-//        assert compareTwoUsers(user.get(), users.get(0));
+        assertEquals(user.get().getActionHistory(), users.get(0).getActionHistory());
+        assert compareTwoUsers(user.get(), users.get(0));
     }
 
     public void testFailGetUserById(){
@@ -186,7 +217,7 @@ public class DataProviderJDBCTest extends BaseTest {
 
         // getting user that doesn't exist
         assertEquals(data.appendUsers(users).getStatus(), SUCCESS);
-        user = data.getUserById(IDGenerator.generate());
+        user = data.getUserById(IdGenerator.generate());
         assert user.isEmpty();
     }
 
@@ -201,7 +232,7 @@ public class DataProviderJDBCTest extends BaseTest {
         Optional<User> user = data.deleteUserById(users.get(0).getId());
         System.out.println(user);
         assert user.isPresent();
-//        assert compareTwoUsers(user.get(), users.get(0));
+        assert compareTwoUsers(user.get(), users.get(0));
     }
 
     public void testFailDeleteUserById(){
@@ -213,7 +244,7 @@ public class DataProviderJDBCTest extends BaseTest {
         assert user.isEmpty();
         // deleting user that doesn't exist
         assertEquals(data.appendUsers(users).getStatus(), SUCCESS);
-        user = data.deleteUserById(IDGenerator.generate());
+        user = data.deleteUserById(IdGenerator.generate());
         assert user.isEmpty();
 
     }
@@ -254,6 +285,8 @@ public class DataProviderJDBCTest extends BaseTest {
         assert actionId.isPresent();
         actionId = data.appendAction(ActionType.ADD, user2Id.get(), "QWER");
         assert actionId.isPresent();
+        actionId = data.appendAction(ActionType.ADD, user2Id.get(), "QQQ");
+        assert actionId.isPresent();
 
         // appending an action
         actionId = data.appendAction(ActionType.ADD, userId.get(), "SBER");
@@ -283,9 +316,8 @@ public class DataProviderJDBCTest extends BaseTest {
         // checking second user
         user = data.getUserById(user2Id.get());
         assert user.isPresent();
-        assertEquals(user.get().getActionHistory().size(), 2);
-        assertEquals(user.get().getSecurityList().size(), 2);
-
+        assertEquals(user.get().getActionHistory().size(), 3);
+        assertEquals(user.get().getSecurityList().size(), 3);
     }
 
     public void testFailAppendAction(){
@@ -326,8 +358,6 @@ public class DataProviderJDBCTest extends BaseTest {
 
     }
 
-
-
     public void testDeleteActionHistory(){
         assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
         // appending a user
@@ -356,12 +386,9 @@ public class DataProviderJDBCTest extends BaseTest {
         System.out.println(actionResult);
         assertEquals(actionResult.getBody().size(), 2);
 
-        // checking security list and action list
+        // checking action list
         Optional<User> user = data.getUserById(userId.get());
-        assert user.isPresent();
-        System.out.println(user);
-        assertEquals(user.get().getActionHistory().size(), 0);
-        assertEquals(user.get().getSecurityList().size(), 0);
+        assertEquals(data.getActionHistory(userId.get()).getBody().size(), 0);
 
 
         // checking for second user
@@ -370,6 +397,12 @@ public class DataProviderJDBCTest extends BaseTest {
         assertEquals(user.get().getActionHistory().size(), 2);
         assertEquals(user.get().getSecurityList().size(), 2);
 
+        // deleting action history
+        assertEquals(data.deleteActionHistory(user2Id.get()).getStatus(), SUCCESS);
+        user = data.getUserById(user2Id.get());
+        assert user.isPresent();
+        assertEquals(user.get().getActionHistory().size(), 0);
+        assertEquals(user.get().getSecurityList().size(), 2);
 
     }
 
@@ -426,81 +459,113 @@ public class DataProviderJDBCTest extends BaseTest {
     }
 
 
+// market
+
+
     public void testAppendOrUpdateMarket(){
+        //  append stock market
         assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
         assert data.appendOrUpdateMarket(MarketType.SHARES);
+
+        //  checking that market exist in files
         Optional<Market> market = data.getMarket(MarketType.SHARES);
         assert market.isPresent();
-        assertEquals(market.get().getTickerList().size(), stocks.size());
+        assertEquals(market.get().getSecurityList().size(), stocks.size());
+
+        // new stock to append
+        Stock stock = new StockBuilder().withTicker("SHUSHU").withName("")
+                .withShortName("").withLatName("").withNominal(90)
+                .withNominalValue("RUB").withIssueDate(DATE).withIsin("qwer")
+                .withIssueSize(90).withSecurityHistory(getHistories("SHUSHU"))
+                .withType(StockType.COMMON).withDividendSum(0).withCapitalization(0)
+                .build();
+
+        assertEquals(data.appendStocks(new ArrayList<>(List.of(stock))).getStatus(), SUCCESS);
+
+        //  checking that market was updated
+        market = data.getMarket(MarketType.SHARES);
+        assert market.isPresent();
+        assertEquals(market.get().getSecurityList().size(), stocks.size() + 1);
     }
 
     public void testFailAppendOrUpdateMarket(){
+        //  null
         assertFalse(data.appendOrUpdateMarket(null));
     }
 
     public void testGetMarkets(){
+        // append bonds and stocks
         assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
-
         assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
 
+        // check that they exist in file
         marketResult = data.getMarkets();
         assertEquals(marketResult.getStatus(), SUCCESS);
         assertEquals(marketResult.getBody().size(), 2);
     }
     public void testFailGetMarkets(){
+
+        // get market from non-exist file
         marketResult = data.getMarkets();
         assertEquals(marketResult.getStatus(), FAIL);
     }
 
     public void testGetMarket(){
+        // append bonds and stocks
         assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
-
         assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
 
+        // check that stock market exists
         Optional<Market> market = data.getMarket(MarketType.SHARES);
         assert market.isPresent();
-        assertEquals(market.get().getTickerList().size(), stocks.size());
+        // check that num of stocks correct
+        assertEquals(market.get().getSecurityList().size(), stocks.size());
 
+        // check that bond market exists
         market = data.getMarket(MarketType.BONDS);
         assert market.isPresent();
-        assertEquals(market.get().getTickerList().size(), bonds.size());
+        // check that num of bonds correct
+        assertEquals(market.get().getSecurityList().size(), bonds.size());
     }
 
     public void testFailGetMarket(){
+        // get market from non-exist file
         Optional<Market> market = data.getMarket(MarketType.SHARES);
         assert market.isEmpty();
 
+        // append bonds
         assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
 
+        // get market that doesn't exist
         market = data.getMarket(MarketType.SHARES);
         assert market.isEmpty();
     }
 
     public void testAppendStocks()  {
+        // append stocks
         stockResult = data.appendStocks(stocks);
         System.out.println(stockResult);
         System.out.println(data.getStocks());
         assertEquals(stockResult.getStatus(), SUCCESS);
-        Stock stock = new StockBuilder()
-                .withCapitalization(0).withDividendSum(0).withTicker("WWWWWWWWW")
-                .withName("").withShortName("").withLatName("")
-                .withNominal(100).withSecurityHistory(getHistories("WWWWWWWWW"))
-                .withNominalValue("RUB").withIssueDate("").withType(StockType.COMMON)
-                .build();
-        data.appendStocks(new ArrayList<>(List.of(stock)));
     }
 
     public void testFailAppendStocks()  {
+        // copy stocks
         List<Stock> otherStocks = new ArrayList<>(stocks);
         otherStocks.add(stocks.get(0));
+        // append stocks that have same tickers
         stockResult = data.appendStocks(otherStocks);
         System.out.println(stockResult);
         assertEquals(stockResult.getStatus(), FAIL);
+
+        // append null
         stockResult = data.appendStocks(null);
         System.out.println(stockResult);
         assertEquals(stockResult.getStatus(), FAIL);
+
         stockResult = data.appendStocks(stocks);
         assertEquals(stockResult.getStatus(), SUCCESS);
+        // append stocks twice
         stockResult = data.appendStocks(stocks);
         System.out.println(stockResult);
         assertEquals(stockResult.getStatus(), WARN);
@@ -510,32 +575,42 @@ public class DataProviderJDBCTest extends BaseTest {
     }
 
     public void testGetStocks()  {
+        // append and get stocks
         stockResult = data.appendStocks(stocks);
         System.out.println(stockResult);
+
         assertEquals(stockResult.getStatus(), SUCCESS);
         stockResult = data.getStocks();
         System.out.println(stockResult);
+        // compare that num of stocks correct
         assertEquals(stockResult.getBody().size(), stocks.size());
     }
 
     public void testFailGetStocks()  {
+        // get stocks from file that doesn't exist
         stockResult = data.getStocks();
         System.out.println(stockResult);
         assertEquals(stockResult.getStatus(), FAIL);
     }
 
     public void testUpdateStocks(){
+        // append stocks
         assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
         System.out.println(data.getStocks());
+
+        // create stock to update
         Stock stock = new StockBuilder().withTicker("SBER").withName("")
                 .withShortName("").withLatName("").withNominal(90)
                 .withNominalValue("RUB").withIssueDate(DATE).withIsin("qwer")
                 .withIssueSize(90).withSecurityHistory(getHistories("SBER"))
                 .withType(StockType.COMMON).withDividendSum(0).withCapitalization(0)
                 .build();
+        // update SBER stock
         stockResult = data.updateStocks(new ArrayList<>(List.of(stock)));
         System.out.println(stockResult);
         assertEquals(stockResult.getStatus(), SUCCESS);
+
+        // get stocks to check that update was successful
         stockResult = data.getStocks();
         System.out.println(stockResult);
         Optional<Stock> stockFromDB = stockResult.getBody().stream().filter(x -> x.getTicker().equals("SBER")).findFirst();
@@ -546,44 +621,69 @@ public class DataProviderJDBCTest extends BaseTest {
     }
 
     public void testFailUpdateStocks(){
+        // create stock to update
         Stock stock = new StockBuilder().withTicker("SHUSHU").withName("")
                 .withShortName("").withLatName("").withNominal(90)
                 .withNominalValue("RUB").withIssueDate(DATE).withIsin("qwer")
                 .withIssueSize(90).withSecurityHistory(getHistories("SHUSHU"))
                 .withType(StockType.COMMON).withDividendSum(0).withCapitalization(0)
                 .build();
+        // update stock in file that doesn't exist
         stockResult = data.updateStocks(new ArrayList<>(List.of(stock)));
         assertEquals(stockResult.getStatus(), FAIL);
+
+        // append stocks
         assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
         System.out.println(data.getStocks());
+
+        // try to update stock that doesn't exist
         stockResult = data.updateStocks(new ArrayList<>(List.of(stock)));
         System.out.println(stockResult);
         assertEquals(stockResult.getStatus(), WARN);
+        // empty list
         stockResult = data.updateStocks(new ArrayList<>());
         System.out.println(stockResult);
         assertEquals(stockResult.getStatus(), FAIL);
+
+        // null
         stockResult = data.updateStocks(null);
         System.out.println(stockResult);
         assertEquals(stockResult.getStatus(), FAIL);
     }
+
+
+
     public void testDeleteStockByTicker()  {
-        data.deleteAllSecurityHistories("SBER");
+        // append SBER's histories
         data.appendSecurityHistory(histories, "SBER");
         securityHistoryResult = data.deleteAllSecurityHistories("SBER");
         assertEquals(securityHistoryResult.getStatus(), SUCCESS);
+
+        // appending stocks
         assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
+
+        // deleting stock - SBER
         Optional<Stock> deletedStock = data.deleteStockByTicker("SBER");
+
+        // checking that history was deleted too
         securityHistoryResult = data.deleteAllSecurityHistories("SBER");
         assertEquals(securityHistoryResult.getStatus(), FAIL);
+
+        // checking that deleted stock and stock from example are the same
         Optional<Stock> stock= stocks.stream().filter(x -> x.getTicker().equals("SBER")).findFirst();
         if (deletedStock.isPresent())
             assertEquals(deletedStock, stock);
         else
             assert(false);
+
+        // get all stocks to confirm that stock SBER was deleted
         stockResult = data.getStocks();
-        List<Stock> updatedStocks = new ArrayList<>(stocks);
         assertEquals(stockResult.getStatus(), SUCCESS);
+
+        List<Stock> updatedStocks = new ArrayList<>(stocks);
         assertEquals( stockResult.getBody().size(), stocks.size() -1);
+
+        // comparing stocks again to confirm
         updatedStocks.removeAll(stockResult.getBody());
         assertEquals(updatedStocks.size(), 1);
         assertEquals(updatedStocks.get(0), deletedStock.get());
@@ -592,59 +692,64 @@ public class DataProviderJDBCTest extends BaseTest {
     }
 
     public void testFailDeleteStockByTicker(){
-        try{
-            data.deleteStockByTicker("SBABABABQQWEQR");
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            assert(true);
-        }
-        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
-        try{
-            Optional<Stock> deletedStock = data.deleteStockByTicker("SBABABABQQWEQR");
-            assertEquals(deletedStock, Optional.empty());
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            assert(false);
-        }
+        // deleting stock from non-exist file
+        Optional<Stock> stock = data.deleteStockByTicker("SBABABABQQWEQR");
+        assert stock.isEmpty();
+        // appending stocks to create file
 
+        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
+        // deleting stock by ticker that doesn't exist in db
+        Optional<Stock> deletedStock = data.deleteStockByTicker("SBABABABQQWEQR");
+        assertEquals(deletedStock, Optional.empty());
+
+        // null
+        stock = data.deleteStockByTicker(null);
+        assert stock.isEmpty();
 
     }
     public void testGetStockByTicker()  {
+        // appending SBER's histories
         data.appendSecurityHistory(histories, "SBER");
+        // appending stocks
         data.appendStocks(stocks);
+
+        // get stock by id
         Optional<Stock> stock = data.getStockByTicker("SBER");
         System.out.println(stock);
-        if (stock.isPresent())
-            assert(true);
-        else
-            assert(false);
+        assert stock.isPresent();
+        // checking his history
         assertEquals(stock.get().getHistory(), data.getSecurityHistoryByDate("SBER"));
     }
 
     public void testFailGetStockByTicker(){
+        // get stock from db that doesn't exist
         Optional<Stock> stock = data.getStockByTicker("SBER");
         System.out.println(stock);
-        if (stock.isEmpty())
-            assert(true);
-        else
-            assert(false);
+        assert stock.isEmpty();
+
+        // appending stocks
         data.appendStocks(stocks);
+
+        // getting stock by wrong ticker
         stock = data.getStockByTicker("SBER1231421");
         System.out.println(stock);
-        if (stock.isEmpty())
-            assert(true);
-        else
-            assert(false);
+        assert stock.isEmpty();
     }
 
 
     public void testDeleteAllStocks(){
+        // appending stocks
         stockResult = data.appendStocks(stocks);
         assertEquals(stockResult.getStatus(), SUCCESS);
+
+        // deleting stocks
         stockResult = data.deleteAllStocks();
         System.out.println(stockResult);
         assertEquals(stockResult.getStatus(), SUCCESS);
+        // check that all stock was deleted
         assertEquals(stockResult.getBody().size(), stocks.size());
+
+        // checking that stock's histories was deleted too
         for (String ticker : stocks.stream().map(Security::getTicker).toList()){
             securityHistoryResult = data.getSecurityHistories(ticker);
             assertEquals(securityHistoryResult.getStatus(), FAIL);
@@ -652,25 +757,39 @@ public class DataProviderJDBCTest extends BaseTest {
     }
 
     public void testFailDeleteAllStocks(){
+        // deleting stocks from non-exist file
         stockResult = data.deleteAllStocks();
         System.out.println(stockResult);
         assertEquals(stockResult.getStatus(), FAIL);
         assertEquals(stockResult.getBody().size(), 0);
+
     }
 
     public void testAppendSecurityHistory(){
+        // appending
         securityHistoryResult = data.appendSecurityHistory(histories, "SBER");
         assertEquals(securityHistoryResult.getStatus(), SUCCESS);
-
+        // checking that histories were appended
+        securityHistoryResult = data.getSecurityHistories("SBER");
+        assertEquals(securityHistoryResult.getStatus(), SUCCESS);
+        assertEquals(securityHistoryResult.getBody().size(), histories.size());
     }
 
     public void testFailAppendSecurityHistory(){
+        // appending histories with a wrong ticker
         securityHistoryResult = data.appendSecurityHistory(histories, "SBER1");
         assertEquals(securityHistoryResult.getStatus(), FAIL);
+        // null ticker
         securityHistoryResult = data.appendSecurityHistory(histories, null);
         assertEquals(securityHistoryResult.getStatus(), FAIL);
+        // null
         securityHistoryResult = data.appendSecurityHistory(null, "");
         assertEquals(securityHistoryResult.getStatus(), FAIL);
+
+    }
+
+    public void testWarnAppendSecurityHistory(){
+        // appending histories with the same date
         securityHistoryResult = data.appendSecurityHistory(histories, "SBER");
         securityHistoryResult = data.appendSecurityHistory(histories, "SBER");
         System.out.println(securityHistoryResult);
@@ -678,28 +797,41 @@ public class DataProviderJDBCTest extends BaseTest {
         assertEquals(securityHistoryResult.getBody() ,histories);
     }
 
+
     public void testGetSecurityHistories(){
+        // appending security's histories
         assertEquals(data.appendSecurityHistory(histories, "SBER").getStatus(), SUCCESS);
+        // getting history
         securityHistoryResult = data.getSecurityHistories("SBER");
         System.out.println(securityHistoryResult);
         assertEquals(securityHistoryResult.getBody(), histories);
     }
 
     public void testFailGetSecurityHistories(){
+        // Getting history from non-exist bd
         securityHistoryResult = data.getSecurityHistories("SBER");
         assertEquals(securityHistoryResult.getStatus(), FAIL);
         assertEquals(data.appendSecurityHistory(histories, "SBER").getStatus(), SUCCESS);
 
+        // Wrong ticker
         securityHistoryResult = data.getSecurityHistories("SBER1");
         assertEquals(securityHistoryResult.getStatus(), FAIL);
 
+        // null
         securityHistoryResult = data.getSecurityHistories(null);
         assertEquals(securityHistoryResult.getStatus(), FAIL);
     }
 
     public void testGetSecurityHistoryByDate(){
+        // checking that SecurityHistory is never null
+        for (String date : dateList){
+            SecurityHistory securityHistory1 = data.getSecurityHistoryByDate("SBER", date);
+            assertEquals(securityHistory1, new SecurityHistoryBuilder().empty(date, "SBER"));
+        }
+        // appending SBER's history
         assertEquals(data.appendSecurityHistory(histories, "SBER").getStatus(), SUCCESS);
         for (String date : dateList){
+            // getting history by date and comparing with an example
             SecurityHistory securityHistory = data.getSecurityHistoryByDate("SBER", date);
             Optional<SecurityHistory> securityHistory1 = histories.stream().filter(x -> x.getDate().equals(date)).findFirst();
             assert securityHistory1.isPresent();
@@ -710,41 +842,52 @@ public class DataProviderJDBCTest extends BaseTest {
     public void testFailGetSecurityHistoryByDate(){
         SecurityHistory securityHistory = new SecurityHistoryBuilder().empty("SBER1");
         for (String date : dateList){
+            // different tickers
             SecurityHistory securityHistory1 = data.getSecurityHistoryByDate("SBER",date);
             assertNotEquals(securityHistory1, securityHistory);
-        }
-        for (String date : dateList){
-            SecurityHistory securityHistory1 = data.getSecurityHistoryByDate("SBER", date);
-            assertEquals(securityHistory1, new SecurityHistoryBuilder().empty(date, "SBER"));
         }
     }
 
     public void testAppendOrUpdate(){
-        assertEquals(data.getSecurityHistories("SBER").getStatus(), FAIL);
-        assert(data.appendOrUpdate(new SecurityHistoryBuilder().empty("SBER"), "SBER"));
+        // appending empty history
+        assert(data.appendOrUpdateSecurityHistory(new SecurityHistoryBuilder().empty("SBER"), "SBER"));
         securityHistoryResult = data.getSecurityHistories("SBER");
+
+        // Getting SBER history
         assertEquals(securityHistoryResult.getStatus(), SUCCESS);
         assertEquals(securityHistoryResult.getBody().size(), 1);
+
+        // updating SBER history
         SecurityHistory securityHistory = new SecurityHistoryBuilder().withTicker("SBER").withAveragePerDay(12314)
-                .withClosePrice(10).withOpenPrice(9).withVolume(1000).withDate(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()))
+                .withClosePrice(10).withOpenPrice(9).withVolume(1000)
+                .withDate(new SimpleDateFormat("yyyy-MM-dd")
+                        .format(Calendar.getInstance().getTime()))
                 .build();
-        assert(data.appendOrUpdate(securityHistory, "SBER"));
+
+        assert(data.appendOrUpdateSecurityHistory(securityHistory, "SBER"));
         securityHistoryResult = data.getSecurityHistories("SBER");
         assertEquals(securityHistoryResult.getStatus(), SUCCESS);
+        // checking that history was updated
         assertEquals(securityHistoryResult.getBody().size(), 1);
+        //
         assertEquals(securityHistoryResult.getBody().get(0), securityHistory);
     }
 
     public void testFailAppendOrUpdate(){
-        assertFalse(data.appendOrUpdate(null, "SBER"));
-        assertFalse(data.appendOrUpdate(new SecurityHistoryBuilder().empty("SBER"), null));
-        assertFalse(data.appendOrUpdate(new SecurityHistoryBuilder().empty("SBER"), "SBERE!"));
-        assertFalse(data.appendOrUpdate(new SecurityHistoryBuilder().empty("SBE1R"), "SBERE!"));
+        // null
+        assertFalse(data.appendOrUpdateSecurityHistory(null, "SBER"));
+        assertFalse(data.appendOrUpdateSecurityHistory(new SecurityHistoryBuilder().empty("SBER"), null));
+        // tickers not the same
+        assertFalse(data.appendOrUpdateSecurityHistory(new SecurityHistoryBuilder().empty("SBER"), "SBERE!"));
+        assertFalse(data.appendOrUpdateSecurityHistory(new SecurityHistoryBuilder().empty("SBE1R"), "SBERE!"));
     }
 
     public void testDeleteAllSecurityHistories(){
+        // appending history
         securityHistoryResult = data.appendSecurityHistory(histories, "SBER");
         assertEquals(securityHistoryResult.getStatus(), SUCCESS);
+
+        // deleting history
         Result<SecurityHistory> securityHistoryResult = data.deleteAllSecurityHistories("SBER");
         assertEquals(securityHistoryResult.getStatus(), SUCCESS);
         assertEquals(securityHistoryResult.getBody().size(), histories.size());
@@ -752,57 +895,68 @@ public class DataProviderJDBCTest extends BaseTest {
 
 
     public void testFailDeleteAllSecurityHistories(){
+        // deleting from non-exist file
         data.deleteAllSecurityHistories("SBER");
         assertEquals(data.deleteAllSecurityHistories("SBER").getStatus(), FAIL);
     }
 
     public void testAppendBonds(){
-        data.deleteAllSecurityHistories(SBERBOND);
-        securityHistoryResult = data.appendSecurityHistory(historiesBond, SBERBOND);
-        assertEquals(securityHistoryResult.getStatus(), SUCCESS);
-        assertEquals(data.getSecurityHistoryByDate(SBERBOND), getHistories(SBERBOND));
+
+        // appending bonds
         bondResult = data.appendBonds(bonds);
         System.out.println(bondResult);
         assertEquals(bondResult.getStatus(), SUCCESS);
-
+        // checking that bonds have been appended
+        bondResult = data.getBonds();
+        assertEquals(bondResult.getStatus(), SUCCESS);
+        assertEquals(bondResult.getBody().size(), bonds.size());
     }
 
     public void testFailAppendBonds(){
-        deleteFile(BOND_TABLE_NAME);
-        data.deleteAllSecurityHistories(SBERBOND);
+        // appending bonds
         bondResult = data.appendBonds(bonds);
-        bondResult = data.appendBonds(bonds);
-        assertEquals(bondResult.getStatus(), WARN);
-        assertEquals(bondResult.getBody().size(), bonds.size());
         Bond bond = new BondBuilder().withTicker("SBERBOND").withName("")
                 .withShortName("").withLatName("").withNominal(90)
                 .withNominalValue("RUB").withIssueDate(DATE).withIsin("qwer")
                 .withIssueSize(90).withSecurityHistory(getHistories("SBERBOND"))
                 .withType(BondType.CB).withMatDate("").withCoupon(0D).withDayToRedemption(0)
                 .build();
-
+        // appending list that consist 2 same bonds
         bondResult = data.appendBonds(new ArrayList<>(List.of(bond, bond)));
         assertEquals(bondResult.getStatus(), FAIL);
+        // null
         assertEquals(data.appendBonds(null).getStatus(), FAIL);
+        // empty list
         assertEquals(data.appendBonds(new ArrayList<>()).getStatus(), FAIL);
     }
 
-    public void testGetBonds(){
-        data.deleteAllSecurityHistories(SBERBOND);
+    public void testWarnAppendBonds(){
+        // appending bonds twice
         bondResult = data.appendBonds(bonds);
+        bondResult = data.appendBonds(bonds);
+        assertEquals(bondResult.getStatus(), WARN);
+        assertEquals(bondResult.getBody().size(), bonds.size());
+    }
+
+    public void testGetBonds(){
+        // Appending and getting bonds
+        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
         bondResult = data.getBonds();
         assertEquals(bondResult.getBody().size(), bonds.size());
     }
 
     public void testFailGetBonds(){
-        data.deleteAllSecurityHistories(SBERBOND);
+        // getting bonds from non-exist file
         bondResult = data.getBonds();
         assertEquals(bondResult.getStatus(), FAIL);
     }
 
     public void testUpdateBonds(){
+        // appending bonds
         bondResult = data.appendBonds(bonds);
         assertEquals(bondResult.getStatus(), SUCCESS);
+
+        // bond to update
         Bond bond = new BondBuilder().withTicker("SBERBOND").withName("")
                 .withShortName("").withLatName("").withNominal(90)
                 .withNominalValue("RUB").withIssueDate(DATE).withIsin("qwer")
@@ -811,11 +965,16 @@ public class DataProviderJDBCTest extends BaseTest {
                 .build();
         bondResult = data.updateBonds(new ArrayList<>(List.of(bond)));
         assertEquals(bondResult.getStatus(), SUCCESS);
+
+        // checking that history was updated
         securityHistoryResult = data.getSecurityHistories(SBERBOND);
         System.out.println(securityHistoryResult);
         assertEquals(securityHistoryResult.getStatus(), SUCCESS);
         System.out.println();
+
         assert(securityHistoryResult.getBody().contains(getHistories(SBERBOND)));
+
+        // checking that bond was updated
         Optional<Bond> bond1 = data.getBondByTicker(SBERBOND);
         assert(bond1.isPresent());
         assertEquals(bond1.get(), bond);
@@ -828,17 +987,19 @@ public class DataProviderJDBCTest extends BaseTest {
                 .withIssueSize(90).withSecurityHistory(getHistories("SBERBOND"))
                 .withType(BondType.CB).withMatDate("").withCoupon(0D).withDayToRedemption(0)
                 .build();
-
+        // non-exist db
         bondResult = data.updateBonds(new ArrayList<>(List.of(bond)));
         assertEquals(bondResult.getStatus(), FAIL);
-        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
-        bondResult = data.updateBonds(new ArrayList<>(List.of(bond)));
-        assertEquals(bondResult.getStatus(), WARN);
 
+        // null
         bondResult = data.updateBonds(null);
         assertEquals(bondResult.getStatus(), FAIL);
+
+        // empty list
         bondResult = data.updateBonds(new ArrayList<>());
         assertEquals(bondResult.getStatus(), FAIL);
+
+        // ticker contains null
         Bond bond1 = new BondBuilder().withTicker(null).withName("")
                 .withShortName("").withLatName("").withNominal(90)
                 .withNominalValue("RUB").withIssueDate(DATE).withIsin("qwer")
@@ -850,58 +1011,258 @@ public class DataProviderJDBCTest extends BaseTest {
         assertEquals(bondResult.getStatus(), FAIL);
     }
 
-    public void testDeleteBondByTicker(){
+    public void testWarnUpdateBonds(){
+        // updating bond with ticker that doesn't exist in db(incorrect ticker)
+        Bond bond = new BondBuilder().withTicker("SQFWQDQ").withName("")
+                .withShortName("").withLatName("").withNominal(90)
+                .withNominalValue("RUB").withIssueDate(DATE).withIsin("qwer")
+                .withIssueSize(90).withSecurityHistory(getHistories("SBERBOND"))
+                .withType(BondType.CB).withMatDate("").withCoupon(0D).withDayToRedemption(0)
+                .build();
         assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+        bondResult = data.updateBonds(new ArrayList<>(List.of(bond)));
+        System.out.println(bondResult);
+        assertEquals(bondResult.getStatus(), WARN);
+    }
+
+    public void testDeleteBondByTicker(){
+        // appending bonds
+        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+        // deleting bonds by ticker
         Optional<Bond> bond = data.deleteBondByTicker(SBERBOND);
         assert(bond.isPresent());
+
+        // checking that bonds are the same
         assertEquals(bond, bonds.stream().filter(x -> x.getTicker().equals(SBERBOND)).findFirst());
         bondResult = data.getBonds();
+
+        // checking that bond was deleted in db
         assertEquals(bondResult.getBody().size(), bonds.size() - 1);
     }
 
     public void testFailDeleteBondByTicker(){
+        // appending bonds
         assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+
+        // deleting bond with incorrect ticker
         Optional<Bond> bond = data.deleteBondByTicker("FFFFFFFFFFFFFFFFFFF");
         assert(bond.isEmpty());
         assertEquals(data.getBonds().getBody().size(), bonds.size());
     }
 
     public void testDeleteAllBonds(){
+        // appending bonds
         assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
-
+        // deleting all bonds
         bondResult = data.deleteAllBonds();
         System.out.println(bondResult);
         assertEquals(bondResult.getStatus(), SUCCESS);
+        // comparing deleted and appended bonds
         assertEquals(bondResult.getBody().size(), bonds.size());
+        // checking that bond's histories have been deleted
         for (String ticker : bonds.stream().map(Security::getTicker).toList()){
             securityHistoryResult = data.getSecurityHistories(ticker);
             assertEquals(securityHistoryResult.getStatus(), FAIL);
         }
 
+        // checking that bonds have been deleted from db
         bondResult = data.getBonds();
         assertEquals(bondResult.getBody().size(), 0);
     }
 
     public void testFailDeleteAllBonds(){
+        // deleting bonds from non-exist db
         assertEquals(data.deleteAllBonds().getStatus(), FAIL);
     }
 
     public void testGetBondByTicker(){
+        // appending bonds
         assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+        // get bond by ticker
         Optional<Bond> bond = data.getBondByTicker(SBERBOND);
         assert(bond.isPresent());
+
+        // comparing 2 bond
         assertEquals(bond, bonds.stream().filter(x -> x.getTicker().equals(SBERBOND)).findFirst());
         bondResult = data.getBonds();
         assertEquals(bondResult.getBody().size(), bonds.size());
     }
 
     public void testFailGetBondByTicker(){
+        // getting bond from non-exist db
         Optional<Bond> bond = data.getBondByTicker(SBERBOND);
         assert bond.isEmpty();
+
         assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+        // getting bond with incorrect ticker
         bond = data.getBondByTicker("QWEFASWFASF");
         assert bond.isEmpty();
     }
+
+    public void testGetSecuritiesByTickerList(){
+        // appending stocks and bonds
+        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
+        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+
+        // getting securities by ticker list
+        List<String> tickerList = new ArrayList<>(List.of("SBER", "SBERBOND", "QWER", "QWERBOND"));
+        securityResult = data.getSecuritiesByTickerList(tickerList);
+        System.out.println(securityResult);
+        assertEquals(securityResult.getStatus(), SUCCESS);
+        assertEquals(securityResult.getBody().size(), tickerList.size());
+    }
+
+    public void testFailGetSecuritiesByTickerList(){
+        // getting securities from non-exist db
+        List<String> tickerList = new ArrayList<>(List.of("SBER", "SBERBOND", "QWER", "QWERBOND"));
+        securityResult = data.getSecuritiesByTickerList(tickerList);
+        System.out.println(securityResult);
+        assertEquals(securityResult.getBody().size(), 0);
+
+        // empty list
+        securityResult = data.getSecuritiesByTickerList(new ArrayList<>());
+        assertEquals(securityResult.getStatus(), FAIL);
+
+        // null
+        securityResult = data.getSecuritiesByTickerList(null);
+        assertEquals(securityResult.getStatus(), FAIL);
+    }
+
+    public void testGetSecurityByTicker(){
+        // appending stocks and bonds
+        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
+        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+
+        Optional<Security> security = data.getSecurityByTicker(SBER);
+        System.out.println(security);
+        assert security.isPresent();
+
+        security = data.getSecurityByTicker(SBERBOND);
+        System.out.println(security);
+        assert security.isPresent();
+    }
+
+    public void testFailGetSecurityByTicker(){
+        //getting from non-exist security
+        Optional<Security> security = data.getSecurityByTicker(SBER);
+        System.out.println(security);
+        assert security.isEmpty();
+
+        security = data.getSecurityByTicker(SBERBOND);
+        System.out.println(security);
+        assert security.isEmpty();
+
+        //null
+        security = data.getSecurityByTicker(null);
+        assert security.isEmpty();
+    }
+
+    public void testFindSecurity(){
+        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
+        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+
+        // getting active security
+        List<Security> securityList = data.findSecurity(MarketType.SHARES);
+        assertEquals(securityList.size(), stocks.size());
+
+        securityList = data.findSecurity(MarketType.BONDS);
+        assertEquals(securityList.size(), bonds.size());
+
+        // getting security by ticker
+        data.appendSecurityHistory(histories, "SBER");
+        List<SecurityHistory> securityHistoryList = data.findSecurity("SBER");
+        securityHistoryList.forEach(System.out::println);
+        assert securityHistoryList.size() > 0;
+
+    }
+
+    public void testFailFindSecurity(){
+        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
+        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+
+        // null
+        List<Security> securityList = data.findSecurity((MarketType) null);
+        assert  securityList.isEmpty();
+
+        // null
+        List<SecurityHistory> securityHistoryList = data.findSecurity((String) null);
+        assert  securityList.isEmpty();
+
+        // incorrect ticker
+        securityHistoryList = data.findSecurity("SDAWFASDJAKFJWAHFOAW");
+        assert securityHistoryList.isEmpty();
+
+    }
+
+
+
+    public void testShowInfo(){
+        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
+        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+
+        System.out.println(data.showInfo("SBER"));
+        System.out.println(data.showInfo("SBERBOND"));
+    }
+
+    public void testFailShowInfo(){
+        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
+        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+
+        assert data.showInfo("fasfawfas").isEmpty();
+        assert data.showInfo(null).isEmpty();
+    }
+
+    public void testCheckVirtualBriefCase(){
+        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
+        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+
+        Optional<String> userId = data.appendUser("Dinh");
+        assert userId.isPresent();
+        assert data.performActon(userId.get(), "add", "SBER");
+        assert data.performActon(userId.get(), "add", "SBERBOND");
+
+        assertEquals(data.checkVirtualBriefCase(userId.get()).size(), 2);
+
+        System.out.println(data.showStatistics(userId.get()));
+    }
+
+    public void testFailCheckVirtualBriefCase(){
+        // incorrect id
+        assertEquals(data.checkVirtualBriefCase("sdw").size(), 0);
+        // null
+        assertEquals(data.checkVirtualBriefCase(null).size(), 0);
+    }
+
+    public void testPerformAction(){
+        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
+        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+
+        Optional<String> userId = data.appendUser("Dinh");
+        assert userId.isPresent();
+        assert data.performActon(userId.get(), "add", "SBER");
+        assert data.performActon(userId.get(), "add", "SBERBOND");
+
+        System.out.println(data.showStatistics(userId.get()));
+
+    }
+
+    public void testFailPerformAction(){
+        assertFalse(data.performActon(null, "add", "SBER"));
+        Optional<String> userId = data.appendUser("Dinh");
+        assert userId.isPresent();
+        // incorrect command
+        assertFalse(data.performActon(userId.get(), "addaaa", "SBER"));
+        // incorrect user id
+        assertFalse(data.performActon("adwasdfa", "addaaa", "SBER"));
+        // incorrect ticker
+        assertFalse(data.performActon(userId.get(), "add", "SBER"));
+
+        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
+        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+
+        assertFalse(data.performActon(userId.get(), "add", "SBERdwadsafa"));
+    }
+
 
 
 }

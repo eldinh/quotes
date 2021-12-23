@@ -2,6 +2,7 @@ package ru.sfedu;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Constants {
 
@@ -150,4 +151,5 @@ public class Constants {
     public static final String MONGODB_CHANGES_FIELD = "changes";
 
     public static final String DATE = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+    public static final String CURRENT_TIME = new Date().toString() + System.currentTimeMillis() % 1000;
 }

@@ -18,7 +18,7 @@ public class Stock extends Security {
 
     public Stock(StockBuilder stockBuilder){
         super(stockBuilder.getTicker(), stockBuilder.getName(), stockBuilder.getShortName(), stockBuilder.getLatName(), stockBuilder.getNominal(), stockBuilder.getNominalValue(), stockBuilder.getIssueDate(), stockBuilder.getIsin(), stockBuilder.getIssueSize(), stockBuilder.getSecurityHistory());
-        this.marketType = MarketType.BONDS;
+        this.marketType = MarketType.SHARES;
         this.type = stockBuilder.getType();
         this.dividendSum = stockBuilder.getDividendSum();
         this.capitalization = stockBuilder.getCapitalization();

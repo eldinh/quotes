@@ -2,25 +2,33 @@ package ru.sfedu.model;
 
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvCustomBindByPosition;
-import ru.sfedu.utils.IDGenerator;
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
+import ru.sfedu.utils.IdGenerator;
 import ru.sfedu.utils.SecurityCsvConverter;
 
 import java.util.Objects;
 
 public class Action {
+    @Attribute
     @CsvBindByPosition(position = 0)
     String id;
+    @Attribute
     @CsvBindByPosition(position = 1)
     String date;
+    @Attribute
     @CsvBindByPosition(position = 2)
     ActionType action;
+    @Attribute
     @CsvBindByPosition(position = 3)
     String userID;
+    @Element
     @CsvCustomBindByPosition(position = 4, converter = SecurityCsvConverter.class)
     Security security;
 
+
     public Action() {
-        this.id = IDGenerator.generate();
+        this.id = IdGenerator.generate();
     }
 
     public Action(String date, ActionType action, String userID, Security security) {
@@ -34,7 +42,7 @@ public class Action {
     public Action(ActionBuilder actionBuilder){
         this.id = actionBuilder.getId();
         if (this.id == null)
-            id = IDGenerator.generate();
+            id = IdGenerator.generate();
         this.date = actionBuilder.getDate();
         this.action = actionBuilder.getAction();
         this.userID = actionBuilder.getUserID();
