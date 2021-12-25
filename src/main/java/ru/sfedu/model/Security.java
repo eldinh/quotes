@@ -1,8 +1,6 @@
 package ru.sfedu.model;
 
-import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
-import com.opencsv.bean.CsvCustomBindByName;
 import com.opencsv.bean.CsvCustomBindByPosition;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
@@ -32,13 +30,13 @@ public class Security {
     protected String nominalValue;
     @Attribute
     @CsvBindByPosition(position = 6)
-    protected String issueDate;
+    protected String issueDate; // дата выпуска
     @Attribute(required = false)
     @CsvBindByPosition(position = 7)
-    protected String isin;
+    protected String isin; // Международный идентификационный код ценной бумаги
     @Attribute
     @CsvBindByPosition(position = 8)
-    protected long issueSize;
+    protected long issueSize; // объем ценной бумаги
     @Attribute
     @CsvBindByPosition(position = 9)
     protected MarketType marketType;  // тип биржи

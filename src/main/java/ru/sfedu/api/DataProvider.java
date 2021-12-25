@@ -320,7 +320,7 @@ public interface DataProvider {
      * @param marketType - Тип биржи
      * @return - Массив объектов классов ценных бумаг, который котируется на данной рынке
      */
-    public List<Security> getActiveSecurities(MarketType marketType);
+    public Result<Security> getActiveSecurities(MarketType marketType);
 
     /**
      * Метод для поиска ценной бумаги по его названию или тикеру(кодовое обозначение актива на бирже).
@@ -329,7 +329,7 @@ public interface DataProvider {
      * @param ticker - Тикер ценной бумаги
      * @return Массив, содержащий котировку ценной бумаги за весь его период, пока он продавался на рынке
      */
-    public List<SecurityHistory> findSecurity(String ticker);
+    public Result<SecurityHistory> findSecurity(String ticker);
 
     /**
      * Метод для поиска ценной бумаги по его названию или тикеру(кодовое обозначение актива на бирже).
@@ -338,7 +338,7 @@ public interface DataProvider {
      * @param marketType - Тип рынка
      * @return Массив объектов классов ценных бумаг, который котируется на данной рынке
      */
-    public List<Security> findSecurity(MarketType marketType);
+    public Result<Security> findSecurity(MarketType marketType);
 
     /**
      * Функция, которая является включающей для findSecurityByTicker.
@@ -348,7 +348,7 @@ public interface DataProvider {
      * @param ticker - тикер ценной бумаги
      * @return List<SecurityHistory> - котировка данной ценной бумаги за все время его торговли на рынке
      */
-    public List<SecurityHistory> showDetailedInfo(String ticker);
+    public Result<SecurityHistory> showDetailedInfo(String ticker);
 
     /**
      * Метод выводит информацию об компании:
@@ -369,7 +369,7 @@ public interface DataProvider {
      * @param userId - айди пользователя
      * @return - Массив с объектами класса ценных бумаг, который сохранил пользователь.
      */
-    public List<Security> checkVirtualBriefCase(String userId);
+    public Result<Security> checkVirtualBriefCase(String userId);
 
     /**
      * Метод выводит краткую информацию об ценных бумагах в портфеле пользователя

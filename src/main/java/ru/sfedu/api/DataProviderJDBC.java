@@ -1138,6 +1138,8 @@ public class DataProviderJDBC implements DataProvider {
     public Optional<String> appendAction(ActionType actionType, String userID, String ticker){
         log.info("Starting DataProviderJDBC appendAction had failed[0]");
         try {
+            if (getUserById(userID).isEmpty())
+                throw new  Exception(String.format("User %s wasn't found", userID));
             log.info("appendAction[1]: actionType - {}, userID - {}, security - {}", actionType, userID, ticker);
             Optional<Security> security = getSecurityByTicker(ticker);
             if (security.isEmpty())
@@ -1351,30 +1353,30 @@ public class DataProviderJDBC implements DataProvider {
 
     // use case
     @Override
-    public List<SecurityHistory> findSecurity(String ticker){
+    public Result<SecurityHistory> findSecurity(String ticker){
         log.info("Starting DataProviderJDBC findSecurity[0]");
         try {
             log.info("findSecurity[1]: ticker - {}", ticker);
             return showDetailedInfo(ticker);
         }catch (Exception e){
             log.error("Function DataProviderJDBC had failed[2]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
-        return new ArrayList<>();
     }
     @Override
-    public List<Security> findSecurity(MarketType marketType){
+    public Result<Security> findSecurity(MarketType marketType){
         log.info("Starting DataProviderJDBC findSecurity[0]");
         try {
             log.info("findSecurity[1]: marketType - {}", marketType);
             return getActiveSecurities(marketType);
         }catch (Exception e){
             log.error("Function DataProviderJDBC had failed[2]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
-        return new ArrayList<>();
     }
 
     @Override
-    public List<Security> getActiveSecurities(MarketType marketType){
+    public Result<Security> getActiveSecurities(MarketType marketType){
         log.info("Starting DataProviderJDBC getActiveSecurities[0]");
         try {
             log.info("getActiveSecurities[1]: marketType - {}", marketType);
@@ -1383,15 +1385,15 @@ public class DataProviderJDBC implements DataProvider {
                 throw new Exception("Market wasn't found");
             List<Security> securityList = market.get().getSecurityList();
             securityList.sort(Comparator.comparing( (Security x) -> x.getHistory().getVolume() ).reversed());
-            return securityList;
+            return new Result<>(SUCCESS, String.format("Number of securities: %d", securityList.size()), securityList);
         }catch (Exception e){
             log.error("Function DataProviderJDBC getActiveSecurities had failed[2]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
-        return new ArrayList<>();
     }
 
     @Override
-    public List<SecurityHistory> showDetailedInfo(String ticker) {
+    public Result<SecurityHistory> showDetailedInfo(String ticker) {
         log.info("Starting DataProviderJDBC showDetailedInfo[0]");
         try {
             log.debug("showDetailedInfo[1]: ticker - {}", ticker);
@@ -1401,17 +1403,18 @@ public class DataProviderJDBC implements DataProvider {
             log.debug("showDetailedInfo[2]: Getting and sorting history");
             List<SecurityHistory> securityHistoryList = getSecurityHistories(security.get().getTicker()).getBody();
             securityHistoryList.sort(Comparator.comparing(SecurityHistory::getDate).reversed());
-            return securityHistoryList;
+            return new Result<>(SUCCESS, String.format("Providing %s's histories: \n", ticker), securityHistoryList);
         }catch (Exception e){
             log.error("Function DataProviderJDBC showDetailedInfo had failed[3]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
-        return new ArrayList<>();
     }
 
     @Override
     public String showInfo(String ticker){
-        log.info("Starting DataProviderJDBC showInfo[0]");
+        log.info("Starting DataProviderCSV showInfo[0]");
         try {
+            Validator.isValid(ticker);
             log.info("showInfo[1]: ticker - {}", ticker);
             log.debug("showInfo[2]: Getting security by ticker {}", ticker);
             Optional<Security> security = getSecurityByTicker(ticker);
@@ -1419,30 +1422,35 @@ public class DataProviderJDBC implements DataProvider {
                 throw new Exception(String.format("Security %s wasn't found", ticker));
             log.debug("showInfo[3]: Getting extra information");
             String extraInfo = security.get().getMarketType().equals(MarketType.SHARES) ?
-                    "dividendSum: " + ((Stock) security.get()).getDividendSum() + "\n" +
-                            "capitalization: " + ((Stock) security.get()).getCapitalization() + "\n" :
-                    "matDate: " + ((Bond) security.get()).getMatDate() +  "\n" +
-                            "coupon: " + ((Bond) security.get()).getCoupon() +  "\n" +
-                            "dayToRedemption: " + ((Bond) security.get()).getDayToRedemption() + "\n" ;
-            return "ticker: " + security.get().getTicker() + "\n" +
-                    "name: " + security.get().getShortName() + "\n" +
-                    "isin: " + security.get().getIsin() + "\n"  +
-                    "nominal: " + security.get().getNominal() + "\n" +
-                    "nominalValue: " + security.get().getNominalValue() + "\n"  +
-                    "issueDate: " + security.get().getIssueDate() + "\n" +
-                    "latName: " + security.get().getLatName() + "\n" +
-                    "issueSize: " + security.get().getIssueSize() +
-                    "group: " + security.get().getMarketType() + "\n" +
-                    "volume: " + security.get().getHistory().getVolume() + "\n" +
-                    "type: " + security.get().getMarketType() + "\n" + extraInfo;
+                    String.format("dividendSum: %.3f \ncapitalization: %.3f \ntype: %s \n"
+                            ,((Stock) security.get()).getDividendSum()
+                            ,((Stock) security.get()).getCapitalization()
+                            ,((Stock) security.get()).getType()):
+                    String.format("matDate: %s \ncoupon: %.3f \ndayToRedemption: %d \ntype: %s \n"
+                            ,((Bond) security.get()).getMatDate()
+                            ,((Bond) security.get()).getCoupon()
+                            ,((Bond) security.get()).getDayToRedemption()
+                            ,((Bond) security.get()).getType());
+            return String.format("\nticker: %s \nname: %s \nisin: %s \nnominal: %.3f \nnominalValue: %s \nissueDate: %s \nlatName: %s \nissueSize: %d \ngroup: %s \n"
+                            ,security.get().getTicker()
+                            ,security.get().getShortName()
+                            ,security.get().getIsin()
+                            ,security.get().getNominal()
+                            ,security.get().getNominalValue()
+                            ,security.get().getIssueDate()
+                            ,security.get().getLatName()
+                            ,security.get().getIssueSize()
+                            ,security.get().getMarketType())
+                    .concat(extraInfo);
+
         }catch (Exception e){
-            log.error("Function DataProviderJDBC showInfo had failed[4]: {}", e.getMessage());
+            log.error("Function DataProviderCSV showInfo had failed[4]: {}", e.getMessage());
         }
         return "";
     }
 
     @Override
-    public List<Security> checkVirtualBriefCase(String userId){
+    public Result<Security> checkVirtualBriefCase(String userId){
         log.info("Starting DataProviderJDBC checkVirtualBriefCase[0]");
         try {
             log.info("checkVirtualBriefCase[1]: userId - {}", userId);
@@ -1450,11 +1458,11 @@ public class DataProviderJDBC implements DataProvider {
             Optional<User> user = getUserById(userId);
             if (user.isEmpty())
                 throw new Exception(String.format("User wasn't found by id %s", userId));
-            return user.get().getSecurityList();
+            return new Result<>(SUCCESS, String.format("Number of saved securities: %d", user.get().getSecurityList().size()), user.get().getSecurityList()) ;
         }catch (Exception e){
             log.error("Function DataProviderJDBC checkVirtualBriefCase[3]: {}" ,e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
-        return new ArrayList<>();
     }
 
     @Override
@@ -1466,7 +1474,7 @@ public class DataProviderJDBC implements DataProvider {
             Optional<User> user = getUserById(userId);
             if (user.isEmpty())
                 throw new Exception(String.format("User %s wasn't found", userId));
-            StringBuilder info = new StringBuilder();
+            StringBuilder info = new StringBuilder("\n");
             for (Security security: user.get().getSecurityList())
                 info.append(security.getTicker()).append(": ").append(security.getHistory().getAveragePerDay()).append("\n");
             List<Action> actions = user.get().getActionHistory();

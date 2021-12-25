@@ -25,13 +25,13 @@ public class DataProviderXMLTest extends BaseTest {
 
     @Override
     protected void setUp() {
+        data.deleteAllSecurityHistories("SBER");
+        data.deleteAllSecurityHistories("SBERBOND");
         deleteFile(USER_TABLE_NAME);
         deleteFile(STOCK_TABLE_NAME);
         deleteFile(BOND_TABLE_NAME);
         deleteFile(ACTON_TABLE_NAME);
         deleteFile(MARKET_TABLE_NAME);
-        data.deleteAllSecurityHistories("SBER");
-        data.deleteAllSecurityHistories("SBERBOND");
     }
 
 
@@ -806,7 +806,7 @@ public class DataProviderXMLTest extends BaseTest {
         // getting history
         securityHistoryResult = data.getSecurityHistories("SBER");
         System.out.println(securityHistoryResult);
-        assertEquals(securityHistoryResult.getBody(), histories);
+        assertEquals(securityHistoryResult.getBody().size(), histories.size());
     }
 
     public void testFailGetSecurityHistories(){
@@ -1161,113 +1161,216 @@ public class DataProviderXMLTest extends BaseTest {
         assert security.isEmpty();
     }
 
-
-
-    public void testFindSecurity(){
+    public void initData(){
+        // appending stocks bonds
         assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
         assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+        // history
+        assertEquals(data.appendSecurityHistory(histories, SBER).getStatus(), SUCCESS);
+    }
 
-        // getting active security
-        List<Security> securityList = data.findSecurity(MarketType.SHARES);
-        assertEquals(securityList.size(), stocks.size());
+    public String initUser(){
+        Optional<String> userId = data.appendUser("dinh");
+        assert userId.isPresent();
+        return userId.get();
+    }
 
-        securityList = data.findSecurity(MarketType.BONDS);
-        assertEquals(securityList.size(), bonds.size());
+    public void testGetActiveSecurities(){
+        initData();
 
-        // getting security by ticker
-        data.appendSecurityHistory(histories, "SBER");
-        List<SecurityHistory> securityHistoryList = data.findSecurity("SBER");
-        securityHistoryList.forEach(System.out::println);
-        assert securityHistoryList.size() > 0;
+        // Correct output
+        securityResult = data.getActiveSecurities(MarketType.BONDS);
+        assertEquals(securityResult.getStatus(), SUCCESS);
+        assertEquals(securityResult.getBody().size(), bonds.size());
+
+        // Correct output
+        securityResult = data.getActiveSecurities(MarketType.SHARES);
+        assertEquals(securityResult.getStatus(), SUCCESS);
+        assertEquals(securityResult.getBody().size(), stocks.size());
+
 
     }
 
-    public void testFailFindSecurity(){
-        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
-        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+    public void testFailGetActiveSecurities(){
+        initData();
 
         // null
-        List<Security> securityList = data.findSecurity((MarketType) null);
-        assert  securityList.isEmpty();
+        securityResult = data.getActiveSecurities(null);
+        assertEquals(securityResult.getStatus(), FAIL);
+    }
 
-        // null
-        List<SecurityHistory> securityHistoryList = data.findSecurity((String) null);
-        assert  securityList.isEmpty();
+    public void testShowDetailedInfo(){
+        initData();
+
+        securityHistoryResult = data.showDetailedInfo(SBER);
+        System.out.println(securityHistoryResult);
+        assertEquals(securityHistoryResult.getStatus(), SUCCESS);
+        assertEquals(securityHistoryResult.getBody().size(), histories.size() + 1);
+    }
+
+
+    public void testFailShowDetailedInfo(){
+        initData();
 
         // incorrect ticker
-        securityHistoryList = data.findSecurity("SDAWFASDJAKFJWAHFOAW");
-        assert securityHistoryList.isEmpty();
+        securityHistoryResult = data.showDetailedInfo("WWWWWWWWWW");
+        assertEquals(securityHistoryResult.getStatus(), FAIL);
 
+        // null
+        securityHistoryResult = data.showDetailedInfo(null);
+        assertEquals(securityHistoryResult.getStatus(), FAIL);
     }
 
-
-
     public void testShowInfo(){
-        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
-        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+        initData();
 
-        System.out.println(data.showInfo("SBER"));
-        System.out.println(data.showInfo("SBERBOND"));
+        // getting info
+        String info = data.showInfo(SBER);
+        assertFalse(info.isEmpty());
     }
 
     public void testFailShowInfo(){
-        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
-        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+        initData();
 
-        assert data.showInfo("fasfawfas").isEmpty();
-        assert data.showInfo(null).isEmpty();
+        // incorrect ticker
+        String info = data.showInfo("WWWWWWWWWDAWFWAFS");
+        assert info.isEmpty();
+
+        // null
+        info = data.showInfo(null);
+        assert info.isEmpty();
+    }
+
+    public void testFindSecurity(){
+        initData();
+
+
+        securityHistoryResult = data.findSecurity(SBER);
+        assertEquals(securityHistoryResult.getStatus(), SUCCESS);
+        assertEquals(securityHistoryResult.getBody().size(), histories.size() + 1);
+
+
+        // Correct output
+        securityResult = data.findSecurity(MarketType.BONDS);
+        assertEquals(securityResult.getStatus(), SUCCESS);
+        assertEquals(securityResult.getBody().size(), bonds.size());
+
+        // Correct output
+        securityResult = data.findSecurity(MarketType.SHARES);
+        assertEquals(securityResult.getStatus(), SUCCESS);
+        assertEquals(securityResult.getBody().size(), stocks.size());
+    }
+
+    public void testFailFindSecurity(){
+        initData();
+
+        // null
+        securityResult = data.findSecurity((MarketType) null);
+        assertEquals(securityResult.getStatus(), FAIL);
+
+        // incorrect ticker
+        securityHistoryResult = data.findSecurity("WWWWWWWWWW");
+        assertEquals(securityHistoryResult.getStatus(), FAIL);
+
+        // null
+        securityHistoryResult = data.findSecurity((String)null);
+        assertEquals(securityHistoryResult.getStatus(), FAIL);
+    }
+
+    public void testPerformActon(){
+        initData();
+
+
+        String id = initUser();
+
+        assert data.performActon(id, "add", SBER);
+        assert data.performActon(id, "add", SBERBOND);
+        assert data.performActon(id, "delete", SBERBOND);
+        assert data.performActon(id, "delete", SBER);
+    }
+
+    public void testFailPerformActon(){
+        initData();
+
+        String id = initUser();
+
+        // incorrect ticker
+        assertFalse(data.performActon(id, "add", "SDWAFAWFKAWFOW"));
+
+        // incorrect command
+        assertFalse(data.performActon(id, "update", SBER));
+
+        // incorrect id
+        assertFalse(data.performActon("wqfq", "add", SBER));
+
+        // deleting smth that not in case
+        assertFalse(data.performActon(id, "delete", SBER));
+
+        // adding same security twice
+        assert(data.performActon(id, "add", SBER));
+        assertFalse(data.performActon(id, "add", SBER));
+        assert(data.performActon(id, "delete", SBER));
+
+        // deleting twice
+        assert(data.performActon(id, "add", SBER));
+        assert(data.performActon(id, "delete", SBER));
+        assertFalse(data.performActon(id, "delete", SBER));
+
+        // null
+        assertFalse(data.performActon(null, "add", SBER));
+        assertFalse(data.performActon(id, null, SBER));
+        assertFalse(data.performActon(id, "add", null));
     }
 
     public void testCheckVirtualBriefCase(){
-        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
-        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+        initData();
 
-        Optional<String> userId = data.appendUser("Dinh");
-        assert userId.isPresent();
-        assert data.performActon(userId.get(), "add", "SBER");
-        assert data.performActon(userId.get(), "add", "SBERBOND");
+        String id = initUser();
 
-        assertEquals(data.checkVirtualBriefCase(userId.get()).size(), 2);
+        assert data.performActon(id, "add", SBER);
+        assert data.performActon(id, "add", SBERBOND);
 
-        System.out.println(data.showStatistics(userId.get()));
+        // checking briefcase
+        securityResult = data.checkVirtualBriefCase(id);
+        assertEquals(securityResult.getStatus(), SUCCESS);
+        assertEquals(securityResult.getBody().size(), 2);
+
+        assert data.performActon(id, "delete", SBER);
+        assert data.performActon(id, "delete", SBERBOND);
+
+        // checking briefcase again after deleting
+        securityResult = data.checkVirtualBriefCase(id);
+        assertEquals(securityResult.getStatus(), SUCCESS);
+        assertEquals(securityResult.getBody().size(), 0);
     }
 
     public void testFailCheckVirtualBriefCase(){
         // incorrect id
-        assertEquals(data.checkVirtualBriefCase("sdw").size(), 0);
+        assertEquals(data.checkVirtualBriefCase("dwadw").getStatus(), FAIL);
         // null
-        assertEquals(data.checkVirtualBriefCase(null).size(), 0);
+        assertEquals(data.checkVirtualBriefCase(null).getStatus(), FAIL);
     }
 
-    public void testPerformAction(){
-        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
-        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
+    public void testShowStatistics(){
+        initData();
+        String id = initUser();
 
-        Optional<String> userId = data.appendUser("Dinh");
-        assert userId.isPresent();
-        assert data.performActon(userId.get(), "add", "SBER");
-        assert data.performActon(userId.get(), "add", "SBERBOND");
+        assert data.performActon(id, "add", SBER);
+        assert data.performActon(id, "add", SBERBOND);
 
-        System.out.println(data.showStatistics(userId.get()));
-
+        String info = data.showStatistics(id);
+        assertFalse(info.isEmpty());
     }
 
-    public void testFailPerformAction(){
-        assertFalse(data.performActon(null, "add", "SBER"));
-        Optional<String> userId = data.appendUser("Dinh");
-        assert userId.isPresent();
-        // incorrect command
-        assertFalse(data.performActon(userId.get(), "addaaa", "SBER"));
-        // incorrect user id
-        assertFalse(data.performActon("adwasdfa", "addaaa", "SBER"));
-        // incorrect ticker
-        assertFalse(data.performActon(userId.get(), "add", "SBER"));
-
-        assertEquals(data.appendStocks(stocks).getStatus(), SUCCESS);
-        assertEquals(data.appendBonds(bonds).getStatus(), SUCCESS);
-
-        assertFalse(data.performActon(userId.get(), "add", "SBERdwadsafa"));
+    public void testFailShowStatistics(){
+        // incorrect id
+        String info = data.showStatistics("id");
+        assert(info.isEmpty());
+        // null
+        info = data.showStatistics(null);
+        assert info.isEmpty();
     }
+
 
 
 }

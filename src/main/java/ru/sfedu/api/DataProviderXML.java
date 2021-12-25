@@ -576,7 +576,7 @@ public class DataProviderXML implements DataProvider {
             oldList.sort(Comparator.comparing(SecurityHistory::getDate).reversed());
             List<SecurityHistory> response = securityHistories.stream().filter(x -> dateList.contains(x.getDate())).toList();
             log.debug("appendSecuritiesHistory[3]: Appending to file");
-            writeHistory(securityHistories, ticker);
+            writeHistory(oldList, ticker);
             if (response.isEmpty())
                 return new Result<>(SUCCESS, "SecurityHistories have been appended successfully", response);
             return new Result<>(WARN, String.format("Number of SecurityHistories that haven't been appended: %d", response.size()), response);
@@ -1009,30 +1009,32 @@ public class DataProviderXML implements DataProvider {
 
     // use case
     @Override
-    public List<SecurityHistory> findSecurity(String ticker){
+    public Result<SecurityHistory> findSecurity(String ticker){
         log.info("Starting DataProviderXML findSecurity[0]");
         try {
+            Validator.isValid(ticker);
             log.info("findSecurity[1]: ticker - {}", ticker);
             return showDetailedInfo(ticker);
         }catch (Exception e){
             log.error("Function DataProviderXML had failed[2]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
-        return new ArrayList<>();
     }
     @Override
-    public List<Security> findSecurity(MarketType marketType){
+    public Result<Security> findSecurity(MarketType marketType){
         log.info("Starting DataProviderXML findSecurity[0]");
         try {
+            Validator.isValid(marketType);
             log.info("findSecurity[1]: marketType - {}", marketType);
             return getActiveSecurities(marketType);
         }catch (Exception e){
             log.error("Function DataProviderXML had failed[2]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
-        return new ArrayList<>();
     }
 
     @Override
-    public List<Security> getActiveSecurities(MarketType marketType){
+    public Result<Security> getActiveSecurities(MarketType marketType){
         log.info("Starting DataProviderXML getActiveSecurities[0]");
         try {
             log.info("getActiveSecurities[1]: marketType - {}", marketType);
@@ -1041,17 +1043,18 @@ public class DataProviderXML implements DataProvider {
                 throw new Exception("Market wasn't found");
             List<Security> securityList = market.get().getSecurityList();
             securityList.sort(Comparator.comparing( (Security x) -> x.getHistory().getVolume() ).reversed());
-            return securityList;
+            return new Result<>(SUCCESS, String.format("Number of securities: %d", securityList.size()), securityList);
         }catch (Exception e){
             log.error("Function DataProviderXML getActiveSecurities had failed[2]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
-        return new ArrayList<>();
     }
 
     @Override
-    public List<SecurityHistory> showDetailedInfo(String ticker) {
+    public Result<SecurityHistory> showDetailedInfo(String ticker) {
         log.info("Starting DataProviderXML showDetailedInfo[0]");
         try {
+            Validator.isValid(ticker);
             log.debug("showDetailedInfo[1]: ticker - {}", ticker);
             Optional<Security> security = getSecurityByTicker(ticker);
             if (security.isEmpty())
@@ -1059,17 +1062,18 @@ public class DataProviderXML implements DataProvider {
             log.debug("showDetailedInfo[2]: Getting and sorting history");
             List<SecurityHistory> securityHistoryList = getSecurityHistories(security.get().getTicker()).getBody();
             securityHistoryList.sort(Comparator.comparing(SecurityHistory::getDate).reversed());
-            return securityHistoryList;
+            return new Result<>(SUCCESS, String.format("Providing %s's histories: \n", ticker), securityHistoryList);
         }catch (Exception e){
             log.error("Function DataProviderXML showDetailedInfo had failed[3]: {}", e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
-        return new ArrayList<>();
     }
 
     @Override
     public String showInfo(String ticker){
         log.info("Starting DataProviderXML showInfo[0]");
         try {
+            Validator.isValid(ticker);
             log.info("showInfo[1]: ticker - {}", ticker);
             log.debug("showInfo[2]: Getting security by ticker {}", ticker);
             Optional<Security> security = getSecurityByTicker(ticker);
@@ -1077,22 +1081,27 @@ public class DataProviderXML implements DataProvider {
                 throw new Exception(String.format("Security %s wasn't found", ticker));
             log.debug("showInfo[3]: Getting extra information");
             String extraInfo = security.get().getMarketType().equals(MarketType.SHARES) ?
-                    "dividendSum: " + ((Stock) security.get()).getDividendSum() + "\n" +
-                            "capitalization: " + ((Stock) security.get()).getCapitalization() + "\n" :
-                    "matDate: " + ((Bond) security.get()).getMatDate() +  "\n" +
-                            "coupon: " + ((Bond) security.get()).getCoupon() +  "\n" +
-                            "dayToRedemption: " + ((Bond) security.get()).getDayToRedemption() + "\n" ;
-            return "ticker: " + security.get().getTicker() + "\n" +
-                    "name: " + security.get().getShortName() + "\n" +
-                    "isin: " + security.get().getIsin() + "\n"  +
-                    "nominal: " + security.get().getNominal() + "\n" +
-                    "nominalValue: " + security.get().getNominalValue() + "\n"  +
-                    "issueDate: " + security.get().getIssueDate() + "\n" +
-                    "latName: " + security.get().getLatName() + "\n" +
-                    "issueSize: " + security.get().getIssueSize() +
-                    "group: " + security.get().getMarketType() + "\n" +
-                    "volume: " + security.get().getHistory().getVolume() + "\n" +
-                    "type: " + security.get().getMarketType() + "\n" + extraInfo;
+                    String.format("dividendSum: %.3f \ncapitalization: %.3f \ntype: %s \n"
+                            ,((Stock) security.get()).getDividendSum()
+                            ,((Stock) security.get()).getCapitalization()
+                            ,((Stock) security.get()).getType()):
+                    String.format("matDate: %s \ncoupon: %.3f \ndayToRedemption: %d \ntype: %s \n"
+                            ,((Bond) security.get()).getMatDate()
+                            ,((Bond) security.get()).getCoupon()
+                            ,((Bond) security.get()).getDayToRedemption()
+                            ,((Bond) security.get()).getType());
+            return String.format("\nticker: %s \nname: %s \nisin: %s \nnominal: %.3f \nnominalValue: %s \nissueDate: %s \nlatName: %s \nissueSize: %d \ngroup: %s \n"
+                            ,security.get().getTicker()
+                            ,security.get().getShortName()
+                            ,security.get().getIsin()
+                            ,security.get().getNominal()
+                            ,security.get().getNominalValue()
+                            ,security.get().getIssueDate()
+                            ,security.get().getLatName()
+                            ,security.get().getIssueSize()
+                            ,security.get().getMarketType())
+                    .concat(extraInfo);
+
         }catch (Exception e){
             log.error("Function DataProviderXML showInfo had failed[4]: {}", e.getMessage());
         }
@@ -1100,31 +1109,33 @@ public class DataProviderXML implements DataProvider {
     }
 
     @Override
-    public List<Security> checkVirtualBriefCase(String userId){
+    public Result<Security> checkVirtualBriefCase(String userId){
         log.info("Starting DataProviderXML checkVirtualBriefCase[0]");
         try {
+            Validator.isValid(userId);
             log.info("checkVirtualBriefCase[1]: userId - {}", userId);
             log.debug("checkVirtualBriefCase[2]: Getting user by id {}", userId);
             Optional<User> user = getUserById(userId);
             if (user.isEmpty())
                 throw new Exception(String.format("User wasn't found by id %s", userId));
-            return user.get().getSecurityList();
+            return new Result<>(SUCCESS, String.format("Number of saved securities: %d", user.get().getSecurityList().size()), user.get().getSecurityList()) ;
         }catch (Exception e){
             log.error("Function DataProviderXML checkVirtualBriefCase[3]: {}" ,e.getMessage());
+            return new Result<>(FAIL, e.getMessage(), new ArrayList<>());
         }
-        return new ArrayList<>();
     }
 
     @Override
     public String showStatistics(String userId){
         log.info("Starting DataProviderXML showStatistics[0]");
         try {
+            Validator.isValid(userId);
             log.info("showStatistics[1]: userId - {}", userId);
             log.debug("showStatistics[2]: Getting user by id {}", userId);
             Optional<User> user = getUserById(userId);
             if (user.isEmpty())
                 throw new Exception(String.format("User %s wasn't found", userId));
-            StringBuilder info = new StringBuilder();
+            StringBuilder info = new StringBuilder("\n");
             for (Security security: user.get().getSecurityList())
                 info.append(security.getTicker()).append(": ").append(security.getHistory().getAveragePerDay()).append("\n");
             List<Action> actions = user.get().getActionHistory();
