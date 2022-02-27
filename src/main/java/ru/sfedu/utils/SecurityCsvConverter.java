@@ -4,14 +4,14 @@ import com.opencsv.bean.AbstractBeanField;
 import com.opencsv.exceptions.CsvConstraintViolationException;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-import ru.sfedu.api.DataProviderCSV;
+import ru.sfedu.api.DataProviderCsv;
 import ru.sfedu.model.Security;
 import ru.sfedu.model.Stock;
 
 import java.util.Optional;
 
 public class SecurityCsvConverter extends AbstractBeanField<Security, String> {
-    private final DataProviderCSV data = new DataProviderCSV();
+    private final DataProviderCsv data = new DataProviderCsv();
     @Override
     protected Object convert(String s) throws CsvDataTypeMismatchException, CsvConstraintViolationException {
         Optional<Stock> stock = data.getStockByTicker(s);

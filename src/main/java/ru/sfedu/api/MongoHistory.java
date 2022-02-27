@@ -24,11 +24,6 @@ import static ru.sfedu.utils.ConfigurationUtil.getConfigurationEntry;
 public class MongoHistory {
     private static final Logger log = LogManager.getLogger(MongoHistory.class.getName());
 
-    private static Boolean writeToHistory = false;
-
-    public static void disable(){
-        writeToHistory = false;
-    }
 
     private static <T> MongoCollection<Document> getCollection(Class<T> pojoClass) throws Exception {
         log.info("Starting MongoHistory getCollection[0]");
@@ -50,10 +45,22 @@ public class MongoHistory {
         }
 
     }
+
+    public static boolean writeToHistory(){
+        log.info("Starting MongoHistory writeToHistory[0]");
+        try {
+            log.debug("writeToHistory[1]: Getting status");
+            return getConfigurationEntry(MONGODB_HISTORY).equalsIgnoreCase("on");
+        }catch (Exception e){
+            log.error("Function MongoHistory writeToHistory had failed[2]: {}", e.getMessage());
+        }
+        return false;
+    }
+
     public static  <T> void save(CommandType command, RepositoryType repository , List<T> changes) throws Exception {
         log.info("Starting MongoHistory save[4]");
         try {
-            if (!writeToHistory)
+            if (!writeToHistory())
                 throw new Exception("Writing to history is disable");
             log.info("save[5]: {}, {}, {}", command, repository, changes);
             Validator.isValid(changes);

@@ -1,0 +1,32 @@
+<root>
+   <container class="java.util.ImmutableCollections$ListN">
+      <object class="ru.sfedu.model.User" id="0" name="dinh">
+         <securityList class="java.util.ArrayList">
+            <security class="ru.sfedu.model.Stock" ticker="SBER" name="SBERBANK" shortName="SBER" latName="Сбербанк" nominal="100.0" nominalValue="USD" issueDate="2021" isin="RU0009029540" issueSize="0" marketType="SHARES" type="COMMON" dividendSum="1000.0" capitalization="100000.0">
+               <SecurityHistory date="2021-12-27" ticker="SBER" averagePerDay="123.0" openPrice="12.0" closePrice="13.0" volume="100"/>
+            </security>
+         </securityList>
+         <actionHistory class="java.util.ArrayList">
+            <action id="38cc11ef-75c1-4fd6-9a82-b676a147372e" date="Mon Dec 27 14:59:16 MSK 2021951" action="ADD" userID="0">
+               <security class="ru.sfedu.model.Stock" ticker="SBER" name="SBERBANK" shortName="SBER" latName="Сбербанк" nominal="100.0" nominalValue="USD" issueDate="2021" isin="RU0009029540" issueSize="0" marketType="SHARES" type="COMMON" dividendSum="1000.0" capitalization="100000.0">
+                  <SecurityHistory date="2021-12-27" ticker="SBER" averagePerDay="123.0" openPrice="12.0" closePrice="13.0" volume="100"/>
+               </security>
+            </action>
+            <action id="9c60c6d1-7b36-4528-9d0f-f1c778380cd8" date="Mon Dec 27 14:59:20 MSK 2021957" action="ADD" userID="0">
+               <security class="ru.sfedu.model.Bond" ticker="SBERBOND" name="Sber 001P-SBER24" shortName="SBERBANK" latName="Сбербанк ПАО 001Р-SBER24" nominal="1234.0" nominalValue="RUB" issueDate="2023" isin="RU0009029540" issueSize="0" marketType="BONDS" type="CB" matDate="" coupon="33.16" dayToRedemption="600">
+                  <SecurityHistory date="2021-12-27" ticker="SBERBOND" averagePerDay="123.0" openPrice="12.0" closePrice="13.0" volume="100"/>
+               </security>
+            </action>
+            <action id="d2f9a9db-d3e6-402a-9dec-554ea62df948" date="Mon Dec 27 20:02:30 MSK 2021945" action="DELETE" userID="0">
+               <security class="ru.sfedu.model.Bond" ticker="SBERBOND" name="Sber 001P-SBER24" shortName="SBERBANK" latName="Сбербанк ПАО 001Р-SBER24" nominal="1234.0" nominalValue="RUB" issueDate="2023" isin="RU0009029540" issueSize="0" marketType="BONDS" type="CB" matDate="" coupon="33.16" dayToRedemption="600">
+                  <SecurityHistory date="2021-12-27" ticker="SBERBOND" averagePerDay="3787.0" openPrice="28.0" closePrice="33.0" volume="343"/>
+               </security>
+            </action>
+         </actionHistory>
+      </object>
+      <object class="ru.sfedu.model.User" id="a7f21dca-416a-47c0-b212-78c6fe4dfcc7" name="anton">
+         <securityList class="java.util.ArrayList"/>
+         <actionHistory class="java.util.ArrayList"/>
+      </object>
+   </container>
+</root>

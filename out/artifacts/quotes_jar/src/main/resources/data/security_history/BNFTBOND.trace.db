@@ -1,0 +1,8 @@
+2021-12-27 15:01:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "BNFTBOND" не найдена
+Table "BNFTBOND" not found; SQL statement:
+SELECT * FROM BNFTBOND  [42102-200]
+2021-12-27 19:57:51 jdbc[7]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "BNFTBOND" не найдена
+Table "BNFTBOND" not found; SQL statement:
+SELECT * FROM BNFTBOND  [42102-200]

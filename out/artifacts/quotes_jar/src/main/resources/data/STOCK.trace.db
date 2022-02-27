@@ -1,0 +1,4 @@
+2021-12-27 15:01:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "STOCK" не найдена
+Table "STOCK" not found; SQL statement:
+SELECT * FROM STOCK  [42102-200]

@@ -4,15 +4,14 @@ import com.opencsv.bean.AbstractBeanField;
 import com.opencsv.exceptions.CsvConstraintViolationException;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-import ru.sfedu.api.DataProviderCSV;
+import ru.sfedu.api.DataProviderCsv;
 import ru.sfedu.model.Action;
-import ru.sfedu.model.Security;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActionListCsvConverter extends AbstractBeanField<List<Action>,String> {
-    DataProviderCSV data = new DataProviderCSV();
+    DataProviderCsv data = new DataProviderCsv();
 
     @Override
     protected Object convert(String s) throws CsvDataTypeMismatchException, CsvConstraintViolationException {

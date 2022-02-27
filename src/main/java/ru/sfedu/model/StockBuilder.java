@@ -1,16 +1,16 @@
 package ru.sfedu.model;
 
 public class StockBuilder {
-    protected String ticker;
-    protected String name;
-    protected String shortName;
-    protected String latName;
-    protected double nominal;
-    protected String nominalValue;
-    protected String issueDate;
-    protected String isin;
-    protected long issueSize;
-    protected SecurityHistory securityHistory;
+    private String ticker;
+    private String name;
+    private String shortName;
+    private String latName;
+    private double nominal;
+    private String nominalValue;
+    private String issueDate;
+    private String isin;
+    private long issueSize;
+    private SecurityHistory securityHistory;
     private StockType type;
     private double dividendSum;
     private double capitalization;

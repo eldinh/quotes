@@ -149,6 +149,7 @@ public class Constants {
     public static final String MONGODB_COMMAND_FIELD = "command";
     public static final String MONGODB_REPOSITORY_FIELD = "repository";
     public static final String MONGODB_CHANGES_FIELD = "changes";
+    public static final String MONGODB_HISTORY = "mongodb_history";
 
     public static final String DATE = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
     public static final String CURRENT_TIME = new Date().toString() + System.currentTimeMillis() % 1000;

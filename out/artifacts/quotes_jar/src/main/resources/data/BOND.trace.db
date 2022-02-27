@@ -1,0 +1,4 @@
+2021-12-27 15:01:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "BOND" не найдена
+Table "BOND" not found; SQL statement:
+SELECT * FROM BOND  [42102-200]

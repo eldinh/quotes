@@ -1,0 +1,10 @@
+<root>
+   <container class="java.util.ArrayList">
+      <object class="ru.sfedu.model.SecurityHistory" date="2021-12-15" ticker="GAZP" averagePerDay="105.0" openPrice="165.0" closePrice="13.0" volume="380"/>
+      <object class="ru.sfedu.model.SecurityHistory" date="2021-12-12" ticker="GAZP" averagePerDay="200.0" openPrice="213.0" closePrice="13.0" volume="617"/>
+      <object class="ru.sfedu.model.SecurityHistory" date="2021-11-21" ticker="GAZP" averagePerDay="244.0" openPrice="209.0" closePrice="13.0" volume="744"/>
+      <object class="ru.sfedu.model.SecurityHistory" date="2021-01-12" ticker="GAZP" averagePerDay="153.0" openPrice="220.0" closePrice="13.0" volume="1277"/>
+      <object class="ru.sfedu.model.SecurityHistory" date="2021-01-01" ticker="GAZP" averagePerDay="178.0" openPrice="200.0" closePrice="13.0" volume="327"/>
+      <object class="ru.sfedu.model.SecurityHistory" date="2021-12-27" ticker="GAZP" averagePerDay="1144.0" openPrice="31.0" closePrice="92.0" volume="539"/>
+   </container>
+</root>

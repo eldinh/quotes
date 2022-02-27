@@ -258,6 +258,14 @@ public interface DataProvider {
     public Result<User> updateUser(User user);
 
     /**
+     * Method for updating a user by id
+     * @param id - user's id
+     * @param name - updated name
+     * @return - user if that has been updated
+     */
+    public Optional<User> updateUser(String id, String name);
+
+    /**
      * Method for finding user by id
      * @param id - user's id
      * @return Optional<User> - User that was found by id(Optional.empty() if it wasn't found)
@@ -372,11 +380,11 @@ public interface DataProvider {
     public Result<Security> checkVirtualBriefCase(String userId);
 
     /**
-     * Метод выводит краткую информацию об ценных бумагах в портфеле пользователя
+     * Метод выводит краткую информацию об ценных бумагах в портфеле пользователя и информацию об его активностях
      * @param userId - айди пользователя
      * @return - строка, содержащую информацию, описанная выше.
      */
-    public String showStatistics(String userId);
+    public String showHistory(String userId);
 
     /**
      * Метод, который обрабатывает портфель пользователя(массив объектов класса акций) и исполняет указанное действие, который задал пользователь.

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN">
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <RollingFile name="CsvFile" fileName="./src/main/resources/log/csv.log"
+                     filePattern="${log-path}/commons-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+            <LevelRangeFilter minLevel="INFO" maxLevel="ALL" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+        <RollingFile name="XmlFile" fileName="./src/main/resources/log/xml.log"
+                     filePattern="${log-path}/commons-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+            <LevelRangeFilter minLevel="INFO" maxLevel="ALL" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+        <RollingFile name="JdbcFile" fileName="./src/main/resources/log/jdbc.log"
+                     filePattern="${log-path}/commons-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+            <LevelRangeFilter minLevel="INFO" maxLevel="ALL" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+        <RollingFile name="MongoFile" fileName="./src/main/resources/log/mongo.log"
+                     filePattern="${log-path}/commons-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+            <LevelRangeFilter minLevel="INFO" maxLevel="ALL" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+
+
+
+    </appenders>
+
+    <loggers>
+
+        <logger name = "ru.sfedu.api.DataProviderCsv" level = "all">
+            <appender-ref ref="Console" level="off"/>
+            <appender-ref ref="CsvFile" level="off"/>
+        </logger>
+
+        <logger name = "ru.sfedu.api.DataProviderXml" level = "all">
+            <appender-ref ref="Console" level="off"/>
+            <appender-ref ref="CsvFile" level="off"/>
+        </logger>
+
+        <logger name = "ru.sfedu.api.DataProviderJdbc" level = "all">
+            <appender-ref ref="Console" level="off"/>
+            <appender-ref ref="CsvFile" level="off"/>
+        </logger>
+
+        <logger name = "ru.sfedu.api.MongoHistory" level = "all">
+            <appender-ref ref="Console" level="off"/>
+            <appender-ref ref="MongoFile" level="off"/>
+        </logger>
+
+
+
+        <logger name = "ru.sfedu.Quotes" level = "all">
+            <appender-ref ref="Console" level="all"/>
+        </logger>
+
+
+
+        <root level="trace">
+            <appender-ref ref="Console" level="off"/>
+        </root>
+
+
+    </loggers>
+
+
+</configuration>

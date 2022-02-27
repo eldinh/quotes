@@ -3,16 +3,16 @@ package ru.sfedu.model;
 
 
 public class BondBuilder {
-    protected String ticker;
-    protected String name;
-    protected String shortName;
-    protected String latName;
-    protected double nominal;
-    protected String nominalValue;
-    protected String issueDate;
-    protected String isin;
-    protected long issueSize;
-    protected SecurityHistory securityHistory;
+    private String ticker;
+    private String name;
+    private String shortName;
+    private String latName;
+    private double nominal;
+    private String nominalValue;
+    private String issueDate;
+    private String isin;
+    private long issueSize;
+    private SecurityHistory securityHistory;
     private double coupon;
     private int dayToRedemption;
     private String matDate;

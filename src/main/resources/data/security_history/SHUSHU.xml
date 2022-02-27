@@ -1,0 +1,5 @@
+<root>
+   <container class="java.util.ArrayList">
+      <object class="ru.sfedu.model.SecurityHistory" date="2021-12-28" ticker="SHUSHU" averagePerDay="0.0" openPrice="0.0" closePrice="0.0" volume="0"/>
+   </container>
+</root>

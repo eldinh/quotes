@@ -1,0 +1,19 @@
+<root>
+   <container class="java.util.ArrayList">
+      <object class="ru.sfedu.model.Stock" ticker="GAZP" name="GAZPROM" shortName="GAZP" latName="Газпром" nominal="100.0" nominalValue="USD" issueDate="2021" isin="RU0009029540" issueSize="0" marketType="SHARES" type="COMMON" dividendSum="321410.0" capitalization="2321410.0">
+         <SecurityHistory date="2021-12-27" ticker="GAZP" averagePerDay="1144.0" openPrice="31.0" closePrice="92.0" volume="539"/>
+      </object>
+      <object class="ru.sfedu.model.Stock" ticker="MGNT" name="MAGNIT" shortName="MGNT" latName="Магнит" nominal="100.0" nominalValue="USD" issueDate="2021" isin="RU0009029540" issueSize="0" marketType="SHARES" type="COMMON" dividendSum="2200.0" capitalization="1000000.0">
+         <SecurityHistory date="2021-12-27" ticker="MGNT" averagePerDay="690.0" openPrice="31.0" closePrice="1.0" volume="572"/>
+      </object>
+      <object class="ru.sfedu.model.Stock" ticker="SBER" name="SBERBANK" shortName="SBER" latName="Сбербанк" nominal="100.0" nominalValue="USD" issueDate="2021" isin="RU0009029540" issueSize="0" marketType="SHARES" type="COMMON" dividendSum="1000.0" capitalization="100000.0">
+         <SecurityHistory date="2021-12-27" ticker="SBER" averagePerDay="1690.0" openPrice="48.0" closePrice="17.0" volume="999"/>
+      </object>
+      <object class="ru.sfedu.model.Stock" ticker="SBERP" name="SBERBANK_P" shortName="SBER_P" latName="Сбербанк_Привилегированный" nominal="100.0" nominalValue="USD" issueDate="2021" isin="RU0009029540" issueSize="0" marketType="SHARES" type="PREFERRED" dividendSum="2000.0" capitalization="20000.0">
+         <SecurityHistory date="2021-12-27" ticker="SBERP" averagePerDay="9276.0" openPrice="13.0" closePrice="37.0" volume="65"/>
+      </object>
+      <object class="ru.sfedu.model.Stock" ticker="YNDX" name="YANDEX" shortName="YNDX" latName="Яндекс" nominal="100.0" nominalValue="USD" issueDate="2021" isin="RU0009029540" issueSize="0" marketType="SHARES" type="COMMON" dividendSum="20000.0" capitalization="100000.0">
+         <SecurityHistory date="2021-12-27" ticker="YNDX" averagePerDay="5692.0" openPrice="63.0" closePrice="75.0" volume="442"/>
+      </object>
+   </container>
+</root>

@@ -1,0 +1,28 @@
+2021-12-27 18:32:35 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS_SECURITY" не найдена
+Table "USERS_SECURITY" not found; SQL statement:
+SELECT * FROM USERS_SECURITY WHERE user_id = '0'  [42102-200]
+2021-12-27 18:32:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS_SECURITY" не найдена
+Table "USERS_SECURITY" not found; SQL statement:
+SELECT * FROM USERS_SECURITY WHERE user_id = '0'  [42102-200]
+2021-12-27 18:32:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS_SECURITY" не найдена
+Table "USERS_SECURITY" not found; SQL statement:
+SELECT * FROM USERS_SECURITY WHERE user_id = '0'  [42102-200]
+2021-12-27 19:52:02 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS_SECURITY" не найдена
+Table "USERS_SECURITY" not found; SQL statement:
+SELECT * FROM USERS_SECURITY WHERE user_id = '0'  [42102-200]
+2021-12-27 19:52:02 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS_SECURITY" не найдена
+Table "USERS_SECURITY" not found; SQL statement:
+SELECT * FROM USERS_SECURITY WHERE user_id = '0'  [42102-200]
+2021-12-27 19:52:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS_SECURITY" не найдена
+Table "USERS_SECURITY" not found; SQL statement:
+SELECT * FROM USERS_SECURITY WHERE user_id = '0'  [42102-200]
+2021-12-27 19:52:34 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS_SECURITY" не найдена
+Table "USERS_SECURITY" not found; SQL statement:
+SELECT * FROM USERS_SECURITY WHERE user_id = '0'  AND security = 'SBER' [42102-200]

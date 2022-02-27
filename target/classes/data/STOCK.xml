@@ -1,0 +1,19 @@
+<root>
+   <container class="java.util.ArrayList">
+      <object class="ru.sfedu.model.Stock" ticker="IOUO" name="" shortName="" latName="" nominal="100.0" nominalValue="RUB" issueDate="" issueSize="0" marketType="SHARES" type="COMMON" dividendSum="0.0" capitalization="0.0">
+         <SecurityHistory date="2021-12-28" ticker="IOUO" averagePerDay="0.0" openPrice="0.0" closePrice="0.0" volume="0"/>
+      </object>
+      <object class="ru.sfedu.model.Stock" ticker="IOUO1" name="" shortName="" latName="" nominal="100.0" nominalValue="RUB" issueDate="" issueSize="0" marketType="SHARES" type="COMMON" dividendSum="0.0" capitalization="0.0">
+         <SecurityHistory date="2021-12-28" ticker="IOUO1" averagePerDay="0.0" openPrice="0.0" closePrice="0.0" volume="0"/>
+      </object>
+      <object class="ru.sfedu.model.Stock" ticker="QQQ" name="" shortName="" latName="" nominal="100.0" nominalValue="RUB" issueDate="" issueSize="0" marketType="SHARES" type="COMMON" dividendSum="0.0" capitalization="0.0">
+         <SecurityHistory date="2021-12-28" ticker="QQQ" averagePerDay="0.0" openPrice="0.0" closePrice="0.0" volume="0"/>
+      </object>
+      <object class="ru.sfedu.model.Stock" ticker="QWER" name="" shortName="" latName="" nominal="100.0" nominalValue="RUB" issueDate="" issueSize="0" marketType="SHARES" type="COMMON" dividendSum="0.0" capitalization="0.0">
+         <SecurityHistory date="2021-12-28" ticker="QWER" averagePerDay="0.0" openPrice="0.0" closePrice="0.0" volume="0"/>
+      </object>
+      <object class="ru.sfedu.model.Stock" ticker="SBER" name="" shortName="" latName="" nominal="100.0" nominalValue="RUB" issueDate="" issueSize="0" marketType="SHARES" type="COMMON" dividendSum="0.0" capitalization="0.0">
+         <SecurityHistory date="2021-12-28" ticker="SBER" averagePerDay="0.0" openPrice="0.0" closePrice="0.0" volume="0"/>
+      </object>
+   </container>
+</root>

@@ -1,0 +1,38 @@
+<root>
+   <container class="java.util.ArrayList">
+      <object class="ru.sfedu.model.Market" marketType="SHARES">
+         <security class="ru.sfedu.model.Stock" ticker="GAZP" name="GAZPROM" shortName="GAZP" latName="Газпром" nominal="100.0" nominalValue="USD" issueDate="2021" isin="RU0009029540" issueSize="0" marketType="SHARES" type="COMMON" dividendSum="321410.0" capitalization="2321410.0">
+            <SecurityHistory date="2021-12-27" ticker="GAZP" averagePerDay="1144.0" openPrice="31.0" closePrice="92.0" volume="539"/>
+         </security>
+         <security class="ru.sfedu.model.Stock" ticker="MGNT" name="MAGNIT" shortName="MGNT" latName="Магнит" nominal="100.0" nominalValue="USD" issueDate="2021" isin="RU0009029540" issueSize="0" marketType="SHARES" type="COMMON" dividendSum="2200.0" capitalization="1000000.0">
+            <SecurityHistory date="2021-12-27" ticker="MGNT" averagePerDay="690.0" openPrice="31.0" closePrice="1.0" volume="572"/>
+         </security>
+         <security class="ru.sfedu.model.Stock" ticker="SBER" name="SBERBANK" shortName="SBER" latName="Сбербанк" nominal="100.0" nominalValue="USD" issueDate="2021" isin="RU0009029540" issueSize="0" marketType="SHARES" type="COMMON" dividendSum="1000.0" capitalization="100000.0">
+            <SecurityHistory date="2021-12-27" ticker="SBER" averagePerDay="1690.0" openPrice="48.0" closePrice="17.0" volume="999"/>
+         </security>
+         <security class="ru.sfedu.model.Stock" ticker="SBERP" name="SBERBANK_P" shortName="SBER_P" latName="Сбербанк_Привилегированный" nominal="100.0" nominalValue="USD" issueDate="2021" isin="RU0009029540" issueSize="0" marketType="SHARES" type="PREFERRED" dividendSum="2000.0" capitalization="20000.0">
+            <SecurityHistory date="2021-12-27" ticker="SBERP" averagePerDay="9276.0" openPrice="13.0" closePrice="37.0" volume="65"/>
+         </security>
+         <security class="ru.sfedu.model.Stock" ticker="YNDX" name="YANDEX" shortName="YNDX" latName="Яндекс" nominal="100.0" nominalValue="USD" issueDate="2021" isin="RU0009029540" issueSize="0" marketType="SHARES" type="COMMON" dividendSum="20000.0" capitalization="100000.0">
+            <SecurityHistory date="2021-12-27" ticker="YNDX" averagePerDay="5692.0" openPrice="63.0" closePrice="75.0" volume="442"/>
+         </security>
+      </object>
+      <object class="ru.sfedu.model.Market" marketType="BONDS">
+         <security class="ru.sfedu.model.Bond" ticker="BNFTBOND" name="Bashneft ANK 09" shortName="Bashneft" latName="ПАО АНК &quot;Башнефть&quot; об. 09" nominal="100.0" nominalValue="RUB" issueDate="2021" isin="RU0009029540" issueSize="0" marketType="BONDS" type="CB" matDate="" coupon="27.42" dayToRedemption="3">
+            <SecurityHistory date="2021-12-27" ticker="BNFTBOND" averagePerDay="7792.0" openPrice="23.0" closePrice="39.0" volume="618"/>
+         </security>
+         <security class="ru.sfedu.model.Bond" ticker="GAZPBOND" name="Gazprom capital LLC BO-03" shortName="GAZPROM" latName="Газпром капитал ООО БО-03" nominal="100.0" nominalValue="RUB" issueDate="2022" isin="RU0009029540" issueSize="0" marketType="BONDS" type="CB" matDate="" coupon="35.65" dayToRedemption="300">
+            <SecurityHistory date="2021-12-27" ticker="GAZPBOND" averagePerDay="3935.0" openPrice="10.0" closePrice="5.0" volume="133"/>
+         </security>
+         <security class="ru.sfedu.model.Bond" ticker="KMZBOND" name="KAMAZ PTC BO-P01" shortName="KAMAZ" latName="КАМАЗ ПАО БО-П01" nominal="100.0" nominalValue="RUB" issueDate="2021" isin="RU0009029540" issueSize="0" marketType="BONDS" type="CB" matDate="" coupon="22.44" dayToRedemption="10">
+            <SecurityHistory date="2021-12-27" ticker="KMZBOND" averagePerDay="8019.0" openPrice="26.0" closePrice="94.0" volume="332"/>
+         </security>
+         <security class="ru.sfedu.model.Bond" ticker="SBERBOND" name="Sber 001P-SBER24" shortName="SBERBANK" latName="Сбербанк ПАО 001Р-SBER24" nominal="1234.0" nominalValue="RUB" issueDate="2023" isin="RU0009029540" issueSize="0" marketType="BONDS" type="CB" matDate="" coupon="33.16" dayToRedemption="600">
+            <SecurityHistory date="2021-12-27" ticker="SBERBOND" averagePerDay="3787.0" openPrice="28.0" closePrice="33.0" volume="343"/>
+         </security>
+         <security class="ru.sfedu.model.Bond" ticker="TNKFBOND" name="Tinkoff Bank BO 001P-02R" shortName="Tinkoff" latName="Тинькофф Банк БО 001Р-02R" nominal="100.0" nominalValue="RUB" issueDate="2023" isin="RU0009029540" issueSize="0" marketType="BONDS" type="CB" matDate="" coupon="46.12" dayToRedemption="700">
+            <SecurityHistory date="2021-12-27" ticker="TNKFBOND" averagePerDay="2134.0" openPrice="63.0" closePrice="82.0" volume="311"/>
+         </security>
+      </object>
+   </container>
+</root>

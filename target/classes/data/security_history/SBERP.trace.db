@@ -1,0 +1,4 @@
+2021-12-28 07:51:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "SBERP" не найдена
+Table "SBERP" not found; SQL statement:
+SELECT * FROM SBERP  [42102-200]

@@ -1,15 +1,21 @@
 package ru.sfedu.model;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
 
 public class Bond extends Security {
     @CsvBindByPosition(position = 11)
+    @Attribute(empty = "")
     private BondType type;
     @CsvBindByPosition(position = 12)
+    @Attribute
     private String matDate; // Дата погашения
     @CsvBindByPosition(position = 13)
+    @Attribute
     private double coupon;
     @CsvBindByPosition(position = 14)
+    @Attribute
     private int dayToRedemption;
 
     public Bond(BondBuilder bondBuilder){
